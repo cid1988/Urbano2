@@ -6,3 +6,9 @@ export interface Proyecto {
   eliminado: boolean;
   hijos: [];
 }
+
+export class Proyecto {
+  constructor(
+    public nombre:string
+  ){}
+}

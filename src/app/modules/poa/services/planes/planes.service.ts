@@ -10,6 +10,6 @@ export class PlanesService {
   constructor(private http: HttpClient) { }
 
   getPlanes():Observable<[]>{
-    return this.http.get<[]>('http://localhost:3000/api/poa.planes');
+    return this.http.get<[]>('http://localhost:3000/api/poa/planes');
   };
 }

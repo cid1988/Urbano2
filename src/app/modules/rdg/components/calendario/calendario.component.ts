@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarioService } from '../../services/calendario.service';
-// import { CalendarComponent } from 'ap-angular2-fullcalendar/src/calendar/calendar';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
 
@@ -80,7 +80,7 @@ export class CalendarioComponent implements OnInit {
   llamarCalendario(reuniones){
     this.calendarEl = document.getElementById('calendar');
     let calendar = new Calendar(this.calendarEl, {
-      plugins: [ timeGridPlugin ],
+      plugins: [ dayGridPlugin,timeGridPlugin ],
       defaultView: "timeGridWeek",
       height: 'parent',
       events: reuniones,

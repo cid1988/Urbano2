@@ -13,11 +13,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/contactos', require('./routes/contacto.routes'));
-app.use('/api/poa.proyectos', require('./routes/proyectos.routes'));
-app.use('/api/poa.actividades', require('./routes/actividades.routes'));
-app.use('/api/obras', require('./routes/obras.routes'));
-app.use('/api/poa.jurisdicciones', require('./routes/areas.routes'));
-app.use('/api/poa.planes', require('./routes/planes.routes'));
+app.use('/api/poa', require('./routes/poa/poa.routes'));
 app.use('/api/rdg', require('./routes/rdg/rdg.routes'));
 
 // starting the server

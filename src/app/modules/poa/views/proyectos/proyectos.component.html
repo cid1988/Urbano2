@@ -1,12 +1,5 @@
 <div class="container-fluid">
   <div class="row justify-content-between" style="margin-bottom: 10px">
-    <!-- <div class="col-md-2">
-      <select (change)="seleccionPlan(plan)" class="form-control" [(ngModel)]="plan.id">
-        <option value="58ca793ef777dd9845e04b76">Plan 2017</option>
-        <option value="5aa9097b6ec9650d28af043f">Plan 2018</option>
-        <option value="5c2f7020b7aec49dd5935393">Plan 2019</option>
-      </select>
-    </div> -->
     <div class="col-md-2">
       <select class="form-control" (change)="seleccionPlan(plan)" [(ngModel)]="plan._id">
         <option *ngFor="let p of planes" [value]="p._id">{{p.anio}}</option>

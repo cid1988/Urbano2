@@ -10,6 +10,6 @@ export class ObrasService {
   constructor(private http:HttpClient) { }
 
   actividadesPorProyecto(proyecto):Observable<{}>{
-    return this.http.post<[]>('http://localhost:3000/api/obras' , proyecto);
+    return this.http.post<[]>('http://localhost:3000/api/poa/obras' , proyecto);
   };
 }

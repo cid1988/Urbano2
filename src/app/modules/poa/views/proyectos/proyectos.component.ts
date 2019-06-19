@@ -21,7 +21,7 @@ export class ProyectosComponent implements OnInit {
     this.planesService.getPlanes().subscribe(planes =>{
       this.planes = planes;
       this.plan = planes.slice(-1)[0];
-      this.seleccionPlan()
+      this.seleccionPlan();
     });
   }
 
