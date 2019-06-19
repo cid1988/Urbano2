@@ -3,22 +3,21 @@ import { CommonModule } from '@angular/common';
 import { CalendarioComponent } from './components/calendario/calendario.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-// import {CalendarComponent} from "ap-angular2-fullcalendar/src/calendar/calendar";
 import { Calendar } from '@fullcalendar/core';
+import { CalendarioViewComponent } from './views/calendario/calendario.component';
 
 const rdgRoutes: Routes = [
-  {path:'calendario',component:CalendarioComponent},
+  {path:'calendario',component:CalendarioComponent}
 ];
 
 @NgModule({
-  declarations: [CalendarioComponent],
+  declarations: [CalendarioComponent,CalendarioViewComponent],
   imports: [
     CommonModule,
     FormsModule,
     RouterModule.forChild(rdgRoutes)
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [],
   exports: [RouterModule]
 })
 export class RdgModule { }

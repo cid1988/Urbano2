@@ -1,0 +1,8 @@
+.liBlue {
+  border-left: solid 5px blue;
+  border-bottom: 0;
+}
+.liRed {
+  border-left: solid 5px red;
+  border-bottom: 0;
+}

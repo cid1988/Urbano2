@@ -24,7 +24,7 @@
               <td>{{a.fechas[0].fechaFin}}</td>
               <td>{{a.fechas[0].fechaInicio}}</td>
               <td>{{a.fechas[0].fechaFin}}</td>
-              <td><span class="badge badge-pill badge-primary float-right">0</span></td>
+              <td><span [ngClass]="{'dotGrey float-right': a.cancelado, 'dotGreen float-right': !a.aprobado}"></span></td>
             </tr>
           </tbody>
         </table>

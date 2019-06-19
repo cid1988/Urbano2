@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CalendarioComponent } from '../../components/calendario/calendario.component';
 
 @Component({
   selector: 'view-calendario',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./calendario.component.css']
 })
 export class CalendarioViewComponent implements OnInit {
-  
-  constructor() { }
+
+  calendar
+  @ViewChild(CalendarioComponent) hijo: CalendarioComponent;
+
+  reuniones = [{start: "2019-06-19",end: "2019-06-19"}]
+  constructor() {
+    this.hijo.llamarCalendario(this.reuniones);
+  }
 
   ngOnInit() {
+    
   }
 
 }

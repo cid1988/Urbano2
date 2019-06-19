@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CalendarioService } from '../../services/calendario.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
 
 @Component({
-  selector: 'calendario',
+  selector: 'app-calendario',
   templateUrl: './calendario.component.html',
   styleUrls: ['./calendario.component.css']
 })
@@ -13,8 +13,10 @@ export class CalendarioComponent implements OnInit {
 
   calendarEl
   reuniones;
-  @ViewChild(Calendar) myCalendar: Calendar;
-  
+  series;
+  @Input() calendar;
+  altoDePantalla: any;
+
   // calendarOptions:Object = {
   //   header: {
   //     left: 'prev,next today myCustomButton',
@@ -54,12 +56,16 @@ export class CalendarioComponent implements OnInit {
   // };
 
   constructor(private calendarioService: CalendarioService) {
+    this.calendarioService.getSeriesDeReunion().subscribe(series =>{
+      this.series = series;
+    })
     this.calendarioService.getReuniones().subscribe(reuniones =>{
       for (let i = 0; i < reuniones.length; i++) {
         let reunion = reuniones[i];
         
         reunion.start = reunion.desdeDate;
         reunion.end = reunion.hastaDate;
+        reunion.title = reunion.usuarioCreacion;
 
         if(reunion.reunion == "58ad8258f90904c9043b0a88"){
           reunion.color = "rgb(234, 111, 0, 0.5)"
@@ -79,17 +85,39 @@ export class CalendarioComponent implements OnInit {
 
   llamarCalendario(reuniones){
     this.calendarEl = document.getElementById('calendar');
-    let calendar = new Calendar(this.calendarEl, {
+    this.calendar = new Calendar(this.calendarEl, {
       plugins: [ dayGridPlugin,timeGridPlugin ],
       defaultView: "timeGridWeek",
       height: 'parent',
       events: reuniones,
       locale: 'es',
       header: {
-        left: 'prev,next myCustomButton, dayGridMonth,timeGridWeek,timeGridDay,today',
+        left: 'prev,next,dayGridMonth,timeGridWeek,timeGridDay,today',
         right: 'title',
-        center: '',
+        center: 'reservaButton,solicitarButton',
       },
+      buttonText: {
+        today:    'Hoy',
+        month:    'Mes',
+        week:     'Semana',
+        day:      'Dia',
+        list:     'Lista'
+      },
+      customButtons: {
+        reservaButton: {
+          text: 'Reserva',
+          click: function() {
+            alert('clicked the custom button!');
+          }
+        },
+        solicitarButton: {
+          text: 'Solicitar',
+          click: function() {
+            alert('clicked the custom button!');
+          }
+        }
+      },
+      eventTextColor: 'white',
       hiddenDays: [0],
       minTime: "08:00:00",
       maxTime: "23:00:00",
@@ -97,6 +125,7 @@ export class CalendarioComponent implements OnInit {
       nowIndicator: true,
       eventTimeFormat: {hour: '2-digit',minute: '2-digit'},
       editable: true,
+      titleFormat: "sasa",
       eventColor: reuniones.color,
       slotLabelFormat: {
         hour: 'numeric',
@@ -127,14 +156,11 @@ export class CalendarioComponent implements OnInit {
         }
       }
     });
-    calendar.render();
-  }
-
-  ngOnInit() {
-    
+    this.calendar.render();
   }
   
-  // changeCalendarView(view) {
-  //   this.myCalendar.fullCalendar('changeView', view);
-  // }
+  ngOnInit() {
+    // this.altoDePantalla = window.innerWidth;
+    this.llamarCalendario(this.reuniones)
+  }
 }

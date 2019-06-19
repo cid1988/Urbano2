@@ -1,9 +1,15 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-2">
-
+      <input type="text" class="form-control" placeholder="Buscar..." style="margin-bottom: 5px">
+      <legend>Series de reunion</legend>
+      <div class="overflow-auto" style="max-height:550px">
+        <ul class="list-group">
+          <li class="list-group-item" [ngClass]="{'liBlue': s.tipo == 'seguimientoJefatura', 'liRed': s.tipo !== 'seguimientoJefatura'}" *ngFor="let s of series">{{s.nombre}}</li>
+        </ul>
+      </div>
     </div>
-    <div class="col-10">
+    <div class="col-10" style="max-height:635px">
       <full-calendar id="calendar" [options]="options" (dateClick)="handleDateClick($event)" [(ngModel)]="model"></full-calendar>
     </div>
   </div>
