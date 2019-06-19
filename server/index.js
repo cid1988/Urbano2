@@ -18,7 +18,7 @@ app.use('/api/poa.actividades', require('./routes/actividades.routes'));
 app.use('/api/obras', require('./routes/obras.routes'));
 app.use('/api/poa.jurisdicciones', require('./routes/areas.routes'));
 app.use('/api/poa.planes', require('./routes/planes.routes'));
-app.use('/api/rdg.reuniones', require('./routes/rdg/rdg.routes'));
+app.use('/api/rdg', require('./routes/rdg/rdg.routes'));
 
 // starting the server
 app.listen(app.get('port'), () => {

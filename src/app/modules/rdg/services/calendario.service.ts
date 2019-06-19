@@ -10,6 +10,10 @@ export class CalendarioService {
   constructor(private http: HttpClient) { }
 
   getReuniones():Observable<{}>{
-    return this.http.get<[]>('http://localhost:3000/api/rdg.reuniones');
+    return this.http.get<[]>('http://localhost:3000/api/rdg/reuniones');
   };
+
+  getSeriesDeReunion():Observable<{}>{
+    return this.http.get<[]>('http://localhost:3000/api/rdg/series')
+  }
 }

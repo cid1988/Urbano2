@@ -66,9 +66,9 @@ export class CalendarioComponent implements OnInit {
         }else if(reunion.reunion == "5cd5ef08a0acd8a5611fd64d"){
           reunion.color = "rgb(91, 190, 136, 0.5)";
         }else if(reunion.reunion == "58ad81b6f90904c9043b0a82"){
-          reunion.color = "rgb(91, 190, 136,0.5)";
+          reunion.color = "rgb(91, 190, 136, 0.5)";
         }else if(reunion.reunion == "58ad8249f90904c9043b0a87"){
-          reunion.color = "rgb(234, 111, 0,0.5)"
+          reunion.color = "rgb(234, 111, 0, 0.5)"
         }
       }
       this.llamarCalendario(reuniones);
@@ -101,7 +101,6 @@ export class CalendarioComponent implements OnInit {
       slotLabelFormat: {
         hour: 'numeric',
         minute: '2-digit',
-        omitZeroMinute: true,
         meridiem: 'short'
       },
       dateClick(model) {

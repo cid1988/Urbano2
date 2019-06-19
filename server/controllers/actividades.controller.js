@@ -5,7 +5,6 @@ const actividadCtrl = {};
 
 actividadCtrl.getActividades = async (req, res, next) => {
     const { _id } = req.body;
-    console.log(_id)
     try{
         const actividades = await Actividad.find({idProyecto: ObjectId(_id)});
         res.json(actividades);
