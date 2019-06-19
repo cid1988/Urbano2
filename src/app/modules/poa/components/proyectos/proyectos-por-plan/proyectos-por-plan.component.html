@@ -1,0 +1,21 @@
+<div class="card">
+  <div class="card-header">Proyectos</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md">
+        <ul class="list-group">
+          <li class="list-group-item" [hidden]="p.proyectoPadre" *ngFor="let p of proyectos; let $index = index"><!--[ngStyle]="{'background-color': '#b0ffa6'} [ngStyle]="{'background-color': '#a6d5ff'}"-->
+            <a routerLink="{{p._id}}"><b><span [hidden]="!p.codIdentificacion">{{p.codIdentificacion}} - </span>{{p.nombre}}</b></a> <!--{{$index}} - -->
+            <span [ngClass]="{'dotGrey float-right': p.cancelado, 'dotGreen float-right': !p.aprobado}"></span>
+            <ul class="list-group" *ngIf="p.hijos">
+              <li class="list-group-item" *ngFor="let h of p.hijos">
+                <a routerLink="{{p._id}}"><span [hidden]="!h.codIdentificacion">{{h.codIdentificacion}} -</span> {{h.nombre}}</a>
+                <span [ngClass]="{'dotBlue': h.estado == 'cumplido', 'dotGreen': h.estado == 'vigente', 'dotRed': h.estado == 'vencido', 'dotBlack': h.estado == 'cancelado'}"></span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

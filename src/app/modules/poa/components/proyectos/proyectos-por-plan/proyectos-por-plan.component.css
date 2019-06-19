@@ -1,0 +1,52 @@
+.dotGreen {/*Todos sus hitos en fecha*/
+  height: 20px;
+  width: 20px;
+  background-color: #5bb75b;
+  border-radius: 50%;
+  float: right;
+}
+.dotBlue {/*Todos sus hitos cumplidos*/
+  height: 20px;
+  width: 20px;
+  background-color: #006dcc;
+  border-radius: 50%;
+  float: right;
+}
+.dotOrange {/*Con hitos proximos a vencer*/
+  height: 20px;
+  width: 20px;
+  background-color: orange;
+  border-radius: 50%;
+  float: right;
+}
+.dotRed {/*Con algun hito vencido*/
+  height: 20px;
+  width: 20px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  float: right;
+}
+.dotWhite {/**/
+  height: 20px;
+  width: 20px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  float: right;
+}
+.dotGrey {/*Sin hitos o con hitos sin fecha*/
+  height: 20px;
+  width: 20px;
+  background-color: grey;
+  border-radius: 50%;
+  float: right;
+}
+.dotBlack {/*Cancelado*/
+  height: 20px;
+  width: 20px;
+  background-color: black;
+  border-radius: 50%;
+  float: right;
+}
+a,b{
+  color: #212529
+}
