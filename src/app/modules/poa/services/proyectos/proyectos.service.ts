@@ -10,9 +10,8 @@ export class ProyectosService {
 
   constructor(private http: HttpClient) { }
 
-  getProyectoPorId(idProyecto):Observable<{}>{
-    console.log(idProyecto)
-    return this.http.post<{}>('http://localhost:3000/api/poa/proyecto', idProyecto);
+  getProyectoPorId(idProyecto):Observable<Proyecto>{
+    return this.http.post<Proyecto>('http://localhost:3000/api/poa/proyecto', idProyecto);
   }
   getAreasPorPlan(plan):Observable<[]>{
     return this.http.post<[]>('http://localhost:3000/api/poa/areas', plan);

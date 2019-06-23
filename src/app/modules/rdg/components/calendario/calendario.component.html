@@ -3,13 +3,13 @@
     <div class="col-2">
       <input type="text" class="form-control" placeholder="Buscar..." style="margin-bottom: 5px">
       <legend>Series de reunion</legend>
-      <div class="overflow-auto" style="max-height:550px">
+      <div class="overflow-auto" [ngStyle]="{'max-height.px':altoDePantalla -185}">
         <ul class="list-group">
           <li class="list-group-item" [ngClass]="{'liBlue': s.tipo == 'seguimientoJefatura', 'liRed': s.tipo !== 'seguimientoJefatura'}" *ngFor="let s of series">{{s.nombre}}</li>
         </ul>
       </div>
     </div>
-    <div class="col-10" style="max-height:635px">
+    <div class="col-10" [ngStyle]="{'max-height.px':altoDePantalla -100}">
       <full-calendar id="calendar" [options]="options" (dateClick)="handleDateClick($event)" [(ngModel)]="model"></full-calendar>
     </div>
   </div>

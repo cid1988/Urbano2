@@ -14,8 +14,8 @@ userCtrl.getUsers = async (req,res,next) => {
 
 userCtrl.getUserLogin = async (req, res, next) => {
   const { username } = req.body;
-  const { password } = req.body;
-  await User.find({username: username, password: password}, function(error,user){
+  // const { password } = req.body;
+  await User.find({username: username}, function(error,user){
     res.status(200).json(user[0]);
   });
 };

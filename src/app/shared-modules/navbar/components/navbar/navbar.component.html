@@ -64,7 +64,16 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <button class="btn btn-outline-success my-2 my-sm-0" routerLink="login" type="submit">Login</button>
+      <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="!userLogged" routerLink="login" type="submit">Ingresar</button>
+      <div class="btn-group" role="group" *ngIf="userLogged">
+        <button id="btnGroupDrop1" type="button" class="btn btn-outline-success my-2 my-sm-0 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{userLogged.username}}</button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+          <a href ="" class="dropdown-item" routerLink="login">Mis datos</a>
+          <a class="dropdown-item" (click)="logout()">Salir</a>
+        </div>
+      </div>
+      <!-- <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="!userLogged" routerLink="login" type="submit">Ingresar</button>
+      <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="userLogged" (click)="logout()" type="submit">{{userLogged.username}}</button> -->
     </form>
   </div>
 </nav>

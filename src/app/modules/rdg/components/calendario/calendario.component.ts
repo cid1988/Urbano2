@@ -3,6 +3,7 @@ import { CalendarioService } from '../../services/calendario.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
+import { Reunion } from '../../models/reunion';
 
 @Component({
   selector: 'app-calendario',
@@ -12,7 +13,7 @@ import { Calendar } from '@fullcalendar/core';
 export class CalendarioComponent implements OnInit {
 
   calendarEl
-  reuniones;
+  reuniones: Reunion[] = [];
   series;
   @Input() calendar;
   altoDePantalla: any;
@@ -160,7 +161,8 @@ export class CalendarioComponent implements OnInit {
   }
   
   ngOnInit() {
-    // this.altoDePantalla = window.innerWidth;
+    this.altoDePantalla = window.innerHeight;
+    console.log(this.altoDePantalla)
     this.llamarCalendario(this.reuniones)
   }
 }

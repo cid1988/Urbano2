@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/shared-modules/login/services/user/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'navbar',
@@ -7,9 +9,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  userLogged;
 
-  ngOnInit() {
+  constructor(private router: Router, private userService: UserService) {
+    this.userLogged = this.userService.getUserLoggedIn();
   }
 
+  ngOnInit() {
+    if(this.userService.isUserLoggedIn){
+      this.setUserLogged();
+    }else{
+      this.userService.getEmitter().subscribe((customObject) => {
+        this.userLogged = customObject;
+      });
+    }
+  }
+
+  setUserLogged(){
+    this.userLogged = this.userService.getUserLoggedIn();
+  }
+
+  logout(){
+    this.userService.logout();
+    this.setUserLogged();
+    this.router.navigateByUrl('/login');
+  }
 }

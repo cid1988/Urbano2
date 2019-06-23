@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActividadesPorProyectoComponent } from '../../components/actividades/actividades-por-proyecto/actividades-por-proyecto.component';
 import { ActivatedRoute } from '@angular/router';
 import { ProyectosService } from '../../services/proyectos/proyectos.service';
+import { Proyecto } from '../../models/proyecto';
 
 @Component({
   selector: 'actividades',
@@ -11,7 +12,7 @@ import { ProyectosService } from '../../services/proyectos/proyectos.service';
 export class ActividadesComponent implements OnInit {
 
   @ViewChild(ActividadesPorProyectoComponent) hijo: ActividadesPorProyectoComponent;
-  proyecto = {};
+  proyecto = <Proyecto>{};
 
   constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService) {
     this.activatedRoute.paramMap.subscribe(params => {
