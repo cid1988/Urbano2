@@ -93,9 +93,9 @@ export class CalendarioComponent implements OnInit {
       events: reuniones,
       locale: 'es',
       header: {
-        left: 'prev,next,dayGridMonth,timeGridWeek,timeGridDay,today',
+        left: 'prev,next dayGridMonth,timeGridWeek,timeGridDay,today',
         right: 'title',
-        center: 'reservaButton,solicitarButton',
+        center: 'reservaButton,solicitarButton refreshButton',
       },
       buttonText: {
         today:    'Hoy',
@@ -104,6 +104,7 @@ export class CalendarioComponent implements OnInit {
         day:      'Dia',
         list:     'Lista'
       },
+      
       customButtons: {
         reservaButton: {
           text: 'Reserva',
@@ -113,6 +114,12 @@ export class CalendarioComponent implements OnInit {
         },
         solicitarButton: {
           text: 'Solicitar',
+          click: function() {
+            alert('clicked the custom button!');
+          }
+        },
+        refreshButton: {
+          text: 'Refrescar',
           click: function() {
             alert('clicked the custom button!');
           }
@@ -126,7 +133,7 @@ export class CalendarioComponent implements OnInit {
       nowIndicator: true,
       eventTimeFormat: {hour: '2-digit',minute: '2-digit'},
       editable: true,
-      titleFormat: "sasa",
+      // titleFormat: "sasa",
       eventColor: reuniones.color,
       slotLabelFormat: {
         hour: 'numeric',
@@ -163,6 +170,5 @@ export class CalendarioComponent implements OnInit {
   ngOnInit() {
     this.altoDePantalla = window.innerHeight;
     console.log(this.altoDePantalla)
-    this.llamarCalendario(this.reuniones)
   }
 }

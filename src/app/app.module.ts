@@ -7,6 +7,7 @@ import { NavbarComponent } from './shared-modules/navbar/components/navbar/navba
 import { HttpClientModule } from '@angular/common/http';
 import { RdgModule } from './modules/rdg/rdg.module';
 import * as $ from 'jquery'
+import { TableroGeneralModule } from './modules/tablero-general/tablero-general.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import * as $ from 'jquery'
     AppRoutingModule,
     PoaModule,
     RdgModule,
-    HttpClientModule,
+    TableroGeneralModule,
+    HttpClientModule
   ],
   bootstrap: [AppComponent]
 })

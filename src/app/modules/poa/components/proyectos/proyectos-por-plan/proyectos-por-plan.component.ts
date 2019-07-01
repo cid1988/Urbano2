@@ -15,11 +15,11 @@ export class ProyectosPorPlanComponent implements OnInit {
   @Input() area = {};
 
   constructor(private proyectosService: ProyectosService, private actividadesService: ActividadesService) {
-    
+    // this.getProyectos(this.plan,this.area);
   }
 
   ngOnInit() {
-    this.getProyectos(this.plan,this.area);
+    
   }
 
   chequearActividades(proyecto){//Ejecutar todo desde el backend e implementar moment
@@ -51,27 +51,43 @@ export class ProyectosPorPlanComponent implements OnInit {
 
   getProyectos(plan,area){
     this.proyectosService.proyectosPorPlan(plan,area).subscribe((proyectos: any[]) =>{
-      this.proyectos = proyectos;
+      for (let p = 0; p < proyectos.length; p++) {
+        let proyecto = proyectos[p];
 
-      for (let i = 0; i < proyectos.length; i++) {
-        const proyectoPadre = proyectos[i];
-        
-        if(proyectoPadre.idJurisdiccion == area._id && proyectoPadre.eliminado !== true){
-          for (let h = 0; h < proyectos.length; h++) {
-            const proyectoHijo = proyectos[h];
-            
-            if(!proyectoPadre.hijos){
-              proyectoPadre.hijos = [];
-            }
-  
-            //Pusheo los proyectos hijos en el array del proyecto padre
-            if(proyectoPadre._id == proyectoHijo.proyectoPadre){
-              this.chequearActividades(proyectoHijo);
-              proyectoPadre.hijos.push(proyectoHijo);
-            }
-          }
+        //Armar las etapas
+        // this.proyectosService.etapasPorProyecto(proyecto).subscribe(etapas =>{
+        //   console.log(etapas)
+        // })
+
+        //Armar los proyectos hijos del proyecto
+        if(!proyecto.proyectoPadre){
+          proyecto.hijos = [];
+          this.proyectosService.getProyectosHijos(proyecto._id,proyecto.anio).subscribe((hijos) =>{
+            proyecto.hijos = hijos;
+          });
         }
       }
+
+      this.proyectos = proyectos;
+      // for (let i = 0; i < proyectos.length; i++) {
+      //   const proyectoPadre = proyectos[i];
+        
+      //   if(proyectoPadre.idJurisdiccion == area._id && proyectoPadre.eliminado !== true){
+      //     for (let h = 0; h < proyectos.length; h++) {
+      //       const proyectoHijo = proyectos[h];
+            
+      //       if(!proyectoPadre.hijos){
+      //         proyectoPadre.hijos = [];
+      //       }
+  
+      //       //Pusheo los proyectos hijos en el array del proyecto padre
+      //       if(proyectoPadre._id == proyectoHijo.proyectoPadre){
+      //         this.chequearActividades(proyectoHijo);
+      //         proyectoPadre.hijos.push(proyectoHijo);
+      //       }
+      //     }
+      //   }
+      // }
     },error =>{
       alert(error);
     })

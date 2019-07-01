@@ -19,10 +19,16 @@ export class ProyectosService {
 
   proyectosPorPlan(plan,area):Observable<Proyecto[]>{
     let consulta = {idPlan: plan._id, idArea: area._id}
-    return this.http.post<Proyecto[]>('http://localhost:3000/api/poa/proyectos', consulta);
+    return this.http.post<Proyecto[]>('http://localhost:3000/api/poa/proyectos', consulta)
   };
 
   etapasPorProyecto(proyecto):Observable<[]>{
-    return this.http.post<[]>('http://localhost:3000/api/poa/etapas', proyecto);
+    let consulta = {id: proyecto._id}
+    return this.http.post<[]>('http://localhost:3000/api/poa/etapasPorProyecto', consulta);
   };
+
+  getProyectosHijos(idProyecto,anio):Observable<[]>{
+    let consulta = {idProyecto: idProyecto, anio: anio}
+    return this.http.post<[]>('http://localhost:3000/api/poa/proyectosHijos', consulta);
+  }
 }

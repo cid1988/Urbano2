@@ -1,0 +1,230 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2">
+      <ul class="list-group">
+        <li class="list-group-item active">AUSA</li>
+        <li class="list-group-item">SBASE</li>
+        <li class="list-group-item">Transporte</li>
+        <li class="list-group-item">SSREGIC</li>
+        <li class="list-group-item">Obras</li>
+        <li class="list-group-item">Hitos comunicables</li>
+        <li class="list-group-item">RRHH</li>
+        <li class="list-group-item">Temarios y compromisos</li>
+        <li class="list-group-item">Presentaciones</li>
+        <li class="list-group-item">Grandes obras</li>
+      </ul>
+    </div>
+    <div class="col-10">
+      <div class="row" style="margin-bottom: 10px">
+        <div class="col-3">
+          <div class="card border-primary mb-3" style="margin-right: 10px">
+            <div class="card-body text-primary">
+              <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+              <h5 class="description-header">$35,020,210.43</h5>
+              <span class="description-text">Presupuesto total ministerio</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card border-secondary mb-3" style="margin-right: 10px">
+            <div class="card-body text-secondary">
+              <span class="description-percentage text-green"><i class="fa fa-caret-down"></i> 25%</span>
+              <h5 class="description-header">$35,020,210.43</h5>
+              <span class="description-text">Gasto total en obras</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card border-success mb-3" style="margin-right: 10px">
+            <div class="card-body text-success">
+              <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 32%</span>
+              <h5 class="description-header">$35,020,210.43</h5>
+              <span class="description-text">Otros</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card border-danger mb-3" style="margin-right: 10px">
+            <div class="card-body text-danger">
+              <span class="description-percentage text-green"><i class="fa fa-caret-down"></i> 56%</span>
+              <h5 class="description-header">$35,210.43</h5>
+              <span class="description-text">Cosas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 10px">
+        <div class="col-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Algun resumen de graficos</h5>
+              <chart [type]="type" [data]="data" [options]="options"></chart>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Proyectos</h5>
+              <div class="row">
+                <ul class="list-group col-12">
+                  <li class="list-group-item" *ngFor="let a of areas">{{a.nombre}}
+                    <div class="progress float-right col-6">
+                      <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25</div>
+                      <div class="progress-bar bg-success" role="progressbar" style="width: 43%" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100">43</div>
+                      <div class="progress-bar bg-danger" role="progressbar" style="width: 32%" aria-valuenow="32" aria-valuemin="0" aria-valuemax="100">32</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Hitos comunicables</h5>
+              <div class="row">
+                <div class="list-group">
+                  <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Centro cultural recoleta</h5>
+                      <small>24/ABR</small>
+                    </div>
+                    <p class="mb-1">Inicio 2da etapa de obra</p>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Línea H - Facultad de Derecho</h5>
+                      <small class="text-muted">07/MAY</small>
+                    </div>
+                    <p class="mb-1">Inauguración</p>
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-1">Infraestructura Urbana</h5>
+                      <small class="text-muted">27/ABR</small>
+                    </div>
+                    <ul>
+                      <li><p class="mb-1">Dique 0 – Plazas Licitación 2</p></li>
+                      <li><p class="mb-1">Dique 0 - Caminabilidad</p></li>
+                      <li><p class="mb-1">Cubierta Arena Parque Roca</p></li>
+                      <li><p class="mb-1">Parque de la estación – Galpón</p></li>
+                    </ul>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card text-center">
+            <div class="card-header">
+              <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#">Active</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Resumen de algo</h5>
+              <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="row" style="margin-bottom: 10px">
+    <div class="col-3">
+      <div class="card" style="width: 18rem; margin: 5px">
+        <img src="https://fotos.perfil.com/2019/04/24/420/0/escalinata-paseo-del-bajo-676955.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">AUSA</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="javascript:void(0);" routerLink="ausa" class="btn btn-primary">Ver</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card" style="width: 18rem; margin: 5px">
+        <img src="https://fotos.perfil.com/2019/04/24/420/0/escalinata-paseo-del-bajo-676955.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">SBASE</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="javascript:void(0);" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card" style="width: 18rem; margin: 5px">
+        <img src="https://fotos.perfil.com/2019/04/24/420/0/escalinata-paseo-del-bajo-676955.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Transporte</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="javascript:void(0);" routerLink="transporte" class="btn btn-primary">Ver</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card" style="width: 18rem; margin: 5px">
+        <img src="https://fotos.perfil.com/2019/04/24/420/0/escalinata-paseo-del-bajo-676955.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">SSREGIC</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="javascript:void(0);" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card" style="width: 18rem; margin: 5px">
+        <img src="https://fotos.perfil.com/2019/04/24/420/0/escalinata-paseo-del-bajo-676955.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Obras</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="javascript:void(0);" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card" style="width: 18rem; margin: 5px">
+        <img src="https://fotos.perfil.com/2019/04/24/420/0/escalinata-paseo-del-bajo-676955.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Hitos comunicables</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="javascript:void(0);" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card" style="width: 18rem; margin: 5px">
+        <img src="https://fotos.perfil.com/2019/04/24/420/0/escalinata-paseo-del-bajo-676955.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">RRHH</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="javascript:void(0);" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card" style="width: 18rem; margin: 5px">
+        <img src="https://fotos.perfil.com/2019/04/24/420/0/escalinata-paseo-del-bajo-676955.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Presentaciones</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="javascript:void(0);" routerLink="presentaciones" class="btn btn-primary">Ver</a>
+        </div>
+      </div>
+    </div>
+  </div> -->
+</div>

@@ -1,0 +1,242 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-4">
+      <div class="list-group overflow-auto">
+        <a href="javascript:void(0);" (click)="seleccionChart('Datos de flujo')" class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Datos de flujo / pagante</h5>
+            <small>Hace 5 dias</small>
+          </div>
+          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+          <small>Donec id elit non mi porta.</small>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Recaudacion GAMO</h5>
+            <small class="text-muted">Hace 2 dias</small>
+          </div>
+          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+          <small class="text-muted">Donec id elit non mi porta.</small>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action active">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Accidentes totales / personas involucradas / vehiculos</h5>
+            <small class="text-muted">Hace 3 dias</small>
+          </div>
+          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+          <small class="text-muted">Donec id elit non mi porta.</small>
+        </a>
+      </div>
+    </div>
+    <div class="col-8">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Totales</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Personas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Vehiculos</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <chart [type]="type" [data]="data" [options]="options"></chart>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Enero</th>
+                <th scope="col">Febrero</th>
+                <th scope="col">Marzo</th>
+                <th scope="col">Abril</th>
+                <th scope="col">Mayo</th>
+                <th scope="col">Junio</th>
+                <th scope="col">Julio</th>
+                <th scope="col">Agosto</th>
+                <th scope="col">Septiembre</th>
+                <th scope="col">Octubre</th>
+                <th scope="col">Noviembre</th>
+                <th scope="col">Diciembre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>300</td>
+                <td>260</td>
+                <td>480</td>
+                <td>560</td>
+                <td>120</td>
+                <td>350</td>
+                <td>320</td>
+                <td>150</td>
+                <td>111</td>
+                <td>236</td>
+                <td>182</td>
+                <td>136</td>
+              </tr>
+              <tr>
+                <td>300</td>
+                <td>260</td>
+                <td>480</td>
+                <td>560</td>
+                <td>120</td>
+                <td>350</td>
+                <td>320</td>
+                <td>150</td>
+                <td>111</td>
+                <td>236</td>
+                <td>182</td>
+                <td>136</td>
+              </tr>
+              <tr>
+                <td>300</td>
+                <td>260</td>
+                <td>480</td>
+                <td>560</td>
+                <td>120</td>
+                <td>350</td>
+                <td>320</td>
+                <td>150</td>
+                <td>111</td>
+                <td>236</td>
+                <td>182</td>
+                <td>136</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <chart [type]="type" [data]="data" [options]="options"></chart>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Enero</th>
+                <th scope="col">Febrero</th>
+                <th scope="col">Marzo</th>
+                <th scope="col">Abril</th>
+                <th scope="col">Mayo</th>
+                <th scope="col">Junio</th>
+                <th scope="col">Julio</th>
+                <th scope="col">Agosto</th>
+                <th scope="col">Septiembre</th>
+                <th scope="col">Octubre</th>
+                <th scope="col">Noviembre</th>
+                <th scope="col">Diciembre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>300</td>
+                <td>260</td>
+                <td>480</td>
+                <td>560</td>
+                <td>120</td>
+                <td>350</td>
+                <td>320</td>
+                <td>150</td>
+                <td>111</td>
+                <td>236</td>
+                <td>182</td>
+                <td>136</td>
+              </tr>
+              <tr>
+                <td>300</td>
+                <td>260</td>
+                <td>480</td>
+                <td>560</td>
+                <td>120</td>
+                <td>350</td>
+                <td>320</td>
+                <td>150</td>
+                <td>111</td>
+                <td>236</td>
+                <td>182</td>
+                <td>136</td>
+              </tr>
+              <tr>
+                <td>300</td>
+                <td>260</td>
+                <td>480</td>
+                <td>560</td>
+                <td>120</td>
+                <td>350</td>
+                <td>320</td>
+                <td>150</td>
+                <td>111</td>
+                <td>236</td>
+                <td>182</td>
+                <td>136</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+          <chart [type]="type" [data]="data" [options]="options"></chart>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Enero</th>
+                <th scope="col">Febrero</th>
+                <th scope="col">Marzo</th>
+                <th scope="col">Abril</th>
+                <th scope="col">Mayo</th>
+                <th scope="col">Junio</th>
+                <th scope="col">Julio</th>
+                <th scope="col">Agosto</th>
+                <th scope="col">Septiembre</th>
+                <th scope="col">Octubre</th>
+                <th scope="col">Noviembre</th>
+                <th scope="col">Diciembre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>300</td>
+                <td>260</td>
+                <td>480</td>
+                <td>560</td>
+                <td>120</td>
+                <td>350</td>
+                <td>320</td>
+                <td>150</td>
+                <td>111</td>
+                <td>236</td>
+                <td>182</td>
+                <td>136</td>
+              </tr>
+              <tr>
+                <td>300</td>
+                <td>260</td>
+                <td>480</td>
+                <td>560</td>
+                <td>120</td>
+                <td>350</td>
+                <td>320</td>
+                <td>150</td>
+                <td>111</td>
+                <td>236</td>
+                <td>182</td>
+                <td>136</td>
+              </tr>
+              <tr>
+                <td>300</td>
+                <td>260</td>
+                <td>480</td>
+                <td>560</td>
+                <td>120</td>
+                <td>350</td>
+                <td>320</td>
+                <td>150</td>
+                <td>111</td>
+                <td>236</td>
+                <td>182</td>
+                <td>136</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

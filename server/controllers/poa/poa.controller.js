@@ -20,10 +20,36 @@ poaCtrl.getEtapas = async (req, res, next) => {
 };
 
 poaCtrl.getEtapasPorProyecto = async (req, res, next) => {
-    const { id } = req.body;
+    const { _id } = req.body;
     try{
-        const etapas = await Etapa.find({idPlan: ObjectId(id)});
+        const etapas = await Etapa.find({idProyecto: _id, eliminado: {$exists: false}})
+        .sort("orden");
         res.json(etapas);
+    }catch(error){
+        res.json(error);
+    }
+};
+
+poaCtrl.getActividad = async (req, res, next) => {
+    const { idActividad } = req.params;
+    try{
+        const actividad = await Actividad.findById({idActividad})
+        res.json(actividad);
+    }catch(error){
+        res.json(error);
+    }
+};
+
+poaCtrl.getActividadesPorEtapa = async (req, res, next) => {
+    const { _id } = req.body;
+    try{
+        const actividades = await Actividad.find({
+            $and:[
+                {eliminado: {$exists:false}},
+                {etapa: ObjectId(_id).toString()}
+            ]
+        })
+        res.json(actividades);
     }catch(error){
         res.json(error);
     }
@@ -49,9 +75,18 @@ poaCtrl.getAreasPorPlan = async (req, res, next) => {
 };
 
 poaCtrl.getActividades = async (req, res, next) => {
+    try{
+        const actividades = await Actividad.find();
+        res.json(actividades);
+    }catch(error){
+        res.json(error);
+    }
+};
+
+poaCtrl.getActividadesPorProyecto = async (req, res, next) => {
     const { _id } = req.body;
     try{
-        const actividades = await Actividad.find({idProyecto: ObjectId(_id)});
+        const actividades = await Actividad.find({idProyecto: ObjectId(_id)}).sort("codIdentificacion").collation({locale: "en_US", numericOrdering: true});
         res.json(actividades);
     }catch(error){
         res.json(error);
@@ -110,14 +145,15 @@ poaCtrl.getProyectos = async (req, res, next) => {
     // res.json(proyectos)
 };
 
-poaCtrl.getEtapasPorProyecto = async (req, res, next) => {
-    const { id } = req.body;
+poaCtrl.getProyectosHijos = async (req, res, next) => {
+    const { idProyecto } = req.body;
+    const { anio } = req.body;
     try{
-        const etapas = await Etapa.find({idPlan: ObjectId(id)});
-        res.json(etapas);
+        const proyectosHijos = await Proyecto.find({proyectoPadre: idProyecto, anio: anio})
+        res.json(proyectosHijos);
     }catch(error){
         res.json(error);
     }
-};
+}
 
 module.exports = poaCtrl;

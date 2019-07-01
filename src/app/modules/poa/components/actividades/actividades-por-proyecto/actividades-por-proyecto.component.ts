@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActividadesService } from '../../../services/actividades/actividades.service';
 import { ActivatedRoute } from '@angular/router';
-import { ProyectoCrearComponent } from '../../proyectos/proyecto-crear/proyecto-crear.component';
+import { ProyectosService } from '../../../services/proyectos/proyectos.service';
 
 @Component({
   selector: 'actividades-por-proyecto',
@@ -10,21 +10,36 @@ import { ProyectoCrearComponent } from '../../proyectos/proyecto-crear/proyecto-
 })
 export class ActividadesPorProyectoComponent implements OnInit {
   
-  actividades;
+  actividades = [];
+  etapas;
   @Input() proyecto = {_id: ""};
 
-  constructor(private actividadesService: ActividadesService, private activatedRoute:ActivatedRoute) {
+  constructor(private actividadesService: ActividadesService, private proyectosService: ProyectosService, private activatedRoute:ActivatedRoute) {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.getActividades(params.get("id"));
+      this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
+        this.proyecto = proyecto;
+      })
+      this.getActividades(params.get("idProyecto"));
     });
   }
 
   ngOnInit() {
-    this.getActividades(this.proyecto);
+    // this.getActividades(this.proyecto);
   }
+  
+  getActividades(idProyecto){
+    //Crear las etapas
+    this.actividadesService.etapasPorProyecto(idProyecto).subscribe(etapas =>{
+      for (let e = 0; e < etapas.length; e++) {
+        this.actividadesService.actividadesPorEtapa(etapas[e]._id).subscribe(actividades =>{
+          etapas[e].actividades = actividades;
+        })
+      }
+      this.etapas = etapas;
+    })
 
-  getActividades(proyecto){
-    this.actividadesService.actividadesPorProyecto(proyecto).subscribe(actividades =>{
+    //Crear las actividades de cada etapa
+    this.actividadesService.actividadesPorProyecto(idProyecto).subscribe(actividades =>{
       this.actividades = actividades;
     },error =>{
       alert(error);

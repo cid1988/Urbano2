@@ -11,14 +11,16 @@ import { ActividadesComponent } from './views/actividades/actividades.component'
 import { FormsModule } from '@angular/forms';
 import { ObrasPorProyectoComponent } from './components/obras/obras-por-proyecto/obras-por-proyecto.component';
 import { EtapasPorProyectoComponent } from './components/proyectos/etapas-por-proyecto/etapas-por-proyecto.component';
+import { ActividadDetalleComponent } from './components/actividades/actividad-detalle/actividad-detalle.component';
 
 const poaRoutes: Routes = [
   {path:'poa',component:ProyectosComponent},
-  {path:'poa/:idProyecto',component:ActividadesComponent}
+  {path:'poa/:idProyecto',component:ActividadesComponent},
+  {path:'poa/:idProyecto/:idActividad',component:ActividadDetalleComponent}
 ];
 
 @NgModule({
-  declarations: [PlanListaComponent, PlanCrearComponent, ProyectoCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, ObrasPorProyectoComponent, EtapasPorProyectoComponent],
+  declarations: [PlanListaComponent, PlanCrearComponent, ProyectoCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, ObrasPorProyectoComponent, EtapasPorProyectoComponent, ActividadDetalleComponent],
   imports: [
     CommonModule,
     FormsModule,
