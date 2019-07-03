@@ -4,6 +4,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
 import { Reunion } from '../../models/reunion';
+import { Validators } from '@angular/forms';
+import interactionPlugin from '@fullcalendar/interaction';
 
 @Component({
   selector: 'app-calendario',
@@ -13,7 +15,8 @@ import { Reunion } from '../../models/reunion';
 export class CalendarioComponent implements OnInit {
 
   calendarEl
-  reuniones: Reunion[] = [];
+  reuniones= [];
+  maestro;
   series;
   @Input() calendar;
   altoDePantalla: any;
@@ -58,6 +61,11 @@ export class CalendarioComponent implements OnInit {
 
   constructor(private calendarioService: CalendarioService) {
     this.calendarioService.getSeriesDeReunion().subscribe(series =>{
+      for (let i = 0; i < series.length; i++) {
+        let serie = series[i];
+        
+        serie.color = this.calcularColor(serie.tipo);
+      }
       this.series = series;
     })
     this.calendarioService.getReuniones().subscribe(reuniones =>{
@@ -66,28 +74,40 @@ export class CalendarioComponent implements OnInit {
         
         reunion.start = reunion.desdeDate;
         reunion.end = reunion.hastaDate;
-        reunion.title = reunion.usuarioCreacion;
-
-        if(reunion.reunion == "58ad8258f90904c9043b0a88"){
-          reunion.color = "rgb(234, 111, 0, 0.5)"
-        }else if(reunion.reunion == "5cd5ef08a0acd8a5611fd64d"){
-          reunion.color = "rgb(91, 190, 136, 0.5)";
-        }else if(reunion.reunion == "58ad81b6f90904c9043b0a82"){
-          reunion.color = "rgb(91, 190, 136, 0.5)";
-        }else if(reunion.reunion == "58ad8249f90904c9043b0a87"){
-          reunion.color = "rgb(234, 111, 0, 0.5)"
-        }
+        reunion.color = this.calcularColor(reunion.reunion.tipo);
       }
+      // console.log(reuniones)
       this.llamarCalendario(reuniones);
     },error =>{
       alert(error);
     })
   }
+  
+  calcularColor(reunion){
+    if(!reunion) return;
+    if(reunion == "coordinacion"){
+      return "rgb(91, 190, 136, 0.5)"
+    }else if(reunion == "previa"){
+      return "rgb(168, 85, 198, 0.5)";
+    }else if(reunion == "seguimientoJefatura"){
+      return "rgb(141, 98, 47, 0.5)";
+    }else if(reunion == "especificasJefatura"){
+      return "rgb(167, 167, 167, 0.5)"
+    }else if(reunion == "seguimiento"){
+      return "rgb(234, 111, 0, 0.5)"
+    }else if(reunion == "especificas"){
+      return "rgb(43, 130, 255, 0.5)"
+    }else if(reunion == "visitaObra"){
+      return "rgb(38, 84, 115, 0.5)"
+    }else if(reunion == "eventual"){
+      return "rgb(173, 172, 58, 0.5)"
+    }
+  };
 
   llamarCalendario(reuniones){
     this.calendarEl = document.getElementById('calendar');
     this.calendar = new Calendar(this.calendarEl, {
-      plugins: [ dayGridPlugin,timeGridPlugin ],
+      plugins: [ dayGridPlugin,timeGridPlugin,interactionPlugin ],
       defaultView: "timeGridWeek",
       height: 'parent',
       events: reuniones,
@@ -95,7 +115,7 @@ export class CalendarioComponent implements OnInit {
       header: {
         left: 'prev,next dayGridMonth,timeGridWeek,timeGridDay,today',
         right: 'title',
-        center: 'reservaButton,solicitarButton refreshButton',
+        center: 'reservaButton,solicitarButton refrescarButton editarButton',
       },
       buttonText: {
         today:    'Hoy',
@@ -104,7 +124,6 @@ export class CalendarioComponent implements OnInit {
         day:      'Dia',
         list:     'Lista'
       },
-      
       customButtons: {
         reservaButton: {
           text: 'Reserva',
@@ -118,8 +137,14 @@ export class CalendarioComponent implements OnInit {
             alert('clicked the custom button!');
           }
         },
-        refreshButton: {
+        refrescarButton: {
           text: 'Refrescar',
+          click: function() {
+            alert('clicked the custom button!');
+          }
+        },
+        editarButton: {
+          text: 'Editar',
           click: function() {
             alert('clicked the custom button!');
           }
@@ -140,8 +165,11 @@ export class CalendarioComponent implements OnInit {
         minute: '2-digit',
         meridiem: 'short'
       },
-      dateClick(model) {
-        console.log(model);
+      dateClick($event) {
+        console.log($event);
+      },
+      eventClick: function(info) {
+        console.log(info)
       },
       eventDragStop(model) {
         console.log(model);
@@ -169,6 +197,9 @@ export class CalendarioComponent implements OnInit {
   
   ngOnInit() {
     this.altoDePantalla = window.innerHeight;
-    console.log(this.altoDePantalla)
+  }
+
+  nombreMaestro(reunion){
+    return this.calendarioService.getMaestroPorReunion(reunion);
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Reunion } from '../models/reunion';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,10 @@ export class CalendarioService {
   };
 
   getSeriesDeReunion():Observable<{}>{
-    return this.http.get<[]>('http://localhost:3000/api/rdg/series')
+    return this.http.get<{}>('http://localhost:3000/api/rdg/series');
+  }
+
+  getMaestroPorReunion(idReunion):Observable<{}>{
+    return this.http.get<{}>('http://localhost:3000/api/rdg/maestroPorReunion/' + idReunion);
   }
 }

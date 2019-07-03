@@ -8,4 +8,5 @@ export interface Reunion {
   title: String;
   usuarioCreacion: String;
   reunion: String;
+  tipo: String;
 }

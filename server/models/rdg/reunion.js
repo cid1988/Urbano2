@@ -1,10 +1,18 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+var ObjectId = require('mongoose').Types.ObjectId;
 
 const reunionSchema = new Schema({
-    nombre: { type: String, required: false}
+    nombre: { type: String, required: false},
+    reunion: { type: Schema.Types.ObjectId, ref: 'Maestro' }
 },{
-    versionKey: false
+    versionKey: false,
+    strict: false
 });
+
+reunionSchema.virtual('title').get(function(){
+    return this.reunion.nombre;
+});
+reunionSchema.set('toJSON', {getters: true, virtuals: true});
 
 module.exports = mongoose.model('Reunion', reunionSchema, 'rdg.reuniones.instancias');

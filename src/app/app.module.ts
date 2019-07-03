@@ -6,7 +6,7 @@ import { PoaModule } from './modules/poa/poa.module';
 import { NavbarComponent } from './shared-modules/navbar/components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RdgModule } from './modules/rdg/rdg.module';
-import * as $ from 'jquery'
+// import * as $ from 'jquery'
 import { TableroGeneralModule } from './modules/tablero-general/tablero-general.module';
 
 @NgModule({

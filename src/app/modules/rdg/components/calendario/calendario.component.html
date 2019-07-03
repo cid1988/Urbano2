@@ -5,7 +5,7 @@
       <legend>Series de reunion</legend>
       <div class="overflow-auto" [ngStyle]="{'max-height.px':altoDePantalla -185}">
         <ul class="list-group">
-          <li class="list-group-item" [ngClass]="{'liBlue': s.tipo == 'seguimientoJefatura', 'liRed': s.tipo !== 'seguimientoJefatura'}" *ngFor="let s of series">{{s.nombre}}</li>
+          <li class="list-group-item" style="border-left: solid 5px; opacity: 1.0" [ngStyle]="{'color': s.color}" *ngFor="let s of series"><a href="">{{s.nombre}}</a></li>
         </ul>
       </div>
     </div>
