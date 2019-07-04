@@ -15,8 +15,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 export class CalendarioComponent implements OnInit {
 
   calendarEl
-  reuniones= [];
-  maestro;
+  reuniones = [];
   series;
   @Input() calendar;
   altoDePantalla: any;
@@ -30,18 +29,7 @@ export class CalendarioComponent implements OnInit {
   //   // height: 'parent',
   //   fixedWeekCount : true,
   //   // defaultDate: '2019-06-16',
-  //   editable: true,
   //   // eventLimit: false, // allow "more" link when too many events
-  //   events: [],
-  //   eventClick: (calEvent, jsEvent, view) => {
-  //     alert(calEvent.start);
-  //   },
-  //   eventDragStop(model) {
-  //     console.log(model);
-  //   },
-  //   dateClick(model) {
-  //     console.log(model);
-  //   },
   //   updateEvents() {
   //     this.eventsModel = [{
   //       title: 'Updaten Event',
@@ -76,7 +64,6 @@ export class CalendarioComponent implements OnInit {
         reunion.end = reunion.hastaDate;
         reunion.color = this.calcularColor(reunion.reunion.tipo);
       }
-      // console.log(reuniones)
       this.llamarCalendario(reuniones);
     },error =>{
       alert(error);
@@ -197,9 +184,5 @@ export class CalendarioComponent implements OnInit {
   
   ngOnInit() {
     this.altoDePantalla = window.innerHeight;
-  }
-
-  nombreMaestro(reunion){
-    return this.calendarioService.getMaestroPorReunion(reunion);
   }
 }

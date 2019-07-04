@@ -7,6 +7,6 @@ export interface Reunion {
   hastaDate: String;
   title: String;
   usuarioCreacion: String;
-  reunion: String;
+  reunion: Object;
   tipo: String;
 }

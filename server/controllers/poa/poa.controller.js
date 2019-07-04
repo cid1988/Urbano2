@@ -33,7 +33,7 @@ poaCtrl.getEtapasPorProyecto = async (req, res, next) => {
 poaCtrl.getActividad = async (req, res, next) => {
     const { idActividad } = req.params;
     try{
-        const actividad = await Actividad.findById({idActividad})
+        const actividad = await Actividad.findById(idActividad)
         res.json(actividad);
     }catch(error){
         res.json(error);

@@ -1,16 +1,26 @@
-<div class="container-fluid">
-    <form>
-      <div class="form-group col-10">
-        <div class="form-row">
-          <div class="form-group col-6">
+<div class="container-fluid" *ngIf="actividad">
+  <form>
+    <div class="row">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-8">
             <label for="inputCity">Nombre</label>
-            <input type="text" class="form-control" id="inputCity">
+            <input type="text" class="form-control" id="inputCity" [(ngModel)]="actividad.nombre" name="nombre">
           </div>
-          <div class="form-group col-md-2">
+          <div class="col-4">
             <label for="inputZip">Nro identificacion</label>
-            <input type="text" class="form-control" id="inputZip">
+            <input type="text" class="form-control" id="inputZip" [(ngModel)]="actividad.codIdentificacion" name="codIdentificacion">
           </div>
-          <div class="form-group col-md-4">
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label for="inputState">Predecesor</label>
+            <select id="inputState" class="form-control" [(ngModel)]="actividad.predecesor" name="predecesor">
+              <option selected>Choose...</option>
+              <option>Opcion 1</option>
+            </select>
+          </div>
+          <div class="col-6">
             <label for="inputState">Etapa</label>
             <select id="inputState" class="form-control">
               <option selected>Choose...</option>
@@ -18,41 +28,51 @@
             </select>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label for="inputState">Predecesor</label>
-            <select id="inputState" class="form-control">
-              <option selected>Choose...</option>
-              <option>Opcion 1</option>
-            </select>
+      </div>
+      <div class="col-md-3">
+        <div class="col-12">
+          <button type="button" class="btn btn-primary btn btn-block">Inicio cumplido</button>
+          <button type="button" class="btn btn-success btn btn-block">Fin cumplido</button>
+          <button type="button" class="btn btn-secondary btn btn-block">Cancelado</button>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <legend>Historico</legend>
+        <div *ngFor="let f of actividad.fechas">
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="inputEmail4">Fecha inicio</label>
+              <input type="email" class="form-control" id="inputEmail4" placeholder="Fecha" [(ngModel)]="f.fechaInicio" name="fechaInicio">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputPassword4">Fecha fin</label>
+              <input type="text" class="form-control" id="inputPassword4" placeholder="Fecha" [(ngModel)]="f.fechaFin" name="fechaFin">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputPassword4">Avance</label>
+              <input type="text" class="form-control" id="inputPassword4" placeholder="Fecha" [(ngModel)]="f.avance" name="avance">
+            </div>
           </div>
+          <div class="form-group">
+            <label for="inputAddress">Comentarios</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="f.comentario" name="comentario"></textarea>
+          </div>
+          <hr>
         </div>
       </div>
-      <div class="form-group col-2">
-        <div class="spinner-grow text-primary" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-        <button type="button" class="btn btn-primary btn-lg btn-block">Inicio cumplido</button>
-        <button type="button" class="btn btn-success btn-lg btn-block">Final cumplido</button>
-        <button type="button" class="btn btn-secondary btn-lg btn-block">Cancelado</button>
-      </div>
-      
-        
-    </form>
-
-
-
-
-
-
-
-  <div class="row">
-      <div class="form-group col-md-4">
-        <label for="inputState">Predecesor</label>
-        <select id="inputState" class="form-control">
-          <option selected>Choose...</option>
-          <option>Opcion 1</option>
-        </select>
-      </div>
-  </div>
+    </div>
+  </form>
 </div>
+
+<!-- <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        .col-md-8
+        <div class="row">
+          <div class="col-md-6">.col-md-6</div>
+          <div class="col-md-6">.col-md-6</div>
+        </div>
+      </div>
+      <div class="col-md-4">.col-md-4</div>
+    </div>
+  </div> -->

@@ -3,15 +3,15 @@ import { CommonModule } from '@angular/common';
 import { CalendarioComponent } from './components/calendario/calendario.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Calendar } from '@fullcalendar/core';
 import { CalendarioViewComponent } from './views/calendario/calendario.component';
+import { GroupByPipe } from 'src/app/shared-modules/pipes/group-by.pipe';
 
 const rdgRoutes: Routes = [
   {path:'calendario',component:CalendarioComponent}
 ];
 
 @NgModule({
-  declarations: [CalendarioComponent,CalendarioViewComponent],
+  declarations: [CalendarioComponent,CalendarioViewComponent,GroupByPipe],
   imports: [
     CommonModule,
     FormsModule,

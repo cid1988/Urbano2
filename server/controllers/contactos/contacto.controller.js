@@ -1,4 +1,4 @@
-const Contacto = require('../models/contacto');
+const Contacto = require('../../models/contacto/contacto');
 
 const contactoCtrl = {};
 

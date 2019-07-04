@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { ObrasPorProyectoComponent } from './components/obras/obras-por-proyecto/obras-por-proyecto.component';
 import { EtapasPorProyectoComponent } from './components/proyectos/etapas-por-proyecto/etapas-por-proyecto.component';
 import { ActividadDetalleComponent } from './components/actividades/actividad-detalle/actividad-detalle.component';
+import { OrderByPipe } from 'src/app/shared-modules/pipes/orderBy/order-by.pipe';
 
 const poaRoutes: Routes = [
   {path:'poa',component:ProyectosComponent},
@@ -20,7 +21,7 @@ const poaRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [PlanListaComponent, PlanCrearComponent, ProyectoCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, ObrasPorProyectoComponent, EtapasPorProyectoComponent, ActividadDetalleComponent],
+  declarations: [OrderByPipe,PlanListaComponent, PlanCrearComponent, ProyectoCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, ObrasPorProyectoComponent, EtapasPorProyectoComponent, ActividadDetalleComponent],
   imports: [
     CommonModule,
     FormsModule,

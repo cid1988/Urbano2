@@ -13,6 +13,7 @@ export class ActividadDetalleComponent implements OnInit {
 
   constructor(private activatedRoute:ActivatedRoute, private actividadesService:ActividadesService) {
     this.activatedRoute.paramMap.subscribe(params => {
+      console.log(params.get("idActividad"))
       this.actividadesService.getActividad(params.get("idActividad")).subscribe(actividad =>{
         this.actividad = actividad;
       })

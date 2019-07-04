@@ -8,11 +8,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { RdgModule } from './modules/rdg/rdg.module';
 // import * as $ from 'jquery'
 import { TableroGeneralModule } from './modules/tablero-general/tablero-general.module';
+import { AdministradorModule } from './modules/administrador/administrador.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -20,6 +21,7 @@ import { TableroGeneralModule } from './modules/tablero-general/tablero-general.
     PoaModule,
     RdgModule,
     TableroGeneralModule,
+    AdministradorModule,
     HttpClientModule
   ],
   bootstrap: [AppComponent]

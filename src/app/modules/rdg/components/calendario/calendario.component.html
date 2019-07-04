@@ -1,15 +1,35 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-2">
+    <div class="col-3">
       <input type="text" class="form-control" placeholder="Buscar..." style="margin-bottom: 5px">
       <legend>Series de reunion</legend>
       <div class="overflow-auto" [ngStyle]="{'max-height.px':altoDePantalla -185}">
         <ul class="list-group">
-          <li class="list-group-item" style="border-left: solid 5px; opacity: 1.0" [ngStyle]="{'color': s.color}" *ngFor="let s of series"><a href="">{{s.nombre}}</a></li>
+          <li class="list-group-item" style="padding: 10px;border-left: solid 5px; opacity: 1.0" [ngStyle]="{'color': s.value.color}" *ngFor="let s of series | groupBy: 'tipo'; let $index = index">
+            <a class="btn btn-link" data-toggle="collapse" href="#collapseExample{{$index}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <h6>{{s.key}}</h6>
+            </a>
+            <div class="collapse" id="collapseExample{{$index}}">
+              <div>
+                <ul class="list-group list-group-flush" *ngFor="let v of s.value" style="padding-left: 0px">
+                  <li class="list-group-item">
+                    {{v.nombre}}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
         </ul>
+        <!-- <ul class="list-group">
+          <li class="list-group-item" style="border-left: solid 5px; opacity: 1.0" [ngStyle]="{'color': s.color}" *ngFor="let s of series | groupBy: 'tipo'"><a href="">{{s.key}}</a>
+            <ul *ngFor="let v of s.value">
+            <li>{{v.nombre}}</li>
+          </ul>
+          </li>
+        </ul> -->
       </div>
     </div>
-    <div class="col-10" [ngStyle]="{'max-height.px':altoDePantalla -100}">
+    <div class="col-9" [ngStyle]="{'max-height.px':altoDePantalla -100}">
       <full-calendar id="calendar" [options]="options"></full-calendar>
     </div>
   </div>

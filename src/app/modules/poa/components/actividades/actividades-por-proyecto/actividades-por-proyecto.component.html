@@ -1,21 +1,43 @@
 <div class="card" style="margin-bottom: 20px" *ngIf="actividades">
   <div class="card-body">
     <legend>Hitos/Actividades
-      <button type="button" class="btn btn-outline-secondary float-right"><i class="fa fa-arrow-down"></i></button>
       <button type="button" class="btn btn-outline-primary float-right">Crear etapa</button>
       <button type="button" class="btn btn-outline-success float-right">Crear hito</button>
     </legend>
 
     <div class="row">
-      <div class="col-md">
+      <div class="col-7"></div>
+      <div class="col-1"><b>Inicio planif.</b></div>
+      <div class="col-1"><b>Fin planif.</b></div>
+      <div class="col-1"><b>Fecha inicio</b></div>
+      <div class="col-1"><b>Fecha fin</b></div>
+      <div class="col-12">
         <ul class="list-group">
-          <li class="list-group-item" *ngFor="let e of etapas; let $index = index">
+          <li class="list-group-item" *ngFor="let e of etapas | orderBy: 'orden'; let $index = index">
             <a routerLink="{{e._id}}"><b><span [hidden]="!e.codIdentificacion">{{e.codIdentificacion}} - </span>{{e.nombre}}</b></a> <!--{{$index}} - -->
             <span [ngClass]="{'dotGrey float-right': e.fechaInicio > '27/06/2019', 'dotGreen float-right': e.fechaInicio < '27/06/2019'}"></span>
             <ul class="list-group" *ngIf="e.actividades">
-              <li class="list-group-item" *ngFor="let a of e.actividades">
-                <a routerLink="{{a._id}}"><span [hidden]="!a.codIdentificacion">{{a.codIdentificacion}} -</span> {{a.nombre}}</a>
-                <span [ngClass]="{'dotBlue': a.cumplida, 'dotGreen': a.estado == 'vigente', 'dotRed': a.estado == 'vencido', 'dotBlack': a.cancelada}"></span>
+              <li class="list-group-item" *ngFor="let a of e.actividades | orderBy: 'codIdentificacion'">
+                <div class="row">
+                  <div class="col-7">
+                    <a routerLink="{{a._id}}"><span [hidden]="!a.codIdentificacion">{{a.codIdentificacion}} -</span> {{a.nombre}}</a>
+                  </div>
+                  <div class="col-1">
+                    {{a.fechas[0].fechaInicio}}
+                  </div>
+                  <div class="col-1">
+                    {{a.fechas[0].fechaFin}}
+                  </div>
+                  <div class="col-1">
+                    {{a.fechas.slice(-1)[0].fechaInicio}}
+                  </div>
+                  <div class="col-1">
+                    {{a.fechas.slice(-1)[0].fechaFin}}
+                  </div>
+                  <div class="col-1">
+                    <span [ngClass]="{'dotBlue': a.cumplida, 'dotGreen': a.estado == 'vigente', 'dotRed': a.estado == 'vencido', 'dotBlack': a.cancelada}"></span>
+                  </div>
+                </div>
               </li>
             </ul>
           </li>
