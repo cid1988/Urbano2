@@ -3,7 +3,6 @@ import { CalendarioService } from '../../services/calendario.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
-import { Reunion } from '../../models/reunion';
 import { Validators } from '@angular/forms';
 import interactionPlugin from '@fullcalendar/interaction';
 
@@ -79,15 +78,15 @@ export class CalendarioComponent implements OnInit {
     }else if(reunion == "seguimientoJefatura"){
       return "rgb(141, 98, 47, 0.5)";
     }else if(reunion == "especificasJefatura"){
-      return "rgb(167, 167, 167, 0.5)"
+      return "rgb(167, 167, 167, 0.5)";
     }else if(reunion == "seguimiento"){
-      return "rgb(234, 111, 0, 0.5)"
+      return "rgb(234, 111, 0, 0.5)";
     }else if(reunion == "especificas"){
-      return "rgb(43, 130, 255, 0.5)"
+      return "rgb(43, 130, 255, 0.5)";
     }else if(reunion == "visitaObra"){
-      return "rgb(38, 84, 115, 0.5)"
+      return "rgb(38, 84, 115, 0.5)";
     }else if(reunion == "eventual"){
-      return "rgb(173, 172, 58, 0.5)"
+      return "rgb(173, 172, 58, 0.5)";
     }
   };
 

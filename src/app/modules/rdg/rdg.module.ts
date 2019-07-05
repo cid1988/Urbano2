@@ -4,7 +4,7 @@ import { CalendarioComponent } from './components/calendario/calendario.componen
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CalendarioViewComponent } from './views/calendario/calendario.component';
-import { GroupByPipe } from 'src/app/shared-modules/pipes/group-by.pipe';
+import { GroupByPipe } from 'src/app/shared-modules/pipes/groupBy/group-by.pipe';
 
 const rdgRoutes: Routes = [
   {path:'calendario',component:CalendarioComponent}

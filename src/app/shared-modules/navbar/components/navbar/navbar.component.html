@@ -80,8 +80,9 @@
       <div class="btn-group" role="group" *ngIf="userLogged">
         <button id="btnGroupDrop1" type="button" class="btn btn-outline-success my-2 my-sm-0 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{userLogged.username}}</button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-          <a href ="" class="dropdown-item" routerLink="login">Mis datos</a>
-          <a class="dropdown-item" (click)="logout()">Salir</a>
+          <a class="dropdown-item" routerLink="login">Mis datos</a>
+          <a class="dropdown-item" routerLink="error">Reportar un error</a>
+          <a href ="javascript:void(0)" class="dropdown-item" (click)="logout()">Salir</a>
         </div>
       </div>
       <!-- <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="!userLogged" routerLink="login" type="submit">Ingresar</button>

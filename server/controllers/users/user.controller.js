@@ -1,4 +1,6 @@
 const User = require('../../models/user/user');
+const CryptoJS = require("crypto-js");
+const passwordHash = require('password-hash');
 
 const userCtrl = {};
 
@@ -14,10 +16,20 @@ userCtrl.getUsers = async (req,res,next) => {
 
 userCtrl.getUserLogin = async (req, res, next) => {
   const { username } = req.body;
-  // const { password } = req.body;
-  await User.find({username: username}, function(error,user){
-    res.status(200).json(user[0]);
-  });
+  const { password } = req.body;
+
+  try{
+    await User.find({username: username}, function(error,user){
+      if(passwordHash.verify(password, user[0].password)){
+        res.status(200).json(user[0]);
+      }else{
+        // res.status(500)
+      }
+    });
+  }catch(error){
+    res.json(error)
+  }
+  
 };
 
 module.exports = userCtrl;
