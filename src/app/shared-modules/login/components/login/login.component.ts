@@ -38,6 +38,6 @@ export class LoginComponent implements OnInit {
   }
 
   navigate() {
-    this.router.navigateByUrl('/poa');
+    this.router.navigateByUrl('/home');
   }
 }

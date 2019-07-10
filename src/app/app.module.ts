@@ -6,14 +6,16 @@ import { PoaModule } from './modules/poa/poa.module';
 import { NavbarComponent } from './shared-modules/navbar/components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RdgModule } from './modules/rdg/rdg.module';
-// import * as $ from 'jquery'
 import { TableroGeneralModule } from './modules/tablero-general/tablero-general.module';
 import { AdministradorModule } from './modules/administrador/administrador.module';
+import { HomeComponent } from './modules/home/components/home/home.component';
+import { HomeModule } from './modules/home/home.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    NavbarComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +24,8 @@ import { AdministradorModule } from './modules/administrador/administrador.modul
     RdgModule,
     TableroGeneralModule,
     AdministradorModule,
-    HttpClientModule
+    HttpClientModule,
+    HomeModule
   ],
   bootstrap: [AppComponent]
 })
