@@ -29,7 +29,7 @@ export class ActividadesPorProyectoComponent implements OnInit {
   
   getActividades(idProyecto){
     //Crear las etapas
-    this.actividadesService.etapasPorProyecto(idProyecto).subscribe(etapas =>{
+    this.actividadesService.etapasPorProyecto(idProyecto).subscribe((etapas: any[]) =>{
       for (let e = 0; e < etapas.length; e++) {
         this.actividadesService.actividadesPorEtapa(etapas[e]._id).subscribe(actividades =>{
           etapas[e].actividades = actividades;

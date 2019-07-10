@@ -15,7 +15,7 @@
   </div> -->
   <div class="row justify-content-between" style="margin-bottom: 10px">
     <div class="col-md-2">
-      <select class="form-control" (change)="seleccionPlan(plan)" [(ngModel)]="plan._id">
+      <select class="form-control" (change)="seleccionPlan()" [(ngModel)]="plan._id">
         <option *ngFor="let p of planes" [value]="p._id">{{p.anio}}</option>
       </select>
     </div>
@@ -25,7 +25,7 @@
       </select>
     </div>
     <div class="col-md-2">
-      <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="proyecto">
+      <input type="text" class="form-control" placeholder="Buscar...">
     </div>
     <!-- <div class="col-md-auto">
       <button type="button" class="btn btn-outline-info">Crear proyecto</button>

@@ -47,7 +47,7 @@ export class CalendarioComponent implements OnInit {
   // };
 
   constructor(private calendarioService: CalendarioService) {
-    this.calendarioService.getSeriesDeReunion().subscribe(series =>{
+    this.calendarioService.getSeriesDeReunion().subscribe((series: any[]) =>{
       for (let i = 0; i < series.length; i++) {
         let serie = series[i];
         
@@ -55,7 +55,7 @@ export class CalendarioComponent implements OnInit {
       }
       this.series = series;
     })
-    this.calendarioService.getReuniones().subscribe(reuniones =>{
+    this.calendarioService.getReuniones().subscribe((reuniones: any[]) =>{
       for (let i = 0; i < reuniones.length; i++) {
         let reunion = reuniones[i];
         
