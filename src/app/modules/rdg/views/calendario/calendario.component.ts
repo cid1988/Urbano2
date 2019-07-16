@@ -13,7 +13,7 @@ export class CalendarioViewComponent implements OnInit {
 
   reuniones = [{start: "2019-06-19",end: "2019-06-19"}]
   constructor() {
-    this.hijo.llamarCalendario(this.reuniones);
+    // this.hijo.llamarCalendario(this.reuniones);
   }
 
   ngOnInit() {

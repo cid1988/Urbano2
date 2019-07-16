@@ -5,6 +5,9 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
 import { Validators } from '@angular/forms';
 import interactionPlugin from '@fullcalendar/interaction';
+import eventSources from '@fullcalendar/core/reducers/eventSources';
+
+declare var $:any;
 
 @Component({
   selector: 'app-calendario',
@@ -12,12 +15,14 @@ import interactionPlugin from '@fullcalendar/interaction';
   styleUrls: ['./calendario.component.css']
 })
 export class CalendarioComponent implements OnInit {
-
+  
   calendarEl
   reuniones = [];
   series;
   @Input() calendar;
   altoDePantalla: any;
+  model = {};
+  nuevaReunion = {};
 
   // calendarOptions:Object = {
   //   header: {
@@ -47,6 +52,10 @@ export class CalendarioComponent implements OnInit {
   // };
 
   constructor(private calendarioService: CalendarioService) {
+    this.calculos()
+  }
+  
+  calculos(){
     this.calendarioService.getSeriesDeReunion().subscribe((series: any[]) =>{
       for (let i = 0; i < series.length; i++) {
         let serie = series[i];
@@ -63,14 +72,13 @@ export class CalendarioComponent implements OnInit {
         reunion.end = reunion.hastaDate;
         reunion.color = this.calcularColor(reunion.reunion.tipo);
       }
-      this.llamarCalendario(reuniones);
+      this.llamarCalendario(reuniones,this.model,this.nuevaReunion);
     },error =>{
       alert(error);
     })
   }
-  
   calcularColor(reunion){
-    if(!reunion) return;
+    if(!reunion) return "";
     if(reunion == "coordinacion"){
       return "rgb(91, 190, 136, 0.5)"
     }else if(reunion == "previa"){
@@ -87,10 +95,12 @@ export class CalendarioComponent implements OnInit {
       return "rgb(38, 84, 115, 0.5)";
     }else if(reunion == "eventual"){
       return "rgb(173, 172, 58, 0.5)";
+    }else if(reunion == "poa"){
+      return "#265473";
     }
   };
 
-  llamarCalendario(reuniones){
+  llamarCalendario(reuniones,model,nuevaReunion){
     this.calendarEl = document.getElementById('calendar');
     this.calendar = new Calendar(this.calendarEl, {
       plugins: [ dayGridPlugin,timeGridPlugin,interactionPlugin ],
@@ -120,7 +130,8 @@ export class CalendarioComponent implements OnInit {
         solicitarButton: {
           text: 'Solicitar',
           click: function() {
-            alert('clicked the custom button!');
+            $('#modalSolicitarReunion').modal('show');
+            // alert('clicked the custom button!');
           }
         },
         refrescarButton: {
@@ -146,19 +157,75 @@ export class CalendarioComponent implements OnInit {
       editable: true,
       // titleFormat: "sasa",
       eventColor: reuniones.color,
+      slotDuration: '00:30:00',
+      defaultTimedEventDuration: 15,
+      snapDuration: '00:15:00',
       slotLabelFormat: {
         hour: 'numeric',
         minute: '2-digit',
         meridiem: 'short'
       },
-      dateClick($event) {
-        console.log($event);
+      dateClick(event) {
+        var dia = new Date(event.date);
+        var milliseconds = dia.getTime(); 
+        var millisecondsEnd = dia.setMinutes(dia.getMinutes() + 30 );
+
+        nuevaReunion.titulo = (event.date);
+        nuevaReunion.desdeDate = milliseconds;
+        nuevaReunion.hastaDate = millisecondsEnd;
+        nuevaReunion.reunion = "";
+        $('#modalNuevaReunion').modal({show:true});
       },
-      eventClick: function(info) {
-        console.log(info)
+      eventClick: function(event) {
+        model.titulo = event.event.title
+        model.start = event.event.start
+        model.end = event.event.end
+        model.color = "red"
+
+        $('#modalDetalleReunion').modal({show:true});
       },
-      eventDragStop(model) {
-        console.log(model);
+      eventResize: (event) => {
+        if(confirm("Esta seguro de modificar la reunion?")){
+          var a = event.event.extendedProps;
+          var objeto = {
+            id: event.event.id,
+            titulo: event.event.title,
+            oldStart: event.event.start.getTime(),
+            desdeDate: event.event.start.getTime(),
+            hastaDate: event.event.end.getTime(),
+            desdeHora: (event.event.start.getHours() + ":" + event.event.start.getMinutes()),
+            hastaHora: (event.event.end.getHours() + ":" + event.event.end.getMinutes()),
+            reunion: a.reunion._id,
+            fecha: a.fecha
+          }
+          console.log(objeto)
+          this.actualizarReunion(objeto);
+        }else{
+          event.revert();
+        }
+      },
+      eventDragStop: (event) => {
+        // alert("Seguro desea cambiar este evento?")
+        // console.log(event);
+      },
+      eventDrop: (event) => {
+        if(confirm("Esta seguro de modificar la reunion?")){
+          var a = event.oldEvent.extendedProps
+          var objeto = {
+            id: event.event.id,
+            titulo: event.event.title,
+            oldStart: event.oldEvent.start.getTime(),
+            desdeDate: event.event.start.getTime(),
+            hastaDate: event.event.end.getTime(),
+            desdeHora: (event.event.start.getHours() + ":" + event.event.start.getMinutes()),
+            hastaHora: (event.event.end.getHours() + ":" + event.event.end.getMinutes()),
+            reunion: a.reunion._id,
+            fecha: a.fecha
+          }
+          this.actualizarReunion(objeto);
+        }else{
+          event.revert()
+        }
       },
       views: {
         dayGrid: {
@@ -176,12 +243,24 @@ export class CalendarioComponent implements OnInit {
         dayGridMonth: { // name of view
           
         }
-      }
+      },
     });
     this.calendar.render();
   }
   
   ngOnInit() {
     this.altoDePantalla = window.innerHeight;
+  }
+
+  guardarReunion(reunion){
+    this.calendarioService.guardarNuevaReunion(reunion).subscribe(data =>{
+      console.log("guardado",data)
+    })
+  }
+
+  actualizarReunion(reunion){
+    this.calendarioService.actualizarReunion(reunion).subscribe(data =>{
+      
+    })
   }
 }
