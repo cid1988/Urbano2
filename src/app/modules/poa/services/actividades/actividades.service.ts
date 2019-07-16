@@ -1,30 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActividadesService {
 
-  url = "http://localhost:3000/api/poa/";
+  baseUrl = environment.baseUrl
 
   constructor(private http:HttpClient) { }
 
   actividadesPorProyecto(idProyecto):Observable<[]>{
-    return this.http.post<[]>('http://localhost:3000/api/poa/actividadesPorProyecto' , idProyecto);
+    return this.http.post<[]>(this.baseUrl + '/poa/actividadesPorProyecto' , idProyecto);
   };
 
   etapasPorProyecto(idProyecto):Observable<[]>{
-    return this.http.post<[]>('http://localhost:3000/api/poa/etapasPorProyecto' , idProyecto);
+    return this.http.post<[]>(this.baseUrl + '/poa/etapasPorProyecto' , idProyecto);
   };
 
   actividadesPorEtapa(idEtapa):Observable<[]>{
     let consulta = {_id: idEtapa}
-    return this.http.post<[]>('http://localhost:3000/api/poa/actividadesPorEtapa' , consulta);
+    return this.http.post<[]>(this.baseUrl + '/poa/actividadesPorEtapa' , consulta);
   };
 
   getActividad(idActividad):Observable<{}>{
-    return this.http.get<{}>('http://localhost:3000/api/poa/actividades/' + idActividad)
+    return this.http.get<{}>(this.baseUrl + '/poa/actividades/' + idActividad)
   }
 }
