@@ -5,7 +5,6 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
 import { Validators } from '@angular/forms';
 import interactionPlugin from '@fullcalendar/interaction';
-import eventSources from '@fullcalendar/core/reducers/eventSources';
 
 declare var $:any;
 
@@ -71,8 +70,9 @@ export class CalendarioComponent implements OnInit {
         reunion.start = reunion.desdeDate;
         reunion.end = reunion.hastaDate;
         reunion.color = this.calcularColor(reunion.reunion.tipo);
+        this.reuniones = reuniones;
       }
-      this.llamarCalendario(reuniones,this.model,this.nuevaReunion);
+      this.llamarCalendario(this.reuniones,this.model,this.nuevaReunion);
     },error =>{
       alert(error);
     })
@@ -106,7 +106,7 @@ export class CalendarioComponent implements OnInit {
       plugins: [ dayGridPlugin,timeGridPlugin,interactionPlugin ],
       defaultView: "timeGridWeek",
       height: 'parent',
-      events: reuniones,
+      events: this.reuniones,
       locale: 'es',
       header: {
         left: 'prev,next dayGridMonth,timeGridWeek,timeGridDay,today',
@@ -136,8 +136,9 @@ export class CalendarioComponent implements OnInit {
         },
         refrescarButton: {
           text: 'Refrescar',
-          click: function() {
-            alert('clicked the custom button!');
+          click: () => {
+            this.actualizarCalendario();
+            alert('Actualizando calendario');
           }
         },
         editarButton: {
@@ -169,7 +170,6 @@ export class CalendarioComponent implements OnInit {
         var dia = new Date(event.date);
         var milliseconds = dia.getTime(); 
         var millisecondsEnd = dia.setMinutes(dia.getMinutes() + 30 );
-
         nuevaReunion.titulo = (event.date);
         nuevaReunion.desdeDate = milliseconds;
         nuevaReunion.hastaDate = millisecondsEnd;
@@ -181,7 +181,6 @@ export class CalendarioComponent implements OnInit {
         model.start = event.event.start
         model.end = event.event.end
         model.color = "red"
-
         $('#modalDetalleReunion').modal({show:true});
       },
       eventResize: (event) => {
@@ -198,15 +197,13 @@ export class CalendarioComponent implements OnInit {
             reunion: a.reunion._id,
             fecha: a.fecha
           }
-          console.log(objeto)
           this.actualizarReunion(objeto);
         }else{
           event.revert();
         }
       },
       eventDragStop: (event) => {
-        // alert("Seguro desea cambiar este evento?")
-        // console.log(event);
+
       },
       eventDrop: (event) => {
         if(confirm("Esta seguro de modificar la reunion?")){
@@ -254,13 +251,18 @@ export class CalendarioComponent implements OnInit {
 
   guardarReunion(reunion){
     this.calendarioService.guardarNuevaReunion(reunion).subscribe(data =>{
-      console.log("guardado",data)
+      // console.log("guardado",data)
     })
   }
 
   actualizarReunion(reunion){
     this.calendarioService.actualizarReunion(reunion).subscribe(data =>{
-      
+      this.actualizarCalendario();
     })
+  }
+
+  actualizarCalendario(){
+    this.calendar.destroy();
+    this.calculos();
   }
 }
