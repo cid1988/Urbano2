@@ -4,11 +4,27 @@ const passwordHash = require('password-hash');
 
 const userCtrl = {};
 
+// userCtrl.getUsers = async (req,res,next) => {
+//   try{
+//     await User.find(function(err,users){
+//       res.status(200).send(users);
+//     })
+//   }catch(error){
+//     res.json(error)
+//   }
+// };
+
 userCtrl.getUsers = async (req,res,next) => {
   try{
-    await User.find(function(err,users){
-      res.status(200).send(users);
-    })
+    const users = await User.find()
+    .populate([{
+      path: 'idContacto',
+      model: 'Contacto'
+    }, {
+      path: 'jurisdiccion',
+      model: 'Organigrama'
+    }]);
+    res.json(users);
   }catch(error){
     res.json(error)
   }

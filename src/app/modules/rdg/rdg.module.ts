@@ -5,13 +5,16 @@ import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CalendarioViewComponent } from './views/calendario/calendario.component';
 import { GroupByPipe } from 'src/app/shared-modules/pipes/groupBy/group-by.pipe';
+import { MaestrosComponent } from './views/maestros/maestros.component';
+import { MailHeaderComponent } from './components/mail-header/mail-header.component';
 
 const rdgRoutes: Routes = [
-  {path:'calendario',component:CalendarioComponent}
+  {path:'calendario',component:CalendarioComponent},
+  {path:'calendario/maestros',component:MaestrosComponent}
 ];
 
 @NgModule({
-  declarations: [CalendarioComponent,CalendarioViewComponent,GroupByPipe],
+  declarations: [CalendarioComponent,CalendarioViewComponent,GroupByPipe, MaestrosComponent, MailHeaderComponent],
   imports: [
     CommonModule,
     FormsModule,

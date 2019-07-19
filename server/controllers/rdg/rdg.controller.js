@@ -1,8 +1,9 @@
 const Reunion = require('../../models/rdg/reunion');
 const Maestro = require('../../models/rdg/maestro');
 const SerieReunion = require('../../models/rdg/serie');
+const TiposReunion = require('../../models/rdg/tipo');
+
 var mongoose = require('mongoose');
-var ObjectId = require('mongoose').Types.ObjectId;
 mongoose.set('useFindAndModify', false);
 
 const reunionCtrl = {};
@@ -35,10 +36,19 @@ reunionCtrl.getSeriesReuniones = async (req, res, next) => {
                     {apagado: false},
                     {apagado: {$exists: false}}
                 ]},
-                {nombre: {$ne: "Maestro"}}
+                // {nombre: {$ne: "Maestro"}} Comentado para que puedan verse los maestros en la pantalla de configuracion de maestros
             ]
         });
         res.json(series);
+    }catch(error){
+        res.json(error);
+    }
+};
+
+reunionCtrl.getTiposReuniones = async (req, res, next) => {
+    try{
+        const tiposReunion = await TiposReunion.find();
+        res.json(tiposReunion);
     }catch(error){
         res.json(error);
     }
@@ -48,10 +58,10 @@ reunionCtrl.crearReunion = async (req, res, next) => {
     const reunion = new Reunion({
         desdeDate: req.body.desdeDate,
         hastaDate: req.body.hastaDate,
-        reunion: "58c2c4446a6764230be82957",
-        desdeHora: "10",
-        hastaHora: "11",
-        fecha: "15/07/2019"
+        reunion: req.body.reunion.toString(),
+        desdeHora: req.body.desdeHora,
+        hastaHora: req.body.hastaHora,
+        fecha: req.body.fecha
     });
     await reunion.save();
     res.json({status: 'Reunion creada'});

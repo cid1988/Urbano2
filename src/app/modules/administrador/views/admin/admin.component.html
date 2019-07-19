@@ -1,10 +1,47 @@
-<div class="container">
-  <button type="button" class="btn btn-primary">Usuarios</button>
-  <button type="button" class="btn btn-secondary">Secondary</button>
-  <button type="button" class="btn btn-success">Success</button>
-  <button type="button" class="btn btn-danger">Danger</button>
-  <button type="button" class="btn btn-warning">Warning</button>
-  <button type="button" class="btn btn-info">Info</button>
-  <button type="button" class="btn btn-light">Light</button>
-  <button type="button" class="btn btn-dark">Dark</button>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2">
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action active">Usuarios</a>
+        <a href="#" class="list-group-item list-group-item-action">Otro</a>
+      </div>
+    </div>
+    <div class="col-10">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Contacto</th>
+            <th scope="col">Jurisdiccion</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of users">
+            <td>{{u.username}}</td>
+            <td>{{u.idContacto?.nombreCompleto}}</td>
+            <td>{{u.jurisdiccion.nombreCompleto}}</td>
+            <td>
+              <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group" role="group">
+                  <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-bars"></i>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <a class="dropdown-item" href="#">Cambiar clave</a>
+                    <a class="dropdown-item" href="#">Cambiar jurisdiccion</a>
+                    <a class="dropdown-item" href="#">Conexion con contacto</a>
+                    <a class="dropdown-item" href="#"><i class="fa fa-users"></i> Copiar permisos de ...</a>
+                    <a class="dropdown-item" href="#">Importante</a>
+                    <a class="dropdown-item" href="#">Ver contacto</a>
+                    <a class="dropdown-item" href="#"><i class="fa fa-trash"></i> Eliminar</a>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

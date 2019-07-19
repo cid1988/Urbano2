@@ -34,6 +34,7 @@
     "jquery": "^3.3.1",
     "mongoose": "^5.5.12",
     "password-hash": "^1.2.2",
+    "popper.js": "^1.15.0",
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.5.2",
     "sequelize": "^5.8.7",

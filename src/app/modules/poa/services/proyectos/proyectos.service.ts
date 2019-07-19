@@ -22,7 +22,7 @@ export class ProyectosService {
 
   proyectosPorPlan(plan,area):Observable<Proyecto[]>{
     let consulta = {idPlan: plan._id, idArea: area._id}
-    return this.http.post<Proyecto[]>(this.baseUrl + '/proyectos', consulta)
+    return this.http.post<Proyecto[]>(this.baseUrl + '/poa/proyectos', consulta)
   };
 
   etapasPorProyecto(proyecto):Observable<[]>{

@@ -22,39 +22,17 @@ export class CalendarioComponent implements OnInit {
   altoDePantalla: any;
   model = {};
   nuevaReunion = {};
-
-  // calendarOptions:Object = {
-  //   header: {
-  //     left: 'prev,next today myCustomButton',
-  //     right: 'dayGridMonth,timeGridWeek,timeGridDay',
-  //     center: 'title',
-  //   },
-  //   // height: 'parent',
-  //   fixedWeekCount : true,
-  //   // defaultDate: '2019-06-16',
-  //   // eventLimit: false, // allow "more" link when too many events
-  //   updateEvents() {
-  //     this.eventsModel = [{
-  //       title: 'Updaten Event',
-  //       start: this.yearMonth + '-08',
-  //       end: this.yearMonth + '-10'
-  //     }];
-  //   },
-  //   // clearEvents() {
-  //   //   this.events = [];
-  //   // },
-  //   // loadEvents() {
-  //   //   this.eventService.getEvents().subscribe(data => {
-  //   //     this.events = data;
-  //   //   });
-  //   // }
-  // };
+  tiposReunion = {};
+  cargando = true;
 
   constructor(private calendarioService: CalendarioService) {
-    this.calculos()
+    this.calculos();
   }
   
   calculos(){
+    this.calendarioService.getTiposReunion().subscribe((tiposReunion: any[]) =>{
+      this.tiposReunion = tiposReunion;
+    })
     this.calendarioService.getSeriesDeReunion().subscribe((series: any[]) =>{
       for (let i = 0; i < series.length; i++) {
         let serie = series[i];
@@ -77,6 +55,7 @@ export class CalendarioComponent implements OnInit {
       alert(error);
     })
   }
+
   calcularColor(reunion){
     if(!reunion) return "";
     if(reunion == "coordinacion"){
@@ -123,6 +102,7 @@ export class CalendarioComponent implements OnInit {
       customButtons: {
         reservaButton: {
           text: 'Reserva',
+          
           click: function() {
             alert('clicked the custom button!');
           }
@@ -176,8 +156,10 @@ export class CalendarioComponent implements OnInit {
         nuevaReunion.reunion = "";
         $('#modalNuevaReunion').modal({show:true});
       },
-      eventClick: function(event) {
+      eventClick: (event) => {
+        console.log(event)
         model.titulo = event.event.title
+        
         model.start = event.event.start
         model.end = event.event.end
         model.color = "red"
@@ -243,6 +225,7 @@ export class CalendarioComponent implements OnInit {
       },
     });
     this.calendar.render();
+    this.cargando = false;
   }
   
   ngOnInit() {
@@ -251,13 +234,15 @@ export class CalendarioComponent implements OnInit {
 
   guardarReunion(reunion){
     this.calendarioService.guardarNuevaReunion(reunion).subscribe(data =>{
-      // console.log("guardado",data)
+
     })
   }
 
   actualizarReunion(reunion){
+    this.cargando = true;
     this.calendarioService.actualizarReunion(reunion).subscribe(data =>{
       this.actualizarCalendario();
+      this.cargando = false;
     })
   }
 

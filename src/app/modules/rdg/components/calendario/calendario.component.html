@@ -30,6 +30,11 @@
       </div>
     </div>
     <div class="col-9" [ngStyle]="{'max-height.px':altoDePantalla -100}">
+      <div class="d-flex justify-content-center" style="min-height: 100vh;display: flex;align-items: center" *ngIf="cargando">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
       <full-calendar id="calendar"></full-calendar>
     </div>
   </div>
@@ -202,6 +207,10 @@
             </div>
           </div>
         </div>
+        <div class="modal-footer">
+          <button class="btn btn-default">Cancelar</button>
+          <button class="btn btn-primary">Guardar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -221,19 +230,29 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col-2">
+            <div class="col-sm-4">
               <label for="">Fecha</label>
-              <input type="text" class="form-control" [(ngModel)]="nuevaReunion.titulo" placeholder="Fecha"/>
+              <input type="date" class="form-control form-control-sm" [(ngModel)]="nuevaReunion.titulo" placeholder="Fecha"/>
             </div>
-            <div class="col-md-2">
-              <select class="form-control" [(ngModel)]="nuevaReunion.reunion">
+            <div class="col-sm-4">
+              <label for="">Titulo secundario</label>
+              <input type="date" class="form-control form-control-sm" [(ngModel)]="nuevaReunion.titulo" placeholder="Fecha"/>
+            </div>
+            <div class="col-sm-4">
+              <label for="">Lugar</label>
+              <input type="date" class="form-control form-control-sm" [(ngModel)]="nuevaReunion.titulo" placeholder="Fecha"/>
+            </div>
+            <div class="col-sm-4">
+              <label for="">Serie</label>
+              <select class="form-control form-control-sm" [(ngModel)]="nuevaReunion.reunion">
                 <option *ngFor="let p of series" [value]="p._id">{{p.nombre}}</option>
               </select>
             </div>
-            <div class="col-2">
-              <label for="">Fecha</label>
-              <button class="btn btn-primary" (click)="guardarReunion(nuevaReunion)">Guardar</button>
-            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="col-sm-2">
+            <button class="btn btn-primary" (click)="guardarReunion(nuevaReunion)">Guardar</button>
           </div>
         </div>
       </div>

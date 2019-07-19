@@ -2,9 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const organigramaSchema = new Schema({
-    nombre: { type: String, required: false}
-},{
-    versionKey: false
+    nombreCompleto: { type: String, required: false}
 });
 
 module.exports = mongoose.model('Organigrama', organigramaSchema, 'organigrama');

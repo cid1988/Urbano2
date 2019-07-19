@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-var ObjectId = require('mongoose').Types.ObjectId;
 
 const reunionSchema = new Schema({
     nombre: { type: String, required: false},

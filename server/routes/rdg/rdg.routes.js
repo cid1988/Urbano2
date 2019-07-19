@@ -8,5 +8,6 @@ router.get('/maestroPorReunion/:idReunion', reunion.getMaestroPorReunion);
 router.get('/series', reunion.getSeriesReuniones);
 router.post('/nuevaReunion', reunion.crearReunion);
 router.post('/actualizarReunion', reunion.updateReunion);
+router.get('/tipos', reunion.getTiposReuniones);
 
 module.exports = router;

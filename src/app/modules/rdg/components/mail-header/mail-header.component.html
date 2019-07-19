@@ -1,0 +1,40 @@
+<table class="table table-borderless" *ngIf="lista">
+  <tbody>
+    <tr>
+      <th scope="row">Para</th>
+      <td>
+        <span *ngFor="let c of lista.para">
+          <span class="badge badge-secondary">{{c.contactoId}}</span>
+        </span>
+      </td>
+      <td><button type="button" class="btn btn-secondary"><i class="fa fa-copy"></i></button></td>
+    </tr>
+    <tr>
+      <th scope="row">CC</th>
+      <td>
+        <span *ngFor="let c of lista.cc">
+          <span class="badge badge-secondary">{{c.contactoId}}</span>
+        </span>
+      </td>
+      <td><button type="button" class="btn btn-secondary"><i class="fa fa-copy"></i></button></td>
+    </tr>
+    <tr>
+      <th scope="row">CCO</th>
+      <td>
+        <span *ngFor="let c of lista.cco">
+          <span class="badge badge-secondary">{{c.contactoId}}</span>
+        </span>
+      </td>
+      <td><button type="button" class="btn btn-secondary"><i class="fa fa-copy"></i></button></td>
+    </tr>
+    <tr>
+      <th scope="row">Exclusivos</th>
+      <td>
+        <span *ngFor="let c of lista.exclusivos">
+          <span class="badge badge-secondary">{{c.contactoId}}</span>
+        </span>
+      </td>
+      <td><button type="button" class="btn btn-secondary"><i class="fa fa-copy"></i></button></td>
+    </tr>
+  </tbody>
+</table>

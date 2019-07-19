@@ -17,6 +17,10 @@ export class CalendarioService {
     return this.http.get<Reunion[]>(this.baseUrl + '/rdg/reuniones');
   };
 
+  getTiposReunion():Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/rdg/tipos');
+  };
+
   getSeriesDeReunion():Observable<{}>{
     return this.http.get<{}>(this.baseUrl + '/rdg/series');
   }
