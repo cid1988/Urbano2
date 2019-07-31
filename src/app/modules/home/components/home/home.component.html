@@ -1,6 +1,6 @@
 <div class="container">
   <div class="card-columns">
-    <div class="card p-3">
+    <div class="card p-3" *ngxPermissionsOnly="['MINISTRO']">
       <blockquote class="blockquote mb-0 card-body">
         <h5 class="card-title"><a routerLink="/tablero-general">Tablero general</a></h5>
         <footer class="blockquote-footer">
@@ -10,7 +10,7 @@
         </footer>
       </blockquote>
     </div>
-    <div class="card p-3">
+    <div class="card p-3" *ngxPermissionsOnly="['RDG']">
       <blockquote class="blockquote mb-0 card-body">
         <h5 class="card-title"><a routerLink="/calendario">RDG</a></h5>
         <footer class="blockquote-footer">
@@ -20,9 +20,9 @@
         </footer>
       </blockquote>
     </div>
-    <div class="card p-3">
+    <div class="card p-3" *ngxPermissionsOnly="['POA']">
       <blockquote class="blockquote mb-0 card-body">
-          <h5 class="card-title"><a routerLink="/poa">POA</a></h5>
+        <h5 class="card-title"><a routerLink="/poa">POA</a></h5>
         <footer class="blockquote-footer">
           <small class="text-muted">
             Plan operativo anual
@@ -30,9 +30,9 @@
         </footer>
       </blockquote>
     </div>
-    <div class="card p-3">
+    <div class="card p-3" *ngxPermissionsOnly="['ADMINISTRADOR']">
       <blockquote class="blockquote mb-0 card-body">
-        <h5 class="card-title">Administracion</h5>
+        <h5 class="card-title"><a routerLink="/administrador">Administracion</a></h5>
         <footer class="blockquote-footer">
           <small class="text-muted">
             Administracion de usuarios y permisos
@@ -40,7 +40,7 @@
         </footer>
       </blockquote>
     </div>
-    <div class="card p-3">
+    <!-- <div class="card p-3">
       <blockquote class="blockquote mb-0 card-body">
         <h5 class="card-title">Agenda</h5>
         <footer class="blockquote-footer">
@@ -99,6 +99,70 @@
           </small>
         </footer>
       </blockquote>
+    </div> -->
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <div class="card text-center">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">POA</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Ultimas actualizaciones POA</h5>
+          <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action">Apertura calle manzana B - B/ Piletones</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-primary">Readecuación Viviendas Villa Olímpica</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">Comercialización Viviendas VO</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-success">Conexiones Domiciliarias en Piletones</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-danger">Parque de la Ciudad</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-warning">Estaciones de Bombeo y Cloacas</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-info">Manda Min. Seguridad</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-light">Estaciones de Bombeo y Cloacas</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-dark">Mantenimiento CH Piletones</a>
+            </div>
+          <a href="#" class="btn btn-primary">Ir a POA</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="card text-center">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">RDG</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Ultimas actualizaciones RDG</h5>
+          <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action">Seguimiento - AUSA</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-primary">Coordinacion - Mantenimiento de obras / Transpaso a Mayep</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">Coordinacion - Staff MDUyT</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-success">Especificas jefatura - Grandes edificios</a>
+              <a href="#" class="list-group-item list-group-item-action list-group-item-danger">Previa - Grandes edificios</a>
+            </div>
+          <a href="#" class="btn btn-primary">Ir a RDG</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
