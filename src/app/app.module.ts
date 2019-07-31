@@ -10,6 +10,7 @@ import { TableroGeneralModule } from './modules/tablero-general/tablero-general.
 import { AdministradorModule } from './modules/administrador/administrador.module';
 import { HomeComponent } from './modules/home/components/home/home.component';
 import { HomeModule } from './modules/home/home.module';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   declarations: [
@@ -25,8 +26,10 @@ import { HomeModule } from './modules/home/home.module';
     TableroGeneralModule,
     AdministradorModule,
     HttpClientModule,
-    HomeModule
+    HomeModule,
+    NgxPermissionsModule.forRoot()
   ],
+  exports: [NgxPermissionsModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
