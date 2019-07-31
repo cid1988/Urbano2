@@ -1,18 +1,8 @@
 const User = require('../../models/user/user');
-const CryptoJS = require("crypto-js");
+const UserPermissions = require('../../models/user/permissions');
 const passwordHash = require('password-hash');
 
 const userCtrl = {};
-
-// userCtrl.getUsers = async (req,res,next) => {
-//   try{
-//     await User.find(function(err,users){
-//       res.status(200).send(users);
-//     })
-//   }catch(error){
-//     res.json(error)
-//   }
-// };
 
 userCtrl.getUsers = async (req,res,next) => {
   try{
@@ -45,7 +35,27 @@ userCtrl.getUserLogin = async (req, res, next) => {
   }catch(error){
     res.json(error)
   }
-  
+};
+
+userCtrl.crearUsuario = async (req, res, next) => {
+  const usuario = new User({
+    username: req.body.username,
+    password: req.body.password,
+    jurisdiccion: req.body.jurisdiccion
+  });
+  await usuario.save();
+  res.json({status: 'Usuario creado'});
+};
+
+userCtrl.getUserPermissions = async (req, res, next) => {
+  const { username } = req.body;
+  try{
+    await UserPermissions.find({username: username}, function(error,permisos){
+      res.status(200).json(permisos);
+    });
+  }catch(error){
+    res.json(error)
+  }
 };
 
 module.exports = userCtrl;

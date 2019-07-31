@@ -86,7 +86,9 @@ poaCtrl.getActividades = async (req, res, next) => {
 poaCtrl.getActividadesPorProyecto = async (req, res, next) => {
     const { _id } = req.body;
     try{
-        const actividades = await Actividad.find({idProyecto: ObjectId(_id)}).sort("codIdentificacion").collation({locale: "en_US", numericOrdering: true});
+        const actividades = await Actividad.find({idProyecto: ObjectId(_id), eliminado: {$exists:false}, etapa: {$eq: null}})//Deberia ser eq o ne?
+        .sort("codIdentificacion")
+        .collation({locale: "en_US", numericOrdering: true});
         res.json(actividades);
     }catch(error){
         res.json(error);
