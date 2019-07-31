@@ -1,8 +1,9 @@
 <div class="card" style="margin-bottom: 20px" *ngIf="actividades">
   <div class="card-body">
     <legend>Hitos/Actividades
-      <button type="button" class="btn btn-outline-primary float-right">Crear etapa</button>
-      <button type="button" class="btn btn-outline-success float-right">Crear hito</button>
+      <button type="button" class="btn btn-outline-primary float-right" (click)="crearEtapa()">Crear etapa</button>
+      <button type="button" class="btn btn-outline-primary float-right" style="margin-left: 5px; margin-right: 20px"><i class="fa fa-plus"></i></button>
+      <input type="text" class="form-control float-right col-2" placeholder="Nuevo hito">
     </legend>
 
     <div class="row">
@@ -14,13 +15,17 @@
       <div class="col-12">
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let e of etapas | orderBy: 'orden'; let $index = index">
-            <a routerLink="{{e._id}}"><b><span [hidden]="!e.codIdentificacion">{{e.codIdentificacion}} - </span>{{e.nombre}}</b></a> <!--{{$index}} - -->
-            <span [ngClass]="{'dotGrey float-right': e.fechaInicio > '27/06/2019', 'dotGreen float-right': e.fechaInicio < '27/06/2019'}"></span>
-            <ul class="list-group" *ngIf="e.actividades">
+            <a routerLink="{{e._id}}"><b><span [hidden]="!e.codIdentificacion">{{e.codIdentificacion}} - </span>{{e.nombre}}</b></a>
+
+            <a class="btn btn-outline-dark btn-sm float-right" data-toggle="collapse" href="#coll{{$index}}"><i class="fa fa-arrow-down"></i></a>
+            <!-- <span [ngClass]="{'dotGrey float-right': e.fechaInicio > '27/06/2019', 'dotGreen float-right': e.fechaInicio < '27/06/2019'}"></span> -->
+            <span class="dot" [ngStyle]="{'background-color': e.color}"></span>
+
+            <ul class="list-group collapse" style="margin-top: 12px" *ngIf="e.actividades" id="coll{{$index}}">
               <li class="list-group-item" *ngFor="let a of e.actividades | orderBy: 'codIdentificacion'">
                 <div class="row">
                   <div class="col-7">
-                    <a routerLink="{{a._id}}"><span [hidden]="!a.codIdentificacion">{{a.codIdentificacion}} -</span> {{a.nombre}}</a>
+                    <a routerLink="{{a._id}}"><span [hidden]="!a.codIdentificacion"> {{a.codIdentificacion}} -</span> {{a.nombre}}</a>
                   </div>
                   <div class="col-1">
                     {{a.fechas[0].fechaInicio}}
@@ -35,7 +40,8 @@
                     {{a.fechas.slice(-1)[0].fechaFin}}
                   </div>
                   <div class="col-1">
-                    <span [ngClass]="{'dotBlue': a.cumplida, 'dotGreen': a.estado == 'vigente', 'dotRed': a.estado == 'vencido', 'dotBlack': a.cancelada}"></span>
+                    <!-- <span [ngClass]="{'dotBlue': a.cumplida, 'dotGreen': a.estado == 'vigente', 'dotRed': a.estado == 'vencido', 'dotBlack': a.cancelada}" style="color: 'red'"></span> -->
+                    <span class="dot" [ngStyle]="{'background-color': a.color}"></span>
                   </div>
                 </div>
               </li>
@@ -43,40 +49,61 @@
           </li>
           <ul class="list-group">
             <li class="list-group-item" *ngFor="let a of actividades">
-              <a routerLink="{{a._id}}"><span [hidden]="!a.codIdentificacion">{{a.codIdentificacion}} -</span> {{a.nombre}}</a>
-              <span [ngClass]="{'dotBlue': a.cumplida, 'dotGreen': a.fechaInicio > '27/06/2019', 'dotRed': a.fechaInicio < '27/06/2019', 'dotBlack': a.cancelada}"></span>
+              <div class="row">
+                <div class="col-7">
+                    <a routerLink="{{a._id}}"><span [hidden]="!a.codIdentificacion">{{a.codIdentificacion}} -</span> {{a.nombre}}</a>
+                </div>
+                <div class="col-1">
+                  {{a.fechas[0].fechaInicio}}
+                </div>
+                <div class="col-1">
+                  {{a.fechas[0].fechaFin}}
+                </div>
+                <div class="col-1">
+                  {{a.fechas.slice(-1)[0].fechaInicio}}
+                </div>
+                <div class="col-1">
+                  {{a.fechas.slice(-1)[0].fechaFin}}
+                </div>
+                <div class="col-1">
+                  <!-- <span [ngClass]="{'dotBlue': a.cumplida, 'dotGreen': a.estado == 'vigente', 'dotRed': a.estado == 'vencido', 'dotBlack': a.cancelada}" style="color: 'red'"></span> -->
+                  <span class="dot" [ngStyle]="{'background-color': a.color}"></span>
+                </div>
+              </div>
             </li>
           </ul>
         </ul>
       </div>
     </div>
+  </div>
 
-
-    <!-- <div class="row">
-      <div class="col-md-12">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <td><b>Nombre</b></td>
-              <td><b>Inicio planificado</b></td>
-              <td><b>Fin planificado</b></td>
-              <td><b>Fecha inicio</b></td>
-              <td><b>Fecha fin</b></td>
-              <td><b>Status</b></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let a of actividades">
-              <td>{{a.nombre}}</td>
-              <td>{{a.fechas[0].fechaInicio}}</td>
-              <td>{{a.fechas[0].fechaFin}}</td>
-              <td>{{a.fechas[0].fechaInicio}}</td>
-              <td>{{a.fechas[0].fechaFin}}</td>
-              <td><span [ngClass]="{'dotGrey float-right': a.cancelado, 'dotGreen float-right': !a.aprobado}"></span></td>
-            </tr>
-          </tbody>
-        </table>
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalCrearEtapa">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nueva etapa</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p>Agregar funcionalidad para traer en un select todas las actividades que no esten asociadas a una etapa</p>
+          <div class="row">
+            <div class="col-6">
+              <label for="">Nombre</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="col-6">
+              <label for="">Nro orden</label>
+              <input type="text" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Guardar</button>
+        </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </div>

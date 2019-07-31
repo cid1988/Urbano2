@@ -5,57 +5,57 @@
         <div class="row">
           <div class="col-8">
             <label for="inputCity">Nombre</label>
-            <input type="text" class="form-control" id="inputCity" [(ngModel)]="actividad.nombre" name="nombre">
+            <input type="text" class="form-control" id="inputCity" [disabled]="true" [(ngModel)]="actividad.nombre" name="nombre">
           </div>
           <div class="col-4">
             <label for="inputZip">Nro identificacion</label>
-            <input type="text" class="form-control" id="inputZip" [(ngModel)]="actividad.codIdentificacion" name="codIdentificacion">
+            <input type="text" class="form-control" id="inputZip" [disabled]="true" [(ngModel)]="actividad.codIdentificacion" name="codIdentificacion">
           </div>
         </div>
         <div class="row">
           <div class="col-6">
             <label for="inputState">Predecesor</label>
-            <select id="inputState" class="form-control" [(ngModel)]="actividad.predecesor" name="predecesor">
+            <select id="inputState" class="form-control" [disabled]="true" [(ngModel)]="actividad.predecesor" name="predecesor">
               <option selected>Choose...</option>
               <option>Opcion 1</option>
             </select>
           </div>
           <div class="col-6">
             <label for="inputState">Etapa</label>
-            <select id="inputState" class="form-control">
+            <select id="inputState" class="form-control" [disabled]="true">
               <option selected>Choose...</option>
               <option>Opcion 1</option>
             </select>
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div class="col-12">
-          <button type="button" class="btn btn-primary btn btn-block">Inicio cumplido</button>
-          <button type="button" class="btn btn-success btn btn-block">Fin cumplido</button>
-          <button type="button" class="btn btn-secondary btn btn-block">Cancelado</button>
+          <button type="button" class="btn btn-primary btn btn-block" [disabled]="true">Inicio cumplido</button>
+          <button type="button" class="btn btn-success btn btn-block" [disabled]="true">Fin cumplido</button>
+          <button type="button" class="btn btn-secondary btn btn-block" [disabled]="true">Cancelado</button>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-12">
         <legend>Historico</legend>
         <div *ngFor="let f of actividad.fechas">
           <div class="row">
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
               <label for="inputEmail4">Fecha inicio</label>
-              <input type="email" class="form-control" id="inputEmail4" placeholder="Fecha" [(ngModel)]="f.fechaInicio" name="fechaInicio">
+              <input type="text" class="form-control" id="inputEmail4" placeholder="Fecha" [disabled]="true" [(ngModel)]="f.fechaInicio" name="fechaInicio">
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
               <label for="inputPassword4">Fecha fin</label>
-              <input type="text" class="form-control" id="inputPassword4" placeholder="Fecha" [(ngModel)]="f.fechaFin" name="fechaFin">
+              <input type="text" class="form-control" id="inputPassword4" placeholder="Fecha" [disabled]="true" [(ngModel)]="f.fechaFin" name="fechaFin">
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-2">
               <label for="inputPassword4">Avance</label>
-              <input type="text" class="form-control" id="inputPassword4" placeholder="Fecha" [(ngModel)]="f.avance" name="avance">
+              <input type="text" class="form-control" id="inputPassword4" placeholder="Fecha" [disabled]="true" [(ngModel)]="f.avance" name="avance">
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group col-md-6">
             <label for="inputAddress">Comentarios</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="f.comentario" name="comentario"></textarea>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [disabled]="true" [(ngModel)]="f.comentario" name="comentario"></textarea>
           </div>
           <hr>
         </div>

@@ -7,57 +7,180 @@
   <div class="row">
     <div class="col-12">
       <div class="card" style="margin-bottom: 20px">
-        <div class="card-header">
+        <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
           <h4>{{proyecto.nombre}}
-            <button type="button" class="btn btn-outline-secondary float-right" data-toggle="collapse" href="#collapseExample"><i class="fa fa-arrow-down"></i></button>
+            <button type="button" class="btn btn-outline-light float-right" data-toggle="collapse" href="#collapseExample"><i class="fa fa-arrow-down"></i></button>
           </h4>
         </div>
         <div class="card-body">
           <div class="collapse" id="collapseExample">
             <form>
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputEmail4">Nombre</label>
-                  <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                <div class="col-3">
+                  <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" placeholder="" [disabled]="true" [(ngModel)]="proyecto.nombre" name="nombre">
+                  </div>
                 </div>
-                <div class="form-group col-md-6">
-                  <label for="inputPassword4">Descripcion</label>
-                  <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                <div class="col-3">
+                  <div class="form-group">
+                    <label>Codigo</label>
+                    <input type="text" class="form-control" placeholder="" [disabled]="true" [(ngModel)]="proyecto.codigo" name="codigo">
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <label>Subproyecto de</label>
+                    <input type="text" class="form-control" placeholder="" [disabled]="true">
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <label>Plan anterior</label>
+                    <input type="text" class="form-control" placeholder="" [disabled]="true">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Descripcion</label>
+                    <textarea type="text" class="form-control" [disabled]="true" placeholder="Descripcion" [(ngModel)]="proyecto.descripcion" name="descripcion"></textarea>
+                  </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="inputAddress">Codigo</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                
+              <div class="form-row" style="margin-bottom: 10px">
+                <div class="col-6">
+                  <div class="card">
+                    <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
+                      Partida presupuestaria
+                    </div>
+                    <div class="card-body">
+                      <div class="form-row">
+                        <div class="form-group col-3">
+                          <label>Prioridad ministerial</label>
+                          <input type="text" class="form-control" placeholder="" [disabled]="true">
+                        </div>
+                        <div class="form-group col-3">
+                          <label>Fecha de inicio</label>
+                          <input type="text" class="form-control" placeholder="" [disabled]="true">
+                        </div>
+                        <div class="form-group col-3">
+                          <label>Presupuesto oficial</label>
+                          <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">@</div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="" [disabled]="true">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="card">
+                    <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
+                      Etiquetas y temas
+                    </div>
+                    <div class="card-body">
+                      <div class="form-row">
+                        <div class="form-group col-3">
+                          <label>Etiquetas</label>
+                          <input type="text" class="form-control" placeholder="Prioridad ministerial" [disabled]="true">
+                        </div>
+                        <div class="form-group col-3">
+                          <label>Temas</label>
+                          <input type="text" class="form-control" placeholder="" [disabled]="true">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="inputAddress2">Subproyecto de</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-              </div>
+
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputCity">Plan anterior</label>
-                  <input type="text" class="form-control" id="inputCity">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
+                      Dashboard ministro
+                    </div>
+                    <div class="card-body">
+                      <div class="form-row">
+                        <div class="form-group col-4">
+                          <label>Mostrar en dashboard</label>
+                          <input type="text" class="form-control" placeholder="" [disabled]="true">
+                        </div>
+                        <div class="form-group col-3">
+                          <label>Orden</label>
+                          <input type="text" class="form-control" placeholder="" [disabled]="true">
+                        </div>
+                        <div class="form-group col-3">
+                          <label>Grupo</label>
+                          <input type="text" class="form-control" placeholder="" [disabled]="true">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group col-md-4">
-                  <label for="inputState">State</label>
-                  <select id="inputState" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-2">
+                  <label for="">Comunas</label>
+                  <select name="" class="form-control" [disabled]="true">
+                    <option value="">1</option>
                   </select>
-                </div>
-                <div class="form-group col-md-2">
-                  <label for="inputZip">Dependencia</label>
-                  <input type="text" class="form-control" id="inputZip">
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gridCheck">
-                  <label class="form-check-label" for="gridCheck">
-                    Check me out
-                  </label>
+                  <span *ngFor="let c of [1,2,3]">
+                    <span class="badge badge-secondary">Comuna {{c}}</span>
+                  </span>
                 </div>
               </div>
+
+              <div class="form-row">
+                <div class="form-group col-4">
+                  <div class="card">
+                    <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
+                        <label for="">Responsables</label>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group">
+                        <input type="text" class="form-control" [disabled]="true">
+                      </div>
+                      <div class="form-group">
+                        <ul class="list-group">
+                          <li class="list-group-item">Cras justo odio</li>
+                          <li class="list-group-item">Dapibus ac facilisis in</li>
+                          <li class="list-group-item">Morbi leo risus</li>
+                          <li class="list-group-item">Porta ac consectetur ac</li>
+                          <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-4">
+                  <div class="card" style="color: white; background-color:cadetblue; opacity: 0.5">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="">Areas participantes</label>
+                        <input type="text" class="form-control" [disabled]="true">
+                      </div>
+                      <div class="form-group">
+                        <ul class="list-group">
+                          <li class="list-group-item">Cras justo odio</li>
+                          <li class="list-group-item">Dapibus ac facilisis in</li>
+                          <li class="list-group-item">Morbi leo risus</li>
+                          <li class="list-group-item">Porta ac consectetur ac</li>
+                          <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              
             </form>
           </div>
         </div>

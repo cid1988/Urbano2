@@ -7,7 +7,7 @@
       <div class="col-md">
         <ul class="list-group">
           <li class="list-group-item" [hidden]="p.proyectoPadre" *ngFor="let p of proyectos; let $index = index"><!--[ngStyle]="{'background-color': '#b0ffa6'} [ngStyle]="{'background-color': '#a6d5ff'}"-->
-            <a routerLink="{{p._id}}"><b><span [hidden]="!p.codIdentificacion">{{p.codIdentificacion}} - </span>{{p.nombre}}</b></a> <!--{{$index}} - -->
+            <a routerLink="{{p._id}}"><b><span [hidden]="!p.codIdentificacion">{{p.codIdentificacion}} - </span>{{p.nombre}}</b></a>
             <span [ngClass]="{'dotGrey float-right': p.cancelado, 'dotGreen float-right': !p.aprobado}"></span>
             <ul class="list-group" *ngIf="p.hijos">
               <li class="list-group-item" *ngFor="let h of p.hijos">
