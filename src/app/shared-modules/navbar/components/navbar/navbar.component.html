@@ -9,7 +9,7 @@
       <li class="nav-item active">
         <a class="nav-link" routerLink="home">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" *ngxPermissionsOnly="['MINISTRO']">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Tablero general <span class="sr-only">(current)</span>
         </a>
@@ -35,7 +35,7 @@
           <a class="dropdown-item" href="#">Otra opcion</a>
         </div>
       </li>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" *ngxPermissionsOnly="['RDG']">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           RDG <span class="sr-only">(current)</span>
         </a>
@@ -51,7 +51,7 @@
           <a class="dropdown-item" href="#">Otra opcion</a>
         </div>
       </li>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" *ngxPermissionsOnly="['POA']">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           POA
         </a>
@@ -65,7 +65,7 @@
           <a class="dropdown-item" href="#">Otra opcion</a>
         </div>
       </li>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" *ngxPermissionsOnly="['ADMINISTRADOR']">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Administrador <span class="sr-only">(current)</span>
         </a>

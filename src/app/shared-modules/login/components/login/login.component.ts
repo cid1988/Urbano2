@@ -3,7 +3,6 @@ import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user/user.service';
-import { NavbarComponent } from 'src/app/shared-modules/navbar/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +13,7 @@ export class LoginComponent implements OnInit {
 
   userLogged;
 
-  constructor(private router: Router, private userService: UserService, private loginService: LoginService) { }
+  constructor(private router: Router, private userService: UserService, private loginService: LoginService) {}
 
   ngOnInit() {
     
@@ -27,7 +26,7 @@ export class LoginComponent implements OnInit {
       if(res){
         let u: User = {username: username};
         this.userService.setUserLoggedIn(u);
-        this.navigate()
+        this.navigate();
       }else{
         alert("Usuario incorrecto")
       }
