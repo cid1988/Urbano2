@@ -13,7 +13,7 @@ declare var $:any;
 })
 export class ActividadesPorProyectoComponent implements OnInit {
   
-  actividades = [];
+  actividades : any[];
   etapas;
   @Input() proyecto = {_id: ""};
   hoy = moment(new Date(), "DD/MM/YYYY").format("YYYYMMDD");
@@ -28,36 +28,20 @@ export class ActividadesPorProyectoComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.getActividades(this.proyecto);
+
   }
   
   getActividades(idProyecto){
     //Crear las etapas
     this.actividadesService.etapasPorProyecto(idProyecto).subscribe((etapas: any[]) =>{
       for (let e = 0; e < etapas.length; e++) {
-        this.actividadesService.actividadesPorEtapa(etapas[e]._id).subscribe(actividades =>{
-
-          for (let i = 0; i < actividades.length; i++) {
-            let actividad = actividades[i];
-            let colorDefinitivo = "";
-
-            if(actividad.color == 'red'){
-              colorDefinitivo = 'red';
-            }else if(actividad.color == 'green'){
-              colorDefinitivo = 'green';
-            }
-
-            if(i == actividades.length - 1){
-              etapas[e].color = colorDefinitivo;
-            }
-          }
+        this.actividadesService.actividadesPorEtapa(etapas[e]._id).subscribe((actividades: any[]) =>{
           etapas[e].actividades = actividades;
         })
       }
       this.etapas = etapas;
     })
 
-    
     //Crear las actividades de cada etapa
     this.actividadesService.actividadesPorProyecto(idProyecto).subscribe(actividades =>{
       this.actividades = actividades;

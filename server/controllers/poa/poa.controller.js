@@ -130,6 +130,7 @@ poaCtrl.getProyectos = async (req, res, next) => {
     try{
         const proyectos = await Proyecto.find({idPlan: ObjectId(idPlan), idJurisdiccion: ObjectId(idArea)})
         .sort({codIdentificacion: 1});
+        console.log(proyectos)
         res.json(proyectos);
     }catch(error){
         res.json(error);
