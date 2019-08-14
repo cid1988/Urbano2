@@ -23,10 +23,11 @@ poaCtrl.getEtapasPorProyecto = async (req, res, next) => {
     const { _id } = req.body;
     try{
         const etapas = await Etapa.find({idProyecto: _id, eliminado: {$exists: false}})
+        .populate('actividades')
         .sort("orden");
         res.json(etapas);
     }catch(error){
-        res.json(error);
+        res.status(400).json(error);
     }
 };
 
@@ -128,9 +129,8 @@ poaCtrl.getProyectos = async (req, res, next) => {
     const { idPlan } = req.body;
     const { idArea } = req.body;
     try{
-        const proyectos = await Proyecto.find({idPlan: ObjectId(idPlan), idJurisdiccion: ObjectId(idArea)})
+        const proyectos = await Proyecto.find({idPlan: ObjectId(idPlan), idJurisdiccion: ObjectId(idArea), eliminado: {$exists:false}})
         .sort({codIdentificacion: 1});
-        console.log(proyectos)
         res.json(proyectos);
     }catch(error){
         res.json(error);
@@ -158,5 +158,27 @@ poaCtrl.getProyectosHijos = async (req, res, next) => {
         res.json(error);
     }
 }
+
+poaCtrl.updateActividad = async (req, res, next) => {
+    const { id } = req.body;
+    const actividad = {
+        nombre: req.body.nombre,
+        codIdentificacion: req.body.codIdentificacion,
+        predecesor: req.body.predecesor,
+        etapa: req.body.etapa
+    };
+    await Actividad.findByIdAndUpdate(id, {$set: actividad}, {new: false});
+    res.json({status: 'Actividad actualizada con exito'});
+};
+
+poaCtrl.guardarEtapa = async (req, res, next) => {
+    const etapa = new Etapa({
+        nombre: req.body.nombre,
+        orden: req.body.orden,
+        idProyecto: req.body.idProyecto
+    });
+    await etapa.save();
+    res.json({status: 'Etapa creada'});
+};
 
 module.exports = poaCtrl;

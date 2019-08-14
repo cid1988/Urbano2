@@ -16,5 +16,7 @@ router.get('/planes', poaCtrl.getPlanes);
 router.post('/proyecto', poaCtrl.getProyectoPorId);
 router.post('/proyectos', poaCtrl.getProyectos);
 router.post('/proyectosHijos', poaCtrl.getProyectosHijos);
+router.post('/actualizarActividad', poaCtrl.updateActividad);
+router.post('/guardarEtapa', poaCtrl.guardarEtapa);
 
 module.exports = router;

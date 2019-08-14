@@ -9,7 +9,8 @@ const actividadSchema = new Schema({
     inicioCumplido: { type: Boolean},
     cumplida: { type: Boolean},
     cancelada: { type: Boolean},
-    codIdentificacion: { type: String }
+    codIdentificacion: { type: String },
+    etapa: { type: String }
 },{
     versionKey: false,
     toObject: { virtuals: true },
