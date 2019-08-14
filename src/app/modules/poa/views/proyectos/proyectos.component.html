@@ -25,11 +25,11 @@
       </select>
     </div>
     <div class="col-md-2">
-      <input type="text" class="form-control" placeholder="Buscar...">
+      <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchFilter" (ngModelChange)="filtroProyectos($event)">
     </div>
     <!-- <div class="col-md-auto">
       <button type="button" class="btn btn-outline-info">Crear proyecto</button>
     </div> -->
   </div>
-  <proyectos-por-plan [plan]="plan"></proyectos-por-plan>
+  <proyectos-por-plan [plan]="plan" [searchFilter]="searchFilter"></proyectos-por-plan>
 </div>

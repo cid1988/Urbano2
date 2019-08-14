@@ -3,8 +3,8 @@ import { CalendarioService } from '../../services/calendario.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
-import { Validators } from '@angular/forms';
 import interactionPlugin from '@fullcalendar/interaction';
+import { Reunion } from '../../models/reunion';
 
 declare var $:any;
 
@@ -20,8 +20,8 @@ export class CalendarioComponent implements OnInit {
   series;
   @Input() calendar;
   altoDePantalla: any;
-  model = {};
-  nuevaReunion = {};
+  model: Reunion;
+  nuevaReunion: Reunion;
   tiposReunion = {};
   cargando = true;
 

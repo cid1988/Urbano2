@@ -9,7 +9,7 @@ import { CalendarioComponent } from '../../components/calendario/calendario.comp
 export class CalendarioViewComponent implements OnInit {
 
   calendar
-  @ViewChild(CalendarioComponent) hijo: CalendarioComponent;
+  @ViewChild(CalendarioComponent, {static: false}) hijo: CalendarioComponent;
 
   reuniones = [{start: "2019-06-19",end: "2019-06-19"}]
   constructor() {

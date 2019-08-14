@@ -12,9 +12,11 @@ declare var $:any;
   styleUrls: ['./actividades-por-proyecto.component.css']
 })
 export class ActividadesPorProyectoComponent implements OnInit {
-  
+
   actividades : any[];
   etapas;
+  nuevaEtapa = {actividades: [], idProyecto: ""};
+  actividadesSelect = [];
   @Input() proyecto = {_id: ""};
   hoy = moment(new Date(), "DD/MM/YYYY").format("YYYYMMDD");
 
@@ -33,24 +35,55 @@ export class ActividadesPorProyectoComponent implements OnInit {
   
   getActividades(idProyecto){
     //Crear las etapas
+    if(!idProyecto.length) return;//No deberia usarse esto para controlar el error del objeto que llega desde el server.
     this.actividadesService.etapasPorProyecto(idProyecto).subscribe((etapas: any[]) =>{
-      for (let e = 0; e < etapas.length; e++) {
-        this.actividadesService.actividadesPorEtapa(etapas[e]._id).subscribe((actividades: any[]) =>{
-          etapas[e].actividades = actividades;
-        })
-      }
+      //Esto se reemplazo creando el campo actividades desde el server
+      // for (let e = 0; e < etapas.length; e++) {
+      //   this.actividadesService.actividadesPorEtapa(etapas[e]._id).subscribe((actividades: any[]) =>{
+      //     etapas[e].actividades = actividades;
+      //     this.actividadesSelect = this.actividadesSelect.concat(actividades);
+      //   })
+      // }
       this.etapas = etapas;
+    },error => {
+      console.log(error);
     })
 
-    //Crear las actividades de cada etapa
+    //Traer las actividades del proyecto que no pertenecen a una etapa
     this.actividadesService.actividadesPorProyecto(idProyecto).subscribe(actividades =>{
       this.actividades = actividades;
+      this.actividadesSelect = this.actividadesSelect.concat(actividades);
     },error =>{
       alert(error);
     })
   }
 
-  crearEtapa(){
-    $('#modalCrearEtapa').modal('show');
+  //Al crear la etapa, en la etapa se va a guardar el campo idProyecto y en las actividades agregadas se va a asociar el id en el campo
+  //etapa.
+  crearEtapa(etapa){
+    if(etapa){
+      this.actividadesService.guardarEtapa(etapa).subscribe(data =>{
+        this.getActividades(this.proyecto._id);
+        $('#modalCrearEtapa').modal('hide');
+      });
+    }else{
+      this.nuevaEtapa = {actividades:[],idProyecto: this.proyecto._id};
+      $('#modalCrearEtapa').modal('show');
+    }
+  }
+  
+  editarEtapa(etapa,guardar){
+    if(guardar){
+      alert("Guardando cambios");
+      this.nuevaEtapa = {actividades: [],idProyecto: this.proyecto._id};
+      $('#modalCrearEtapa').modal('hide');
+    }else{
+      this.nuevaEtapa = etapa;
+      $('#modalCrearEtapa').modal('show');
+    }
+  }
+
+  agregarActividad(a){
+    console.log("Actividad: ",a)
   }
 }

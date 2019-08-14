@@ -14,8 +14,9 @@ export class ProyectosComponent implements OnInit {
   planes = [];
   area = {_id: ""};
   areas: any = [];
-  
-  @ViewChild(ProyectosPorPlanComponent) hijo: ProyectosPorPlanComponent;
+  searchFilter = "";
+
+  @ViewChild(ProyectosPorPlanComponent, {static: false}) hijo: ProyectosPorPlanComponent;
   
   constructor(private proyectosService: ProyectosService, private planesService: PlanesService) {
     this.planesService.getPlanes().subscribe(planes =>{
@@ -38,5 +39,9 @@ export class ProyectosComponent implements OnInit {
 
   seleccionArea(plan,area){
     this.hijo.getProyectos(plan,area)
+  }
+
+  filtroProyectos(searchFilter){
+    this.searchFilter = searchFilter;
   }
 }

@@ -13,6 +13,7 @@ export class ProyectosPorPlanComponent implements OnInit {
   @Input() plan = {};
   proyectos: Proyecto[];
   @Input() area = {};
+  @Input() searchFilter = "";
 
   constructor(private proyectosService: ProyectosService, private actividadesService: ActividadesService) {
     
@@ -74,7 +75,6 @@ export class ProyectosPorPlanComponent implements OnInit {
           this.proyectosService.getProyectosHijos(proyecto._id,proyecto.anio).subscribe((hijos) =>{
             // proyecto.statusColor = this.setColorSubproyecto(hijos);
             proyecto.hijos = hijos;
-            console.log(hijos)
           });
         }
       }

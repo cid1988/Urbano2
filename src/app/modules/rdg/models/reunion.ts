@@ -9,4 +9,5 @@ export interface Reunion {
   usuarioCreacion: String;
   reunion: Object;
   tipo: String;
+  titulo: String;
 }

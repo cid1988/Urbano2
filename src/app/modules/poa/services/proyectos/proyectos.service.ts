@@ -14,7 +14,8 @@ export class ProyectosService {
   constructor(private http: HttpClient) { }
 
   getProyectoPorId(idProyecto):Observable<Proyecto>{
-    return this.http.post<Proyecto>(this.baseUrl + '/poa/proyecto', idProyecto);
+    let consulta = {_id: idProyecto}
+    return this.http.post<Proyecto>(this.baseUrl + '/poa/proyecto', consulta);
   }
   getAreasPorPlan(plan):Observable<[]>{
     return this.http.post<[]>(this.baseUrl + '/poa/areas', plan);
@@ -26,7 +27,7 @@ export class ProyectosService {
   };
 
   etapasPorProyecto(proyecto):Observable<[]>{
-    let consulta = {id: proyecto._id}
+    let consulta = {id: proyecto._id};
     return this.http.post<[]>(this.baseUrl + '/poa/etapasPorProyecto', consulta);
   };
 

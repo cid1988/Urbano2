@@ -11,13 +11,13 @@ import { Proyecto } from '../../models/proyecto';
 })
 export class ActividadesComponent implements OnInit {
 
-  @ViewChild(ActividadesPorProyectoComponent) hijo: ActividadesPorProyectoComponent;
+  @ViewChild(ActividadesPorProyectoComponent, {static: true}) hijo: ActividadesPorProyectoComponent;
   proyecto = <Proyecto>{};
 
   constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService) {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.proyecto._id = params.get("idProyecto");
-      this.proyectosService.getProyectoPorId({_id: params.get("idProyecto")}).subscribe(proyecto =>{
+      // this.proyecto._id = params.get("idProyecto");
+      this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
         this.proyecto = proyecto;
         // this.hijo.getActividades(this.proyecto);
       })

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/shared-modules/login/services/user/user.service';
 import { OrganigramaService } from 'src/app/modules/organigrama/services/organigrama.service';
+import { User } from 'src/app/shared-modules/login/models/user';
 
 declare var $:any;
 
@@ -12,7 +13,7 @@ declare var $:any;
 export class AdminComponent implements OnInit {
 
   users = [];
-  nuevoUsuario = {};
+  nuevoUsuario: User;
   jurisdicciones =[];
 
   constructor(private userService: UserService, private organigramaService: OrganigramaService) { }

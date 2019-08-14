@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
     this.loginService.login(username, password).subscribe(res => {
       if(res){
-        let u: User = {username: username};
+        let u: User;
         this.userService.setUserLoggedIn(u);
         this.navigate();
       }else{

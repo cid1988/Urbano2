@@ -15,9 +15,9 @@
       <div class="col-12">
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let e of etapas | orderBy: 'orden'; let $index = index">
-            <a routerLink="{{e._id}}"><b><span [hidden]="!e.codIdentificacion">{{e.codIdentificacion}} - </span>{{e.nombre}}</b></a>
+            <a href="javascript:void(0)" (click)="editarEtapa(e)"><b><span [hidden]="!e.codIdentificacion">{{e.codIdentificacion}} - </span>{{e.nombre}}</b></a>
 
-            <a class="btn btn-outline-dark btn-sm float-right" data-toggle="collapse" href="#coll{{$index}}"><i class="fa fa-arrow-down"></i></a>
+            <a class="btn btn-outline-dark btn-sm float-right" data-toggle="collapse" href="#coll{{$index}}" *ngIf="e.actividades.length"><i class="fa fa-arrow-down"></i></a>
             <!-- <span [ngClass]="{'dotGrey float-right': e.fechaInicio > '27/06/2019', 'dotGreen float-right': e.fechaInicio < '27/06/2019'}"></span> -->
             <span class="dot" [ngStyle]="{'background-color': e.color}"></span>
 
@@ -51,7 +51,7 @@
             <li class="list-group-item" *ngFor="let a of actividades">
               <div class="row">
                 <div class="col-7">
-                    <a routerLink="{{a._id}}"><span [hidden]="!a.codIdentificacion">{{a.codIdentificacion}} -</span> {{a.nombre}}</a>
+                  <a routerLink="{{a._id}}"><span [hidden]="!a.codIdentificacion">{{a.codIdentificacion}} -</span> {{a.nombre}}</a>
                 </div>
                 <div class="col-1">
                   {{a.fechas[0].fechaInicio}}
@@ -87,21 +87,41 @@
           </button>
         </div>
         <div class="modal-body">
-            <p>Agregar funcionalidad para traer en un select todas las actividades que no esten asociadas a una etapa</p>
           <div class="row">
             <div class="col-6">
               <label for="">Nombre</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" [(ngModel)]="nuevaEtapa.nombre" name="nombre">
             </div>
             <div class="col-6">
               <label for="">Nro orden</label>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" [(ngModel)]="nuevaEtapa.orden" name="orden">
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="form-group col-10">
+              <label for="">Actividades</label>
+              <select class="form-control" [(ngModel)]="nuevaEtapa.valor">
+                <option *ngFor="let a of actividadesSelect" [value]="a._id">{{a.nombre}}</option>
+              </select>
+            </div>
+            <div class="form-group col-2">
+              <button type="btn" class="btn btn-primary" (click)="agregarActividad(nuevaEtapa.valor)"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <ul *ngFor="let a of nuevaEtapa.actividades">
+                <li>{{a.nombre}}</li>
+              </ul>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-primary" (click)="crearEtapa(nuevaEtapa,true)">Guardar</button>
         </div>
       </div>
     </div>

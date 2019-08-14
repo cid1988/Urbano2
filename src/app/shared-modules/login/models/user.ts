@@ -1,3 +1,5 @@
 export class User {
-    username: string;   
+    username: string;
+    password: string;
+    jurisdiccion: string;
 }

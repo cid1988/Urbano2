@@ -7,6 +7,10 @@ export interface Proyecto {
   proyectoPadre: string;
   eliminado: boolean;
   hijos: [];
+  codigo: string;
+  descripcion: string;
+  titulo: string;
+  start: string;
 }
 
 // export class Proyecto {
