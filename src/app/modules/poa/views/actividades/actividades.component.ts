@@ -11,8 +11,10 @@ import { Proyecto } from '../../models/proyecto';
 })
 export class ActividadesComponent implements OnInit {
 
-  @ViewChild(ActividadesPorProyectoComponent, {static: true}) hijo: ActividadesPorProyectoComponent;
+  @ViewChild(ActividadesPorProyectoComponent, {static: true}) actividadesPorProyecto: ActividadesPorProyectoComponent;
   proyecto = <Proyecto>{};
+  editando = false;
+  proyectoForm = {};
 
   constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService) {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -25,6 +27,12 @@ export class ActividadesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.hijo.getActividades(this.proyecto);
+    this.actividadesPorProyecto.getActividades(this.proyecto);
+  }
+
+  guardarProyecto(){
+    this.proyectosService.actualizarProyecto(this.proyecto).subscribe(data =>{
+      this.editando = false;
+    })
   }
 }
