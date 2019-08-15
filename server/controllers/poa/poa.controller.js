@@ -181,4 +181,15 @@ poaCtrl.guardarEtapa = async (req, res, next) => {
     res.json({status: 'Etapa creada'});
 };
 
+poaCtrl.updateProyecto = async (req, res, next) => {
+    const { _id } = req.body;
+    const proyecto = {
+        nombre: req.body.nombre,
+        codIdentificacion: req.body.codIdentificacion,
+        descripcion: req.body.descripcion
+    };
+    await Proyecto.findByIdAndUpdate(_id, {$set: proyecto}, {new: false});
+    res.json({status: 'Proyecto actualizado con exito'});
+};
+
 module.exports = poaCtrl;
