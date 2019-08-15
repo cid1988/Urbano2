@@ -35,4 +35,9 @@ export class ProyectosService {
     let consulta = {idProyecto: idProyecto, anio: anio}
     return this.http.post<[]>(this.baseUrl + '/poa/proyectosHijos', consulta);
   }
+
+  actualizarProyecto(proyecto):Observable<{}>{
+    console.log(proyecto);
+    return this.http.post<{}>(this.baseUrl + '/poa/updateProyecto', proyecto);
+  }
 }
