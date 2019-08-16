@@ -98,18 +98,19 @@
               <input type="text" class="form-control" [(ngModel)]="nuevaEtapa.orden" name="orden">
             </div>
           </div>
-
-
-
           <div class="row">
             <div class="form-group col-10">
               <label for="">Actividades</label>
-              <select class="form-control" [(ngModel)]="nuevaEtapa.valor">
-                <option *ngFor="let a of actividadesSelect" [value]="a._id">{{a.nombre}}</option>
-              </select>
-            </div>
-            <div class="form-group col-2">
-              <button type="btn" class="btn btn-primary" (click)="agregarActividad(nuevaEtapa.valor)"><i class="fa fa-plus"></i></button>
+              <div class="row">
+                <div class="form-group col-10">
+                  <select class="form-control" [(ngModel)]="nuevaEtapa.valor">
+                    <option *ngFor="let a of actividadesSelect" [value]="a._id">{{a.nombre}}</option>
+                  </select>
+                </div>
+                <div class="form-group col-2">
+                  <button type="btn" class="btn btn-primary" (click)="agregarActividad(nuevaEtapa.valor)"><i class="fa fa-plus"></i></button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row">

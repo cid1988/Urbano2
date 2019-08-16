@@ -38,7 +38,8 @@ reunionCtrl.getSeriesReuniones = async (req, res, next) => {
                 ]},
                 // {nombre: {$ne: "Maestro"}} Comentado para que puedan verse los maestros en la pantalla de configuracion de maestros
             ]
-        });
+        })
+        .populate('color')//Falta seleccionar el campo color
         res.json(series);
     }catch(error){
         res.json(error);

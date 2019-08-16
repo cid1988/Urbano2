@@ -3,8 +3,8 @@ export interface Reunion {
   start: String;
   end: String;
   color: String;
-  desdeDate: String;
-  hastaDate: String;
+  desdeDate: Number;
+  hastaDate: Number;
   title: String;
   usuarioCreacion: String;
   reunion: Object;

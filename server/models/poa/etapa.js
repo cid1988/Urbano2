@@ -18,6 +18,6 @@ etapaSchema.virtual('actividades', {
     // If `justOne` is true, 'members' will be a single doc as opposed to
     // an array. `justOne` is false by default.
     justOne: false
-  });
+});
 
 module.exports = mongoose.model('Etapa', etapaSchema, 'poa.etapas');

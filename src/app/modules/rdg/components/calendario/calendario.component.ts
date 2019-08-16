@@ -20,8 +20,8 @@ export class CalendarioComponent implements OnInit {
   series;
   @Input() calendar;
   altoDePantalla: any;
-  model: Reunion;
-  nuevaReunion: Reunion;
+  model = {};
+  nuevaReunion = {};
   tiposReunion = {};
   cargando = true;
 
@@ -34,22 +34,22 @@ export class CalendarioComponent implements OnInit {
       this.tiposReunion = tiposReunion;
     })
     this.calendarioService.getSeriesDeReunion().subscribe((series: any[]) =>{
-      for (let i = 0; i < series.length; i++) {
-        let serie = series[i];
-        
-        serie.color = this.calcularColor(serie.tipo);
-      }
+      // for (let i = 0; i < series.length; i++) {
+      //   let serie = series[i];
+      //   serie.color = this.calcularColor(serie.tipo);
+      // }
       this.series = series;
     })
     this.calendarioService.getReuniones().subscribe((reuniones: any[]) =>{
       for (let i = 0; i < reuniones.length; i++) {
         let reunion = reuniones[i];
         
-        reunion.start = reunion.desdeDate;
-        reunion.end = reunion.hastaDate;
+        // reunion.start = reunion.desdeDate;
+        // reunion.end = reunion.hastaDate;
         reunion.color = this.calcularColor(reunion.reunion.tipo);
         this.reuniones = reuniones;
       }
+      // console.log(reuniones);
       this.llamarCalendario(this.reuniones,this.model,this.nuevaReunion);
     },error =>{
       alert(error);

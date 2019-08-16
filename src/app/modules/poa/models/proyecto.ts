@@ -37,4 +37,6 @@ export interface Proyecto {
   coordenadas: {lat: string, lng: string};
   idJurisdiccion: string;
   eliminado: boolean;
+
+  start: number;
 }
