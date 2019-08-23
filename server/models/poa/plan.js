@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const planSchema = new Schema({
-    _id: { type: String, required: false}
+    anio: { type: Number },
+    etapa: { type: String },
+    editable: { type: Boolean }
 },{
     versionKey: false
 });

@@ -35,7 +35,10 @@
                 <div class="col-3">
                   <div class="form-group">
                     <label>Subproyecto de</label>
-                    <input type="text" class="form-control" placeholder="" [disabled]="!editando">
+                    <select class="form-control" [(ngModel)]="proyecto.proyectoPadre" name="proyectoPadre" #proyectoPadre="ngModel">
+                      <option *ngFor="let p of proyectos" [ngValue]="p">{{p.nombre}}</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="" [disabled]="!editando" [(ngModel)]="proyecto.proyectoPadre" name="proyectoPadre" #proyectoPadre="ngModel">
                   </div>
                 </div>
                 <div class="col-1">
@@ -45,10 +48,10 @@
                   </div>
                 </div>
                 <div class="col-2">
-                  <div class="form-group" style="margin-top: 32px">
+                  <!-- <div class="form-group" style="margin-top: 32px">
                     <button type="button" class="btn" style="margin-right: 5px" [disabled]="!editando" [ngClass]="(proyecto.validado) ? 'btn btn-primary': 'btn btn-outline-primary'" [(ngModel)]="proyecto.validado" name="validado" #validado="ngModel">Validado</button>
                     <button type="button" class="btn" [disabled]="!editando" [ngClass]="(proyecto.aprobado) ? 'btn btn-primary': 'btn btn-outline-primary'" [(ngModel)]="proyecto.aprobado" name="aprobado" #aprobado="ngModel">Aprobado</button>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="col-12">
                   <div class="form-group">

@@ -13,10 +13,15 @@ export class ProyectosService {
 
   constructor(private http: HttpClient) { }
 
+  getAreas():Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/poa/areas');
+  }
+
   getProyectoPorId(idProyecto):Observable<Proyecto>{
     let consulta = {_id: idProyecto}
     return this.http.post<Proyecto>(this.baseUrl + '/poa/proyecto', consulta);
   }
+
   getAreasPorPlan(plan):Observable<[]>{
     return this.http.post<[]>(this.baseUrl + '/poa/areas', plan);
   };
@@ -37,7 +42,18 @@ export class ProyectosService {
   }
 
   actualizarProyecto(proyecto):Observable<{}>{
-    console.log(proyecto);
     return this.http.post<{}>(this.baseUrl + '/poa/updateProyecto', proyecto);
+  }
+
+  crearPlan(plan){
+    return this.http.post<{}>(this.baseUrl + '/poa/planes/crear', plan);
+  }
+
+  crearAreas(arrayAreas):Observable<[]>{
+    return this.http.post<[]>(this.baseUrl + '/poa/areas/crear', arrayAreas);
+  }
+
+  crearProyecto(proyecto):Observable<{}>{
+    return this.http.post<{}>(this.baseUrl + '/poa/proyecto/crear', proyecto);
   }
 }

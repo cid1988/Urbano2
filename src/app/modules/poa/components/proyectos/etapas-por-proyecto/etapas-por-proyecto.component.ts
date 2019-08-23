@@ -19,7 +19,6 @@ export class EtapasPorProyectoComponent implements OnInit {
 
   getEtapas(proyecto){
     this.proyectosService.etapasPorProyecto(proyecto).subscribe(etapas =>{
-      console.log(etapas)
       this.etapas = etapas;
     },error =>{
       alert(error);

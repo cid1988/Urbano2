@@ -1,7 +1,8 @@
 <div class="card">
   <div class="card-header">Proyectos
-    <button type="button" class="btn btn-outline-secondary btn-sm float-right"><i class="fa fa-arrow-down"></i></button>
-    <!-- <input type="text" class="form-control col-2" [(ngModel)]="searchFilter"> -->
+    <button type="button" (click)="crearProyecto(false)" class="btn btn-outline-secondary btn-sm float-right">Crear proyecto</button>
+    <!-- <input type="text" placeholder="Buscar..." class="form-control col-2 float-right"> -->
+    <input type="text" placeholder="Buscar" class="form-control col-2 float-right">
   </div>
   <div class="card-body">
     <div class="row">
@@ -18,6 +19,33 @@
             </ul>
           </li>
         </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalCrearProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo proyecto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="crearProyecto(proyectoForm)" #proyectoForm="ngForm" novalidate="">
+          <div class="form-row">
+            <div class="col-4">
+              <label for="">Nombre</label>
+              <input type="text" class="form-control" [(ngModel)]="nuevoProyecto.nombre" name="nombre" #nombre="ngModel">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary" (click)="crearProyecto(true, nuevoProyecto)">Guardar</button>
       </div>
     </div>
   </div>

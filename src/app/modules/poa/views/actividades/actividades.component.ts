@@ -13,16 +13,19 @@ export class ActividadesComponent implements OnInit {
 
   @ViewChild(ActividadesPorProyectoComponent, {static: true}) actividadesPorProyecto: ActividadesPorProyectoComponent;
   proyecto = <Proyecto>{};
+  proyectos = [];
   editando = false;
   proyectoForm = {};
 
   constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService) {
     this.activatedRoute.paramMap.subscribe(params => {
-      // this.proyecto._id = params.get("idProyecto");
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
         this.proyecto = proyecto;
-        // this.hijo.getActividades(this.proyecto);
-      })
+        let data = {_id: proyecto.idJurisdiccion};
+        this.proyectosService.proyectosPorPlan(proyecto, data).subscribe((proyectos: any[]) =>{
+          this.proyectos = proyectos;
+        })
+      });
     });
   }
 

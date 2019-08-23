@@ -1,3 +1,49 @@
-<p>
-  plan-crear works!
-</p>
+<div class="container">
+  <form (ngSubmit)="guardarPlan(planForm)" #planForm="ngForm" novalidate="">
+    <div class="form-row col-12">
+      <div class="form-group col-2">
+        <label>Año</label>
+        <input type="text" class="form-control" disabled [(ngModel)]="nuevoPlan.anio" name="anio" #anio="ngModel">
+      </div>
+      <div class="form-group col-3">
+        <label for="">Etapa</label>
+        <div class="form-group">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" [ngClass]="(nuevoPlan.etapa == 'Planificacion') ? 'btn btn-primary': 'btn btn-outline-primary'" ngDefaultControl  (click)="(nuevoPlan.etapa == 'Planificacion') ? nuevoPlan.etapa = '' : nuevoPlan.etapa = 'Planificacion'" [(ngModel)]="nuevoPlan.etapa" name="etapa" #etapa="ngModel">Planificacion</button>
+            <!-- <button type="button" [ngClass]="(nuevoPlan.etapa == 'Seguimiento') ? 'btn btn-primary': 'btn btn-outline-primary'" ngDefaultControl (click)="nuevoPlan.etapa = 'Seguimiento'" [(ngModel)]="nuevoPlan.etapa" name="etapa" #etapa="ngModel">Seguimiento</button> -->
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-1 float-right">
+        <label for="">&nbsp;</label>
+        <div class="form-group">
+          <button type="button" [ngClass]="(nuevoPlan.editable) ? 'btn btn-primary': 'btn btn-outline-primary'" (click)="(!nuevoPlan.editable) ? nuevoPlan.editable = true : nuevoPlan.editable = false" ngDefaultControl [(ngModel)]="nuevoPlan.editable" name="editable" #editable="ngModel">Editable</button>
+        </div>
+      </div>
+      <div class="form-group col-2 float-right">
+        <label>&nbsp;</label>
+        <div class="form-group">
+          <button type="submit" class="btn btn-outline-success">Crear plan</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row col-12">
+      <div class="form-group col-12">
+        <div class="card">
+          <div class="card-header">
+            Areas
+            <select class="form-control form-control-sm float-right col-6" (change)="agregarArea(areaSeleccionada)" [(ngModel)]="areaSeleccionada" name="areaSeleccionada">
+              <option *ngFor="let a of organigrama" [ngValue]="a">{{a.nombreCompleto}}</option>
+            </select>
+          </div>
+          <div class="card-body">
+            <div *ngFor="let a of areasResponsables">
+              <p>{{a.nombre}}<button type="button" class="btn btn-outline-danger btn-sm float-right"><i class="fa fa-minus"></i></button></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

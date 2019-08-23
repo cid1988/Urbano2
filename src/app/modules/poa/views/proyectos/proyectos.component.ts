@@ -10,9 +10,9 @@ import { PlanesService } from '../../services/planes/planes.service';
 })
 export class ProyectosComponent implements OnInit {
 
-  plan = {_id: ""};//De entrada traer siempre el ultimo
+  plan = {};//De entrada traer siempre el ultimo
   planes = [];
-  area = {_id: ""};
+  area = {};//Traer las correspondientes segun permisos
   areas: any = [];
   searchFilter = "";
 
@@ -22,14 +22,15 @@ export class ProyectosComponent implements OnInit {
     this.planesService.getPlanes().subscribe(planes =>{
       this.planes = planes;
       this.plan = planes.slice(-1)[0];
-      this.seleccionPlan();
+      this.seleccionPlan(this.plan);
     });
   }
 
   ngOnInit() {
   }
   
-  seleccionPlan(){
+  seleccionPlan(plan){
+    this.plan = plan;
     this.proyectosService.getAreasPorPlan(this.plan).subscribe(areas =>{
       this.areas = areas;
       this.area = areas.slice(-1)[0];
@@ -37,8 +38,9 @@ export class ProyectosComponent implements OnInit {
     });
   }
 
-  seleccionArea(plan,area){
-    this.hijo.getProyectos(plan,area)
+  seleccionArea(area){
+    this.area = area;
+    this.hijo.getProyectos(this.plan,this.area)
   }
 
   filtroProyectos(searchFilter){
