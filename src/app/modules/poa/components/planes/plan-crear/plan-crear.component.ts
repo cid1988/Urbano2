@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Plan } from '../../../models/plan';
 import { ProyectosService } from '../../../services/proyectos/proyectos.service';
 import { OrganigramaService } from 'src/app/modules/organigrama/services/organigrama.service';
+import { Area } from '../../../models/area';
 
 @Component({
   selector: 'plan-crear',
@@ -15,14 +16,16 @@ export class PlanCrearComponent implements OnInit {
   organigrama;//Todas las areas
   areasPlan;//Areas asociadas al plan
   areaSeleccionada;
-  areasResponsables = [];
+  areasResponsables: any[] = [];
   nuevoPlan: Plan = {
+    _id: "",
     anio: this.anioActual,
     etapa: "Planificacion",
     apagado: false,
     editable: false,
     creadoPor: "userLogueado",//Hacerlo desde el backend
-    modificadoPor: "userLogueado"//Hacerlo desde el backend
+    modificadoPor: "userLogueado",//Hacerlo desde el backend
+    array: []
   };
 
   constructor(private organigramaService: OrganigramaService ,private proyectosService: ProyectosService) {
@@ -34,6 +37,7 @@ export class PlanCrearComponent implements OnInit {
 
   agregarArea(area){
     let nuevaArea = {
+      _id: "",
       nombre: area.nombreCompleto,
       idOrganigrama: area._id,
       idPlan: "",//Se agrega despues de guardar el plan

@@ -39,4 +39,5 @@ export interface Proyecto {
   eliminado: boolean;
 
   start: number;
+  areas: []
 }

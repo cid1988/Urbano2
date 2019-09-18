@@ -22,16 +22,17 @@ export class LoginComponent implements OnInit {
   logIn(username: string, password: string, event: Event) {
     event.preventDefault(); // Avoid default action for the submit button of the login form
 
-    this.loginService.login(username, password).subscribe(res => {
+    this.loginService.login(username, password).subscribe((res: User) => {
       if(res){
-        let u: User;
+        let u: User = {username: res.username, password: "", jurisdiccion: res.jurisdiccion};//No deberia tener la password pero sino tira error
         this.userService.setUserLoggedIn(u);
         this.navigate();
       }else{
-        alert("Usuario incorrecto")
+        alert("Usuario incorrecto");
       }
     },
     error => {
+      alert("Error: " + error);
       console.error(error);
     });
   }

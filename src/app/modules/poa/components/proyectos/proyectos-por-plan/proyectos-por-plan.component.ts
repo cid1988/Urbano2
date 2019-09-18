@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { ProyectosService } from '../../../services/proyectos/proyectos.service';
 import { Proyecto } from '../../../models/proyecto';
+import { Plan } from '../../../models/plan';
+import { Area } from '../../../models/area';
 
 declare var $:any;
 
@@ -11,11 +13,11 @@ declare var $:any;
 })
 export class ProyectosPorPlanComponent implements OnInit {
 
-  @Input() plan = {};
+  @Input() plan:Plan;
   proyectos: Proyecto[];
-  @Input() area = {};
+  @Input() area: Area
   @Input() searchFilter = "";
-  nuevoProyecto = {};
+  nuevoProyecto: Proyecto;//Error al descomenar en el html
 
   constructor(private proyectosService: ProyectosService) {}
 
@@ -92,7 +94,7 @@ export class ProyectosPorPlanComponent implements OnInit {
       
       this.proyectosService.crearProyecto(nuevoProyecto).subscribe(data =>{
         this.getProyectos(this.plan,this.area);
-        this.nuevoProyecto = {};
+        this.nuevoProyecto = {} as Proyecto;
         $('#modalCrearProyecto').modal('hide');
       })
     }else{

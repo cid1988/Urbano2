@@ -16,7 +16,7 @@ export class ProyectosComponent implements OnInit {
   areas: any = [];
   searchFilter = "";
 
-  @ViewChild(ProyectosPorPlanComponent, {static: false}) hijo: ProyectosPorPlanComponent;
+  @ViewChild(ProyectosPorPlanComponent, {static: true}) hijo: ProyectosPorPlanComponent;
   
   constructor(private proyectosService: ProyectosService, private planesService: PlanesService) {
     this.planesService.getPlanes().subscribe(planes =>{

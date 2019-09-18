@@ -186,6 +186,7 @@ poaCtrl.getProyectoPorId = async (req, res, next) => {
 poaCtrl.getProyectos = async (req, res, next) => {
     const { idPlan } = req.body;
     const { idArea } = req.body;
+    //Traer los ids siempre del campo _id del objeto del plan y del area, si lo traigo de un campo guardado no funciona
     console.log(req.body)
     try{
         const proyectos = await Proyecto.find({idPlan: ObjectId(idPlan), idJurisdiccion: ObjectId(idArea), eliminado: {$exists:false}})

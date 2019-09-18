@@ -29,7 +29,7 @@ userCtrl.getUserLogin = async (req, res, next) => {
       if(passwordHash.verify(password, user[0].password)){
         res.status(200).json(user[0]);
       }else{
-        // res.status(500)
+        res.status(500)
       }
     });
   }catch(error){

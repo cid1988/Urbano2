@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">Proyectos
-    <button type="button" (click)="crearProyecto(false)" class="btn btn-outline-secondary btn-sm float-right">Crear proyecto</button>
+    <button type="button" (click)="crearProyecto(false,'')" class="btn btn-outline-secondary btn-sm float-right">Crear proyecto</button>
     <!-- <input type="text" placeholder="Buscar..." class="form-control col-2 float-right"> -->
     <input type="text" placeholder="Buscar" class="form-control col-2 float-right">
   </div>
@@ -24,7 +24,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="modalCrearProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="modalCrearProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -34,7 +34,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form (ngSubmit)="crearProyecto(proyectoForm)" #proyectoForm="ngForm" novalidate="">
+        <form #proyectoForm="ngForm" novalidate="">
           <div class="form-row">
             <div class="col-4">
               <label for="">Nombre</label>
@@ -49,4 +49,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
