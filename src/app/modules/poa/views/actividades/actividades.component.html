@@ -1,3 +1,4 @@
+<!-- Esta pantalla en realidad se ve el detalle del proyecto en el cual tambien se ven las actividades, deberia renombrar el componente -->
 <div class="container-fluid">
   <!-- <div class="row">
     <div class="col-12">
@@ -20,47 +21,87 @@
           <div class="collapse" id="collapseExample">
             <form (ngSubmit)="onSubmit(proyectoForm)" #proyectoForm="ngForm" novalidate="">
               <div class="form-row">
-                <div class="col-3">
+                <div class="col-4">
                   <div class="form-group">
                     <label>Nombre</label>
                     <input type="text" class="form-control" placeholder="" [disabled]="!editando" [(ngModel)]="proyecto.nombre" name="nombre" #nombre="ngModel">
                   </div>
                 </div>
-                <div class="col-3">
+                <div class="col-1">
                   <div class="form-group">
-                    <label>Codigo identificacion</label>
+                    <label>Codigo identif.</label>
                     <input type="text" class="form-control" placeholder="" [disabled]="!editando" [(ngModel)]="proyecto.codIdentificacion" name="codIdentificacion" #codIdentificacion="ngModel">
                   </div>
                 </div>
-                <div class="col-3">
+                <div class="col-2">
                   <div class="form-group">
                     <label>Subproyecto de</label>
-                    <select class="form-control" [(ngModel)]="proyecto.proyectoPadre" name="proyectoPadre" #proyectoPadre="ngModel">
+                    <select class="form-control" (change)="seleccionProyecto(proyecto.proyectoPadre)" [(ngModel)]="proyecto.proyectoPadre" name="proyectoPadre" #proyectoPadre="ngModel" [disabled]="!editando">
                       <option *ngFor="let p of proyectos" [ngValue]="p">{{p.nombre}}</option>
                     </select>
-                    <input type="text" class="form-control" placeholder="" [disabled]="!editando" [(ngModel)]="proyecto.proyectoPadre" name="proyectoPadre" #proyectoPadre="ngModel">
-                  </div>
-                </div>
-                <div class="col-1">
-                  <div class="form-group">
-                    <label>Plan anterior</label>
-                    <input type="text" class="form-control" placeholder="" [disabled]="!editando">
                   </div>
                 </div>
                 <div class="col-2">
-                  <!-- <div class="form-group" style="margin-top: 32px">
-                    <button type="button" class="btn" style="margin-right: 5px" [disabled]="!editando" [ngClass]="(proyecto.validado) ? 'btn btn-primary': 'btn btn-outline-primary'" [(ngModel)]="proyecto.validado" name="validado" #validado="ngModel">Validado</button>
-                    <button type="button" class="btn" [disabled]="!editando" [ngClass]="(proyecto.aprobado) ? 'btn btn-primary': 'btn btn-outline-primary'" [(ngModel)]="proyecto.aprobado" name="aprobado" #aprobado="ngModel">Aprobado</button>
-                  </div> -->
+                  <label for="">Plan anterior</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="" [(ngModel)]="proyecto.codPlanAnterior" name="codPlanAnterior" #codPlanAnterior="ngModel" [disabled]="!editando">
+                    <input type="text" class="form-control" placeholder="" [(ngModel)]="proyecto.anioPlanAnterior" name="anioPlanAnterior" #anioPlanAnterior="ngModel" [disabled]="!editando">
+                  </div>
                 </div>
-                <div class="col-12">
-                  <div class="form-group">
-                    <label>Descripcion</label>
-                    <textarea type="text" class="form-control" [disabled]="!editando" placeholder="" [(ngModel)]="proyecto.descripcion" name="descripcion" #descripcion="ngModel"></textarea>
+                <div class="col-3">
+                  <label for="">&nbsp;</label>
+                  <div class="form-row">
+                    <button type="button" class="col-3" style="margin-right: 5px" [ngClass]="(proyecto.proyectoInversion) ? 'btn btn-success': 'btn btn-outline-success'" ngDefaultControl [disabled]="!editando" (click)="(proyecto.proyectoInversion) ? proyecto.proyectoInversion = false : proyecto.proyectoInversion = true" [(ngModel)]="proyecto.proyectoInversion" name="proyectoInversion" #proyectoInversion="ngModel">Inversion</button>
+                    <button type="button" class="col-3" style="margin-right: 5px" [ngClass]="(proyecto.cancelado) ? 'btn btn-primary': 'btn btn-outline-primary'" ngDefaultControl [disabled]="!editando" (click)="(proyecto.cancelado) ? proyecto.cancelado = false : proyecto.cancelado = true" [(ngModel)]="proyecto.cancelado" name="cancelado" #cancelado="ngModel">Cancelado</button>
+                    <!-- Existen los campos enPresentacion y enPresentacionArea -->
+                    <button type="button" class="col-4" style="margin-right: 5px" [ngClass]="(proyecto.enPresentacion) ? 'btn btn-primary': 'btn btn-outline-primary'" ngDefaultControl [disabled]="!editando" (click)="(proyecto.enPresentacion) ? proyecto.enPresentacion = false : proyecto.enPresentacion = true" [(ngModel)]="proyecto.enPresentacion" name="enPresentacion" #enPresentacion="ngModel">En presentacion</button>
                   </div>
                 </div>
               </div>
-                
+              
+              <div class="form-row">
+                <div class="col-3">
+                  <div class="form-group">
+                    <label>Dependencia</label>
+                    <select class="form-control" (change)="seleccionDependencia(proyecto.dependencia)" [(ngModel)]="proyecto.dependencia" name="dependencia" #dependencia="ngModel" [disabled]="!editando">
+                      <option *ngFor="let d of dependencias" [ngValue]="d">{{d.nombre}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-2">
+                  <div class="form-group">
+                    <label>Contratista</label>
+                    <input type="text" class="form-control" placeholder="" [disabled]="!editando" [(ngModel)]="proyecto.contratista" name="contratista" #contratista="ngModel">
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <label>Compromiso</label>
+                    <select class="form-control" [(ngModel)]="proyecto.compromisoG" name="compromisoG" #compromisoG="ngModel" [disabled]="!editando">
+                      <option *ngFor="let c of compromisos" [ngValue]="c">{{c.nombre}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-2">
+                  <label>Meta cuantificacion</label>
+                  <input type="text" class="form-control" placeholder="" [disabled]="!editando" [(ngModel)]="proyecto.metaCuantificacion" name="metaCuantificacion" #metaCuantificacion="ngModel">
+                </div>
+                <div class="form-group col-10">
+                  <label>Meta producto</label>
+                  <textarea type="text" class="form-control" [disabled]="!editando" placeholder="" [(ngModel)]="proyecto.metaProducto" name="metaProducto" #metaProducto="ngModel"></textarea>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group col-12">
+                  <label>Descripcion</label>
+                  <textarea type="text" class="form-control" [disabled]="!editando" placeholder="" [(ngModel)]="proyecto.descripcion" name="descripcion" #descripcion="ngModel"></textarea>
+                </div>
+              </div>
+
               <div class="form-row" style="margin-bottom: 10px">
                 <div class="col-6">
                   <div class="card">
@@ -71,19 +112,50 @@
                       <div class="form-row">
                         <div class="form-group col-3">
                           <label>Prioridad ministerial</label>
-                          <input type="text" class="form-control" placeholder="" [disabled]="!editando">
+                          <select class="form-control" [(ngModel)]="proyecto.prioridadMinisterial" name="prioridadMinisterial" #prioridadMinisterial="ngModel" [disabled]="!editando">
+                            <option *ngFor="let p of prioridadesMinisteriales" [ngValue]="p._id">{{p.nombre}}</option>
+                          </select>
                         </div>
                         <div class="form-group col-3">
                           <label>Fecha de inicio</label>
-                          <input type="text" class="form-control" placeholder="" [disabled]="!editando">
+                          <input type="text" class="form-control" placeholder="" [(ngModel)]="proyecto.fechaInicio" name="fechaInicio" #fechaInicio="ngModel" [disabled]="!editando">
+                        </div>
+                        <div class="form-group col-6">
+                          <label for="">Presupuesto oficial</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" [disabled]="!editando">$</button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">$</a>
+                                <a class="dropdown-item" href="#">u$s</a>
+                              </div>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="proyecto.presupuestoSolicitado" name="presupuestoSolicitado" #presupuestoSolicitado="ngModel" [disabled]="!editando">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-3">
+                          <label>Prioridad jefatura</label>
+                          <select class="form-control" [(ngModel)]="proyecto.prioridadJefatura" name="prioridadJefatura" #prioridadJefatura="ngModel" [disabled]="!editando">
+                            <option *ngFor="let p of prioridadesMinisteriales" [ngValue]="p._id">{{p.nombre}}</option>
+                          </select>
                         </div>
                         <div class="form-group col-3">
-                          <label>Presupuesto oficial</label>
-                          <div class="input-group mb-2">
+                          <label>Fecha de fin</label>
+                          <input type="text" class="form-control" placeholder="" [(ngModel)]="proyecto.fechaFin" name="fechaFin" #fechaFin="ngModel" [disabled]="!editando">
+                        </div>
+                        <div class="form-group col-6">
+                          <label for="">Presupuesto adjudicado</label>
+                          <div class="input-group">
                             <div class="input-group-prepend">
-                              <div class="input-group-text">@</div>
+                              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [(ngModel)]="proyecto.monedaGestion" name="monedaGestion" #monedaGestion="ngModel" [disabled]="!editando">$</button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">$</a>
+                                <a class="dropdown-item" href="#">u$s</a>
+                              </div>
                             </div>
-                            <input type="text" class="form-control" placeholder="" [disabled]="!editando">
+                            <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="proyecto.presupuestoGestion" name="presupuestoGestion" #presupuestoGestion="ngModel" [disabled]="!editando">
                           </div>
                         </div>
                       </div>
@@ -94,59 +166,27 @@
                 <div class="col-6">
                   <div class="card">
                     <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
-                      Etiquetas y temas
-                    </div>
-                    <div class="card-body">
-                      <div class="form-row">
-                        <div class="form-group col-3">
-                          <label>Etiquetas</label>
-                          <input type="text" class="form-control" placeholder="Prioridad ministerial" [disabled]="true">
-                        </div>
-                        <div class="form-group col-3">
-                          <label>Temas</label>
-                          <input type="text" class="form-control" placeholder="" [disabled]="true">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
                       Dashboard ministro
                     </div>
                     <div class="card-body">
                       <div class="form-row">
                         <div class="form-group col-4">
                           <label>Mostrar en dashboard</label>
-                          <input type="text" class="form-control" placeholder="" [disabled]="true">
+                          <button type="button" style="margin-right: 5px" [ngClass]="(proyecto.proyectoPrioritario) ? 'btn btn-success': 'btn btn-outline-success'" ngDefaultControl [disabled]="!editando" (click)="(proyecto.proyectoPrioritario) ? proyecto.proyectoPrioritario = false : proyecto.proyectoPrioritario = true" [(ngModel)]="proyecto.proyectoPrioritario" name="proyectoPrioritario" #proyectoPrioritario="ngModel">Ver en dashboard</button>
                         </div>
-                        <div class="form-group col-3">
+                        <div class="form-group col-2">
                           <label>Orden</label>
-                          <input type="text" class="form-control" placeholder="" [disabled]="true">
+                          <input type="text" class="form-control" placeholder="" [disabled]="!editando">
                         </div>
-                        <div class="form-group col-3">
+                        <div class="form-group col-6">
                           <label>Grupo</label>
-                          <input type="text" class="form-control" placeholder="" [disabled]="true">
+                          <select class="form-control" [(ngModel)]="proyecto.grupo" name="grupo" #grupo="ngModel" [disabled]="!editando">
+                            <option *ngFor="let g of grupos" [ngValue]="g._id">{{g.nombre}}</option>
+                          </select>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-2">
-                  <label for="">Comunas</label>
-                  <select name="" class="form-control" [disabled]="true">
-                    <option value="">1</option>
-                  </select>
-                  <span *ngFor="let c of [1,2,3]">
-                    <span class="badge badge-secondary">Comuna {{c}}</span>
-                  </span>
                 </div>
               </div>
 
@@ -154,11 +194,32 @@
                 <div class="form-group col-4">
                   <div class="card">
                     <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
-                        <label for="">Responsables</label>
+                      <label for="">Comunas</label>
                     </div>
                     <div class="card-body">
                       <div class="form-group">
-                        <input type="text" class="form-control" [disabled]="true">
+                        <select name="" id="" [(ngModel)]="proyecto.responsables" *ngFor="let c of comunas" [hidden]="!editando">
+                          <option [ngValue]="c">{{c.nombre}}</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <span *ngFor="let c of [1,2,3]">
+                          <span class="badge badge-secondary" style="margin: 3px">Comuna {{c}}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-4">
+                  <div class="card">
+                    <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
+                      <label for="">Responsables</label>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group">
+                        <select name="" id="" [(ngModel)]="proyecto.responsables" *ngFor="let c of contactos" [hidden]="!editando">
+                          <option [ngValue]="c">{{c.nombre}}</option>
+                        </select>
                       </div>
                       <div class="form-group">
                         <ul class="list-group">
@@ -169,11 +230,15 @@
                   </div>
                 </div>
                 <div class="form-group col-4">
-                  <div class="card" style="color: white; background-color:cadetblue; opacity: 0.5">
+                  <div class="card">
+                    <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
+                      <label for="">Areas participantes</label>
+                    </div>
                     <div class="card-body">
                       <div class="form-group">
-                        <label for="">Areas participantes</label>
-                        <input type="text" class="form-control" [disabled]="true">
+                        <select name="" id="" [(ngModel)]="proyecto.responsables" *ngFor="let c of contactos" [hidden]="!editando">
+                          <option [ngValue]="c">{{c.nombre}}</option>
+                        </select>
                       </div>
                       <div class="form-group">
                         <ul class="list-group">
@@ -190,11 +255,5 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-12">
-      
-    </div>
-  </div>
   <actividades-por-proyecto [proyecto]="proyecto"></actividades-por-proyecto>
-  <obras-por-proyecto [proyecto]="proyecto"></obras-por-proyecto>
 </div>

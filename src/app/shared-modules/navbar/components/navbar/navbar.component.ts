@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/shared-modules/login/services/user/user.service';
 import { Router } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'navbar',

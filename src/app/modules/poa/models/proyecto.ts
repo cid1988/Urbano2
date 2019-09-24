@@ -3,41 +3,34 @@ import mongoose from 'mongoose';
 export interface Proyecto {
   _id: mongoose.Schema.Types.ObjectId;
   nombre: string;
-  validado: boolean;
-  aprobado: boolean;
-  descripcion: string;
-  codIdentificacion: string;//Codigo
+  codIdentificacion: string;
   proyectoPadre: string;//Subproyecto de
   codPlanAnterior: string;//Plan anterior
   anioPlanAnterior: string;//Plan anterior
-  dependencia: string;
-  proyectoInversion: string;//De inversion
-  cancelado: string;
-  enPresentacion: string;
-  etapaProyecto: string;//Etapa
+  proyectoInversion: boolean;
+  cancelado: boolean;
+  enPresentacion: boolean;
+  dependencia: string;//id
   contratista: string;
-  compromisoG: string;
-  metaProducto: string;
+  compromisoG: string;//id
   metaCuantificacion: string;
-  //Falta el campo de expediente
-  comunas: [];
-  responsables: string[];
-  //Partida presupuestaria
+  metaProducto: string;
+  descripcion: string;
   prioridadMinisterial: string;
-  fechaInicio: string;
-  monedaSolicitado: string;//Presupuesto oficial
-  presupuestoSolicitado: string;
+  fechaInicio: string;//De partida presupuestaria
+  monedaSolicitado: string;//Moneda presupuesto oficial
+  presupuestoSolicitado: string//Presupuesto oficial
   prioridadJefatura: string;
-  fechaFin: string;
-  monedaGestion: string;//Presupuesto adjudicado
-  presupuestoGestion: string;
-  etiquetas: string[];
-  temas: [];
-  proyectoPrioritario: boolean;
-  coordenadas: {lat: string, lng: string};
-  idJurisdiccion: string;
-  eliminado: boolean;
+  fechaFin: string;//De partida presupuestaria
+  monedaGestion: string;//Moneda presupuesto adjudicado
+  presupuestoGestion: string;//Presupuesto adjudicado
+  proyectoPrioritario: boolean;//Mostrar en dashboard
+  orden: number;
+  grupo: string;
+  comunas: string[];
+  responsables: string[];
+  jurisdiccionesParticipantes: string[];//Areas participantes
 
-  start: number;
-  areas: []
+  idJurisdiccion: string;//Va?
+  eliminado: boolean;
 }
