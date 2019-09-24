@@ -15,7 +15,7 @@ export class ProyectosPorPlanComponent implements OnInit {
 
   @Input() plan:Plan;
   proyectos: Proyecto[];
-  @Input() area: Area
+  @Input() area: Area;
   @Input() searchFilter = "";
   nuevoProyecto: Proyecto;//Error al descomentar en el html
 

@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 const proyectoSchema = new Schema({
 //   _id: mongoose.Schema.Types.ObjectId;
   proyectoPadre: { type: String},
+  codIdentificacion: { type: String },
   codPlanAnterior: { type: String },
   anioPlanAnterior: { type: String },
   proyectoInversion: { type: Boolean },
