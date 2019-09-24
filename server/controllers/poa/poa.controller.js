@@ -187,11 +187,9 @@ poaCtrl.getProyectos = async (req, res, next) => {
     const { idPlan } = req.body;
     const { idArea } = req.body;
     //Traer los ids siempre del campo _id del objeto del plan y del area, si lo traigo de un campo guardado no funciona
-    console.log(req.body)
     try{
         const proyectos = await Proyecto.find({idPlan: ObjectId(idPlan), idJurisdiccion: ObjectId(idArea), eliminado: {$exists:false}})
         .sort({codIdentificacion: 1});
-        console.log(proyectos)
         res.json(proyectos);
     }catch(error){
         res.json(error);
@@ -222,12 +220,7 @@ poaCtrl.getProyectosHijos = async (req, res, next) => {
 
 poaCtrl.updateProyecto = async (req, res, next) => {
     const { _id } = req.body;
-    const proyecto = {
-        nombre: req.body.nombre,
-        codIdentificacion: req.body.codIdentificacion,
-        descripcion: req.body.descripcion
-    };
-    await Proyecto.findByIdAndUpdate(_id, {$set: proyecto}, {new: false});
+    await Proyecto.findByIdAndUpdate(_id, {$set: req.body}, {new: false});
     res.json({status: 'Proyecto actualizado con exito'});
 };
 
