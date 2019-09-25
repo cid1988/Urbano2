@@ -67,10 +67,10 @@
             </h4>            
           </div>
           <div class="card-body">
-            <div *ngFor="let f of actividad.fechas">
+            <div *ngFor="let f of actividad.fechas | reverse">
               <div class="row">
                 <div class="form-group col-3">
-                  <label for="">Fecha inicio</label>{{a}} {{f.fechaInicio}}
+                  <label for="">Fecha inicio</label>
                   <input type="text" class="form-control" disabled [value]="f.fechaInicio">
                 </div>
                 <div class="form-group col-3">
@@ -103,19 +103,19 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="row">
-          <div class="col-6">
+        <div class="form-row">
+          <div class="form-group col-3">
             <label for="">Fecha inicio</label>
             <input type="text" class="form-control" [(ngModel)]="fecha.fechaInicio" name="fechaInicio" #fechaInicio="ngModel">
           </div>
-          <div class="col-6">
+          <div class="form-group col-3">
             <label for="">Fecha fin</label>
             <input type="text" class="form-control" [(ngModel)]="fecha.fechaFin" name="fechaFin" #fechaFin="ngModel">
           </div>
         </div>
-        <div class="row">
-          <div class="form-group">
-            <label for="">Actividades</label>
+        <div class="form-row">
+          <div class="form-group col-12">
+            <label for="">Comentarios</label>
             <textarea type="text" class="form-control" [(ngModel)]="fecha.comentario" name="comentario" #comentario="ngModel"></textarea>
           </div>
         </div>

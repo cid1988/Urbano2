@@ -12,6 +12,7 @@ import { EtapasPorProyectoComponent } from './components/proyectos/etapas-por-pr
 import { ActividadDetalleComponent } from './components/actividades/actividad-detalle/actividad-detalle.component';
 import { OrderByPipe } from 'src/app/shared-modules/pipes/orderBy/order-by.pipe';
 import { FilterPipe } from 'src/app/shared-modules/pipes/filter/filter.pipe';
+import { ReversePipe } from 'src/app/shared-modules/pipes/reverse/reverse.pipe';
 
 const poaRoutes: Routes = [
   {path:'poa',component:ProyectosComponent},
@@ -22,7 +23,7 @@ const poaRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [OrderByPipe, FilterPipe, PlanCrearComponent, ProyectoCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, EtapasPorProyectoComponent, ActividadDetalleComponent],
+  declarations: [OrderByPipe, FilterPipe, ReversePipe, PlanCrearComponent, ProyectoCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, EtapasPorProyectoComponent, ActividadDetalleComponent],
   imports: [
     CommonModule,
     FormsModule,
