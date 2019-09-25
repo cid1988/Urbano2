@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ActividadesService } from '../../../services/actividades/actividades.service';
 import { Actividad } from '../../../models/actividad';
 
@@ -23,7 +23,7 @@ export class ActividadDetalleComponent implements OnInit {
   };
   predecesores: Actividad[];
 
-  constructor(private activatedRoute:ActivatedRoute, private actividadesService:ActividadesService) {
+  constructor(private activatedRoute:ActivatedRoute, private actividadesService:ActividadesService, private router: Router) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.actividadesService.getActividad(params.get("idActividad")).subscribe((actividad: Actividad) =>{
         this.actividad = actividad;
@@ -31,7 +31,7 @@ export class ActividadDetalleComponent implements OnInit {
       this.actividadesService.etapasPorProyecto(params.get("idProyecto")).subscribe(etapas =>{
         this.etapas = etapas;
       });
-      this.actividadesService.actividadesPorProyecto(params.get("idProyecto")).subscribe(actividadesDelProyecto =>{
+      this.actividadesService.actividadesPorEtapa(params.get("idEtapa")).subscribe(actividadesDelProyecto =>{
         this.predecesores = actividadesDelProyecto;
       });
     });

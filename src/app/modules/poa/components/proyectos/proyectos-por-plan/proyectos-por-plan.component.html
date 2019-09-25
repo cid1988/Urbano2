@@ -9,11 +9,11 @@
       <div class="col-md">
         <ul class="list-group">
           <li class="list-group-item" [hidden]="p.proyectoPadre" *ngFor="let p of proyectos | filter: searchFilter; let $index = index"><!--[ngStyle]="{'background-color': '#b0ffa6'} [ngStyle]="{'background-color': '#a6d5ff'}"-->
-            <a routerLink="{{p._id}}"><b><span [hidden]="!p.codIdentificacion">{{p.codIdentificacion}} - </span>{{p.nombre}}</b></a>
+            <a [routerLink]="['proyecto', p._id]"><b><span [hidden]="!p.codIdentificacion">{{p.codIdentificacion}} - </span>{{p.nombre}}</b></a>
             <span class="dot" [ngStyle]="{'background-color': p.color}"></span>
             <ul class="list-group" *ngIf="p.hijos">
               <li class="list-group-item" *ngFor="let h of p.hijos">
-                <a routerLink="{{h._id}}"><span [hidden]="!h.codIdentificacion">{{h.codIdentificacion}} -</span> {{h.nombre}}</a>
+                <a [routerLink]="['proyecto/', h._id]"><span [hidden]="!h.codIdentificacion">{{h.codIdentificacion}} -</span> {{h.nombre}}</a>
                 <span [ngClass]="{'dotBlue': h.estado == 'cumplido', 'dotGreen': h.estado == 'vigente', 'dotRed': h.estado == 'vencido', 'dotBlack': h.estado == 'cancelado'}"></span>
               </li>
             </ul>

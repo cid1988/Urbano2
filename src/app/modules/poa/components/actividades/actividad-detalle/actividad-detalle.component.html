@@ -2,7 +2,7 @@
   <div class="row" style="margin-bottom: 20px">
     <div class="col-12">
       <button type="button" class="btn btn-outline-primary float-right" [hidden]="editando" (click)="editando = true">Editar</button>
-      <button type="button" class="btn btn-outline-primary float-right" routerLink=".." [hidden]="editando">Volver</button>
+      <button type="button" class="btn btn-outline-primary float-right" routerLink="../../../.." [hidden]="editando">Volver</button>
       <button type="button" class="btn btn-outline-primary float-right" [disabled]="!actividadForm.valid" [hidden]="!editando" (click)="guardar(actividadForm)">Guardar</button>
       <button type="button" class="btn btn-outline-primary float-right" [hidden]="!editando" (click)="editando = false">Cancelar</button>
     </div>
@@ -11,7 +11,7 @@
     <div class="form-row">
       <div class="col-10">
         <div class="form-row">
-          <div class="form-group col-4">
+          <div class="form-group col-6">
             <label for="name">Nombre</label>
             <input type="text" class="form-control" id="name" required [disabled]="!editando" [(ngModel)]="actividad.nombre" name="nombre" #nombre="ngModel">
             <div [hidden]="nombre.valid || nombre.pristine" class="alert alert-danger">

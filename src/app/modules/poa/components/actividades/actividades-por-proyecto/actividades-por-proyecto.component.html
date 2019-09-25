@@ -25,7 +25,7 @@
               <li class="list-group-item" *ngFor="let a of e.actividades | orderBy: 'codIdentificacion'">
                 <div class="row">
                   <div class="col-7">
-                    <a routerLink="{{a._id}}"><span [hidden]="!a.codIdentificacion"> {{a.codIdentificacion}} -</span> {{a.nombre}}</a>
+                    <a [routerLink]="['etapa/', e._id, 'actividad', a._id]"><span [hidden]="!a.codIdentificacion"> {{a.codIdentificacion}} -</span> {{a.nombre}}</a>
                   </div>
                   <div class="col-1">
                     {{a.fechas[0]?.fechaInicio}}
@@ -51,7 +51,7 @@
             <li class="list-group-item" *ngFor="let a of actividades">
               <div class="row">
                 <div class="col-7">
-                  <a routerLink="{{a._id}}"><span [hidden]="!a.codIdentificacion">{{a.codIdentificacion}} -</span> {{a.nombre}}</a>
+                  <a [routerLink]="['actividad/', a._id]"><span [hidden]="!a.codIdentificacion">{{a.codIdentificacion}} -</span> {{a.nombre}}</a>
                 </div>
                 <div class="col-1">
                   {{a.fechas[0].fechaInicio}}

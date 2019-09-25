@@ -16,10 +16,11 @@ import { ReversePipe } from 'src/app/shared-modules/pipes/reverse/reverse.pipe';
 
 const poaRoutes: Routes = [
   {path:'poa',component:ProyectosComponent},
-  {path:'poa/:idProyecto',component:ActividadesComponent},
+  {path:'poa/proyecto/:idProyecto',component:ActividadesComponent},
   {path:'poa/proyecto/crear',component:ProyectoCrearComponent},
   {path:'poa/plan/crear',component:PlanCrearComponent},
-  {path:'poa/:idProyecto/:idActividad',component:ActividadDetalleComponent}
+  {path:'poa/proyecto/:idProyecto/etapa/:idEtapa/actividad/:idActividad',component:ActividadDetalleComponent},
+  {path:'poa/proyecto/:idProyecto/actividad/:idActividad',component:ActividadDetalleComponent}
 ];
 
 @NgModule({
