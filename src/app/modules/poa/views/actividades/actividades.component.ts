@@ -76,11 +76,6 @@ export class ActividadesComponent implements OnInit {
         let data = {_id: proyecto.idJurisdiccion};//Aclarar esta linea
         this.proyectosService.proyectosPorPlan(proyecto, data).subscribe((proyectos: any[]) =>{//No esta trayendo nada
           this.proyectos = proyectos;
-          // this.proyectos = [{
-          //   _id: "id1",
-          //   nombre: "Proyecto 1"
-          // }]
-          console.log("Importanteeeee: ", proyectos)
         })
       });
     });

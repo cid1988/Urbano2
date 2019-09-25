@@ -4,13 +4,15 @@ const { Schema } = mongoose;
 const moment = require('moment');
 
 const actividadSchema = new Schema({
-    nombre: { type: String, required: false},
-    fechas: { type: Array},
+    nombre: { type: String },
+    fechas: { type: [Object] },
     inicioCumplido: { type: Boolean},
-    cumplida: { type: Boolean},
-    cancelada: { type: Boolean},
+    predecesor: { type: String },
+    cumplida: { type: Boolean },
+    cancelada: { type: Boolean },
     codIdentificacion: { type: String },
-    etapa: { type: String }
+    etapa: { type: String },
+    verEnDashboard: { type: Boolean }
 },{
     versionKey: false,
     toObject: { virtuals: true },

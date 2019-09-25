@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Plan } from '../../../models/plan';
 import { ProyectosService } from '../../../services/proyectos/proyectos.service';
 import { OrganigramaService } from 'src/app/modules/organigrama/services/organigrama.service';
-import { Area } from '../../../models/area';
 
 @Component({
   selector: 'plan-crear',

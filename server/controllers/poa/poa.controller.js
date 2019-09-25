@@ -95,7 +95,12 @@ poaCtrl.updateActividad = async (req, res, next) => {
         nombre: req.body.nombre,
         codIdentificacion: req.body.codIdentificacion,
         predecesor: req.body.predecesor,
-        etapa: req.body.etapa
+        etapa: req.body.etapa,
+        cumplida: req.body.cumplida,
+        inicioCumplido: req.body.inicioCumplido,
+        cancelada: req.body.cancelada,
+        fechas: req.body.fechas,
+        verEnDashboard: req.body.verEnDashboard
     };
     await Actividad.findByIdAndUpdate(id, {$set: actividad}, {new: false});
     res.json({status: 'Actividad actualizada con exito'});

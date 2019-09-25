@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActividadesService } from '../../../services/actividades/actividades.service';
+import { Actividad } from '../../../models/actividad';
+
+declare var $:any;
 
 @Component({
   selector: 'actividad-detalle',
@@ -10,14 +13,19 @@ import { ActividadesService } from '../../../services/actividades/actividades.se
 
 export class ActividadDetalleComponent implements OnInit {
 
-  actividad;
+  actividad: Actividad;
   editando = false;
   etapas = [];
-  predecesores = [];
+  fecha = {
+    fechaInicio: "",
+    fechaFin: "",
+    comentario: ""
+  };
+  predecesores: Actividad[];
 
   constructor(private activatedRoute:ActivatedRoute, private actividadesService:ActividadesService) {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.actividadesService.getActividad(params.get("idActividad")).subscribe(actividad =>{
+      this.actividadesService.getActividad(params.get("idActividad")).subscribe((actividad: Actividad) =>{
         this.actividad = actividad;
       });
       this.actividadesService.etapasPorProyecto(params.get("idProyecto")).subscribe(etapas =>{
@@ -30,6 +38,7 @@ export class ActividadDetalleComponent implements OnInit {
   }
 
   ngOnInit() {
+    
   }
 
   guardar(form){
@@ -37,5 +46,19 @@ export class ActividadDetalleComponent implements OnInit {
       this.editando = false;
       alert(data.status);
     })
+  }
+
+  openModal(confirmado, fecha){
+    if(confirmado){
+        this.fecha = {
+          fechaInicio: "",
+          fechaFin: "",
+          comentario: ""
+        };
+        this.actividad.fechas.push(fecha);
+        $('#modalCrearFecha').modal('hide');
+    }else{
+      $('#modalCrearFecha').modal('show');
+    }
   }
 }

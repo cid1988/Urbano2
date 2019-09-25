@@ -2,7 +2,7 @@
   <div class="row" style="margin-bottom: 20px">
     <div class="col-12">
       <button type="button" class="btn btn-outline-primary float-right" [hidden]="editando" (click)="editando = true">Editar</button>
-      <button type="button" class="btn btn-outline-primary float-right" [hidden]="editando">Volver</button>
+      <button type="button" class="btn btn-outline-primary float-right" routerLink=".." [hidden]="editando">Volver</button>
       <button type="button" class="btn btn-outline-primary float-right" [disabled]="!actividadForm.valid" [hidden]="!editando" (click)="guardar(actividadForm)">Guardar</button>
       <button type="button" class="btn btn-outline-primary float-right" [hidden]="!editando" (click)="editando = false">Cancelar</button>
     </div>
@@ -36,25 +36,26 @@
             </div>
           </div>
         </div>
-        <div class="form-row">
+        <div class="form-row"><!--No deberia poder elegirse a si mismo -->
           <div class="form-group col-4">
             <label for="">Predecesor</label>
             <select class="form-control" [disabled]="!editando" [(ngModel)]="actividad.predecesor" name="predecesor" #predecesor="ngModel">
-              <option *ngFor="let p of predecesores" [value]="p._id">{{p.nombre}}</option>
+              <option *ngFor="let p of predecesores" [ngValue]="p._id">{{p.nombre}}</option>
             </select>
           </div>
           <div class="form-group col-4">
             <label for="">Etapa</label>
             <select class="form-control" [disabled]="!editando" [(ngModel)]="actividad.etapa" name="etapa" #etapa="ngModel">
-              <option *ngFor="let e of etapas" [value]="e._id">{{e.nombre}}</option>
+              <option *ngFor="let e of etapas" [ngValue]="e._id">{{e.nombre}}</option>
             </select>
           </div>
         </div>
       </div>
       <div class="col-2">
-        <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.inicioCumplido) ? 'btn btn-success': 'btn btn-outline-success'" ngDefaultControl [disabled]="!editando" (click)="actividad.inicioCumplido = true" [(ngModel)]="actividad.inicioCumplido" name="inicioCumplido" #inicioCumplido="ngModel">Inicio cumplido</button>
-        <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.cumplida) ? 'btn btn-primary': 'btn btn-outline-primary'" ngDefaultControl [disabled]="!editando" (click)="actividad.cumplida = true" [(ngModel)]="actividad.cumplida" name="cumplida" #cumplida="ngModel">Fin cumplido</button>
-        <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.cancelada) ? 'btn btn-secondary': 'btn btn-outline-secondary'" ngDefaultControl [disabled]="!editando" (click)="actividad.cancelada = true" [(ngModel)]="actividad.cancelada" name="cancelada" #cancelada="ngModel">Cancelado</button>
+        <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.inicioCumplido) ? 'btn btn-success': 'btn btn-outline-success'" ngDefaultControl [disabled]="!editando" (click)="(actividad.inicioCumplido) ? actividad.inicioCumplido = false : actividad.inicioCumplido = true" [(ngModel)]="actividad.inicioCumplido" name="inicioCumplido" #inicioCumplido="ngModel">Inicio cumplido</button>
+        <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.cumplida) ? 'btn btn-primary': 'btn btn-outline-primary'" ngDefaultControl [disabled]="!editando" (click)="(actividad.cumplida) ? actividad.cumplida = false : actividad.cumplida = true" [(ngModel)]="actividad.cumplida" name="cumplida" #cumplida="ngModel">Fin cumplido</button>
+        <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.cancelada) ? 'btn btn-secondary': 'btn btn-outline-secondary'" ngDefaultControl [disabled]="!editando" (click)="(actividad.cancelada) ? actividad.cancelada = false : actividad.cancelada = true" [(ngModel)]="actividad.cancelada" name="cancelada" #cancelada="ngModel">Cancelado</button>
+        <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.verEnDashboard) ? 'btn btn-success': 'btn btn-outline-success'" tooltip="Ver en el dashboard del ministro" ngDefaultControl [disabled]="!editando" (click)="(actividad.verEnDashboard) ? actividad.verEnDashboard = false : actividad.verEnDashboard = true" [(ngModel)]="actividad.verEnDashboard" name="verEnDashboard" #verEnDashboard="ngModel">Ver en dashboard</button>
       </div>
     </div>
     <div class="form-row">
@@ -62,38 +63,69 @@
         <div class="card">
           <div class="card-header">
             <h4 class="card-title">Historico
-              <button type="button" class="btn btn-outline-primary float-right"><i class="fa fa-plus"></i></button>
-            </h4>
+              <button type="button" class="btn btn-outline-primary float-right" [disabled]="!editando" (click)="openModal(false,'')"><i class="fa fa-plus"></i></button>
+            </h4>            
           </div>
           <div class="card-body">
             <div *ngFor="let f of actividad.fechas">
               <div class="row">
                 <div class="form-group col-3">
-                  <label for="">Fecha inicio</label>
-                  <input type="text" class="form-control" id="" placeholder="" disabled [(ngModel)]="f.fechaInicio" name="fechaInicio">
+                  <label for="">Fecha inicio</label>{{a}} {{f.fechaInicio}}
+                  <input type="text" class="form-control" disabled [value]="f.fechaInicio">
                 </div>
                 <div class="form-group col-3">
                   <label for="">Fecha fin</label>
-                  <input type="text" class="form-control" id="" placeholder="" disabled [(ngModel)]="f.fechaFin" name="fechaFin">
-                </div>
-                <div class="form-group col-3">
-                  <label for="">Avance</label>
-                  <input type="text" class="form-control" id="" placeholder="" disabled [(ngModel)]="f.avance" name="avance">
+                  <input type="text" class="form-control" disabled [value]="f.fechaFin">
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-12">
                   <label for="">Comentarios</label>
-                  <textarea class="form-control" id="" rows="2" disabled [(ngModel)]="f.comentario" name="comentario"></textarea>
+                  <textarea class="form-control" rows="2" disabled [value]="f.comentario"></textarea>
                 </div>
               </div>
-              <hr>
+              <hr *ngIf="actividad.fechas.length > 1">
             </div>
           </div>
         </div>
       </div>
     </div>
   </form>
+</div>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalCrearFecha">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nueva fecha</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6">
+            <label for="">Fecha inicio</label>
+            <input type="text" class="form-control" [(ngModel)]="fecha.fechaInicio" name="fechaInicio" #fechaInicio="ngModel">
+          </div>
+          <div class="col-6">
+            <label for="">Fecha fin</label>
+            <input type="text" class="form-control" [(ngModel)]="fecha.fechaFin" name="fechaFin" #fechaFin="ngModel">
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label for="">Actividades</label>
+            <textarea type="text" class="form-control" [(ngModel)]="fecha.comentario" name="comentario" #comentario="ngModel"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="openModal(true,fecha)">Guardar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!--Ejemplo de bootstrap con tres columnas y otra col-12 abajo
