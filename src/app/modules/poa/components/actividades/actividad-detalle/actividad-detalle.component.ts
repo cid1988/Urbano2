@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActividadesService } from '../../../services/actividades/actividades.service';
 import { Actividad } from '../../../models/actividad';
+import { FechaActividad } from '../../../models/fechaActividad';
 
 declare var $:any;
 
@@ -16,14 +17,11 @@ export class ActividadDetalleComponent implements OnInit {
   actividad: Actividad;
   editando = false;
   etapas = [];
-  fecha = {
-    fechaInicio: "",
-    fechaFin: "",
-    comentario: ""
-  };
+  fecha = {} as FechaActividad;
   predecesores: Actividad[];
+  state;
 
-  constructor(private activatedRoute:ActivatedRoute, private actividadesService:ActividadesService, private router: Router) {
+  constructor(private activatedRoute:ActivatedRoute, private actividadesService:ActividadesService) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.actividadesService.getActividad(params.get("idActividad")).subscribe((actividad: Actividad) =>{
         this.actividad = actividad;
@@ -31,8 +29,8 @@ export class ActividadDetalleComponent implements OnInit {
       this.actividadesService.etapasPorProyecto(params.get("idProyecto")).subscribe(etapas =>{
         this.etapas = etapas;
       });
-      this.actividadesService.actividadesPorEtapa(params.get("idEtapa")).subscribe(actividadesDelProyecto =>{
-        this.predecesores = actividadesDelProyecto;
+      this.actividadesService.actividadesPorProyecto(params.get('idProyecto')).subscribe(actividades =>{
+        this.predecesores = actividades;
       });
     });
   }
@@ -50,15 +48,15 @@ export class ActividadDetalleComponent implements OnInit {
 
   openModal(confirmado, fecha){
     if(confirmado){
-        this.fecha = {
-          fechaInicio: "",
-          fechaFin: "",
-          comentario: ""
-        };
+        this.fecha = {} as FechaActividad;
         this.actividad.fechas.push(fecha);
         $('#modalCrearFecha').modal('hide');
     }else{
       $('#modalCrearFecha').modal('show');
     }
+  }
+
+  eliminarActividad(){
+    alert("Eliminar actividad");
   }
 }

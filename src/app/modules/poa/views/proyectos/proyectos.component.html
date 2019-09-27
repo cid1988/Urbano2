@@ -15,6 +15,7 @@
     </div>
     <div class="col-2">
       <a type="btn" class="btn btn-outline-primary" routerLink="/poa/plan/crear">Crear plan</a><!--El boton deberia mostrarse solo si no existe un plan creado en el ano vigente -->
+      <button routerLink=".." class="btn btn-outline-primary float-right">Volver</button>
     </div>
   </div>
   <proyectos-por-plan [plan]="plan" [area]="area" [searchFilter]="searchFilter"></proyectos-por-plan>

@@ -1,8 +1,7 @@
 <div class="card">
   <div class="card-header">Proyectos
-    <button type="button" (click)="crearProyecto(false,'')" class="btn btn-outline-secondary btn-sm float-right">Crear proyecto</button>
-    <!-- <input type="text" placeholder="Buscar..." class="form-control col-2 float-right"> -->
-    <input type="text" placeholder="Buscar" class="form-control col-2 float-right">
+    <button type="button" (click)="crearProyecto(false,'')" class="btn btn-outline-secondary btn-sm float-right" style="margin-left: 5px">Crear proyecto</button>
+    <input type="text" placeholder="Buscar" class="form-control form-control-sm col-2 float-right">
   </div>
   <div class="card-body">
     <div class="row">
@@ -24,7 +23,7 @@
   </div>
 </div>
 
-<!-- <div class="modal fade" id="modalCrearProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalCrearProyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="nuevoProyecto">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -34,14 +33,24 @@
         </button>
       </div>
       <div class="modal-body">
-        <form #proyectoForm="ngForm" novalidate="">
+        <div class="form">
           <div class="form-row">
-            <div class="col-4">
+            <div class="form-group col-8">
               <label for="">Nombre</label>
               <input type="text" class="form-control" [(ngModel)]="nuevoProyecto.nombre" name="nombre" #nombre="ngModel">
             </div>
+            <div class="form-group col-4">
+              <label for="">Cod. identificacion</label>
+              <input type="text" class="form-control" [(ngModel)]="nuevoProyecto.codIdentificacion" name="codIdentificacion" #codIdentificacion="ngModel">
+            </div>
+            <div class="form-group col-12">
+              <label for="">Proyecto padre</label>
+              <select class="form-control" [(ngModel)]="nuevoProyecto.proyectoPadre" name="proyectoPadre" #proyectoPadre="ngModel">
+                <option *ngFor="let p of proyectosPadre" [ngValue]="p._id">{{p.nombre}}</option>
+              </select>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -49,4 +58,4 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>

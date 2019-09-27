@@ -6,7 +6,7 @@
       <input type="text" class="form-control float-right col-2" placeholder="Nuevo hito">
     </legend>
 
-    <div class="row">
+    <div class="row" *ngIf="actividades.length || etapas.length">
       <div class="col-7"></div>
       <div class="col-1"><b>Inicio planif.</b></div>
       <div class="col-1"><b>Fin planif.</b></div>

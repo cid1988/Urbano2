@@ -30,7 +30,11 @@ export interface Proyecto {
   comunas: string[];
   responsables: string[];
   jurisdiccionesParticipantes: string[];//Areas participantes
-
+  
+  idPlan: string;
   idJurisdiccion: string;//Va?
+  responsableDeCarga: string;//Va?
+  fechaActualizacion: string;
+  usuarioActualizacion: string;
   eliminado: boolean;
 }

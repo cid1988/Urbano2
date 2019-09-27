@@ -1,21 +1,18 @@
 <!-- Esta pantalla en realidad se ve el detalle del proyecto en el cual tambien se ven las actividades, deberia renombrar el componente -->
 <div class="container-fluid">
-  <!-- <div class="row">
-    <div class="col-12">
-      <h3>{{proyecto.nombre}}</h3>
-    </div>
-  </div> -->
   <div class="row">
     <div class="col-12">
       <div class="card" style="margin-bottom: 20px">
         <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
           <h4>{{proyecto.nombre}}
-            <button type="button" class="btn btn-outline-light float-right" data-toggle="collapse" href="#collapseExample"><i class="fa fa-arrow-down"></i></button>
-            <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="editando" (click)="editando = true"><i class="fa fa-edit"></i> Editar</button>
+            <button type="button" class="btn btn-outline-light float-right" style="margin-left: 5px" routerLink="../.."><i class="fa fa-arrow-left"></i> Volver</button>
+            <button type="button" class="btn btn-outline-light float-right" data-toggle="collapse" [hidden]="isCollapsed" href="#collapseExample" (click)="(!isCollapsed) ? isCollapsed = true : isCollapsed = false"><i class="fa fa-arrow-down"></i></button>
+            <button type="button" class="btn btn-outline-light float-right" data-toggle="collapse" [hidden]="!isCollapsed" href="#collapseExample" (click)="(!isCollapsed) ? isCollapsed = true : isCollapsed = false"><i class="fa fa-arrow-up"></i></button>
+            <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!isCollapsed" [style.display]="editando ? 'none': 'inherit'" (click)="editando = true"><i class="fa fa-edit"></i> Editar</button>
             <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="guardarProyecto(proyectoForm)"><i class="fa fa-save"></i> Guardar</button>
             <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false"><i class="fa fa-edit"></i> Cancelar</button>
           </h4>
-          <small>ano - area</small>
+          <small>plan - proyecto</small>
         </div>
         <div class="card-body">
           <div class="collapse" id="collapseExample">
@@ -36,8 +33,8 @@
                 <div class="col-2">
                   <div class="form-group">
                     <label>Subproyecto de</label>
-                    <select class="form-control" (change)="seleccionProyecto(proyecto.proyectoPadre)" [(ngModel)]="proyecto.proyectoPadre" name="proyectoPadre" #proyectoPadre="ngModel" [disabled]="!editando">
-                      <option *ngFor="let p of proyectos" [ngValue]="p">{{p.nombre}}</option>
+                    <select class="form-control" [(ngModel)]="proyecto.proyectoPadre" name="proyectoPadre" #proyectoPadre="ngModel" [disabled]="!editando">
+                      <option *ngFor="let p of proyectosPadre" [ngValue]="p._id">{{p.nombre}}</option>
                     </select>
                   </div>
                 </div>
@@ -176,7 +173,7 @@
                         </div>
                         <div class="form-group col-2">
                           <label>Orden</label>
-                          <input type="text" class="form-control" placeholder="" [disabled]="!editando">
+                          <input type="text" class="form-control" [(ngModel)]="proyecto.orden" name="orden" [disabled]="!editando">
                         </div>
                         <div class="form-group col-6">
                           <label>Grupo</label>
@@ -198,13 +195,13 @@
                     </div>
                     <div class="card-body">
                       <div class="form-group">
-                        <select name="" id="" [(ngModel)]="proyecto.responsables" *ngFor="let c of comunas" [hidden]="!editando">
-                          <option [ngValue]="c">{{c.nombre}}</option>
+                        <select class="form-control" (change)="agregarComuna(comunaSeleccionada)" [(ngModel)]="comunaSeleccionada" name="comunaSeleccionada" [hidden]="!editando">
+                          <option *ngFor="let c of comunasLista" [ngValue]="c">{{c.nombre}}</option>
                         </select>
                       </div>
                       <div class="form-group">
-                        <span *ngFor="let c of [1,2,3]">
-                          <span class="badge badge-secondary" style="margin: 3px">Comuna {{c}}</span>
+                        <span *ngFor="let c of proyecto.comunas">
+                          <span class="badge badge-secondary" style="margin: 3px">{{c}}</span>
                         </span>
                       </div>
                     </div>
@@ -217,8 +214,8 @@
                     </div>
                     <div class="card-body">
                       <div class="form-group">
-                        <select name="" id="" [(ngModel)]="proyecto.responsables" *ngFor="let c of contactos" [hidden]="!editando">
-                          <option [ngValue]="c">{{c.nombre}}</option>
+                        <select class="form-control" (change)="agregarResponsable(responsableSeleccionado)" [(ngModel)]="responsableSeleccionado" name="responsableSeleccionado" [hidden]="!editando">
+                          <option *ngFor="let c of contactos" [ngValue]="c">{{c.nombre}}</option>
                         </select>
                       </div>
                       <div class="form-group">
@@ -236,14 +233,14 @@
                     </div>
                     <div class="card-body">
                       <div class="form-group">
-                        <select name="" id="" [(ngModel)]="proyecto.responsables" *ngFor="let c of contactos" [hidden]="!editando">
-                          <option [ngValue]="c">{{c.nombre}}</option>
+                        <select class="form-control" (change)="agregarArea(areaSeleccionada)" [(ngModel)]="areaSeleccionada" name="areaSeleccionada" [hidden]="!editando">
+                          <option *ngFor="let a of areas" [ngValue]="a">{{a.nombre}}</option>
                         </select>
                       </div>
                       <div class="form-group">
-                        <ul class="list-group">
-                          <li class="list-group-item" *ngFor="let a of proyecto.areas">{{a}}</li>
-                        </ul>
+                        <span *ngFor="let c of proyecto.jurisdiccionesParticipantes">
+                          <span class="badge badge-secondary" style="margin: 3px">{{c}}</span>
+                        </span>
                       </div>
                     </div>
                   </div>

@@ -1,10 +1,11 @@
 <div class="container" *ngIf="actividad">
   <div class="row" style="margin-bottom: 20px">
     <div class="col-12">
+      <button type="button" class="btn btn-outline-primary float-right" style="margin-left: 5px" routerLink="../../../.." [hidden]="editando"><i class="fa fa-arrow-left"></i> Volver</button>
       <button type="button" class="btn btn-outline-primary float-right" [hidden]="editando" (click)="editando = true">Editar</button>
-      <button type="button" class="btn btn-outline-primary float-right" routerLink="../../../.." [hidden]="editando">Volver</button>
       <button type="button" class="btn btn-outline-primary float-right" [disabled]="!actividadForm.valid" [hidden]="!editando" (click)="guardar(actividadForm)">Guardar</button>
-      <button type="button" class="btn btn-outline-primary float-right" [hidden]="!editando" (click)="editando = false">Cancelar</button>
+      <button type="button" class="btn btn-outline-primary float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false">Cancelar</button>
+      <button type="button" class="btn btn-outline-danger float-right" style="margin-right: 5px" (click)="eliminarActividad()" [hidden]="!editando">Eliminar</button>
     </div>
   </div>
   <form (ngSubmit)="onSubmit(actividadForm)" #actividadForm="ngForm" novalidate="">
@@ -82,10 +83,12 @@
                 <div class="form-group col-12">
                   <label for="">Comentarios</label>
                   <textarea class="form-control" rows="2" disabled [value]="f.comentario"></textarea>
+                  <small *ngIf="f.fechaCreacion">Creado el {{f.fechaCreacion | date:'dd/MM/yyyy'}}</small>
                 </div>
               </div>
               <hr *ngIf="actividad.fechas.length > 1">
             </div>
+            <div>Ultima modificacion el {{actividad.fechaActualizacion | date: 'dd/MM/yyyy'}} por {{actividad.usuarioActualizacion}}</div>
           </div>
         </div>
       </div>

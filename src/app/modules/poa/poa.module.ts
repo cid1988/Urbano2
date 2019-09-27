@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { PlanCrearComponent } from './components/planes/plan-crear/plan-crear.component';
-import { ProyectoCrearComponent } from './components/proyectos/proyecto-crear/proyecto-crear.component';
 import { ProyectosPorPlanComponent } from './components/proyectos/proyectos-por-plan/proyectos-por-plan.component';
 import { ActividadesPorProyectoComponent } from './components/actividades/actividades-por-proyecto/actividades-por-proyecto.component';
 import { ProyectosComponent } from './views/proyectos/proyectos.component';
@@ -17,14 +16,13 @@ import { ReversePipe } from 'src/app/shared-modules/pipes/reverse/reverse.pipe';
 const poaRoutes: Routes = [
   {path:'poa',component:ProyectosComponent},
   {path:'poa/proyecto/:idProyecto',component:ActividadesComponent},
-  {path:'poa/proyecto/crear',component:ProyectoCrearComponent},
   {path:'poa/plan/crear',component:PlanCrearComponent},
   {path:'poa/proyecto/:idProyecto/etapa/:idEtapa/actividad/:idActividad',component:ActividadDetalleComponent},
   {path:'poa/proyecto/:idProyecto/actividad/:idActividad',component:ActividadDetalleComponent}
 ];
 
 @NgModule({
-  declarations: [OrderByPipe, FilterPipe, ReversePipe, PlanCrearComponent, ProyectoCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, EtapasPorProyectoComponent, ActividadDetalleComponent],
+  declarations: [OrderByPipe, FilterPipe, ReversePipe, PlanCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, EtapasPorProyectoComponent, ActividadDetalleComponent],
   imports: [
     CommonModule,
     FormsModule,

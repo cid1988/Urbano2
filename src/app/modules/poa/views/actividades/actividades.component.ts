@@ -16,6 +16,11 @@ export class ActividadesComponent implements OnInit {
   proyectos = [];
   editando = false;
   proyectoForm = {};
+  proyectosPadre = [];
+  area;
+  etapa;
+  comunaSeleccionada = {};
+  responsableSeleccionado = {};
 
   //Pasar a una coleccion
   grupos = [{
@@ -69,13 +74,45 @@ export class ActividadesComponent implements OnInit {
     nombre: "Sin priorizar"
   }];
 
+  comunasLista = [{
+    _id: "111",
+    nombre: "Comuna 1"
+  },{
+    _id: "222",
+    nombre: "Comuna 2"
+  }];
+  
+  contactos = [{
+    _id: "11111",
+    nombre: "Pablo perello"
+  }];
+
+  areas = [{
+    _id: "111",
+    nombre: "Area 1"
+  }];
+
   constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
         this.proyecto = proyecto;
-        let data = {_id: proyecto.idJurisdiccion};//Aclarar esta linea
-        this.proyectosService.proyectosPorPlan(proyecto, data).subscribe((proyectos: any[]) =>{//No esta trayendo nada
+        let data = {_id: proyecto.idJurisdiccion};//Se arma el objeto de esta forma para que lo reciba el service
+        let dataPlan = {_id: proyecto.idPlan};//Se arma el objeto de esta forma para que lo reciba el service
+
+        this.proyectosService.proyectosPorPlan(dataPlan,data).subscribe((proyectos: any[]) =>{
+          for (let p = 0; p < proyectos.length; p++) {
+            let proyecto = proyectos[p];
+            // Armar los proyectos hijos del proyecto
+            if(!proyecto.proyectoPadre){
+              this.proyectosService.getProyectosHijos(proyecto._id,proyecto.anio).subscribe((hijos) =>{
+                proyecto.hijos = hijos;
+              });
+              this.proyectosPadre.push(proyecto);
+            }
+          }
           this.proyectos = proyectos;
+        },error =>{
+          alert(error);
         })
       });
     });
@@ -89,5 +126,17 @@ export class ActividadesComponent implements OnInit {
     this.proyectosService.actualizarProyecto(this.proyecto).subscribe(data =>{
       this.editando = false;
     })
+  }
+
+  agregarComuna(comuna){
+    this.proyecto.comunas.push(comuna._id);
+  }
+
+  agregarResponsable(responsable){
+    this.proyecto.responsables.push(responsable._id);
+  }
+
+  agregarArea(area){
+    this.proyecto.jurisdiccionesParticipantes.push(area._id);
   }
 }

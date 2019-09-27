@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const proyectoSchema = new Schema({
 //   _id: mongoose.Schema.Types.ObjectId;
+  nombre: { type: String },
   proyectoPadre: { type: String},
   codIdentificacion: { type: String },
   codPlanAnterior: { type: String },

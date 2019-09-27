@@ -10,7 +10,7 @@ import { environment } from '../../../../../environments/environment';
 export class ProyectosService {
 
   baseUrl = environment.baseUrl;
-
+  
   constructor(private http: HttpClient) { }
 
   getAreas():Observable<[]>{

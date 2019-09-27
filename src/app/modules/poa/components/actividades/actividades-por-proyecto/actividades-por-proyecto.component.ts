@@ -20,10 +20,13 @@ export class ActividadesPorProyectoComponent implements OnInit {
   @Input() proyecto = {_id: ""};
   hoy = moment(new Date(), "DD/MM/YYYY").format("YYYYMMDD");
 
+  @Input() prueba = {};
+
   constructor(private actividadesService: ActividadesService, private proyectosService: ProyectosService, private activatedRoute:ActivatedRoute) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
         this.proyecto = proyecto;
+        this.prueba = proyecto.idJurisdiccion
       })
       this.getActividades(params.get("idProyecto"));
     });
@@ -37,13 +40,6 @@ export class ActividadesPorProyectoComponent implements OnInit {
     //Crear las etapas
     if(!idProyecto.length) return;//No deberia usarse esto para controlar el error del objeto que llega desde el server.
     this.actividadesService.etapasPorProyecto(idProyecto).subscribe((etapas: any[]) =>{
-      //Esto se reemplazo creando el campo actividades desde el server
-      // for (let e = 0; e < etapas.length; e++) {
-      //   this.actividadesService.actividadesPorEtapa(etapas[e]._id).subscribe((actividades: any[]) =>{
-      //     etapas[e].actividades = actividades;
-      //     this.actividadesSelect = this.actividadesSelect.concat(actividades);
-      //   })
-      // }
       this.etapas = etapas;
     },error => {
       console.log(error);

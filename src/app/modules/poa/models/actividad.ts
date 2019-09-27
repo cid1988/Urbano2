@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { FechaActividad } from './fechaActividad';
 
 export interface Actividad {
   _id: mongoose.Schema.Types.ObjectId;
@@ -9,6 +10,6 @@ export interface Actividad {
   cumplida: boolean;
   inicioCumplido: boolean;
   cancelada: boolean;
-  fechas: Object[];
+  fechas: FechaActividad[];
   verEnDashboard: boolean;
 }

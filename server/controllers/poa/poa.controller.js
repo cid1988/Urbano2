@@ -233,6 +233,7 @@ poaCtrl.createProyecto = async (req, res, next) => {
     const proyecto = new Proyecto({
         nombre: req.body.nombre,
         anio: req.body.anio,
+        proyectoPadre: req.body.proyectoPadre,
         idJurisdiccion: req.body.idJurisdiccion,
         idPlan: req.body.idPlan
     });

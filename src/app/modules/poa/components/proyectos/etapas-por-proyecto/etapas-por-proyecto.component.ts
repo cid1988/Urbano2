@@ -8,20 +8,20 @@ import { ProyectosService } from '../../../services/proyectos/proyectos.service'
 })
 export class EtapasPorProyectoComponent implements OnInit {
 
-  etapas;
-  @Input() proyecto = {_id: ""};
+  // etapas;
+  // @Input() proyecto = {_id: ""};
 
   constructor(private proyectosService: ProyectosService) { }
 
   ngOnInit() {
-    this.getEtapas(this.proyecto)
+    // this.getEtapas(this.proyecto)
   }
 
-  getEtapas(proyecto){
-    this.proyectosService.etapasPorProyecto(proyecto).subscribe(etapas =>{
-      this.etapas = etapas;
-    },error =>{
-      alert(error);
-    })
-  }
+  // getEtapas(proyecto){
+  //   this.proyectosService.etapasPorProyecto(proyecto).subscribe(etapas =>{
+  //     this.etapas = etapas;
+  //   },error =>{
+  //     alert(error);
+  //   })
+  // }
 }
