@@ -12,4 +12,5 @@ export interface Actividad {
   cancelada: boolean;
   fechas: FechaActividad[];
   verEnDashboard: boolean;
+  idProyecto: string;
 }

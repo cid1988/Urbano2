@@ -3,6 +3,7 @@ import { ActividadesService } from '../../../services/actividades/actividades.se
 import { ActivatedRoute } from '@angular/router';
 import { ProyectosService } from '../../../services/proyectos/proyectos.service';
 import * as moment from 'moment';
+import { Actividad } from '../../../models/actividad';
 
 declare var $:any;
 
@@ -16,17 +17,15 @@ export class ActividadesPorProyectoComponent implements OnInit {
   actividades : any[];
   etapas;
   nuevaEtapa = {actividades: [], idProyecto: ""};
+  nuevaActividad = {} as Actividad;
   actividadesSelect = [];
   @Input() proyecto = {_id: ""};
   hoy = moment(new Date(), "DD/MM/YYYY").format("YYYYMMDD");
-
-  @Input() prueba = {};
 
   constructor(private actividadesService: ActividadesService, private proyectosService: ProyectosService, private activatedRoute:ActivatedRoute) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
         this.proyecto = proyecto;
-        this.prueba = proyecto.idJurisdiccion
       })
       this.getActividades(params.get("idProyecto"));
     });
@@ -79,7 +78,10 @@ export class ActividadesPorProyectoComponent implements OnInit {
     }
   }
 
-  agregarActividad(a){
-    console.log("Actividad: ",a)
+  crearActividad(actividad){
+    actividad.idProyecto = this.proyecto._id;
+    this.actividadesService.crearActividad(actividad).subscribe(data =>{
+      this.getActividades(this.proyecto._id);
+    });
   }
 }

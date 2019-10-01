@@ -31,6 +31,10 @@ export class ActividadesService {
     return this.http.get<{}>(this.baseUrl + '/poa/actividades/' + idActividad);
   }
 
+  crearActividad(actividad):Observable<{}>{
+    return this.http.post<{}>(this.baseUrl + '/poa/createActividad', actividad)
+  }
+
   guardarActividad(actividad):Observable<{}>{
     return this.http.post<{}>(this.baseUrl + '/poa/actualizarActividad', actividad);
   }

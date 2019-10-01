@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ActividadesService } from '../../../services/actividades/actividades.service';
 import { Actividad } from '../../../models/actividad';
 import { FechaActividad } from '../../../models/fechaActividad';
@@ -48,9 +48,9 @@ export class ActividadDetalleComponent implements OnInit {
 
   openModal(confirmado, fecha){
     if(confirmado){
-        this.fecha = {} as FechaActividad;
-        this.actividad.fechas.push(fecha);
-        $('#modalCrearFecha').modal('hide');
+      this.fecha = {} as FechaActividad;
+      this.actividad.fechas.push(fecha);
+      $('#modalCrearFecha').modal('hide');
     }else{
       $('#modalCrearFecha').modal('show');
     }

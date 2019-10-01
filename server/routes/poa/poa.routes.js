@@ -7,6 +7,7 @@ router.get('/actividades/:idActividad', poaCtrl.getActividad);
 router.post('/actividades', poaCtrl.getActividades);
 router.post('/actividadesPorProyecto', poaCtrl.getActividadesPorProyecto);
 router.post('/actividadesPorEtapa', poaCtrl.getActividadesPorEtapa);
+router.post('/createActividad', poaCtrl.createActividad);
 router.get('/areas', poaCtrl.getAreas);
 router.post('/areas', poaCtrl.getAreasPorPlan);
 router.post('/areas/crear', poaCtrl.createAreas);

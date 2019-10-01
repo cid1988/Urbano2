@@ -2,11 +2,15 @@
   <div class="card-body">
     <legend>Hitos/Actividades
       <button type="button" class="btn btn-outline-primary float-right" (click)="crearEtapa()">Crear etapa</button>
-      <button type="button" class="btn btn-outline-primary float-right" style="margin-left: 5px; margin-right: 20px"><i class="fa fa-plus"></i></button>
-      <input type="text" class="form-control float-right col-2" placeholder="Nuevo hito">
+      <button type="button" class="btn btn-outline-primary float-right" style="margin-left: 5px; margin-right: 20px" (click)="crearActividad(nuevaActividad)"><i class="fa fa-plus"></i></button>
+      <select type="text" class="form-control float-right col-2" style="margin-left: 5px" placeholder="Etapa" [(ngModel)]="nuevaActividad.etapa" name="etapa">
+        <option value="">Sin etapa</option>
+        <option *ngFor="let e of etapas" [ngValue]="e._id">{{e.nombre}}</option>
+      </select>
+      <input type="text" class="form-control float-right col-2" placeholder="Nueva actividad" [(ngModel)]="nuevaActividad.nombre" name="nombre">
     </legend>
 
-    <div class="row" *ngIf="actividades.length || etapas.length">
+    <div class="row" *ngIf="actividades || etapas">
       <div class="col-7"></div>
       <div class="col-1"><b>Inicio planif.</b></div>
       <div class="col-1"><b>Fin planif.</b></div>

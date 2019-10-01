@@ -119,16 +119,26 @@
                         </div>
                         <div class="form-group col-6">
                           <label for="">Presupuesto oficial</label>
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" [disabled]="!editando">$</button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">$</a>
-                                <a class="dropdown-item" href="#">u$s</a>
-                              </div>
+                          <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="!editando">
+                              {{proyecto.monedaSolicitado}}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel">
+                              <a class="dropdown-item" href="javascript:void(0)" (click)="proyecto.monedaSolicitado = '$'">$</a>
+                              <a class="dropdown-item" href="javascript:void(0)" (click)="proyecto.monedaSolicitado = 'u$s'">u$s</a>
                             </div>
                             <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="proyecto.presupuestoSolicitado" name="presupuestoSolicitado" #presupuestoSolicitado="ngModel" [disabled]="!editando">
                           </div>
+                          <!-- <div class="input-group">
+                            <div class="input-group-prepend">
+                              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" [disabled]="!editando">{{proyecto.monedaSolicitado}}</button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" (click)="setMoneda('$')">$</a>
+                                <a class="dropdown-item" (click)="setMoneda('u$s')">u$s</a>
+                              </div>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="proyecto.presupuestoSolicitado" name="presupuestoSolicitado" #presupuestoSolicitado="ngModel" [disabled]="!editando">
+                          </div> -->
                         </div>
                       </div>
                       <div class="form-row">
@@ -144,7 +154,17 @@
                         </div>
                         <div class="form-group col-6">
                           <label for="">Presupuesto adjudicado</label>
-                          <div class="input-group">
+                          <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="!editando">
+                              {{proyecto.monedaGestion}}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" [(ngModel)]="proyecto.monedaGestion" name="monedaGestion" #monedaGestion="ngModel">
+                              <a class="dropdown-item" href="javascript:void(0)" (click)="proyecto.monedaGestion = '$'">$</a>
+                              <a class="dropdown-item" href="javascript:void(0)" (click)="proyecto.monedaGestion = 'u$s'">u$s</a>
+                            </div>
+                            <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="proyecto.presupuestoGestion" name="presupuestoGestion" #presupuestoGestion="ngModel" [disabled]="!editando">
+                          </div>
+                          <!-- <div class="input-group">
                             <div class="input-group-prepend">
                               <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [(ngModel)]="proyecto.monedaGestion" name="monedaGestion" #monedaGestion="ngModel" [disabled]="!editando">$</button>
                               <div class="dropdown-menu">
@@ -153,7 +173,7 @@
                               </div>
                             </div>
                             <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="proyecto.presupuestoGestion" name="presupuestoGestion" #presupuestoGestion="ngModel" [disabled]="!editando">
-                          </div>
+                          </div> -->
                         </div>
                       </div>
                     </div>

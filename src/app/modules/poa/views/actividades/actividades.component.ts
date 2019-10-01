@@ -96,6 +96,7 @@ export class ActividadesComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
         this.proyecto = proyecto;
+        
         let data = {_id: proyecto.idJurisdiccion};//Se arma el objeto de esta forma para que lo reciba el service
         let dataPlan = {_id: proyecto.idPlan};//Se arma el objeto de esta forma para que lo reciba el service
 
@@ -119,7 +120,7 @@ export class ActividadesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.actividadesPorProyecto.getActividades(this.proyecto);
+    // this.actividadesPorProyecto.getActividades(this.proyecto);
   }
 
   guardarProyecto(){

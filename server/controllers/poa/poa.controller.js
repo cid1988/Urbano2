@@ -89,6 +89,23 @@ poaCtrl.getActividadesPorEtapa = async (req, res, next) => {
     }
 };
 
+poaCtrl.createActividad = async (req, res, next) => {
+    const actividad = new Actividad({
+        nombre: req.body.nombre,
+        etapa: req.body.etapa,
+        idProyecto: req.body.idProyecto
+    });
+
+    try{
+        await actividad.save();
+        console.log(res)
+        res.json({status: 'Actividad creada con exito'});
+    }catch(error){
+        console.log(res)
+        res.json({status: 'Se ha producido un error'});
+    }
+};
+
 poaCtrl.updateActividad = async (req, res, next) => {
     const { id } = req.body;
     const actividad = {

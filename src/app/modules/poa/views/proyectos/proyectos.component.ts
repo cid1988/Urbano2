@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProyectosPorPlanComponent } from '../../components/proyectos/proyectos-por-plan/proyectos-por-plan.component';
 import { ProyectosService } from '../../services/proyectos/proyectos.service';
 import { PlanesService } from '../../services/planes/planes.service';
+import { Plan } from '../../models/plan';
 
 @Component({
   selector: 'app-proyectos',
@@ -10,7 +11,7 @@ import { PlanesService } from '../../services/planes/planes.service';
 })
 export class ProyectosComponent implements OnInit {
 
-  plan = {};//De entrada traer siempre el ultimo
+  plan: Plan;//De entrada traer siempre el ultimo
   planes = [];
   area = {};//Traer las correspondientes segun permisos
   areas: any = [];
@@ -27,6 +28,7 @@ export class ProyectosComponent implements OnInit {
   }
 
   ngOnInit() {
+    
   }
   
   seleccionPlan(plan){
@@ -40,7 +42,7 @@ export class ProyectosComponent implements OnInit {
 
   seleccionArea(area){
     this.area = area;
-    this.hijo.getProyectos(this.plan,this.area)
+    this.hijo.getProyectos(this.plan,this.area);
   }
 
   filtroProyectos(searchFilter){

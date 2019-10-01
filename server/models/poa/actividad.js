@@ -12,7 +12,8 @@ const actividadSchema = new Schema({
     cancelada: { type: Boolean },
     codIdentificacion: { type: String },
     etapa: { type: String },
-    verEnDashboard: { type: Boolean }
+    verEnDashboard: { type: Boolean },
+    idProyecto: { type: String }
 },{
     versionKey: false,
     toObject: { virtuals: true },
