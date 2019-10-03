@@ -8,4 +8,4 @@ const compromisoGobiernoSchema = new Schema({
     versionKey: false
 });
 
-module.exports = mongoose.model('CompromisoGobierno', areaSchema, 'poa.compromisosgobierno');
+module.exports = mongoose.model('CompromisoGobierno', compromisoGobiernoSchema, 'poa.compromisosgobierno');
