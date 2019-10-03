@@ -17,7 +17,12 @@ consumes:
 # format of the responses to the client (Accepts)
 produces:
   - application/json
-
+securityDefinitions:
+   # X-API-Key: abcdef12345
+   APIKeyHeader:
+     type: apiKey
+     in: header
+     name: X-API-Key
 
   
 paths:
@@ -362,15 +367,60 @@ paths:
       responses:
         200:
           description: OK
-  # //////////////////////////////////////////////////////////////////// POA
+  # //////////////////////////////////////////////////////////////////// Comunas
+  /login:
+    x-swagger-router-controller: login
+    post:
+      tags: 
+        - Login
+      operationId: login
+      parameters:
+        - in: body
+          name: body
+          description: Usuario y pass
+          schema:
+            type: object
+            required:
+              - username
+              - password
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: Logeado
+  # //////////////////////////////////////////////////////////////////// POA - Actividades
   /poa/actividades:
     x-swagger-router-controller: poa
     get:
-      summary: Trear todas las actividades
-      description: Listar actividades de POA
+      summary: Trae actividades de POA
+      description: Lista actividades de POA donde se puede filtrar por ID de un plan, ID de jurisdiccion, ID de objecto de impacto o ID de un proyecto
       operationId: getActividades
+      parameters:
+        - in: query
+          name: idPlan
+          type: string
+          required: false
+        - in: query
+          name: idJurisdiccion
+          type: string
+          required: false
+        - in: query
+          name: idObjImpacto
+          type: string
+          required: false
+        - in: query
+          name: idProyecto
+          type: string
+          required: false
+        - in: query
+          name: etapa
+          type: string
+          required: false
       tags:
-        - POA
+        - POA - Actividades
       responses: 
         200:
           description: OK
@@ -381,7 +431,7 @@ paths:
     post:
       summary: Crear Actividad
       tags: 
-        - POA
+        - POA - Actividades
       operationId: createActividad
       parameters:
         - in: body
@@ -403,13 +453,13 @@ paths:
       responses:
         200:
           description: ok
-  # //////////////////////////////////////////////////////////////////// POA
+          
   /poa/actividadEliminar:
     x-swagger-router-controller: poa
     post:
       summary: Marcar actividad como eliminada
       tags: 
-        - POA
+        - POA - Actividades
       operationId: deleteActividad
       parameters:
         - in: body
@@ -425,67 +475,13 @@ paths:
       responses:
         200:
           description: Actividad marcada como eliminada = 'true'
-  # //////////////////////////////////////////////////////////////////// POA
-  /poa/actividadesPorProyecto:
-    x-swagger-router-controller: poa
-    post:
-      summary: Trear todas las actividades de un proyecto
-      tags: 
-        - POA
-      operationId: getActividadesPorProyecto
-      parameters:
-        - in: body
-          name: body
-          description: ID del proyecto
-          schema:
-            type: object
-            required:
-              - id
-            properties:
-              id:
-                type: string
-      responses:
-        200:
-          description: ok
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Actividad'
-              
-  # ////////////////////////////////////////////////////////////////////
-  /poa/actividadesPorEtapa:
-    x-swagger-router-controller: poa
-    post:
-      summary: Trear todas las actividades de una etapa
-      tags: 
-        - POA
-      operationId: getActividadesPorEtapa
-      parameters:
-        - in: body
-          name: body
-          description: ID de la etapa
-          schema:
-            type: object
-            required:
-              - id
-            properties:
-              id:
-                type: string
-      responses:
-        200:
-          description: ok
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Actividad'
-              
-  # ////////////////////////////////////////////////////////////////////
+          
   /poa/actividades/{id}:
     x-swagger-router-controller: poa
     get:
       summary: Trear etapa por ID
       tags:
-        - POA
+        - POA - Actividades
       description: Lista etapas del Proyecto
       operationId: getActividadPorID
       parameters:
@@ -502,7 +498,7 @@ paths:
     put:
       summary: Editar una etapa por ID
       tags: 
-        - POA
+        - POA - Actividades
       operationId: updateActividad
       parameters:
         - name: id
@@ -531,7 +527,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Etapa'  
-  # //////////////////////////////////////////////////////////////////// POA
+  # //////////////////////////////////////////////////////////////////// POA - Areas
   /poa/areas:
     x-swagger-router-controller: poa
     get:
@@ -544,7 +540,7 @@ paths:
           type: string
           required: false
       tags:
-        - POA
+        - POA - Areas
       responses: 
         200:
           description: OK
@@ -552,42 +548,36 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Area'
-  # ////////////////////////////////////////////////////////////////////
-  /poa/areasPorPlan:
+  # //////////////////////////////////////////////////////////////////// POA - Compromisos Gobierno
+  /poa/compromisosGobierno:
     x-swagger-router-controller: poa
-    post:
-      summary: Trear todas las areas correspodiente a un plan
-      description: Listar areas de un plan de POA
-      operationId: getAreasPorPlan
+    get:
+      summary: Trear todos los compromisos
+      description: Listar compromisos de gobierno de POA
+      operationId: getCompromisosGobierno
       tags:
-        - POA
-      parameters:
-        - in: body
-          name: body
-          description: Objecto con el id del plan
-          schema:
-            type: object
-            required:
-              - id
-            properties:
-              id:
-                type: string
+        - POA - Compromisos Gobierno
       responses: 
         200:
           description: OK
           schema:
             type: array
             items:
-              $ref: '#/definitions/Area'
-  # ////////////////////////////////////////////////////////////////////
+              $ref: '#/definitions/CompromisoGobierno'
+  # //////////////////////////////////////////////////////////////////// POA - Etapas
   /poa/etapas:
     x-swagger-router-controller: poa
     get:
       summary: Trear todas las etapas
       description: Lista etapas del Proyecto
       operationId: getEtapas
+      parameters:
+        - in: query
+          name: idProyecto
+          type: string
+          required: false
       tags:
-        - POA
+        - POA - Etapas
       responses: 
         200:
           description: OK
@@ -598,7 +588,7 @@ paths:
     post:
       summary: Crear etapa
       tags: 
-        - POA
+        - POA - Etapas
       operationId: createEtapa
       parameters:
         - in: body
@@ -620,14 +610,13 @@ paths:
       responses:
         200:
           description: ok
-    
-  # ////////////////////////////////////////////////////////////////////
+          
   /poa/etapas/{id}:
     x-swagger-router-controller: poa
     get:
       summary: Trear etapa por ID
       tags:
-        - POA
+        - POA - Etapas
       description: Lista etapas del Proyecto
       operationId: getEtapaPorId
       parameters:
@@ -644,7 +633,7 @@ paths:
     put:
       summary: Editar una etapa por ID
       tags: 
-        - POA
+        - POA - Etapas
       operationId: updateEtapa
       parameters:
         - name: id
@@ -673,13 +662,13 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Etapa'  
-  # ////////////////////////////////////////////////////////////////////
+            
   /poa/etapaEliminar:
     x-swagger-router-controller: poa
     post:
       summary: Marcar una etapa como eliminada
       tags: 
-        - POA
+        - POA - Etapas
       operationId: deleteEtapa
       parameters:
         - in: body
@@ -695,37 +684,14 @@ paths:
       responses:
         200:
           description: OK. Etapa marcada como eliminada = 'true'
-  # ////////////////////////////////////////////////////////////////////
-  /poa/etapasPorProyecto:
-    x-swagger-router-controller: poa
-    post:
-      summary: Buscar etapas de IDProyecto
-      tags: 
-        - POA
-      operationId: getEtapasPorProyecto
-      parameters:
-        - in: body
-          name: body
-          description: ID de la etapa a marcar como eliminado
-          schema:
-            type: object
-            required:
-              - id
-            properties:
-              id:
-                type: string
-                description: ID del proyecto seleccionado
-      responses:
-        200:
-          description: OK
-  # ////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////// POA - Grupos
   /poa/grupos:
     x-swagger-router-controller: poa
     get:
       summary: Trear todas los grupos
       description: Esta api se utliza en POA. lista los grupos de proyectos que hay
       tags: 
-        - POA
+        - POA - Grupos
       operationId: getGrupos
       responses:
         200:
@@ -737,7 +703,7 @@ paths:
     post:
       summary: Crear grupo
       tags: 
-        - POA
+        - POA - Grupos
       operationId: createGrupo
       parameters:
         - in: body
@@ -753,7 +719,132 @@ paths:
       responses:
         200:
           description: Created
-  # ////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////// POA - Objectivo de Impacto
+  /poa/objsImpacto:
+    x-swagger-router-controller: poa
+    get:
+      summary: Trear todas los Objectivos de Impacto
+      description: Lista etapas del Proyecto
+      operationId: getObjImpacto
+      parameters:
+        - in: query
+          name: idPlan
+          type: string
+          required: false
+      tags:
+        - POA - ObjImpacto
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ObjImpacto'
+    post:
+      summary: Crear Objectivo de Impacto
+      tags: 
+        - POA - ObjImpacto
+      operationId: createObjImpacto
+      parameters:
+        - in: body
+          name: body
+          description: Datos de la etapa de proyecto a crear
+          schema:
+            type: object
+            required:
+              - nombre
+            properties:
+              nombre:
+                type: string
+              anio:
+                type: integer
+              responsableDeCarga:
+                type: string
+              eliminado:
+                type: boolean
+              idPlan:
+                type: string
+      responses:
+        200:
+          description: Objectivo de Impacto Creado
+          schema:
+            $ref: '#/definitions/ObjImpacto'  
+          
+  /poa/objsImpacto/{id}:
+    x-swagger-router-controller: poa
+    get:
+      summary: Trear Objectivo de Impacto por ID
+      tags:
+        - POA - ObjImpacto
+      operationId: getObjImpactoPorId
+      parameters:
+        - name: id
+          in: path
+          description: ID de la ObjImpacto
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ObjImpacto'
+    put:
+      summary: Editar una etapa por ID
+      tags: 
+        - POA - ObjImpacto
+      operationId: updateObjImpacto
+      parameters:
+        - name: id
+          in: path
+          description: ID de la etapa
+          type: string
+          required: true
+        - in: body
+          name: body
+          description: Datos de la etapa de proyecto a actualizar
+          schema:
+            type: object
+            required:
+              - nombre
+            properties:
+              nombre:
+                type: string
+              anio:
+                type: integer
+              responsableDeCarga:
+                type: string
+              eliminado:
+                type: boolean
+              idPlan:
+                type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ObjImpacto'  
+            
+  /poa/objsImpactoEliminar:
+    x-swagger-router-controller: poa
+    post:
+      summary: Marcar una etapa como eliminada
+      tags: 
+        - POA - ObjImpacto
+      operationId: deleteObjImpacto
+      parameters:
+        - in: body
+          name: body
+          description: ID del ObjImpacto a marcar como eliminado
+          schema:
+            type: object
+            required:
+              - id
+            properties:
+              id:
+                type: string
+      responses:
+        200:
+          description: OK. Etapa marcada como eliminada = 'true'
+  # //////////////////////////////////////////////////////////////////// POA - Planes
   /poa/planes:
     x-swagger-router-controller: poa
     get:
@@ -761,7 +852,7 @@ paths:
       description: Listar planes de POA
       operationId: getPlanes
       tags:
-        - POA
+        - POA - Planes
       responses: 
         200:
           description: OK
@@ -772,7 +863,7 @@ paths:
     post:
       summary: Crear Plan
       tags: 
-        - POA
+        - POA - Planes
       operationId: createPlan
       parameters:
         - in: body
@@ -794,7 +885,7 @@ paths:
       responses:
         200:
           description: Created
-  # ////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////// POA - Proyectos
   /poa/proyectos:
     x-swagger-router-controller: poa
     get:
@@ -819,7 +910,7 @@ paths:
           type: string
           required: false
       tags:
-        - POA
+        - POA - Proyectos
       responses: 
         200:
           description: OK
@@ -830,7 +921,7 @@ paths:
     post:
       summary: Crear Plan
       tags: 
-        - POA
+        - POA - Proyectos
       operationId: createProyecto
       parameters:
         - in: body
@@ -892,7 +983,7 @@ paths:
               comunas:
                 type: array
                 items:
-                  type: string
+                  type: object
               responsables:
                 type: array
                 items:
@@ -920,29 +1011,7 @@ paths:
       responses:
         200:
           description: Created
-  # ////////////////////////////////////////////////////////////////////
-  /poa/proyectosHijos:
-    x-swagger-router-controller: poa
-    post:
-      summary: Buscar Proyecto con dato ProyectoPadre = 'idProyecto'
-      tags: 
-        - POA
-      operationId: getProyectosHijos
-      parameters:
-        - in: body
-          name: body
-          description: Datos para crear el plan
-          schema:
-            type: object
-            properties:
-              getProyectosHijos:
-                type: string
-              anio:
-                type: integer
-      responses:
-        200:
-          description: OK
-  # ////////////////////////////////////////////////////////////////////
+          
   /poa/proyectos/{id}:
     x-swagger-router-controller: poa
     get:
@@ -956,7 +1025,7 @@ paths:
           type: string
           required: true 
       tags:
-        - POA
+        - POA - Proyectos
       responses: 
         200:
           description: OK
@@ -965,7 +1034,7 @@ paths:
     put:
       summary: Editar un proyecto por ID
       tags: 
-        - POA
+        - POA - Proyectos
       operationId: updateProyecto
       parameters:
         - name: id
@@ -1032,7 +1101,7 @@ paths:
               comunas:
                 type: array
                 items:
-                  type: string
+                  type: object
               responsables:
                 type: array
                 items:
@@ -1060,14 +1129,14 @@ paths:
       responses:
         200:
           description: Actualizado
-  # ////////////////////////////////////////////////////////////////////
+  # //////////////////////////////////////////////////////////////////// POA - Prioridades Ministeriales
   /poa/prioridadesMinisteriales:
     x-swagger-router-controller: poa
     get:
       summary: Trear todas las prioridades ministeriales
       description: Lista lss prioridades ministeriales de POA
       tags: 
-        - POA
+        - POA - Prioridades Ministeriales
       operationId: getPrioridadesMinisteriales
       responses:
         200:
@@ -1080,7 +1149,7 @@ paths:
       summary: Crear una prioridad ministerial
       description: Crear una prioridad ministerial de POA
       tags: 
-        - POA
+        - POA - Prioridades Ministeriales
       operationId: createPrioridadMinisterial
       parameters:
         - in: body
@@ -1111,28 +1180,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Usuario'
-    post:
-      summary: Verificacion de usuario y contraseña
-      tags: 
-        - Usuario
-      operationId: getUserLogin
-      parameters:
-        - in: body
-          name: body
-          description: Usuario y pass
-          schema:
-            type: object
-            required:
-              - username
-              - password
-            properties:
-              username:
-                type: string
-              password:
-                type: string
-      responses:
-        200:
-          description: Logeado
   # ////////////////////////////////////////////////////////////////////
   /users/permisos:
     x-swagger-router-controller: user
@@ -1378,7 +1425,7 @@ definitions:
       comunas:
         type: array
         items:
-          type: string
+          type: object
       responsables:
         type: array
         items:
@@ -1410,6 +1457,30 @@ definitions:
         type: string
       username:
        type: string
+  ObjImpacto:
+    type: object
+    properties:
+      _id: 
+        type: string
+      nombre:
+        type: string
+      anio:
+        type: integer
+      responsableDeCarga:
+        type: string
+      eliminado:
+        type: boolean
+      idPlan:
+        type: string
+  CompromisoGobierno:
+    type: object
+    properties:
+      _id: 
+        type: string
+      nombre:
+        type: string
+      tipo:
+        type: string
 # To apply Basic auth to the whole API:
 
       

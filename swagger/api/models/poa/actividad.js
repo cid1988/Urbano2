@@ -13,12 +13,11 @@ const actividadSchema = new Schema({
     etapa: { type: String },
     predecesor: { type: String },
     verEnDashboard: { type: Boolean },
-
     
-    idPlan : { type: String },
-    idJurisdiccion: { type: String },
-    idObjImpacto: { type: String },
-    idProyecto: { type: String },
+    idPlan : { type: Schema.Types.ObjectId },
+    idJurisdiccion: { type: Schema.Types.ObjectId },
+    idObjImpacto: { type: Schema.Types.ObjectId },
+    idProyecto: { type: Schema.Types.ObjectId },
 },{
     versionKey: false,
     toObject: { virtuals: true },
