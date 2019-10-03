@@ -2,7 +2,7 @@
   <div class="card" style="margin-bottom: 20px">
     <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
       <div class="col-12">
-        <button type="button" class="btn btn-outline-light float-right" style="margin-left: 5px" routerLink="../../../.." [hidden]="editando"><i class="fa fa-arrow-left"></i> Volver</button>
+        <button type="button" class="btn btn-outline-light float-right" style="margin-left: 5px" routerLink="../.." [hidden]="editando"><i class="fa fa-arrow-left"></i> Volver</button>
         <button type="button" class="btn btn-outline-light float-right" [hidden]="editando" (click)="editando = true">Editar</button>
         <button type="button" class="btn btn-outline-light float-right" [disabled]="!actividadForm.valid" [hidden]="!editando" (click)="guardar(actividadForm)">Guardar</button>
         <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false">Cancelar</button>
