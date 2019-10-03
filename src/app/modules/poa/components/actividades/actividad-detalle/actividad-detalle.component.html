@@ -101,7 +101,7 @@
               </div>
               <hr *ngIf="actividad.fechas.length > 1">
             </div>
-            <div>Ultima modificacion el {{actividad.fechaActualizacion | date: 'dd/MM/yyyy'}} por {{actividad.usuarioActualizacion}}</div>
+            <div *ngIf="actividad.fechas">Ultima modificacion el {{actividad.fechaActualizacion | date: 'dd/MM/yyyy'}} por {{actividad.usuarioActualizacion}}</div>
           </div>
         </div>
       </div>
