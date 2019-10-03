@@ -13,13 +13,8 @@ export class ActividadesService {
   constructor(private http:HttpClient) { }
 
   actividadesPorProyecto(idProyecto):Observable<[]>{
-    let consulta = {_id: idProyecto};
+    let consulta = {id: idProyecto};
     return this.http.post<[]>(this.baseUrl + '/poa/actividadesPorProyecto' , consulta);
-  };
-
-  etapasPorProyecto(idProyecto):Observable<[]>{
-    let consulta = {_id: idProyecto};
-    return this.http.post<[]>(this.baseUrl + '/poa/etapasPorProyecto' , consulta);
   };
 
   actividadesPorEtapa(idEtapa):Observable<[]>{
@@ -32,14 +27,14 @@ export class ActividadesService {
   }
 
   crearActividad(actividad):Observable<{}>{
-    return this.http.post<{}>(this.baseUrl + '/poa/createActividad', actividad)
+    return this.http.post<{}>(this.baseUrl + '/poa/actividades', actividad);
   }
 
   guardarActividad(actividad):Observable<{}>{
-    return this.http.post<{}>(this.baseUrl + '/poa/actualizarActividad', actividad);
+    return this.http.put<{}>(this.baseUrl + '/poa/actividades/' + actividad._id, actividad);
   }
 
   guardarEtapa(etapa):Observable<{}>{
-    return this.http.post<{}>(this.baseUrl + '/poa/guardarEtapa', etapa)
+    return this.http.post<{}>(this.baseUrl + '/poa/etapas/', etapa);
   }
 }

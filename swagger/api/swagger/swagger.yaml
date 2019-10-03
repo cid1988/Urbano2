@@ -892,7 +892,7 @@ paths:
               comunas:
                 type: array
                 items:
-                  type: object
+                  type: string
               responsables:
                 type: array
                 items:
@@ -1032,7 +1032,7 @@ paths:
               comunas:
                 type: array
                 items:
-                  type: object
+                  type: string
               responsables:
                 type: array
                 items:
@@ -1378,7 +1378,7 @@ definitions:
       comunas:
         type: array
         items:
-          type: object
+          type: string
       responsables:
         type: array
         items:

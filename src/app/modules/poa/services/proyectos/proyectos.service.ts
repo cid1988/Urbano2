@@ -18,22 +18,20 @@ export class ProyectosService {
   }
 
   getProyectoPorId(idProyecto):Observable<Proyecto>{
-    let consulta = {_id: idProyecto}
-    return this.http.post<Proyecto>(this.baseUrl + '/poa/proyecto', consulta);
+    return this.http.get<Proyecto>(this.baseUrl + '/poa/proyectos/' + idProyecto);
   }
 
-  getAreasPorPlan(plan):Observable<[]>{
-    return this.http.post<[]>(this.baseUrl + '/poa/areas', plan);
+  getAreasPorPlan(idPlan):Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/poa/areas?idPlan=' + idPlan);
   };
 
-  proyectosPorPlan(plan,area):Observable<Proyecto[]>{
-    let consulta = {idPlan: plan._id, idArea: area._id}
-    return this.http.post<Proyecto[]>(this.baseUrl + '/poa/proyectos', consulta)
+  proyectosPorPlan(plan,area):Observable<Proyecto[]>{//Es necesario pasar el plan?
+    return this.http.get<Proyecto[]>(this.baseUrl + '/poa/proyectos?idJurisdiccion=' + area._id)
   };
 
-  etapasPorProyecto(proyecto):Observable<[]>{
-    let consulta = {id: proyecto._id};
-    return this.http.post<[]>(this.baseUrl + '/poa/etapasPorProyecto', consulta);
+  etapasPorProyecto(idProyecto):Observable<[]>{
+    let consulta = {id: idProyecto};
+    return this.http.post<[]>(this.baseUrl + '/poa/etapasPorProyecto' , consulta);
   };
 
   getProyectosHijos(idProyecto,anio):Observable<[]>{
@@ -42,7 +40,7 @@ export class ProyectosService {
   }
 
   actualizarProyecto(proyecto):Observable<{}>{
-    return this.http.post<{}>(this.baseUrl + '/poa/updateProyecto', proyecto);
+    return this.http.put<{}>(this.baseUrl + '/poa/proyectos/' + proyecto._id, proyecto);
   }
 
   crearPlan(plan){
@@ -54,6 +52,6 @@ export class ProyectosService {
   }
 
   crearProyecto(proyecto):Observable<{}>{
-    return this.http.post<{}>(this.baseUrl + '/poa/proyecto/crear', proyecto);
+    return this.http.post<{}>(this.baseUrl + '/poa/proyectos', proyecto);
   }
 }

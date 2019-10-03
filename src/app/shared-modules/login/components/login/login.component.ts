@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoginService } from '../../services/login.service';
+import { Component, OnInit } from '@angular/core';
+import { LoginService } from '../../services/login/login.service';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user/user.service';

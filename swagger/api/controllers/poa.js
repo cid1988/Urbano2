@@ -61,9 +61,9 @@ async function updateEtapa (req, res, next){
 };
 
 async function getEtapasPorProyecto (req, res, next){
-    const { _id } = req.body;
+    const { id } = req.swagger.params.body.value;
     try{
-        const etapas = await Etapa.find({idProyecto: _id, eliminado: {$exists: false}})
+        const etapas = await Etapa.find({idProyecto: id, eliminado: {$exists: false}})
         .populate('actividades')
         .sort("orden");
         res.json(etapas);
@@ -100,7 +100,6 @@ async function createActividad(req, res, next){
 };
 
 async function updateActividad (req, res, next){
-    console.log(req.swagger.params.body.value.id)
     try{
         await Actividad.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
@@ -126,6 +125,7 @@ async function deleteActividad(req, res, next){
 };
 
 async function getActividadesPorProyecto (req, res, next){
+    console.log(req.swagger.params.body.value.id)
     const idProyecto = req.swagger.params.body.value.id;
     try{
         const actividades = await Actividad.find({
@@ -138,7 +138,6 @@ async function getActividadesPorProyecto (req, res, next){
                 },
                 {   eliminado: {$exists:false}  },
                 {   etapa: {$eq: null}  } //Deberia ser eq o ne?
-                
             ]
         })
         res.json(actividades);
@@ -307,8 +306,8 @@ async function getProyectosHijos (req, res, next){
 }
 
 async function updateProyecto (req, res, next){
-    const { id } = req.swagger.params.id.value;
-    await Proyecto.findByIdAndUpdate(id, {$set: req.swagger.params.body.value}, {new: false});
+    const { _id } = req.swagger.params.body.value;
+    await Proyecto.findByIdAndUpdate(_id, {$set: req.swagger.params.body.value}, {new: false});
     res.json({status: 'Proyecto actualizado con exito'});
 };
 

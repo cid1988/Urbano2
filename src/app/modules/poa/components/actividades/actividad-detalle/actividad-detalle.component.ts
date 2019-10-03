@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ActividadesService } from '../../../services/actividades/actividades.service';
 import { Actividad } from '../../../models/actividad';
 import { FechaActividad } from '../../../models/fechaActividad';
+import { ProyectosService } from '../../../services/proyectos/proyectos.service';
 
 declare var $:any;
 
@@ -21,12 +22,12 @@ export class ActividadDetalleComponent implements OnInit {
   predecesores: Actividad[];
   state;
 
-  constructor(private activatedRoute:ActivatedRoute, private actividadesService:ActividadesService) {
+  constructor(private activatedRoute:ActivatedRoute, private proyectosService: ProyectosService, private actividadesService:ActividadesService) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.actividadesService.getActividad(params.get("idActividad")).subscribe((actividad: Actividad) =>{
         this.actividad = actividad;
       });
-      this.actividadesService.etapasPorProyecto(params.get("idProyecto")).subscribe(etapas =>{
+      this.proyectosService.etapasPorProyecto(params.get("idProyecto")).subscribe(etapas =>{
         this.etapas = etapas;
       });
       this.actividadesService.actividadesPorProyecto(params.get('idProyecto')).subscribe(actividades =>{

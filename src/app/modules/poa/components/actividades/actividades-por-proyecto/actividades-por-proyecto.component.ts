@@ -38,7 +38,7 @@ export class ActividadesPorProyectoComponent implements OnInit {
   getActividades(idProyecto){
     //Crear las etapas
     if(!idProyecto.length) return;//No deberia usarse esto para controlar el error del objeto que llega desde el server.
-    this.actividadesService.etapasPorProyecto(idProyecto).subscribe((etapas: any[]) =>{
+    this.proyectosService.etapasPorProyecto(idProyecto).subscribe((etapas: any[]) =>{
       this.etapas = etapas;
     },error => {
       console.log(error);

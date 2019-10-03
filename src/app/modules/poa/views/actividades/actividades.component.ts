@@ -3,6 +3,7 @@ import { ActividadesPorProyectoComponent } from '../../components/actividades/ac
 import { ActivatedRoute } from '@angular/router';
 import { ProyectosService } from '../../services/proyectos/proyectos.service';
 import { Proyecto } from '../../models/proyecto';
+import { ComunasService } from 'src/app/shared-modules/login/services/comunas/comunas.service';
 
 @Component({
   selector: 'actividades',
@@ -13,7 +14,7 @@ export class ActividadesComponent implements OnInit {
 
   @ViewChild(ActividadesPorProyectoComponent, {static: true}) actividadesPorProyecto: ActividadesPorProyectoComponent;
   proyecto = <Proyecto>{};
-  proyectos = [];
+  proyectos: Proyecto[];
   editando = false;
   proyectoForm = {};
   proyectosPadre = [];
@@ -74,25 +75,14 @@ export class ActividadesComponent implements OnInit {
     nombre: "Sin priorizar"
   }];
 
-  comunasLista = [{
-    _id: "111",
-    nombre: "Comuna 1"
-  },{
-    _id: "222",
-    nombre: "Comuna 2"
-  }];
-  
-  contactos = [{
-    _id: "11111",
-    nombre: "Pablo perello"
-  }];
+  comunasLista;
 
   areas = [{
     _id: "111",
     nombre: "Area 1"
   }];
 
-  constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService) {
+  constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService, private comunasService: ComunasService) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
         this.proyecto = proyecto;
@@ -117,6 +107,10 @@ export class ActividadesComponent implements OnInit {
         })
       });
     });
+
+    this.comunasService.getComunas().subscribe(comunas =>{
+      this.comunasLista = comunas;
+    })
   }
 
   ngOnInit() {
@@ -130,7 +124,9 @@ export class ActividadesComponent implements OnInit {
   }
 
   agregarComuna(comuna){
+    if(this.proyecto.comunas == null) this.proyecto.comunas = [];//Llega el campo como null ver en el modelo por que no llega como array vacio
     this.proyecto.comunas.push(comuna._id);
+    //Deberian excluirse del listado de comunas las que ya estan agregadas
   }
 
   agregarResponsable(responsable){

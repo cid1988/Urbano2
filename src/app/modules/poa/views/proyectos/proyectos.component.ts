@@ -33,7 +33,7 @@ export class ProyectosComponent implements OnInit {
   
   seleccionPlan(plan){
     this.plan = plan;
-    this.proyectosService.getAreasPorPlan(this.plan).subscribe(areas =>{
+    this.proyectosService.getAreasPorPlan(this.plan._id).subscribe(areas =>{
       this.areas = areas;
       this.area = areas.slice(-1)[0];
       this.hijo.getProyectos(this.plan,this.area);
