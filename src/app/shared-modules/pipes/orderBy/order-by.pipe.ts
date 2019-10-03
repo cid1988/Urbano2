@@ -4,25 +4,13 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'orderBy'
 })
 export class OrderByPipe implements PipeTransform {
-
-  // transform(array: any[], args: string): any[] {
-  //   array.sort((a: any, b: any) => {
-  //     if (a < b) {
-  //       return -1;
-  //     } else if (a > b) {
-  //       return 1;
-  //     } else {
-  //       return 0;
-  //     }
-  //   });
-  //   return array;
-  // }
-
+    //Uso en frontend let a of data | orderBy: 'campo': true/false: 'number'/'string'
     transform(array: Array<any>, orderField: string, orderType: boolean, dataType: string): Array<string> {
         if(!array) return;
         array.sort((a: any, b: any) => {
             let ae = a[orderField];
             let be = b[orderField];
+            if (ae === null && be === null) return 10;
             if (ae === undefined && be === undefined) return 0;
             if (ae === undefined && be !== undefined) return orderType ? 1 : -1;
             if (ae !== undefined && be === undefined) return orderType ? -1 : 1;
