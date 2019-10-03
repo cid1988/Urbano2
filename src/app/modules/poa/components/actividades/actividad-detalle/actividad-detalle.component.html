@@ -8,7 +8,7 @@
         <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false">Cancelar</button>
         <button type="button" class="btn btn-outline-danger float-right" style="margin-right: 5px" (click)="eliminarActividad()" [hidden]="!editando">Eliminar</button>
       </div>
-      <small>Plan - Area Proyecto</small>
+      <small>{{actividad.anio}} - {{actividad.idJurisdiccion}} - {{actividad.idProyecto}}</small>
     </div>
   </div>
   <!-- {{filtro.plan.anio}} - {{filtro.area.nombre}} - {{filtro.proyecto.nombre}}
