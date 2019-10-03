@@ -10,7 +10,6 @@ export class OrderByPipe implements PipeTransform {
         array.sort((a: any, b: any) => {
             let ae = a[orderField];
             let be = b[orderField];
-            if (ae === null && be === null) return 10;
             if (ae === undefined && be === undefined) return 0;
             if (ae === undefined && be !== undefined) return orderType ? 1 : -1;
             if (ae !== undefined && be === undefined) return orderType ? -1 : 1;
