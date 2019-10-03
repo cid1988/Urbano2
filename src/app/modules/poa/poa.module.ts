@@ -7,7 +7,6 @@ import { ActividadesPorProyectoComponent } from './components/actividades/activi
 import { ProyectosComponent } from './views/proyectos/proyectos.component';
 import { ActividadesComponent } from './views/actividades/actividades.component';
 import { FormsModule } from '@angular/forms';
-import { EtapasPorProyectoComponent } from './components/proyectos/etapas-por-proyecto/etapas-por-proyecto.component';
 import { ActividadDetalleComponent } from './components/actividades/actividad-detalle/actividad-detalle.component';
 import { OrderByPipe } from 'src/app/shared-modules/pipes/orderBy/order-by.pipe';
 import { FilterPipe } from 'src/app/shared-modules/pipes/filter/filter.pipe';
@@ -22,7 +21,7 @@ const poaRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [OrderByPipe, FilterPipe, ReversePipe, PlanCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, EtapasPorProyectoComponent, ActividadDetalleComponent],
+  declarations: [OrderByPipe, FilterPipe, ReversePipe, PlanCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, ActividadDetalleComponent],
   imports: [
     CommonModule,
     FormsModule,
