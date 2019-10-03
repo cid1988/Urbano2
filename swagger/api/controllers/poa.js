@@ -25,7 +25,6 @@ async function getActividades (req, res, next){
     idProyecto? query.idProyecto = ObjectId(idProyecto) : '';
     etapa? query.etapa = etapa : '';
     query.eliminado = {$exists:false}
-    console.log(query)
     try{
         const actividades = await Actividad.find(query);
         res.status(200).json(actividades);
@@ -142,7 +141,9 @@ async function getEtapas(req, res, next){
     idProyecto? query.idProyecto = idProyecto : '';
     query.eliminado = {$exists:false}
     try{
-        const etapas = await Etapa.find(query);
+        const etapas = await Etapa.find(query)
+        .populate('actividades')
+        .sort("orden");
         res.status(200).json(etapas);
     }catch(error){
         res.status(500).json(error);
@@ -161,7 +162,7 @@ async function getEtapaPorId(req, res, next){
 async function createEtapa(req, res, next){
     const etapa = new Etapa(req.swagger.params.body.value);
     await etapa.save();
-    res.json({status: 'Contacto creado'});
+    res.json({status: 'Etapa creada'});
 };
 
 async function deleteEtapa(req, res, next){

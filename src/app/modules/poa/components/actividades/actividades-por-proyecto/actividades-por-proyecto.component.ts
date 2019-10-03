@@ -21,7 +21,8 @@ export class ActividadesPorProyectoComponent implements OnInit {
   actividadesSelect = [];
   @Input() proyecto = {_id: ""};
   hoy = moment(new Date(), "DD/MM/YYYY").format("YYYYMMDD");
-
+  editEtapa = {actividades: [], idProyecto: ""};
+  
   constructor(private actividadesService: ActividadesService, private proyectosService: ProyectosService, private activatedRoute:ActivatedRoute) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
@@ -57,7 +58,7 @@ export class ActividadesPorProyectoComponent implements OnInit {
   //etapa.
   crearEtapa(etapa){
     if(etapa){
-      this.actividadesService.guardarEtapa(etapa).subscribe(data =>{
+      this.actividadesService.crearEtapa(etapa).subscribe(data =>{
         this.getActividades(this.proyecto._id);
         $('#modalCrearEtapa').modal('hide');
       });
@@ -70,11 +71,15 @@ export class ActividadesPorProyectoComponent implements OnInit {
   editarEtapa(etapa,guardar){
     if(guardar){
       alert("Guardando cambios");
-      this.nuevaEtapa = {actividades: [],idProyecto: this.proyecto._id};
-      $('#modalCrearEtapa').modal('hide');
+      this.actividadesService.editarEtapa(this.editEtapa).subscribe(data =>{
+        this.getActividades(this.proyecto._id);
+        this.editEtapa = {actividades: [],idProyecto: this.proyecto._id};
+        $('#modalEditarEtapa').modal('hide');
+      });
+      $('#modalEditarEtapa').modal('hide');
     }else{
-      this.nuevaEtapa = etapa;
-      $('#modalCrearEtapa').modal('show');
+      this.editEtapa = etapa;
+      $('#modalEditarEtapa').modal('show');
     }
   }
 

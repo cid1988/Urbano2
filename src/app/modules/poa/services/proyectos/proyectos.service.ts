@@ -30,13 +30,11 @@ export class ProyectosService {
   };
 
   etapasPorProyecto(idProyecto):Observable<[]>{
-    let consulta = {id: idProyecto};
-    return this.http.post<[]>(this.baseUrl + '/poa/etapasPorProyecto' , consulta);
+    return this.http.get<[]>(this.baseUrl + '/poa/etapas?idProyecto=' + idProyecto);
   };
 
-  getProyectosHijos(idProyecto,anio):Observable<[]>{
-    let consulta = {idProyecto: idProyecto, anio: anio}
-    return this.http.post<[]>(this.baseUrl + '/poa/proyectosHijos', consulta);
+  getProyectosHijos(idProyecto,idPlan):Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/poa/proyectos?idPlan=' + idPlan + '&proyectoPadre=' + idProyecto);
   }
 
   actualizarProyecto(proyecto):Observable<{}>{

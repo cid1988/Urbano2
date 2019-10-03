@@ -31,8 +31,9 @@ export interface Proyecto {
   responsables: string[];
   jurisdiccionesParticipantes: string[];//Areas participantes
   
-  idPlan: string;
-  idJurisdiccion: string;//Va?
+  idPlan: mongoose.Schema.Types.ObjectId;
+  idJurisdiccion: mongoose.Schema.Types.ObjectId;
+  idObjImpacto: mongoose.Schema.Types.ObjectId;
   responsableDeCarga: string;//Va?
   fechaActualizacion: string;
   usuarioActualizacion: string;

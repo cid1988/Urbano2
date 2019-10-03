@@ -32,7 +32,7 @@ export class ProyectosPorPlanComponent implements OnInit {
         let proyecto = proyectos[p];
         // Armar los proyectos hijos del proyecto
         if(!proyecto.proyectoPadre){
-          this.proyectosService.getProyectosHijos(proyecto._id,proyecto.anio).subscribe((hijos) =>{
+          this.proyectosService.getProyectosHijos(proyecto._id,proyecto.idPlan).subscribe((hijos) =>{
             proyecto.hijos = hijos;
           });
           this.proyectosPadre.push(proyecto);
