@@ -20,4 +20,21 @@ etapaSchema.virtual('actividades', {
     justOne: false
 });
 
+etapaSchema.virtual('color').get(function(){
+    let color='green'
+    console.log(this.actividades.length)
+    for (let index = 0; index < this.actividades.length; index++) {
+
+        if(this.actividades[index].color == 'red'){
+            color=this.actividades[index].color
+            return color;
+        }
+        if(this.actividades[index].color == 'blue'){
+            color=this.actividades[index].color
+        }else color='green'
+    }
+    return color;
+})
+
+
 module.exports = mongoose.model('Etapa', etapaSchema, 'poa.etapas');
