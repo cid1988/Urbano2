@@ -1004,10 +1004,12 @@ paths:
                 type: string
               idJurisdiccion:
                 type: string
-              anio:
-                type: number
+              idObjImpacto:
+                type: string
               eliminado:
                 type: boolean
+              anio: 
+                type: integer
       responses:
         200:
           description: Created
@@ -1101,15 +1103,15 @@ paths:
               comunas:
                 type: array
                 items:
-                  type: object
+                  type: string
               responsables:
                 type: array
                 items:
-                  type: object
+                  type: string
               jurisdiccionesParticipantes:
                 type: array
                 items:
-                  type: object
+                  type: string
               responsableDeCarga:
                 type: string
               fechaActualizacion:
@@ -1122,10 +1124,12 @@ paths:
                 type: string
               idJurisdiccion:
                 type: string
-              anio:
-                type: number
+              idObjImpacto:
+                type: string
               eliminado:
                 type: boolean
+              anio:
+                type: integer
       responses:
         200:
           description: Actualizado
@@ -1425,15 +1429,15 @@ definitions:
       comunas:
         type: array
         items:
-          type: object
+          type: string
       responsables:
         type: array
         items:
-          type: object
+          type: string
       jurisdiccionesParticipantes:
         type: array
         items:
-          type: object
+          type: string
       responsableDeCarga:
         type: string
       fechaActualizacion:
@@ -1446,8 +1450,8 @@ definitions:
         type: string
       idJurisdiccion:
         type: string
-      anio:
-        type: number
+      idObjImpacto:
+        type: string
       eliminado:
         type: boolean
   Usuario:

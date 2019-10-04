@@ -58,8 +58,10 @@ async function updateActividad (req, res, next){
         await Actividad.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             req.swagger.params.body.value,
-            { new: false, upsert: true, strict: false}); // Make this update into an upsert
-        res.status(200);
+            { new: false, upsert: true, strict: false}).exec(function(err,data){
+                if(err)  res.stutus(500).json(err);
+                else  res.status(200).json(data);
+            }); // Make this update into an upsert
     } catch(error){
         res.json(error);
     }
@@ -183,8 +185,10 @@ async function updateEtapa (req, res, next){
         await Etapa.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             req.swagger.params.body.value,
-            { new: false, upsert: true, strict: false}); // Make this update into an upsert
-        res.status(201);
+            { new: false, upsert: true, strict: false}).exec(function(err,data){
+                if(err)  res.json(err);
+                else  res.status(200).json(data);
+            }); // Make this update into an upsert
     } catch(error){
         res.json(error);
     }
@@ -383,13 +387,22 @@ async function getProyectos (req, res, next){
 };
 
 async function updateProyecto (req, res, next){
-    const { id } = req.swagger.params.body.value;
-    const data = req.swagger.params.body.value;
-    data.idPlan= ObjectId(data.idPlan)
-    data.idObjImpacto= ObjectId(data.idObjImpacto)
-    data.idJurisdiccion= ObjectId(data.idJurisdiccion)
-    await Proyecto.findByIdAndUpdate(id, {$set: req.swagger.params.body.value}, {new: false});
-    res.json({status: 'Proyecto actualizado con exito'});
+    try{
+        const { id } = req.swagger.params.body.value;
+        const data = req.swagger.params.body.value;
+        data.idPlan= ObjectId(data.idPlan)
+        data.idObjImpacto= ObjectId(data.idObjImpacto)
+        data.idJurisdiccion= ObjectId(data.idJurisdiccion)
+        Proyecto.findByIdAndUpdate(id, {$set: data}, {new: false}).exec(function(err,data){
+            if(err){
+                console.log('Error')
+                res.status(500).json(err)
+            }else res.status(200).json(data)
+        })
+    }catch(error){
+        res.json(error);
+    }
+    
 };
 
 async function createProyecto (req, res, next){
