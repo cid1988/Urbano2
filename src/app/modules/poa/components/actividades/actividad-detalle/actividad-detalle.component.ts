@@ -40,10 +40,9 @@ export class ActividadDetalleComponent implements OnInit {
     
   }
 
-  guardar(form){
+  guardar(){
     this.actividadesService.guardarActividad(this.actividad).subscribe((data:any) =>{
-      this.editando = false;//Guarda pero no entra al subscribe
-      alert(data.status);
+      this.editando = false;
     })
   }
 

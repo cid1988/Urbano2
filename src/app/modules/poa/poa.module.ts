@@ -16,7 +16,7 @@ const poaRoutes: Routes = [
   {path:'poa',component:ProyectosComponent},
   {path:'poa/proyecto/:idProyecto',component:ActividadesComponent},
   {path:'poa/plan/crear',component:PlanCrearComponent},
-  {path:'poa/proyecto/:idProyecto/etapa/:idEtapa/actividad/:idActividad',component:ActividadDetalleComponent},
+  // {path:'poa/proyecto/:idProyecto/etapa/:idEtapa/actividad/:idActividad',component:ActividadDetalleComponent},
   {path:'poa/proyecto/:idProyecto/actividad/:idActividad',component:ActividadDetalleComponent}
 ];
 

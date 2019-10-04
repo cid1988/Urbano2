@@ -29,7 +29,7 @@
               <li class="list-group-item" *ngFor="let a of e.actividades | orderBy: 'codIdentificacion': false: 'string'">
                 <div class="row">
                   <div class="col-7">
-                    <a [routerLink]="['etapa/', e._id, 'actividad', a._id]"><span [hidden]="!a.codIdentificacion"> {{a.codIdentificacion}} -</span> {{a.nombre}}</a>
+                    <a [routerLink]="['actividad', a._id]"><span [hidden]="!a.codIdentificacion"> {{a.codIdentificacion}} -</span> {{a.nombre}}</a>
                   </div>
                   <div class="col-1">
                     {{a.fechas[0]?.fechaInicio}}
@@ -59,16 +59,16 @@
                   <a [routerLink]="['actividad/', a._id]"><span [hidden]="!a.codIdentificacion">{{a.codIdentificacion}} -</span> {{a.nombre}}</a>
                 </div>
                 <div class="col-1">
-                  {{a.fechas[0].fechaInicio}}
+                  {{a.fechas[0]?.fechaInicio}}
                 </div>
                 <div class="col-1">
-                  {{a.fechas[0].fechaFin}}
+                  {{a.fechas[0]?.fechaFin}}
                 </div>
                 <div class="col-1">
-                  {{a.fechas.slice(-1)[0].fechaInicio}}
+                  {{a.fechas.slice(-1)[0]?.fechaInicio}}
                 </div>
                 <div class="col-1">
-                  {{a.fechas.slice(-1)[0].fechaFin}}
+                  {{a.fechas.slice(-1)[0]?.fechaFin}}
                 </div>
                 <div class="col-1">
                   <!-- <span [ngClass]="{'dotBlue': a.cumplida, 'dotGreen': a.estado == 'vigente', 'dotRed': a.estado == 'vencido', 'dotBlack': a.cancelada}" style="color: 'red'"></span> -->

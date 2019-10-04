@@ -43,11 +43,11 @@
           <div class="form-group col-2">
             <label for="codIdentificacion">Nro identificacion</label>
             <input type="text" class="form-control" id="codIdentificacion" [disabled]="!editando" [(ngModel)]="actividad.codIdentificacion" name="codIdentificacion" #codIdentificacion="ngModel">
-            <div [hidden]="codIdentificacion.valid || codIdentificacion.pristine" class="alert alert-danger">
+            <!-- <div [hidden]="codIdentificacion.valid || codIdentificacion.pristine" class="alert alert-danger">
               <div *ngIf="codIdentificacion.errors?.required">
                 Este campo es requerido.
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="form-row"><!--No deberia poder elegirse a si mismo -->

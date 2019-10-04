@@ -86,7 +86,7 @@ export class ActividadesPorProyectoComponent implements OnInit {
   crearActividad(actividad){
     actividad.idProyecto = this.proyecto._id;
     this.actividadesService.crearActividad(actividad).subscribe(data =>{
-      this.getActividades(this.proyecto._id);
+      this.getActividades(this.proyecto._id);//No recibo respuesta del subscribe
     });
   }
 }
