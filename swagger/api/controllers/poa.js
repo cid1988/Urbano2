@@ -29,7 +29,7 @@ async function getActividades (req, res, next){
         const actividades = await Actividad.find(query);
         res.status(200).json(actividades);
     }catch(error){
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -38,15 +38,17 @@ async function getActividadPorID (req, res, next){
         const actividad = await Actividad.findById(req.swagger.params.id.value)
         res.status(200).json(actividad);
     }catch(error){
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
 async function createActividad(req, res, next){
-    const actividad = new Actividad(req.swagger.params.body.value);
     try{
-        await actividad.save();
-        res.status(201);
+        const actividad = new Actividad(req.swagger.params.body.value);
+        actividad.save().exec(function(err,data){
+            if(err) res.status(500).json(error);
+            else  res.status(200).json(data);
+        });
     } catch(error){
         res.json(error);
     }
@@ -90,7 +92,7 @@ async function getAreas (req, res, next){
         const areas = await Area.find(query);
         res.status(200).json(areas);
     }catch(error){
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -122,7 +124,7 @@ async function getCompromisosGobierno(req, res, next){
     try{
         CompromisoGobierno.find({}).exec(function(err, compromisos) {
             if(compromisos) res.status(200).json(compromisos);
-            else console.log(err)
+            else res.status(500).json(err);
         });
     }catch(error){
         res.json(error);
@@ -162,9 +164,16 @@ async function getEtapaPorId(req, res, next){
 };
 
 async function createEtapa(req, res, next){
-    const etapa = new Etapa(req.swagger.params.body.value);
-    await etapa.save();
-    res.json({status: 'Etapa creada'});
+    try{
+        const etapa = new Etapa(req.swagger.params.body.value);
+        etapa.save().exec(function(err,data){
+            if(err) res.status(500).json(err);
+            else res.status(200).json(data);
+        })
+    }catch(error){
+        res.json(error);
+    }
+    
 };
 
 async function deleteEtapa(req, res, next){
@@ -208,9 +217,16 @@ async function getGrupos(req, res, next){
 }
 
 async function createGrupo(req, res, next){
-    const grupo = new Grupo(req.swagger.params.body.value);
-    await grupo.save();
-    res.json({status: 'Grupo de POA creado'});
+    try{
+        const grupo = new Grupo(req.swagger.params.body.value);
+        grupo.save().exec(function(err,data){
+            if(err) res.status(500).json(err);
+            else res.status(200).json(data);
+        });
+    }catch(error){
+        res.json(error);
+    }
+    
 };
 
 //Objectos Estrategicos -----------------------------------------------------------------------
@@ -244,16 +260,17 @@ async function getObjImpactoPorId(req, res, next){
 };
 
 async function createObjImpacto(req, res, next){
-    const objImpacto = new ObjImpacto(req.swagger.params.body.value);
-    objImpacto.idPlan= ObjectId(objImpacto.idPlan)
-    objImpacto.save(function (err, data) {
-        console.log(data)
-        if (err)  {
-            return res.status(500)
-        } else {
-            return res.status(200).json(data)
-        } 
-    })
+    try{
+        const objImpacto = new ObjImpacto(req.swagger.params.body.value);
+        objImpacto.idPlan= ObjectId(objImpacto.idPlan)
+        objImpacto.save(function (err, data) {
+            if (err) res.status(500).json(err)
+            else  res.status(200).json(data)
+        })
+    }catch(error){
+
+    }
+    
 };
 
 async function deleteObjImpacto(req, res, next){
@@ -315,7 +332,7 @@ async function createPlan (req, res, next){
                 var a =req.swagger.params.body.value.array[i];
                 a.idPlan = plan._id;
             }
-            Area.insertMany(req.body.array).then(function(areas){
+            Area.insertMany(req.swagger.params.body.value.array).then(function(areas){
                 res.json({"status":200});
             });
         })
@@ -338,8 +355,16 @@ async function getPrioridadesMinisteriales(req, res, next){
 }
 
 async function createPrioridadMinisterial(req, res, next){
-    const prioridades = new PrioridadMinisterial(req.swagger.params.body.value);
-    await prioridades.save();
+    try{
+        const prioridades = new PrioridadMinisterial(req.swagger.params.body.value);
+        prioridades.save().exec(function(err,data){
+            if(err) res.status(500).json(err)
+            else res.status(200).json(data)
+        });
+    }catch(error){
+        res.status(500).json(error);
+    }
+    
     res.json({status: 'Grupo de POA creado'});
 };
 
@@ -411,8 +436,10 @@ async function createProyecto (req, res, next){
     proyecto.idObjImpacto= ObjectId(data.idObjImpacto)
     proyecto.idJurisdiccion= ObjectId(data.idJurisdiccion)
     try{
-        await proyecto.save();
-        res.status(201);
+        await proyecto.save().exec(function(err,data){
+            if(err) res.status(500).json(err)
+            else res.status(201).json(data);
+        });
     }catch(error){
         res.status(500);
     }
