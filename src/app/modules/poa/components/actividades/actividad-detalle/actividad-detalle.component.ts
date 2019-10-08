@@ -4,7 +4,7 @@ import { ActividadesService } from '../../../services/actividades/actividades.se
 import { Actividad } from '../../../models/actividad';
 import { FechaActividad } from '../../../models/fechaActividad';
 import { ProyectosService } from '../../../services/proyectos/proyectos.service';
-
+import * as moment from 'moment';
 declare var $:any;
 
 @Component({
@@ -13,14 +13,12 @@ declare var $:any;
   styleUrls: ['./actividad-detalle.component.css']
 })
 
-export class ActividadDetalleComponent implements OnInit {
-
+export class ActividadDetalleComponent implements OnInit {  
   actividad: Actividad;
   editando = false;
   etapas = [];
   fecha = {} as FechaActividad;
   predecesores: Actividad[];
-  state;
 
   constructor(private activatedRoute:ActivatedRoute, private proyectosService: ProyectosService, private actividadesService:ActividadesService) {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -48,6 +46,8 @@ export class ActividadDetalleComponent implements OnInit {
 
   openModal(confirmado, fecha){
     if(confirmado){
+      fecha.fechaInicio = moment(fecha.fechaInicio).format("DD/MM/YYYY");
+      fecha.fechaFin = moment(fecha.fechaFin).format("DD/MM/YYYY");
       this.fecha = {} as FechaActividad;
       this.actividad.fechas.push(fecha);
       $('#modalCrearFecha').modal('hide');

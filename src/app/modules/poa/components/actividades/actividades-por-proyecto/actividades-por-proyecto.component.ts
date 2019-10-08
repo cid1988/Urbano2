@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ProyectosService } from '../../../services/proyectos/proyectos.service';
 import * as moment from 'moment';
 import { Actividad } from '../../../models/actividad';
+import { FechaActividad } from '../../../models/fechaActividad';
+import { NgForm } from '@angular/forms';
 
 declare var $:any;
 
@@ -14,15 +16,30 @@ declare var $:any;
 })
 export class ActividadesPorProyectoComponent implements OnInit {
 
-  actividades : any[];
+  actividades: any[];
   etapas;
   nuevaEtapa = {actividades: [], idProyecto: ""};
   nuevaActividad = {} as Actividad;
   actividadesSelect = [];
   @Input() proyecto = {_id: ""};
-  hoy = moment(new Date(), "DD/MM/YYYY").format("YYYYMMDD");
+  // hoy = moment(new Date(), "DD/MM/YYYY").format("YYYYMMDD");
   editEtapa = {actividades: [], idProyecto: ""};
-  
+  nuevoHito = {} as FechaActividad;
+
+  etapasList = [{
+    nombre: "Sin etapa"
+  },{
+    nombre: "Ley"
+  },{
+    nombre: "Proyecto"
+  },{
+    nombre: "Anteproyecto"
+  },{
+    nombre: "Obra"
+  },{
+    nombre: "Inauguracion"
+  }];
+
   constructor(private actividadesService: ActividadesService, private proyectosService: ProyectosService, private activatedRoute:ActivatedRoute) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
@@ -83,10 +100,38 @@ export class ActividadesPorProyectoComponent implements OnInit {
     }
   }
 
-  crearActividad(actividad){
-    actividad.idProyecto = this.proyecto._id;
-    this.actividadesService.crearActividad(actividad).subscribe(data =>{
-      this.getActividades(this.proyecto._id);//No recibo respuesta del subscribe
-    });
+  crearActividad(actividad, guardar, userForm: NgForm){
+    if(guardar){
+      console.log(actividad)
+      this.nuevoHito.fechaInicio = moment(this.nuevoHito.fechaInicio).format("DD/MM/YYYY");
+      this.nuevoHito.fechaFin = moment(this.nuevoHito.fechaFin).format("DD/MM/YYYY");
+      actividad.fechas.push(this.nuevoHito);
+      this.actividadesService.crearActividad(actividad).subscribe(data =>{
+        this.getActividades(this.proyecto._id);
+        this.nuevaActividad = {} as Actividad;
+        this.nuevoHito = {} as FechaActividad;
+        $('#modalCrearHito').modal('hide');
+        userForm.resetForm({})
+      },error =>{
+        alert("Error")
+      });
+    }else{
+      if(!actividad.fechas) actividad.fechas = [];
+      this.nuevaActividad = actividad;
+      $('#modalCrearHito').modal('show');
+    }
+    //Codigo anterior sin el modal
+    // actividad.idProyecto = this.proyecto._id;
+    // this.actividadesService.crearActividad(actividad).subscribe(data =>{
+    //   this.getActividades(this.proyecto._id);
+    //   this.nuevaActividad = {} as Actividad;
+    // });
   }
+
+  resetActividadForm(userForm: NgForm) {
+    userForm.resetForm({
+      userName: 'Mahesh',
+      age: 20
+    });
+ } 
 }

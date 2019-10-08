@@ -1,13 +1,13 @@
 <div class="card" style="margin-bottom: 20px" *ngIf="actividades">
   <div class="card-body">
     <legend>Hitos/Actividades
-      <button type="button" class="btn btn-outline-primary float-right" (click)="crearEtapa()">Crear etapa</button>
-      <button type="button" class="btn btn-outline-primary float-right" style="margin-left: 5px; margin-right: 20px" (click)="crearActividad(nuevaActividad)"><i class="fa fa-plus"></i></button>
-      <select type="text" class="form-control float-right col-2" style="margin-left: 5px" placeholder="Etapa" [(ngModel)]="nuevaActividad.etapa" name="etapa">
-        <option value="">Sin etapa</option>
+      <button type="button" class="btn btn-outline-primary float-right" (click)="crearEtapa()"><i class="fa fa-plus"></i> Crear etapa</button>
+      <!-- <button type="button" class="btn btn-outline-primary float-right" style="margin-left: 5px; margin-right: 20px" (click)="crearActividad(nuevaActividad)" [disabled]="!nuevaActividad.nombre || !nuevaActividad.etapa"><i class="fa fa-plus"></i></button> -->
+      <button type="button" class="btn btn-outline-primary float-right" style="margin-left: 5px; margin-right: 20px" (click)="crearActividad(nuevaActividad,false)" [disabled]="!etapas.length"><i class="fa fa-plus"></i> Nueva actividad</button>
+      <!-- <select type="text" class="form-control float-right col-2" style="margin-left: 5px" placeholder="Etapa" [(ngModel)]="nuevaActividad.etapa" name="etapa">
         <option *ngFor="let e of etapas" [ngValue]="e._id">{{e.nombre}}</option>
-      </select>
-      <input type="text" class="form-control float-right col-2" placeholder="Nueva actividad" [(ngModel)]="nuevaActividad.nombre" name="nombre">
+      </select> -->
+      <!-- <input type="text" class="form-control float-right col-2" placeholder="Nuevo hito/actividad" [(ngModel)]="nuevaActividad.nombre" name="nombre"> -->
     </legend>
 
     <div class="row" *ngIf="actividades || etapas">
@@ -20,10 +20,8 @@
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let e of etapas | orderBy: 'orden': false: 'number'; let $index = index">
             <a href="javascript:void(0)" (click)="editarEtapa(e)"><b><span [hidden]="!e.codIdentificacion">{{e.codIdentificacion}} - </span>{{e.nombre}}</b></a>
-
             <a class="btn btn-outline-dark btn-sm float-right" data-toggle="collapse" href="#coll{{$index}}" *ngIf="e.actividades.length"><i class="fa fa-arrow-down"></i></a>
-            <!-- <span [ngClass]="{'dotGrey float-right': e.fechaInicio > '27/06/2019', 'dotGreen float-right': e.fechaInicio < '27/06/2019'}"></span> -->
-            <span class="dot" [ngStyle]="{'background-color': e.color}"></span>
+            <span class="dot" style="margin-top: 5px; margin-right: 5px" [ngStyle]="{'background-color': e.color}"></span>
 
             <ul class="list-group collapse" style="margin-top: 12px" *ngIf="e.actividades" id="coll{{$index}}">
               <li class="list-group-item" *ngFor="let a of e.actividades | orderBy: 'codIdentificacion': false: 'string'">
@@ -83,6 +81,7 @@
     </div>
   </div>
 
+  <!-- Modal crear etapa -->
   <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalCrearEtapa">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -94,9 +93,15 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col-6">
+            <!-- <div class="col-6">
               <label for="">Nombre</label>
               <input type="text" class="form-control" [(ngModel)]="nuevaEtapa.nombre" name="nombre">
+            </div> -->
+            <div class="col-6">
+              <label for="">Nombre</label>
+              <select type="text" class="form-control" [(ngModel)]="nuevaEtapa.nombre" name="nombre">
+                <option *ngFor="let e of etapasList" [ngValue]="e.nombre">{{e.nombre}}</option>
+              </select>
             </div>
             <div class="col-6">
               <label for="">Nro orden</label>
@@ -134,6 +139,7 @@
     </div>
   </div>
 
+  <!-- Modal editar etapa -->
   <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalEditarEtapa">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -145,9 +151,15 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col-6">
+            <!-- <div class="col-6">
               <label for="">Nombre</label>
               <input type="text" class="form-control" [(ngModel)]="editEtapa.nombre" name="nombre">
+            </div> -->
+            <div class="col-6">
+              <label for="">Nombre</label>
+              <select type="text" class="form-control" [(ngModel)]="editEtapa.nombre" name="nombre">
+                <option *ngFor="let e of etapasList" [ngValue]="e.nombre">{{e.nombre}}</option>
+              </select>
             </div>
             <div class="col-6">
               <label for="">Nro orden</label>
@@ -181,6 +193,100 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
           <button type="button" class="btn btn-primary" (click)="editarEtapa(editEtapa,true)">Guardar</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal crear hitos/actividades -->
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalCrearHito">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form #userForm="ngForm" (ngSubmit)="userForm.form.valid && crearActividad(nuevaActividad,true,userForm)">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Nuevo hito/actividad</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <label for="">Nombre</label>
+                <input type="text" class="form-control" required [(ngModel)]="nuevaActividad.nombre" name="nombre" #nombre="ngModel" [ngClass]="{'is-invalid': userForm.submitted && nombre.invalid}">
+                <div *ngIf="nombre.invalid && userForm.submitted" class="invalid-feedback">
+                  <div *ngIf="nombre.errors.required">Campo obligatorio</div>
+                </div>
+              </div>
+              <div class="form-group col-6">
+                <label for="">Etapa</label>
+                <select type="text" class="form-control" required [(ngModel)]="nuevaActividad.etapa" name="etapa" #etapa="ngModel" [ngClass]="{'is-invalid': userForm.submitted && etapa.invalid}">
+                  <option [ngValue]=""></option>
+                  <option *ngFor="let e of etapas" [ngValue]="e._id">{{e.nombre}}</option>
+                </select>
+                <div *ngIf="etapa.invalid && userForm.submitted" class="invalid-feedback">
+                  <div *ngIf="etapa.errors.required">Campo obligatorio</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <label for="">Nro orden</label>
+                <input type="text" class="form-control" [(ngModel)]="nuevaActividad.codIdentificacion" name="codIdentificacion" #codIdentificacion="ngModel">
+              </div>
+            </div>
+            <div class="form-row">
+              <h4 class="col-12" style="margin-bottom: 10px">Hito</h4>
+              <div class="form-group col-3">
+                <label for="">Fecha inicio</label>
+                <input type="text" class="form-control" required [(ngModel)]="nuevoHito.fechaInicio" name="fechaInicio" #fechaInicio="ngModel" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': userForm.submitted && fechaInicio.invalid}">
+                <div *ngIf="fechaInicio.invalid && userForm.submitted" class="invalid-feedback">
+                  <div *ngIf="fechaInicio.errors.required">Nombre obligatorio</div>
+                </div>
+              </div>
+              <div class="form-group col-3">
+                <label for="">Fecha fin</label>
+                <input type="text" class="form-control" required [(ngModel)]="nuevoHito.fechaFin" name="fechaFin" #fechaFin="ngModel" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': userForm.submitted && fechaFin.invalid}">
+                <div *ngIf="fechaFin.invalid && userForm.submitted" class="invalid-feedback">
+                  <div *ngIf="fechaFin.errors.required">Nombre obligatorio</div>
+                </div>
+              </div>
+              <div class="form-group col-3">
+                <label for="">% Avance</label>
+                <input type="text" class="form-control" [(ngModel)]="nuevoHito.avance" name="avance" #avance="ngModel">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="">Comentarios</label>
+                <textarea type="text" class="form-control" [(ngModel)]="nuevoHito.comentario" name="comentario" #comentario="ngModel"></textarea>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="form-group col-10">
+                <label for="">Actividades</label>
+                <div class="row">
+                  <div class="form-group col-10">
+                    <select class="form-control" [(ngModel)]="nuevaEtapa.valor">
+                      <option *ngFor="let a of actividadesSelect" [value]="a._id">{{a.nombre}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-2">
+                    <button type="btn" class="btn btn-primary" (click)="agregarActividad(nuevaEtapa.valor)"><i class="fa fa-plus"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <div class="row">
+              <div class="col-12">
+                <ul *ngFor="let a of nuevaActividad.actividades">
+                  <li>{{a.nombre}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

@@ -30,6 +30,8 @@ export interface Proyecto {
   comunas: string[];
   responsables: string[];
   jurisdiccionesParticipantes: string[];//Areas participantes
+  coords: Object;
+  anio: Object;
   
   idPlan: mongoose.Schema.Types.ObjectId;
   idJurisdiccion: mongoose.Schema.Types.ObjectId;

@@ -11,12 +11,13 @@ import { ActividadDetalleComponent } from './components/actividades/actividad-de
 import { OrderByPipe } from 'src/app/shared-modules/pipes/orderBy/order-by.pipe';
 import { FilterPipe } from 'src/app/shared-modules/pipes/filter/filter.pipe';
 import { ReversePipe } from 'src/app/shared-modules/pipes/reverse/reverse.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 const poaRoutes: Routes = [
   {path:'poa',component:ProyectosComponent},
   {path:'poa/proyecto/:idProyecto',component:ActividadesComponent},
   {path:'poa/plan/crear',component:PlanCrearComponent},
-  // {path:'poa/proyecto/:idProyecto/etapa/:idEtapa/actividad/:idActividad',component:ActividadDetalleComponent},
   {path:'poa/proyecto/:idProyecto/actividad/:idActividad',component:ActividadDetalleComponent}
 ];
 
@@ -25,8 +26,10 @@ const poaRoutes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
     RouterModule.forChild(poaRoutes)
   ],
-  exports: [RouterModule]
+  exports: [RouterModule,BsDatepickerModule]
 })
 export class PoaModule { }

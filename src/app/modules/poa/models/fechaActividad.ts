@@ -1,6 +1,6 @@
 export interface FechaActividad {
-  fechaInicio: String;
-  fechaFin: String;
-  comentario: String;
-  fechaCreacion: String;
+  fechaInicio: string;
+  fechaFin: string;
+  comentario: string;
+  fechaCreacion: string;
 }

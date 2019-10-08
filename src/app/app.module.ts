@@ -29,7 +29,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     HomeModule,
     NgxPermissionsModule.forRoot()
   ],
-  providers: [{provide: LOCALE_ID, useValue: "en-es"}],//Para usar la fecha en formato espanol
+  // providers: [{provide: LOCALE_ID, useValue: "en-es"}],//Para usar la fecha en formato espanol
   exports: [NgxPermissionsModule],
   bootstrap: [AppComponent]
 })
