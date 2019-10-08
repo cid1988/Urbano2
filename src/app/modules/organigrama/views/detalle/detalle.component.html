@@ -1,0 +1,73 @@
+<div class="container-fluid">
+    <div class="col-sm-12">
+        <form [formGroup]="reparticion" *ngIf="reparticion" (ngSubmit)="guardarReparticion()">
+            <div class="form-row">
+                <div class="col-sm-4">
+                    <h3 class="modal-title" id="exampleModalLabel">Detalle</h3>
+                </div>
+                <div class="col-sm-8">
+                    <button type="submit" class="btn btn-outline-danger pull-right" (click)='eliminarReparticion()'> Eliminar</button>
+                    <button type="submit" class="btn btn-outline-success pull-right"> Guardar</button>
+                    <button class="btn btn-outline-secondary pull-right" (click)='volverPortada()'><i class="fa fa-arrow-left"></i> Volver</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label class="form-label">Nombre Largo</label>
+                    <input type='text' class='form-control' formControlName="nombreCompleto">
+                    <div *ngIf="submitted && f.nombreCompleto.errors" class="alertar">
+                        <div *ngIf="f.nombreCompleto.errors.required">Nombre largo requerido</div>
+                    </div>
+                </div>
+                <div class="form-group col">
+                    <label class="form-label">Sigla</label>
+                    <input type='text' class='form-control' formControlName="sigla">
+                    <div *ngIf="submitted && f.sigla.errors" class="alertar">
+                        <div *ngIf="f.sigla.errors.required">Sigla requerido</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label class="form-label">Nombre corto de organigrama:</label>
+                    <input type='text' class='form-control' formControlName="nombreCortoOrganigrama">
+                </div>
+                <div class="form-group col">
+                    <label class="form-label">Nombre corto de jurisdicción</label>
+                    <input type='text' class='form-control' formControlName="nombreCortoJurisdiccion">
+                </div>
+            </div>
+            <div class="form-row">
+                    <div class="form-group col">
+                        <label class="form-label">Nivel:</label>
+                        <select class="form-control" formControlName='nivel'>
+                            <option value=""> </option>
+                            <option *ngFor="let n of niveles" [value]="n.nombre">{{n.nombre}}</option>
+                        </select>
+                        <div *ngIf="submitted && f.nivel.errors" class="alertar">
+                            <div *ngIf="f.nivel.errors.required">Nivel requerido</div>
+                        </div>
+                    </div>
+                    <div class="form-group col">
+                        <label class="form-label">Categoria:</label>
+                        <select class="form-control" formControlName='categoria'>
+                            <option value=""> </option>
+                            <option *ngFor="let n of categoria" [value]="n.nombre">{{n.nombre}}</option>
+                        </select>
+                        <div *ngIf="submitted && f.categoria.errors" class="alertar">
+                            <div *ngIf="f.categoria.errors.required">Categoria requerido</div>
+                        </div>
+                    </div>
+                </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <label class="form-label">Superior inmediato:</label>
+                    <select class="form-control" formControlName='superiorInmediato'>
+                        <option value=""> </option>
+                        <option *ngFor="let o of organigrama" [value]="o._id">{{o.nombreCompleto}}</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

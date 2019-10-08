@@ -56,8 +56,64 @@ paths:
             properties:
               nombre:
                 type: string
+              segundoNombre:
+                type: string
+              sexo:
+                type: string
+              enorganigrama:
+                type: string
+              cargo:
+                type: string
+              area:
+                type: string
               apellidos:
                 type: string
+              servicios:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nombre:
+                      type: string
+                    pin:
+                      type: string
+                    checked:
+                      type: boolean
+              telefono:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nombre:
+                      type: string
+                    valor:
+                      type: string
+                    checked:
+                      type: boolean
+              correos:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nombre:
+                      type: string
+                    valor: 
+                      type: string
+              direcciones:
+                type: array
+                items:
+                  type: object
+              roles:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nombre:
+                      type: string
+                    valor: 
+                      type: string
+                    checkedAgenda:
+                      type: boolean
       responses:
         200:
           description: OK
@@ -100,8 +156,64 @@ paths:
             properties:
               nombre:
                 type: string
+              segundoNombre:
+                type: string
+              sexo:
+                type: string
+              enorganigrama:
+                type: string
+              cargo:
+                type: string
+              area:
+                type: string
               apellidos:
                 type: string
+              servicios:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nombre:
+                      type: string
+                    pin:
+                      type: string
+                    checked:
+                      type: boolean
+              telefono:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nombre:
+                      type: string
+                    valor:
+                      type: string
+                    checked:
+                      type: boolean
+              correos:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nombre:
+                      type: string
+                    valor: 
+                      type: string
+              direcciones:
+                type: array
+                items:
+                  type: object
+              roles:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nombre:
+                      type: string
+                    valor: 
+                      type: string
+                    checkedAgenda:
+                      type: boolean
       responses:
         200:
           description: OK
@@ -126,32 +238,14 @@ paths:
     get:
       tags: 
         - Organigrama
-      operationId: getOrganigrama
+      operationId: getOrganigramaCompleto
       responses:
         200:
           description: OK
           schema:
             type: array
             items:
-              type: object
-              properties:
-                _id:
-                  type: string
-                categoria:
-                  type: string
-                nivel:
-                  type: string
-                nombreCompleto:
-                  type: string
-                sigla:
-                  type: string
-                superiorInmediato:
-                  type: object
-                  properties:
-                    _id: 
-                      type: string
-                    nombreCompleto:
-                      type: string
+              $ref: '#/definitions/Organigrama'
     post:
       tags: 
         - Organigrama
@@ -241,6 +335,20 @@ paths:
       responses:
         200:
           description: OK
+  # ////////////////////////////////////////////////////////////////////    
+  /organigramaSimple:
+    x-swagger-router-controller: organigrama
+    get:
+      tags: 
+        - Organigrama
+      operationId: getOrganigramaSimple
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Organigrama'
   # //////////////////////////////////////////////////////////////////// Comunas
   /comunas:
     x-swagger-router-controller: comuna
@@ -1218,8 +1326,64 @@ definitions:
         type: string
       nombre:
         type: string
+      segundoNombre:
+        type: string
+      sexo:
+        type: string
+      enorganigrama:
+        type: string
+      cargo:
+        type: string
+      area:
+        type: string
       apellidos:
         type: string
+      servicios:
+        type: array
+        items:
+          type: object
+          properties:
+            nombre:
+              type: string
+            pin:
+              type: string
+            checked:
+              type: boolean
+      telefono:
+        type: array
+        items:
+          type: object
+          properties:
+            nombre:
+              type: string
+            valor:
+              type: string
+            checked:
+              type: boolean
+      correos:
+        type: array
+        items:
+          type: object
+          properties:
+            nombre:
+              type: string
+            valor: 
+              type: string
+      direcciones:
+        type: array
+        items:
+          type: object
+      roles:
+        type: array
+        items:
+          type: object
+          properties:
+            nombre:
+              type: string
+            valor: 
+              type: string
+            checkedAgenda:
+              type: boolean
   Organigrama:
     type: object
     required:

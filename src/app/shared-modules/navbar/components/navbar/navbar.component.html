@@ -66,6 +66,9 @@
           <a class="dropdown-item" href="#">Otra opcion</a>
         </div>
       </li>
+      <li class="nav-item dropdown" *ngxPermissionsOnly="['ADMINISTRADOR']">
+          <a class="nav-link" routerLink="organigrama">Organigrama</a>
+        </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="!userLogged" routerLink="login" type="submit">Ingresar</button>

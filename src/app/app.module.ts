@@ -11,6 +11,7 @@ import { AdministradorModule } from './modules/administrador/administrador.modul
 import { HomeComponent } from './modules/home/components/home/home.component';
 import { HomeModule } from './modules/home/home.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { OrganigramaModule } from './modules/organigrama/organigrama.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     AdministradorModule,
     HttpClientModule,
     HomeModule,
+    OrganigramaModule,
     NgxPermissionsModule.forRoot()
   ],
   // providers: [{provide: LOCALE_ID, useValue: "en-es"}],//Para usar la fecha en formato espanol

@@ -1,0 +1,113 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <h3>Organigrama</h3>
+        </div>
+        <div class="col-sm-2">
+            <select class="form-control">
+                    <option [value]=''>Elegir Reparticion</option>
+                    <option *ngFor="let o of organigrama" [value]="o._id">{{o.nombreCompleto}}</option>
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <select class="form-control">
+                <option [value]=''>Elegir un nivel</option>
+                <option *ngFor="let n of niveles" [value]="n.nombre">{{n.nombre}}</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <input class="form-control" type="text" placeholder="Buscar por ...">
+        </div>
+        <div class="col-sm-3">
+            <button class="btn btn-outline-secondary pull-right" (click)='crearReparticion(false,"")'><i class="fa fa-plus-circle"></i> Nuevo </button>
+            <button class="btn btn-outline-secondary pull-right" (click)='volverPortada()'><i class="fa fa-sitemap"></i> Vista Grafica</button>
+        </div>
+    </div>
+    <div class="row" style="margin-top:15px">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Reparticion</th>
+                    <th>Sigla</th>
+                    <th>Superior Inmediato</th>
+                    <th>Nivel</th>
+                    <th>Categoria</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let reparticion of organigrama" style="cursor: pointer" routerLink='{{reparticion._id}}'>
+                    <td>{{reparticion.nombreCompleto}}</td>
+                    <td>{{reparticion.sigla}}</td>
+                    <td>{{reparticion.superiorInmediato?.nombreCompleto}}</td>
+                    <td>{{reparticion.nivel}}</td>
+                    <td>{{reparticion.categoria}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="modalCrearReparticion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" *ngIf="nuevaReparticion">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Nueva Reparticion</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label class="form-label">Nombre Largo</label>
+                        <input type='text' class='form-control' [(ngModel)]="nuevaReparticion.nombreCompleto" name="nombreCompleto" #nombre="ngModel">
+                    </div>
+                    <div class="form-group col">
+                        <label class="form-label">Sigla</label>
+                        <input type='text' class='form-control' [(ngModel)]="nuevaReparticion.sigla" name="sigla" #nombre="ngModel">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label class="form-label">Nombre corto de organigrama:</label>
+                        <input type='text' class='form-control' [(ngModel)]="nuevaReparticion.nombreCortoOrganigrama" name="nombreCortoOrganigrama" #nombre="ngModel">
+                    </div>
+                    <div class="form-group col">
+                        <label class="form-label">Nombre corto de jurisdicción</label>
+                        <input type='text' class='form-control' [(ngModel)]="nuevaReparticion.nombreCortoJurisdiccion" name="nombreCortoJurisdiccion" #nombre="ngModel">
+                    </div>
+                </div>
+                <div class="form-row">
+                        <div class="form-group col">
+                            <label class="form-label">Nivel:</label>
+                            <select class="form-control" [(ngModel)]="nuevaReparticion.nivel" name="nivel" #nombre="ngModel">
+                                <option value=""> </option>
+                                <option *ngFor="let n of niveles" [value]="n.nombre">{{n.nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col">
+                            <label class="form-label">Categoria:</label>
+                            <select class="form-control" [(ngModel)]="nuevaReparticion.categoria" name="categoria" #nombre="ngModel">
+                                <option value=""> </option>
+                                <option *ngFor="let n of categoria" [value]="n.nombre">{{n.nombre}}</option>
+                            </select>
+                        </div>
+                    </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label class="form-label">Superior inmediato:</label>
+                        <select class="form-control" [(ngModel)]="nuevaReparticion.superiorInmediato" name="superiorInmediato" #nombre="ngModel">
+                            <option value=""> </option>
+                            <option *ngFor="let o of organigrama" [value]="o._id">{{o.nombreCompleto}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary" (click)="crearReparticion(true, nuevaReparticion)">Guardar</button>
+        </div>
+        </div>
+    </div>
+</div>

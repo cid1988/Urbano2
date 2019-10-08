@@ -1,25 +1,29 @@
 const Organigrama = require('../models/organigrama/organigrama');
 
-
-
-async function getOrganigrama(req, res, next){
+async function getOrganigramaCompleto(req, res, next){
     try{
-        const organigrama = await Organigrama.find({},['nombreCompleto','sigla','superiorInmediato','nivel','categoria'])
-        res.json(organigrama);
+        Organigrama.find({}).populate('superiorInmediato').exec(function(err,data){
+            if(err) res.status(500).json(err)
+            else res.status(200).json(data)
+        })
     }catch(error){
-        res.json(error);
+        res.status(500).json(error);
+    }
+};
+
+async function getOrganigramaSimple(req, res, next){
+    try{
+        Organigrama.find({},['nombreCompleto','sigla']).exec(function(err,data){
+            if(err) res.status(500).json(err)
+            else res.status(200).json(data)
+        })
+    }catch(error){
+        res.status(500).json(error);
     }
 };
 
 async function crearOrganigrama(req, res, next){
-    const organigrama = new Organigrama({
-        categoria: req.swagger.params.body.value.categoria,
-        nivel: req.swagger.params.body.value.nivel,
-        nombreCompleto: req.swagger.params.body.value.nombreCompleto,
-        nombreCortoJurisdiccion: req.swagger.params.body.value.nombreCortoJurisdiccion,
-        nombreCortoOrganigrama: req.swagger.params.body.value.nombreCortoOrganigrama,
-        superiorInmediato: req.swagger.params.body.value.superiorInmediato,
-    });
+    const organigrama = new Organigrama(req.swagger.params.body.value);
     await organigrama.save();
     res.json({status: 'Reparticion creado'});
 };
@@ -30,14 +34,12 @@ async function listarOrganigramaPorId(req, res, next){
 };
 
 async function editarOrganigrama (req, res, next){
-    const organigrama = new Organigrama({
-        categoria: req.swagger.params.body.value.categoria,
-        nivel: req.swagger.params.body.value.nivel,
-        nombreCompleto: req.swagger.params.body.value.nombreCompleto,
-        nombreCortoJurisdiccion: req.swagger.params.body.value.nombreCortoJurisdiccion,
-        nombreCortoOrganigrama: req.swagger.params.body.value.nombreCortoOrganigrama,
-        superiorInmediato: req.swagger.params.body.value.superiorInmediato,
-    });
+    for( prop in req.swagger.params.body.value){
+        if(req.swagger.params.body.value[prop]==''){
+            req.swagger.params.body.value[prop]=null
+        }
+    }
+    const organigrama = new Organigrama(req.swagger.params.body.value);
     await Organigrama.findByIdAndUpdate(req.swagger.params.id.value, {$set: organigrama}, {new: true});
     res.json({status: 'Contacto actualizado con exito'});
 };
@@ -47,4 +49,6 @@ async function eliminarOrganigrama(req, res, next){
     res.json({status: 'Reparticion borrado'});
 };
 
-module.exports = {getOrganigrama, crearOrganigrama, listarOrganigramaPorId, eliminarOrganigrama, editarOrganigrama} ;
+module.exports = {
+    getOrganigramaCompleto, getOrganigramaSimple, listarOrganigramaPorId, 
+    crearOrganigrama, eliminarOrganigrama, editarOrganigrama} ;
