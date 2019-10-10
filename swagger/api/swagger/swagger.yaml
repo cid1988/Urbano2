@@ -316,7 +316,23 @@ paths:
           name: body
           description: datos de la reparticion a acutalizar por ID
           schema:
-            $ref: '#/definitions/Organigrama'
+            type: object
+            properties:
+              categoria:
+                type: string
+                x-nullable: true
+              nivel:
+                type: string
+              nombreCompleto:
+                type: string
+              nombreCortoJurisdiccion:
+                type: string
+              nombreCortoOrganigrama:
+                type: string
+              sigla:
+                type: string
+              superiorInmediato:
+                type: string
       responses:
         200:
           description: OK
@@ -552,11 +568,39 @@ paths:
             properties:
               nombre:
                 type: string
-              orden:
-                type: string
               idProyecto:
                 type: string
+              idPlan:
+                type: string
+              idJurisdiccion:
+                type: string
+              idObjImpacto:
+                type: string
+              anio:
+                type: integer
               eliminado:
+                type: boolean
+              fechas:
+                type: array
+                items:
+                  type: object
+              responsableDeCarga:
+                type: string
+              fechaActualizacion:
+                type: string
+              usuarioActualizacion:
+                type: string
+              codIdentificacion:
+                type: string
+              predecesor:
+                type: string
+              etapa: 
+                type: string
+              inicioCumplido:
+                type: boolean
+              cumplida:
+                type: boolean
+              cancelada:
                 type: boolean
       responses:
         200:
@@ -1241,6 +1285,28 @@ paths:
       responses:
         200:
           description: Actualizado
+  
+  /poa/proyectosEliminar:
+    x-swagger-router-controller: poa
+    post:
+      summary: Marcar un proyecto como eliminada
+      tags: 
+        - POA - Proyectos
+      operationId: deleteProyecto
+      parameters:
+        - in: body
+          name: body
+          description: ID del Proyecto a marcar como eliminado
+          schema:
+            type: object
+            required:
+              - id
+            properties:
+              id:
+                type: string
+      responses:
+        200:
+          description: OK. Etapa marcada como eliminada = 'true'
   # //////////////////////////////////////////////////////////////////// POA - Prioridades Ministeriales
   /poa/prioridadesMinisteriales:
     x-swagger-router-controller: poa

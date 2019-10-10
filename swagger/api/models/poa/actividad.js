@@ -12,7 +12,11 @@ const actividadSchema = new Schema({
     codIdentificacion: { type: String },
     etapa: { type: String },
     predecesor: { type: String },
-    verEnDashboard: { type: Boolean },
+    anio: {type: Number},
+    eliminado: {type: Boolean},
+    responsableDeCarga: {type: String},
+    fechaActualizacion: {type: String},
+    usuarioActualizacion: {type: String},
     
     idPlan : { type: Schema.Types.ObjectId },
     idJurisdiccion: { type: Schema.Types.ObjectId },

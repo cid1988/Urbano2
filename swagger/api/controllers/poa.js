@@ -44,41 +44,69 @@ async function getActividadPorID (req, res, next){
 
 async function createActividad(req, res, next){
     try{
-        const actividad = new Actividad(req.swagger.params.body.value);
-        actividad.save().exec(function(err,data){
-            if(err) res.status(500).json(error);
+        const data= req.swagger.params.body.value;
+        if(data.etapa=='') data.etapa=null
+        if(ObjectId.isValid(data.idPlan)){
+            data.idPlan= ObjectId(data.idPlan)
+            if(ObjectId.isValid(data.idObjImpacto)){
+                data.idObjImpacto= ObjectId(data.idObjImpacto)
+                if(ObjectId.isValid(data.idJurisdiccion)){
+                    data.idJurisdiccion= ObjectId(data.idJurisdiccion)
+                    if(ObjectId.isValid(data.idProyecto)){
+                        data.idProyecto= ObjectId(data.idProyecto)
+                        console.log('OK')
+                    }else res.status(400).json({status: 'IDProyecto no es OBJECTID'})
+                }else res.status(400).json({status: 'IDJurisdiccion no es OBJECTID'})
+            }else res.status(400).json({status: 'IDObjImpacto no es OBJECTID'})
+        }else res.status(400).json({status: 'IDPlan no es OBJECTID'})
+        const actividad = new Actividad(data);
+        actividad.save(function(err,data){
+            if(err) res.status(500).json(err);
             else  res.status(200).json(data);
         });
     } catch(error){
-        res.json(error);
+        res.status(500).json(error);
     }
     
 };
 
 async function updateActividad (req, res, next){
     try{
-        await Actividad.findOneAndUpdate( 
-            { _id: ObjectId(req.swagger.params.body.value.id)},  
-            req.swagger.params.body.value,
-            { new: false, upsert: true, strict: false}).exec(function(err,data){
-                if(err)  res.stutus(500).json(err);
-                else  res.status(200).json(data);
-            }); // Make this update into an upsert
+        const data= req.swagger.params.body.value;
+        if(ObjectId.isValid(data.idPlan)){
+            data.idPlan= ObjectId(data.idPlan)
+            if(ObjectId.isValid(data.idObjImpacto)){
+                data.idObjImpacto= ObjectId(data.idObjImpacto)
+                if(ObjectId.isValid(data.idJurisdiccion)){
+                    data.idJurisdiccion= ObjectId(data.idJurisdiccion)
+                    if(ObjectId.isValid(data.idProyecto)){
+                        data.idProyecto= ObjectId(data.idProyecto)
+                        console.log('OK')
+                    }else res.status(400).json({status: 'IDProyecto no es OBJECTID'})
+                }else res.status(400).json({status: 'IDJurisdiccion no es OBJECTID'})
+            }else res.status(400).json({status: 'IDObjImpacto no es OBJECTID'})
+        }else res.status(400).json({status: 'IDPlan no es OBJECTID'})
+        Actividad.findByIdAndUpdate(req.swagger.params.id.value, 
+        {$set: data}, {new: false},function(err, data){
+            if(err) res.status(500).json(err)
+            else res.status(200).json(data)
+        })
     } catch(error){
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
 async function deleteActividad(req, res, next){
-    console.log(req.swagger.params.body.value.id)
     try{
-        await Actividad.findOneAndUpdate( 
+        Actividad.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             {  eliminado: true },
-            { new: false, upsert: true, strict: false}); // Make this update into an upsert
-        res.status(200);
+            { new: false } , function(err,data){
+                if(err) res.status(500).json(err.message)
+                else res.status(200).json({status : 'Marcado como eliminado'})
+            }); // Make this update into an upsert
     } catch(error){
-        res.json(error);
+        res.status(500).json(error);
     }
 };
 
@@ -133,7 +161,7 @@ async function getCompromisosGobierno(req, res, next){
 
 async function createCompromisosGobierno(req, res, next){
     const grupo = new Grupo(req.swagger.params.body.value);
-    await grupo.save();
+    grupo.save();
     res.json({status: 'Grupo de POA creado'});
 };
 
@@ -166,7 +194,7 @@ async function getEtapaPorId(req, res, next){
 async function createEtapa(req, res, next){
     try{
         const etapa = new Etapa(req.swagger.params.body.value);
-        etapa.save().exec(function(err,data){
+        etapa.save(function(err,data){
             if(err) res.status(500).json(err);
             else res.status(200).json(data);
         })
@@ -177,13 +205,14 @@ async function createEtapa(req, res, next){
 };
 
 async function deleteEtapa(req, res, next){
-    console.log(req.swagger.params.body.value.id)
     try{
         await Etapa.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             {  eliminado: true },
-            { new: false, upsert: true, strict: false}); // Make this update into an upsert
-        res.json({status: 'Etapa marcada como eliminada'});
+            { new: false, upsert: true, strict: false}, function(err,data){
+                if(err) res.status(500).json(err.message)
+                else res.status(200).json(data)
+            }); // Make this update into an upsert
     } catch(error){
         res.json(error);
     }
@@ -208,18 +237,18 @@ async function updateEtapa (req, res, next){
 async function getGrupos(req, res, next){
     try{
         Grupo.find({}).sort('nombre').exec(function(err, grupos) {
-            if(grupos)res.json(grupos);
-            else console.log(err)
+            if(grupos) res.status(200).json(grupos);
+            else res.status(500).json(err.message)
         });
     }catch(error){
-        res.json(error);
+        res.status(200).json(error.message);
     }
 }
 
 async function createGrupo(req, res, next){
     try{
         const grupo = new Grupo(req.swagger.params.body.value);
-        grupo.save().exec(function(err,data){
+        grupo.save(function(err,data){
             if(err) res.status(500).json(err);
             else res.status(200).json(data);
         });
@@ -249,13 +278,11 @@ async function getObjImpacto(req, res, next){
 }
 
 async function getObjImpactoPorId(req, res, next){
-    console.log(req.swagger.params.id.value)
     try{
         const objImpacto = await ObjImpacto.findById(req.swagger.params.id.value);
-        console.log(objImpacto)
-        res.json(objImpacto);
+        res.status(200).json(objImpacto);
     }catch(error){
-        res.json(error);
+        res.status(500).json(error.message);
     }
 };
 
@@ -286,10 +313,11 @@ async function deleteObjImpacto(req, res, next){
 };
 
 async function updateObjImpacto (req, res, next){
-    const objImpacto = req.swagger.params.body.value
-    objImpacto.idPlan = ObjectId(objImpacto.idPlan)
-    console.log(objImpacto)
     try{
+        const objImpacto = req.swagger.params.body.value
+        if(ObjImpacto.isValid(objImpacto.idPlan)){
+            objImpacto.idPlan = ObjectId(objImpacto.idPlan)
+        }else res.status(400).json({status: 'IDPLAN no es un OBJECTID'})
         ObjImpacto.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             objImpacto,
@@ -327,7 +355,7 @@ async function createPlan (req, res, next){
     });
 
     try{
-        await plan.save(function(err, plan){
+        plan.save(function(err, plan){
             for (let i = 0; i < req.swagger.params.body.value.array.length; i++) {
                 var a =req.swagger.params.body.value.array[i];
                 a.idPlan = plan._id;
@@ -357,10 +385,8 @@ async function getPrioridadesMinisteriales(req, res, next){
 async function createPrioridadMinisterial(req, res, next){
     try{
         const prioridades = new PrioridadMinisterial(req.swagger.params.body.value);
-        prioridades.save().exec(function(err,data){
-            if(err) res.status(500).json(err)
-            else res.status(200).json(data)
-        });
+        prioridades.save().then(data=> res.status(200).json(data))
+        .catch(err =>  res.status(500).json(err) );
     }catch(error){
         res.status(500).json(error);
     }
@@ -413,33 +439,53 @@ async function getProyectos (req, res, next){
 
 async function updateProyecto (req, res, next){
     try{
-        const { id } = req.swagger.params.body.value;
-        const data = req.swagger.params.body.value;
-        data.idPlan= ObjectId(data.idPlan)
-        data.idObjImpacto= ObjectId(data.idObjImpacto)
-        data.idJurisdiccion= ObjectId(data.idJurisdiccion)
-        Proyecto.findByIdAndUpdate(id, {$set: data}, {new: false}).exec(function(err,data){
-            if(err){
-                console.log('Error')
-                res.status(500).json(err)
-            }else res.status(200).json(data)
+        const proyecto = req.swagger.params.body.value;
+        if(ObjectId.isValid(proyecto.idPlan)){
+            proyecto.idPlan= ObjectId(proyecto.idPlan)
+            if(ObjectId.isValid(proyecto.idObjImpacto)){
+                proyecto.idObjImpacto= ObjectId(proyecto.idObjImpacto)
+                if(ObjectId.isValid(proyecto.idJurisdiccion)){
+                    proyecto.idJurisdiccion= ObjectId(proyecto.idJurisdiccion)
+                    console.log('OK')
+                }else res.status(400).json({status: 'IDJurisdiccion no es OBJECTID'})
+            }else res.status(400).json({status: 'IDObjImpacto no es OBJECTID'})
+        }else res.status(400).json({status: 'IDPlan no es OBJECTID'})
+        Proyecto.findByIdAndUpdate(req.swagger.params.id.value, {$set: proyecto}, {new: false})
+        .then(data => {
+            console.log('GUARDADO')
+            res.status(200).json(data)
+        })
+        .catch(err => {
+            console.log('Error')
+            res.status(500).json(err)
         })
     }catch(error){
-        res.json(error);
+        res.status(500).json(error);
     }
     
 };
 
 async function createProyecto (req, res, next){
-    const proyecto = new Proyecto(req.swagger.params.body.value);
-    proyecto.idPlan= ObjectId(data.idPlan)
-    proyecto.idObjImpacto= ObjectId(data.idObjImpacto)
-    proyecto.idJurisdiccion= ObjectId(data.idJurisdiccion)
     try{
-        await proyecto.save().exec(function(err,data){
-            if(err) res.status(500).json(err)
-            else res.status(201).json(data);
-        });
+        const proyecto = new Proyecto(req.swagger.params.body.value);
+        if(ObjectId.isValid(proyecto.idPlan)){
+            proyecto.idPlan= ObjectId(proyecto.idPlan)
+            if(ObjectId.isValid(proyecto.idObjImpacto)){
+                proyecto.idObjImpacto= ObjectId(proyecto.idObjImpacto)
+                if(ObjectId.isValid(proyecto.idJurisdiccion)){
+                    proyecto.idJurisdiccion= ObjectId(proyecto.idJurisdiccion)
+                }else res.status(400).json({status: 'IDJurisdiccion no es OBJECTID'})
+            }else res.status(400).json({status: 'IDObjImpacto no es OBJECTID'})
+        }else res.status(400).json({status: 'IDPlan no es OBJECTID'})
+        
+        console.log('ENTRO')
+        proyecto.save().then(data=>{
+            console.log(data)
+            res.status(200).json(data)})
+        .catch(err => {
+            console.log('ENTRO error')
+            res.status(500).json(err)
+        })
     }catch(error){
         res.status(500);
     }
@@ -448,13 +494,15 @@ async function createProyecto (req, res, next){
 async function deleteProyecto (req, res, next){
     console.log(req.swagger.params.body.value.id)
     try{
-        await Proyecto.findOneAndUpdate( 
+        Proyecto.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             {  eliminado: true },
-            { new: false, upsert: true, strict: false}); // Make this update into an upsert
-        res.status(200);
-    } catch(error){
-        res.json(error);
+            { new: false, upsert: true, strict: false},function(err,data){
+                if(err) res.status(500).json(err.message)
+                else res.status(200).json(data);
+            }); // Make this update into an upsert
+    } catch(err){
+        res.json(err.message);
     }
 };
 
