@@ -255,7 +255,22 @@ paths:
           name: body
           description: Datos de la reparticion del organigrama.
           schema:
-            $ref: '#/definitions/Organigrama'
+            type: object
+            properties:
+              categoria:
+                type: ['string','null']
+              nivel:
+                type: ['string','null']
+              nombreCompleto:
+                type: ['string','null']
+              nombreCortoJurisdiccion:
+                type: ['string','null']
+              nombreCortoOrganigrama:
+                type: ['string','null']
+              sigla:
+                type: ['string','null']
+              superiorInmediato:
+                type: ['string','null']
       responses:
         201:
           description: Created
@@ -319,20 +334,19 @@ paths:
             type: object
             properties:
               categoria:
-                type: string
-                x-nullable: true
+                type: ['string','null']
               nivel:
-                type: string
+                type: ['string','null']
               nombreCompleto:
-                type: string
+                type: ['string','null']
               nombreCortoJurisdiccion:
-                type: string
+                type: ['string','null']
               nombreCortoOrganigrama:
-                type: string
+                type: ['string','null']
               sigla:
-                type: string
+                type: ['string','null']
               superiorInmediato:
-                type: string
+                type: ['string','null']
       responses:
         200:
           description: OK
@@ -391,19 +405,19 @@ paths:
             type: object
             properties:
               altura:
-                type: string
+                type: ['string','null']
               barrios:
-                type: string
+                type: ['string','null']
               calle:
-                type: string
+                type: ['string','null']
               limites:
-                type: string
+                type: ['string','null']
               nombre:
-                type: string
+                type: ['string','null']
               numero:
-                type: integer
+                type: ['integer','null']
               telefono:
-                type: string
+                type: ['string','null']
       responses:
         201:
           description: Created
@@ -460,19 +474,19 @@ paths:
             type: object
             properties:
               altura:
-                type: string
+                type: ['string','null']
               barrios:
-                type: string
+                type: ['string','null']
               calle:
-                type: string
+                type: ['string','null']
               limites:
-                type: string
+                type: ['string','null']
               nombre:
-                type: string
+                type: ['string','null']
               numero:
-                type: integer
+                type: ['integer','null']
               telefono:
-                type: string
+                type: ['string','null']
       responses:
         200:
           description: OK
@@ -591,17 +605,17 @@ paths:
               usuarioActualizacion:
                 type: string
               codIdentificacion:
-                type: string
+                type: ['string','null']
               predecesor:
-                type: string
+                type: ['string','null']
               etapa: 
-                type: string
+                type: ['string','null']
               inicioCumplido:
-                type: boolean
+                type: ['boolean','null']
               cumplida:
-                type: boolean
+                type: ['boolean','null']
               cancelada:
-                type: boolean
+                type: ['boolean','null']
       responses:
         200:
           description: ok
@@ -668,12 +682,40 @@ paths:
             properties:
               nombre:
                 type: string
-              orden:
-                type: string
               idProyecto:
                 type: string
+              idPlan:
+                type: string
+              idJurisdiccion:
+                type: string
+              idObjImpacto:
+                type: string
+              anio:
+                type: integer
               eliminado:
                 type: boolean
+              fechas:
+                type: array
+                items:
+                  type: object
+              responsableDeCarga:
+                type: string
+              fechaActualizacion:
+                type: string
+              usuarioActualizacion:
+                type: string
+              codIdentificacion:
+                type: ['string','null']
+              predecesor:
+                type: ['string','null']
+              etapa: 
+                type: ['string','null']
+              inicioCumplido:
+                type: ['boolean','null']
+              cumplida:
+                type: ['boolean','null']
+              cancelada:
+                type: ['boolean','null']
       responses:
         200:
           description: OK
@@ -754,11 +796,11 @@ paths:
               nombre:
                 type: string
               orden:
-                type: string
+                type: ['string','null']
               idProyecto:
                 type: string
               eliminado:
-                type: boolean
+                type: ['boolean','null']
       responses:
         200:
           description: ok
@@ -804,11 +846,11 @@ paths:
               nombre:
                 type: string
               orden:
-                type: string
+                type: ['string','null']
               idProyecto:
                 type: string
               eliminado:
-                type: boolean
+                type: ['boolean','null']
       responses:
         200:
           description: OK
@@ -913,7 +955,7 @@ paths:
               responsableDeCarga:
                 type: string
               eliminado:
-                type: boolean
+                type: ['boolean','null']
               idPlan:
                 type: string
       responses:
@@ -966,7 +1008,7 @@ paths:
               responsableDeCarga:
                 type: string
               eliminado:
-                type: boolean
+                type: ['boolean','null']
               idPlan:
                 type: string
       responses:
@@ -1085,65 +1127,65 @@ paths:
               nombre:
                 type: string
               codIdentificacion:
-                type: string
+                type: ['string','null']
               descripcion:
-                type: string
+                type: ['string','null']
               proyectoPadre:
-                type: string
+                type: ['string','null']
               codPlanAnterior:
-                type: string
+                type: ['string','null']
               anioPlanAnterior:
-                type: string
+                type: ['string','null']
               proyectoInversion:
-                type: boolean
+                type: ['boolean','null']
               cancelado:
-                type: boolean
+                type: ['boolean','null']
               enPresentacion:
-                type: boolean
+                type: ['boolean','null']
               dependencia:
-                type: string
+                type: ['string','null']
               contratista:
-                type: string
+                type: ['string','null']
               compromisoG:
-                type: string
+                type: ['string','null']
               metaCuantificacion:
-                type: string
+                type: ['string','null']
               metaProducto:
-                type: string
+                type: ['string','null']
               prioridadMinisterial:
-                type: string
+                type: ['string','null']
               fechaInicio:
-                type: string
+                type: ['string','null']
               monedaSolicitado:
-                type: string
+                type: ['string','null']
               presupuestoSolicitado:
-                type: string
+                type: ['string','null']
               prioridadJefatura:
-                type: string
+                type: ['string','null']
               fechaFin:
-                type: string
+                type: ['string','null']
               monedaGestion:
-                type: string
+                type: ['string','null']
               presupuestoGestion:
-                type: string
+                type: ['string','null']
               proyectoPrioritario:
-                type: boolean
+                type: ['boolean','null']
               orden:
-                type: integer
+                type: ['integer','null']
               grupo:
-                type: string
+                type: ['string','null']
               comunas:
                 type: array
                 items:
-                  type: object
+                  type: string
               responsables:
                 type: array
                 items:
-                  type: object
+                  type: string
               jurisdiccionesParticipantes:
                 type: array
                 items:
-                  type: object
+                  type: string
               responsableDeCarga:
                 type: string
               fechaActualizacion:
@@ -1151,7 +1193,7 @@ paths:
               usuarioActualizacion:
                 type: string
               idAnterior:
-                type: string
+                type: ['string','null']
               idPlan:
                 type: string
               idJurisdiccion:
@@ -1159,9 +1201,9 @@ paths:
               idObjImpacto:
                 type: string
               eliminado:
-                type: boolean
+                type: ['boolean','null']
               anio: 
-                type: integer
+                type: ['integer','null']
       responses:
         200:
           description: Created
@@ -1205,53 +1247,53 @@ paths:
               nombre:
                 type: string
               codIdentificacion:
-                type: string
+                type: ['string','null']
               descripcion:
-                type: string
+                type: ['string','null']
               proyectoPadre:
-                type: string
+                type: ['string','null']
               codPlanAnterior:
-                type: string
+                type: ['string','null']
               anioPlanAnterior:
-                type: string
+                type: ['string','null']
               proyectoInversion:
-                type: boolean
+                type: ['boolean','null']
               cancelado:
-                type: boolean
+                type: ['boolean','null']
               enPresentacion:
-                type: boolean
+                type: ['boolean','null']
               dependencia:
-                type: string
+                type: ['string','null']
               contratista:
-                type: string
+                type: ['string','null']
               compromisoG:
-                type: string
+                type: ['string','null']
               metaCuantificacion:
-                type: string
+                type: ['string','null']
               metaProducto:
-                type: string
+                type: ['string','null']
               prioridadMinisterial:
-                type: string
+                type: ['string','null']
               fechaInicio:
-                type: string
+                type: ['string','null']
               monedaSolicitado:
-                type: string
+                type: ['string','null']
               presupuestoSolicitado:
-                type: string
+                type: ['string','null']
               prioridadJefatura:
-                type: string
+                type: ['string','null']
               fechaFin:
-                type: string
+                type: ['string','null']
               monedaGestion:
-                type: string
+                type: ['string','null']
               presupuestoGestion:
-                type: string
+                type: ['string','null']
               proyectoPrioritario:
-                type: boolean
+                type: ['boolean','null']
               orden:
-                type: integer
+                type: ['integer','null']
               grupo:
-                type: string
+                type: ['string','null']
               comunas:
                 type: array
                 items:
@@ -1271,7 +1313,7 @@ paths:
               usuarioActualizacion:
                 type: string
               idAnterior:
-                type: string
+                type: ['string','null']
               idPlan:
                 type: string
               idJurisdiccion:
@@ -1279,9 +1321,9 @@ paths:
               idObjImpacto:
                 type: string
               eliminado:
-                type: boolean
-              anio:
-                type: integer
+                type: ['boolean','null']
+              anio: 
+                type: ['integer','null']
       responses:
         200:
           description: Actualizado
