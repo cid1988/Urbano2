@@ -80,7 +80,7 @@ async function updateActividad (req, res, next){
         data.idJurisdiccion= ObjectId(data.idJurisdiccion)
         data.idProyecto= ObjectId(data.idProyecto)
         Actividad.findByIdAndUpdate(req.swagger.params.id.value, 
-        {$set: data}, {new: false},function(err, data){
+        {$set: data}, {new: true, strict: false},function(err, data){
             if(err) res.status(500).json(err)
             else res.status(200).json(data)
         })
@@ -94,9 +94,9 @@ async function deleteActividad(req, res, next){
         Actividad.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             {  eliminado: true },
-            { new: false } , function(err,data){
+            { new: true ,strict: false} , function(err,data){
                 if(err) res.status(500).json(err.message)
-                else res.status(200).json({status : 'Marcado como eliminado'})
+                else res.status(200).json(data)
             }); // Make this update into an upsert
     } catch(error){
         res.status(500).json(error);
@@ -151,14 +151,41 @@ async function getCompromisosGobierno(req, res, next){
             else res.status(500).json(err);
         });
     }catch(error){
-        res.json(error);
+        res.status(500).json(error);
     }
 }
 
+async function getCompromisosGobiernoPorID (req, res, next){
+    try{
+        const compromiso = await CompromisoGobierno.findById(req.swagger.params.id.value)
+        res.status(200).json(compromiso);
+    }catch(error){
+        res.status(500).json(error);
+    }
+};
+
 async function createCompromisosGobierno(req, res, next){
-    const grupo = new Grupo(req.swagger.params.body.value);
-    grupo.save();
-    res.json({status: 'Grupo de POA creado'});
+    const compromiso = new CompromisoGobierno(req.swagger.params.body.value);
+    compromiso.save().then(data=>{
+        console.log(data)
+        res.status(200).json(data)
+    }).catch(err => {
+        console.log('-------------------ENTRO error-------------------')
+        res.status(500).json(err)
+    })
+};
+
+async function updateCompromisosGobierno (req, res, next){
+    try{
+        const data= req.swagger.params.body.value;
+        CompromisoGobierno.findByIdAndUpdate(req.swagger.params.id.value, 
+        {$set: data}, {new: true, strict: false},function(err, data){
+            if(err) res.status(500).json(err)
+            else res.status(200).json(data)
+        })
+    } catch(error){
+        res.status(500).json(error);
+    }
 };
 
 //Etapas ------------------------------------------------------------------------
@@ -182,7 +209,7 @@ async function getEtapas(req, res, next){
 
 async function getEtapaPorId(req, res, next){
     try{
-        const etapa = await Etapa.findById(req.swagger.params.id.value);
+        const etapa = await Etapa.findById(req.swagger.params.id.value).populate('actividades',['fechas']);
         res.status(200).json(etapa);
     }catch(error){
         res.status(500).json(error);
@@ -210,7 +237,7 @@ async function deleteEtapa(req, res, next){
         await Etapa.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             {  eliminado: true },
-            { new: false, upsert: true, strict: false}, function(err,data){
+            { new: true, strict: false}, function(err,data){
                 if(err) res.status(500).json(err.message)
                 else res.status(200).json(data)
             }); // Make this update into an upsert
@@ -222,7 +249,7 @@ async function deleteEtapa(req, res, next){
 async function updateEtapa (req, res, next){
     try{
         var data = req.swagger.params.body.value;
-        Etapa.findByIdAndUpdate(req.swagger.params.id.value, {$set: data}, {new: false})
+        Etapa.findByIdAndUpdate(req.swagger.params.id.value, {$set: data}, {new: true, strict:false})
         .then(data => {
             console.log('GUARDADO')
             res.status(200).json(data)
@@ -317,7 +344,10 @@ async function deleteObjImpacto(req, res, next){
         await ObjImpacto.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             {  eliminado: true },
-            { new: false, upsert: true, strict: false}); // Make this update into an upsert
+            { new: true, strict: false},function(err,data){
+                if(err) res.status(500).json(err)
+                else  res.status(200).json(data);
+        }); // Make this update into an upsert
         res.status(200);
     } catch(error){
         res.json(error);
@@ -329,17 +359,17 @@ async function updateObjImpacto (req, res, next){
         const objImpacto = req.swagger.params.body.value
         objImpacto.idPlan = ObjectId(objImpacto.idPlan)
 
-        ObjImpacto.findByIdAndUpdate(req.swagger.params.id.value, {$set: objImpacto}, {new: false})
+        ObjImpacto.findByIdAndUpdate(req.swagger.params.id.value, {$set: objImpacto}, {new: true, strict: false}).exec()
         .then(data => {
             console.log('GUARDADO')
-            res.status(200).json(data)
+            return res.status(200).json(data)
         })
         .catch(err => {
             console.log('Error')
-            res.status(500).json(err)
+            return res.status(500).json(err)
         })
     } catch(error){
-        res.json(error);
+        return res.json(error);
     }
 };
 
@@ -454,7 +484,7 @@ async function updateProyecto (req, res, next){
         proyecto.idObjImpacto= ObjectId(proyecto.idObjImpacto)
         proyecto.idJurisdiccion= ObjectId(proyecto.idJurisdiccion)
 
-        Proyecto.findByIdAndUpdate(req.swagger.params.id.value, {$set: proyecto}, {new: false})
+        Proyecto.findByIdAndUpdate(req.swagger.params.id.value, {$set: proyecto}, {new: true, strict: false})
         .then(data => {
             console.log('GUARDADO')
             res.status(200).json(data)
@@ -495,7 +525,7 @@ async function deleteProyecto (req, res, next){
         Proyecto.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             {  eliminado: true },
-            { new: false, upsert: true, strict: false},function(err,data){
+            { new: true, strict: false},function(err,data){
                 if(err) res.status(500).json(err.message)
                 else res.status(200).json(data);
             }); // Make this update into an upsert
@@ -510,7 +540,7 @@ module.exports = {
     //Areas
     getAreas,
     //Compromisos Gobierno
-    getCompromisosGobierno,
+    getCompromisosGobierno, getCompromisosGobiernoPorID, createCompromisosGobierno, updateCompromisosGobierno,
     //Etapa
     getEtapas,getEtapaPorId,createEtapa,updateEtapa,deleteEtapa,
     //Grupos

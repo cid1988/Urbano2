@@ -1,7 +1,7 @@
-const Reunion = require('../../models/rdg/reunion');
-const Maestro = require('../../models/rdg/maestro');
-const SerieReunion = require('../../models/rdg/serie');
-const TiposReunion = require('../../models/rdg/tipo');
+const Reunion = require('../models/rdg/reunion');
+const Maestro = require('../models/rdg/maestro');
+const SerieReunion = require('../models/rdg/serie');
+const TiposReunion = require('../models/rdg/tipo');
 
 var mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);

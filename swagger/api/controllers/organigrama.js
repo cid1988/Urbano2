@@ -40,7 +40,7 @@ async function editarOrganigrama (req, res, next){
         }
     }
     const organigrama = new Organigrama(req.swagger.params.body.value);
-    await Organigrama.findByIdAndUpdate(req.swagger.params.id.value, {$set: organigrama}, {new: true});
+    await Organigrama.findByIdAndUpdate(req.swagger.params.id.value, {$set: organigrama}, {new: true , strict: false});
     res.json({status: 'Contacto actualizado con exito'});
 };
 

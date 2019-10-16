@@ -26,7 +26,7 @@ async function getComunaId(req, res, next){
 
 async function editComuna (req, res, next){
     const comuna = req.swagger.params.body.value
-    await Comuna.findByIdAndUpdate(req.swagger.params.id.value, {$set: comuna}, {new: true});
+    await Comuna.findByIdAndUpdate(req.swagger.params.id.value, {$set: comuna}, {new: true, strcit: false});
     res.json({status: 'Contacto actualizado con exito'});
 };
 
