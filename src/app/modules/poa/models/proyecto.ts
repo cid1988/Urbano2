@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export interface Proyecto {
+export class Proyecto {
   _id: mongoose.Schema.Types.ObjectId;
   nombre: string;
   codIdentificacion: string;
@@ -25,13 +25,13 @@ export interface Proyecto {
   monedaGestion: string;//Moneda presupuesto adjudicado
   presupuestoGestion: string;//Presupuesto adjudicado
   proyectoPrioritario: boolean;//Mostrar en dashboard
-  orden: number;
+  orden: string;
   grupo: string;
   comunas: string[];
   responsables: string[];
   jurisdiccionesParticipantes: string[];//Areas participantes
   coords: Object;
-  anio: Object;
+  anio: number;
   
   idPlan: mongoose.Schema.Types.ObjectId;
   idJurisdiccion: mongoose.Schema.Types.ObjectId;
@@ -40,4 +40,11 @@ export interface Proyecto {
   fechaActualizacion: string;
   usuarioActualizacion: string;
   eliminado: boolean;
+
+  constructor(proyecto){
+    this.enPresentacion = proyecto.enPresentacion || false;
+    this.anioPlanAnterior = proyecto.anioPlanAnterior || "";
+    this.grupo = proyecto.grupo || "";
+    this.eliminado = proyecto.eliminado || false;
+  }
 }

@@ -13,6 +13,11 @@ import { FilterPipe } from 'src/app/shared-modules/pipes/filter/filter.pipe';
 import { ReversePipe } from 'src/app/shared-modules/pipes/reverse/reverse.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ModalNuevaFechaComponent } from './components/modals/modal-nueva-fecha/modal-nueva-fecha.component';
+import { ModalCrearEtapaComponent } from './components/modals/modal-crear-etapa/modal-crear-etapa.component';
+import { ModalCrearProyectoComponent } from './components/modals/modal-crear-proyecto/modal-crear-proyecto.component';
+import { ModalCrearActividadComponent } from './components/modals/modal-crear-actividad/modal-crear-actividad.component';
 
 const poaRoutes: Routes = [
   {path:'poa',component:ProyectosComponent},
@@ -22,14 +27,16 @@ const poaRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [OrderByPipe, FilterPipe, ReversePipe, PlanCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, ActividadDetalleComponent],
+  declarations: [OrderByPipe, FilterPipe, ReversePipe, PlanCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, ActividadDetalleComponent, ModalNuevaFechaComponent, ModalCrearEtapaComponent, ModalCrearProyectoComponent, ModalCrearActividadComponent],
   imports: [
     CommonModule,
     FormsModule,
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
+    ModalModule.forRoot(),
     RouterModule.forChild(poaRoutes)
   ],
-  exports: [RouterModule,BsDatepickerModule]
+  exports: [RouterModule,BsDatepickerModule],
+  entryComponents: [ModalNuevaFechaComponent,ModalCrearEtapaComponent,ModalCrearActividadComponent],
 })
 export class PoaModule { }

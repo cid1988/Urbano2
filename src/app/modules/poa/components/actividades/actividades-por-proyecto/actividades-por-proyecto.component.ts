@@ -2,11 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActividadesService } from '../../../services/actividades/actividades.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProyectosService } from '../../../services/proyectos/proyectos.service';
-import * as moment from 'moment';
 import { Actividad } from '../../../models/actividad';
 import { FechaActividad } from '../../../models/fechaActividad';
-import { NgForm } from '@angular/forms';
-
+import { Proyecto } from '../../../models/proyecto';
+import { ModalCrearEtapaComponent } from '../../modals/modal-crear-etapa/modal-crear-etapa.component';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Etapa } from '../../../models/etapa';
+import { ModalCrearActividadComponent } from '../../modals/modal-crear-actividad/modal-crear-actividad.component';
 declare var $:any;
 
 @Component({
@@ -17,34 +19,18 @@ declare var $:any;
 export class ActividadesPorProyectoComponent implements OnInit {
 
   actividades: any[];
-  etapas;
-  nuevaEtapa = {actividades: [], idProyecto: ""};
-  nuevaActividad = {} as Actividad;
+  etapas: Etapa[];
   actividadesSelect = [];
-  @Input() proyecto = {_id: ""};
-  // hoy = moment(new Date(), "DD/MM/YYYY").format("YYYYMMDD");
+  @Input() proyecto = new Proyecto({});
   editEtapa = {actividades: [], idProyecto: ""};
-  nuevoHito = {} as FechaActividad;
+  nuevoHito = new FechaActividad({});
+  bsModalRef: BsModalRef;
 
-  etapasList = [{
-    nombre: "Sin etapa"
-  },{
-    nombre: "Ley"
-  },{
-    nombre: "Proyecto"
-  },{
-    nombre: "Anteproyecto"
-  },{
-    nombre: "Obra"
-  },{
-    nombre: "Inauguracion"
-  }];
-
-  constructor(private actividadesService: ActividadesService, private proyectosService: ProyectosService, private activatedRoute:ActivatedRoute) {
+  constructor(private actividadesService: ActividadesService, private proyectosService: ProyectosService, private activatedRoute:ActivatedRoute, private modalService: BsModalService) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
         this.proyecto = proyecto;
-      })
+      });
       this.getActividades(params.get("idProyecto"));
     });
   }
@@ -60,7 +46,7 @@ export class ActividadesPorProyectoComponent implements OnInit {
       this.etapas = etapas;
     },error => {
       console.log(error);
-    })
+    });
 
     //Traer las actividades del proyecto que no pertenecen a una etapa
     this.actividadesService.actividadesPorProyecto(idProyecto).subscribe(actividades =>{
@@ -73,18 +59,27 @@ export class ActividadesPorProyectoComponent implements OnInit {
 
   //Al crear la etapa, en la etapa se va a guardar el campo idProyecto y en las actividades agregadas se va a asociar el id en el campo
   //etapa.
-  crearEtapa(etapa){
-    if(etapa){
-      this.actividadesService.crearEtapa(etapa).subscribe(data =>{
-        this.getActividades(this.proyecto._id);
-        $('#modalCrearEtapa').modal('hide');
-      });
-    }else{
-      this.nuevaEtapa = {actividades:[],idProyecto: this.proyecto._id};
-      $('#modalCrearEtapa').modal('show');
-    }
-  }
+  // crearEtapa(etapa){
+  //   if(etapa){
+  //     this.actividadesService.crearEtapa(etapa).subscribe(data =>{
+  //       this.getActividades(this.proyecto._id);
+  //       $('#modalCrearEtapa').modal('hide');
+  //     });
+  //   }else{
+  //     this.nuevaEtapa = {actividades:[],idProyecto: this.proyecto._id};
+  //     $('#modalCrearEtapa').modal('show');
+  //   }
+  // }
   
+  //Al crear la etapa, en la etapa se va a guardar el campo idProyecto y en las actividades agregadas se va a asociar el id en el campo etapa.
+  crearEtapa(){
+    const initialState = {etapa: new Etapa({idProyecto: this.proyecto._id})};
+    this.bsModalRef = this.modalService.show(ModalCrearEtapaComponent, {initialState});
+    this.bsModalRef.content.action.subscribe((status) => {
+      if(status) this.getActividades(this.proyecto._id);
+    });
+  }
+
   editarEtapa(etapa,guardar){
     if(guardar){
       alert("Guardando cambios");
@@ -100,38 +95,39 @@ export class ActividadesPorProyectoComponent implements OnInit {
     }
   }
 
-  crearActividad(actividad, guardar, userForm: NgForm){
-    if(guardar){
-      console.log(actividad)
-      this.nuevoHito.fechaInicio = moment(this.nuevoHito.fechaInicio).format("DD/MM/YYYY");
-      this.nuevoHito.fechaFin = moment(this.nuevoHito.fechaFin).format("DD/MM/YYYY");
-      actividad.fechas.push(this.nuevoHito);
-      this.actividadesService.crearActividad(actividad).subscribe(data =>{
-        this.getActividades(this.proyecto._id);
-        this.nuevaActividad = {} as Actividad;
-        this.nuevoHito = {} as FechaActividad;
-        $('#modalCrearHito').modal('hide');
-        userForm.resetForm({})
-      },error =>{
-        alert("Error")
-      });
-    }else{
-      if(!actividad.fechas) actividad.fechas = [];
-      this.nuevaActividad = actividad;
-      $('#modalCrearHito').modal('show');
-    }
-    //Codigo anterior sin el modal
-    // actividad.idProyecto = this.proyecto._id;
-    // this.actividadesService.crearActividad(actividad).subscribe(data =>{
-    //   this.getActividades(this.proyecto._id);
-    //   this.nuevaActividad = {} as Actividad;
-    // });
+  crearActividad(){
+    const initialState = {actividad: new Actividad({
+      idPlan: this.proyecto.idPlan,
+      idJurisdiccion: this.proyecto.idJurisdiccion,
+      idProyecto: this.proyecto._id
+    })};
+    this.bsModalRef = this.modalService.show(ModalCrearActividadComponent, {initialState});
+    this.bsModalRef.content.action.subscribe((status) => {
+      if(status) this.getActividades(this.proyecto._id);
+    });
   }
 
-  resetActividadForm(userForm: NgForm) {
-    userForm.resetForm({
-      userName: 'Mahesh',
-      age: 20
-    });
- } 
+  // crearActividad(actividad, guardar, userForm: NgForm){
+  //   if(guardar){
+  //     userForm.value.idPlan = this.proyecto.idPlan;
+  //     userForm.value.idJurisdiccion = this.proyecto.idJurisdiccion;
+  //     userForm.value.idProyecto = this.proyecto._id;
+  //     this.nuevoHito.fechaInicio = moment(this.nuevoHito.fechaInicio).format("DD/MM/YYYY");
+  //     this.nuevoHito.fechaFin = moment(this.nuevoHito.fechaFin).format("DD/MM/YYYY");
+  //     if(!userForm.value.fechas) userForm.value.fechas = [];
+  //     userForm.value.fechas.push(this.nuevoHito);
+  //     console.log(userForm.value)
+  //     this.actividadesService.crearActividad(userForm.value).subscribe(data =>{
+  //       this.getActividades(this.proyecto._id);
+  //       $('#modalCrearHito').modal('hide');
+  //       userForm.resetForm({})
+  //     },error =>{
+  //       alert("Error")
+  //     });
+  //   }else{
+  //     if(!actividad.fechas) actividad.fechas = [];
+  //     this.nuevaActividad = actividad;
+  //     $('#modalCrearHito').modal('show');
+  //   }
+  // }
 }

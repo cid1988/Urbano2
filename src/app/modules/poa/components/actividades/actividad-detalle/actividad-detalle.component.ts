@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActividadesService } from '../../../services/actividades/actividades.service';
 import { Actividad } from '../../../models/actividad';
 import { FechaActividad } from '../../../models/fechaActividad';
 import { ProyectosService } from '../../../services/proyectos/proyectos.service';
 import * as moment from 'moment';
+import { NgForm } from '@angular/forms';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ModalNuevaFechaComponent } from '../../modals/modal-nueva-fecha/modal-nueva-fecha.component';
 declare var $:any;
 
 @Component({
@@ -14,15 +17,18 @@ declare var $:any;
 })
 
 export class ActividadDetalleComponent implements OnInit {  
-  actividad: Actividad;
+  actividad = new Actividad({});
   editando = false;
   etapas = [];
-  fecha = {} as FechaActividad;
+  fecha = new FechaActividad({});
   predecesores: Actividad[];
+  objetivosImpacto = [];
 
-  constructor(private activatedRoute:ActivatedRoute, private proyectosService: ProyectosService, private actividadesService:ActividadesService) {
+  bsModalRef: BsModalRef;
+
+  constructor(private activatedRoute:ActivatedRoute, private proyectosService: ProyectosService, private actividadesService:ActividadesService, private modalService: BsModalService) {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.actividadesService.getActividad(params.get("idActividad")).subscribe((actividad: Actividad) =>{
+      this.actividadesService.getActividad(params.get("idActividad")).subscribe((actividad:Actividad) =>{
         this.actividad = actividad;
       });
       this.proyectosService.etapasPorProyecto(params.get("idProyecto")).subscribe(etapas =>{
@@ -31,6 +37,9 @@ export class ActividadDetalleComponent implements OnInit {
       this.actividadesService.actividadesPorProyecto(params.get('idProyecto')).subscribe(actividades =>{
         this.predecesores = actividades;
       });
+      this.proyectosService.getObjetivosImpacto().subscribe(objsImpacto =>{
+        this.objetivosImpacto = objsImpacto;
+      });
     });
   }
 
@@ -38,19 +47,21 @@ export class ActividadDetalleComponent implements OnInit {
     
   }
 
-  guardar(){
+  guardar(actividadForm: NgForm){
     this.actividadesService.guardarActividad(this.actividad).subscribe((data:any) =>{
       this.editando = false;
+    }, error=>{
+      console.log(error);
     })
   }
 
-  openModal(confirmado, fecha){
+  openModal(confirmado, fecha: NgForm){
     if(confirmado){
-      fecha.fechaInicio = moment(fecha.fechaInicio).format("DD/MM/YYYY");
-      fecha.fechaFin = moment(fecha.fechaFin).format("DD/MM/YYYY");
-      this.fecha = {} as FechaActividad;
-      this.actividad.fechas.push(fecha);
+      fecha.value.fechaInicio = moment(fecha.value.fechaInicio).format("DD/MM/YYYY");
+      fecha.value.fechaFin = moment(fecha.value.fechaFin).format("DD/MM/YYYY");
+      this.actividad.fechas.push(fecha.value);
       $('#modalCrearFecha').modal('hide');
+      fecha.resetForm(new FechaActividad({}));
     }else{
       $('#modalCrearFecha').modal('show');
     }
@@ -58,5 +69,13 @@ export class ActividadDetalleComponent implements OnInit {
 
   eliminarActividad(){
     alert("Eliminar actividad");
+  }
+
+  crearHitoFecha() {
+    const initialState = {fecha: new FechaActividad({})};
+    this.bsModalRef = this.modalService.show(ModalNuevaFechaComponent, {initialState});
+    this.bsModalRef.content.action.subscribe((fecha) => {
+      this.actividad.fechas.push(fecha.value);
+    });
   }
 }

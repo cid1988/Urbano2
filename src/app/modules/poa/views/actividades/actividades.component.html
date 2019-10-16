@@ -75,7 +75,15 @@
                   <div class="form-group">
                     <label>Compromiso</label>
                     <select class="form-control" [(ngModel)]="proyecto.compromisoG" name="compromisoG" #compromisoG="ngModel" [disabled]="!editando">
-                      <option *ngFor="let c of compromisos" [ngValue]="c">{{c.nombre}}</option>
+                      <option *ngFor="let c of compromisosGobierno" [ngValue]="c._id">{{c.nombre}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <label>Objetivo de impacto</label>
+                    <select class="form-control" [(ngModel)]="proyecto.idObjImpacto" name="idObjImpacto" #idObjImpacto="ngModel" [disabled]="!editando">
+                      <option *ngFor="let o of objetivosImpacto" [ngValue]="o._id">{{o.nombre}}</option>
                     </select>
                   </div>
                 </div>
@@ -123,9 +131,9 @@
                             <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="!editando">
                               {{proyecto.monedaSolicitado}}
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel">
-                              <a class="dropdown-item" href="javascript:void(0)" (click)="proyecto.monedaSolicitado = '$'">$</a>
-                              <a class="dropdown-item" href="javascript:void(0)" (click)="proyecto.monedaSolicitado = 'u$s'">u$s</a>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"  >
+                              <a class="dropdown-item" [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" (click)="proyecto.monedaSolicitado = '$'">$</a>
+                              <a class="dropdown-item" [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" (click)="proyecto.monedaSolicitado = 'u$s'">u$s</a>
                             </div>
                             <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="proyecto.presupuestoSolicitado" name="presupuestoSolicitado" #presupuestoSolicitado="ngModel" [disabled]="!editando">
                           </div>

@@ -1,0 +1,98 @@
+<div class="modal-content">
+  <form #userForm="ngForm" (ngSubmit)="userForm.form.valid && guardarActividad(userForm)">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Nuevo hito/actividad</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12">
+          <label for="">Nombre</label>
+          <input type="text" class="form-control" required [(ngModel)]="actividad.nombre" name="nombre" #nombre="ngModel" [ngClass]="{'is-invalid': userForm.submitted && nombre.invalid}">
+          <div *ngIf="nombre.invalid && userForm.submitted" class="invalid-feedback">
+            <div *ngIf="nombre.errors.required">Campo obligatorio</div>
+          </div>
+        </div>
+        <div class="form-group col-6">
+          <label for="">Etapa</label>
+          <select type="text" class="form-control" required [(ngModel)]="actividad.etapa" name="etapa" #etapa="ngModel" [ngClass]="{'is-invalid': userForm.submitted && etapa.invalid}">
+            <option [ngValue]=""></option>
+            <option *ngFor="let e of etapas" [ngValue]="e._id">{{e.nombre}}</option>
+          </select>
+          <div *ngIf="etapa.invalid && userForm.submitted" class="invalid-feedback">
+            <div *ngIf="etapa.errors.required">Campo obligatorio</div>
+          </div>
+        </div>
+        <div class="form-group col-6">
+          <label>Obj impacto</label>
+          <select type="text" class="form-control" required [(ngModel)]="actividad.objImpacto" name="objImpacto" #objImpacto="ngModel" [ngClass]="{'is-invalid': userForm.submitted && objImpacto.invalid}">
+            <option [ngValue]=""></option>
+            <option *ngFor="let o of objetivosImpacto" [ngValue]="o._id">{{o.nombre}}</option>
+          </select>
+          <div *ngIf="objImpacto.invalid && userForm.submitted" class="invalid-feedback">
+            <div *ngIf="objImpacto.errors.required">Campo obligatorio</div>
+          </div>
+        </div>
+        <div class="col-6">
+          <label for="">Nro orden</label>
+          <input type="text" class="form-control" [(ngModel)]="actividad.codIdentificacion" name="codIdentificacion" #codIdentificacion="ngModel">
+        </div>
+      </div>
+      <div class="form-row">
+        <h4 class="col-12" style="margin-bottom: 10px">Hito</h4>
+        <div class="form-group col-3">
+          <label for="">Fecha inicio</label>
+          <input type="text" class="form-control" required [(ngModel)]="hito.fechaInicio" name="fechaInicio" #fechaInicio="ngModel" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': userForm.submitted && fechaInicio.invalid}">
+          <div *ngIf="fechaInicio.invalid" class="invalid-feedback">
+            <div *ngIf="fechaInicio.errors.required">Nombre obligatorio</div>
+          </div>
+        </div>
+        <div class="form-group col-3">
+          <label for="">Fecha fin</label>
+          <input type="text" class="form-control" required [(ngModel)]="hito.fechaFin" name="fechaFin" #fechaFin="ngModel" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': userForm.submitted && fechaFin.invalid}">
+          <div *ngIf="fechaFin.invalid && userForm.submitted" class="invalid-feedback">
+            <div *ngIf="fechaFin.errors.required">Nombre obligatorio</div>
+          </div>
+        </div>
+        <div class="form-group col-3">
+          <label for="">% Avance</label>
+          <input type="text" class="form-control" [(ngModel)]="hito.avance" name="avance" #avance="ngModel">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-12">
+          <label for="">Comentarios</label>
+          <textarea type="text" class="form-control" [(ngModel)]="hito.comentario" name="comentario" #comentario="ngModel"></textarea>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="form-group col-10">
+          <label for="">Actividades</label>
+          <div class="row">
+            <div class="form-group col-10">
+              <select class="form-control" [(ngModel)]="nuevaEtapa.valor">
+                <option *ngFor="let a of actividadesSelect" [value]="a._id">{{a.nombre}}</option>
+              </select>
+            </div>
+            <div class="form-group col-2">
+              <button type="btn" class="btn btn-primary" (click)="agregarActividad(nuevaEtapa.valor)"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="row">
+        <div class="col-12">
+          <ul *ngFor="let a of actividad.actividades">
+            <li>{{a.nombre}}</li>
+          </ul>
+        </div>
+      </div> -->
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Cancelar</button>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </form>
+</div>

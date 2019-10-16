@@ -25,8 +25,8 @@ export class ProyectosService {
     return this.http.get<[]>(this.baseUrl + '/poa/areas?idPlan=' + idPlan);
   };
 
-  proyectosPorPlan(plan,area):Observable<Proyecto[]>{//Es necesario pasar el plan?
-    return this.http.get<Proyecto[]>(this.baseUrl + '/poa/proyectos?idJurisdiccion=' + area._id)
+  proyectosPorPlan(idPlan,idArea):Observable<Proyecto[]>{//Es necesario pasar el plan?
+    return this.http.get<Proyecto[]>(this.baseUrl + '/poa/proyectos?idJurisdiccion=' + idArea + '&idPlan=' + idPlan)
   };
 
   etapasPorProyecto(idProyecto):Observable<[]>{
@@ -51,5 +51,13 @@ export class ProyectosService {
 
   crearProyecto(proyecto):Observable<{}>{
     return this.http.post<{}>(this.baseUrl + '/poa/proyectos', proyecto);
+  }
+
+  getObjetivosImpacto():Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/poa/proyectos');
+  }
+
+  getCompromisosGobierno():Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/poa/compromisosGobierno');
   }
 }

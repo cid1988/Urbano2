@@ -27,7 +27,7 @@ export class ProyectosPorPlanComponent implements OnInit {
   }
 
   getProyectos(plan,area){
-    this.proyectosService.proyectosPorPlan(plan,area).subscribe((proyectos: any[]) =>{
+    this.proyectosService.proyectosPorPlan(plan._id,area._id).subscribe((proyectos: any[]) =>{
       for (let p = 0; p < proyectos.length; p++) {
         let proyecto = proyectos[p];
         // Armar los proyectos hijos del proyecto
@@ -49,7 +49,7 @@ export class ProyectosPorPlanComponent implements OnInit {
       nuevoProyecto.idPlan = this.plan._id;
       nuevoProyecto.anio = this.plan.anio;
       nuevoProyecto.idJurisdiccion = this.area._id;
-      
+
       this.proyectosService.crearProyecto(nuevoProyecto).subscribe(data =>{
         this.getProyectos(this.plan,this.area);
         this.nuevoProyecto = {} as Proyecto;

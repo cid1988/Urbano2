@@ -13,15 +13,17 @@ import { ComunasService } from 'src/app/shared-modules/login/services/comunas/co
 export class ActividadesComponent implements OnInit {
 
   @ViewChild(ActividadesPorProyectoComponent, {static: true}) actividadesPorProyecto: ActividadesPorProyectoComponent;
-  proyecto = <Proyecto>{};
+  proyecto = new Proyecto({});
   proyectos: Proyecto[];
   editando = false;
-  proyectoForm = {};
+  // proyectoForm = {};
   proyectosPadre = [];
   area;
   etapa;
   comunaSeleccionada = {};
   responsableSeleccionado = {};
+  compromisosGobierno;
+  objetivosImpacto;
 
   //Pasar a una coleccion
   grupos = [{
@@ -49,10 +51,6 @@ export class ActividadesComponent implements OnInit {
 
   dependencias = [{
     nombre: "Dependencia 1"
-  }];
-
-  compromisos = [{
-    nombre: "Compromiso 1"
   }];
 
   prioridadesMinisteriales = [{
@@ -84,13 +82,9 @@ export class ActividadesComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService, private comunasService: ComunasService) {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
+      this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe((proyecto: Proyecto) =>{
         this.proyecto = proyecto;
-        
-        let data = {_id: proyecto.idJurisdiccion};//Se arma el objeto de esta forma para que lo reciba el service
-        let dataPlan = {_id: proyecto.idPlan};//Se arma el objeto de esta forma para que lo reciba el service
-
-        this.proyectosService.proyectosPorPlan(dataPlan,data).subscribe((proyectos: any[]) =>{
+        this.proyectosService.proyectosPorPlan(proyecto.idPlan,proyecto.idJurisdiccion).subscribe((proyectos: any[]) =>{
           for (let p = 0; p < proyectos.length; p++) {
             let proyecto = proyectos[p];
             // Armar los proyectos hijos del proyecto
@@ -106,6 +100,12 @@ export class ActividadesComponent implements OnInit {
           alert(error);
         })
       });
+      this.proyectosService.getObjetivosImpacto().subscribe(objsImpacto =>{
+        this.objetivosImpacto = objsImpacto;
+      });
+      this.proyectosService.getCompromisosGobierno().subscribe(compromisosGobierno =>{
+        this.compromisosGobierno = compromisosGobierno;
+      });
     });
 
     this.comunasService.getComunas().subscribe(comunas =>{
@@ -114,7 +114,7 @@ export class ActividadesComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.actividadesPorProyecto.getActividades(this.proyecto);
+    
   }
 
   guardarProyecto(){
