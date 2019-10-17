@@ -4,6 +4,7 @@ import { FechaActividad } from './fechaActividad';
 export class Actividad {
   _id: mongoose.Schema.Types.ObjectId;
   nombre: string;
+  anio: number;
   codIdentificacion: string;
   predecesor: string;
   etapa: string;
@@ -14,6 +15,7 @@ export class Actividad {
   verEnDashboard: boolean;
   idProyecto: string;
   idObjImpacto: string;
+  coordenadas: object;
   idPlan: string;
   idJurisdiccion: string;
 
@@ -27,6 +29,8 @@ export class Actividad {
       this.inicioCumplido = actividad.inicioCumplido || false;
       this.cancelada = actividad.cancelada || false;
       this.fechas = actividad.fechas || [];
+      this.anio = actividad.anio;
+      this.coordenadas = actividad.coordenadas || {lat: Number, lng: Number};
       this.verEnDashboard = actividad.verEnDashboard || false;
       this.idProyecto = actividad.idProyecto || "";
     }

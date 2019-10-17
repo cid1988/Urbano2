@@ -15,4 +15,12 @@ export class ComunasService {
   getComunas():Observable<[]>{
     return this.http.get<[]>(this.baseUrl + '/comunas');
   }
+
+  getContactos():Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/contactos');
+  }
+
+  getContactoById(id):Observable<{}>{
+    return this.http.get<{}>(this.baseUrl + '/contactos/' + id);
+  }
 }

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { ProyectosService } from '../../../services/proyectos/proyectos.service';
 
 @Component({
   selector: 'app-modal-crear-proyecto',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModalCrearProyectoComponent implements OnInit {
 
-  constructor() { }
-
+  proyecto;
+  proyectosPadre;
+  @Output() action = new EventEmitter();
+  
+  constructor(public bsModalRef: BsModalRef, private proyectosService: ProyectosService) {}
+ 
   ngOnInit() {
+    
   }
 
+  guardarProyecto(){
+    console.log(this.proyecto)
+    this.proyectosService.crearProyecto(this.proyecto).subscribe(data =>{
+      this.action.emit(true);
+      this.bsModalRef.hide();
+    })
+  }
 }

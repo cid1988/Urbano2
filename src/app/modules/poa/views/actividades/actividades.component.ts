@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ProyectosService } from '../../services/proyectos/proyectos.service';
 import { Proyecto } from '../../models/proyecto';
 import { ComunasService } from 'src/app/shared-modules/login/services/comunas/comunas.service';
+import { OrganigramaService } from 'src/app/modules/organigrama/services/organigrama.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'actividades',
@@ -13,6 +15,7 @@ import { ComunasService } from 'src/app/shared-modules/login/services/comunas/co
 export class ActividadesComponent implements OnInit {
 
   @ViewChild(ActividadesPorProyectoComponent, {static: true}) actividadesPorProyecto: ActividadesPorProyectoComponent;
+  isCollapsed: boolean;
   proyecto = new Proyecto({});
   proyectos: Proyecto[];
   editando = false;
@@ -20,11 +23,16 @@ export class ActividadesComponent implements OnInit {
   proyectosPadre = [];
   area;
   etapa;
+  comunasLista;
   comunaSeleccionada = {};
   responsableSeleccionado = {};
   compromisosGobierno;
   objetivosImpacto;
-
+  contactos;
+  areas;
+  areaSeleccionada;
+  dependencias;
+  
   //Pasar a una coleccion
   grupos = [{
     _id: "",
@@ -49,10 +57,6 @@ export class ActividadesComponent implements OnInit {
     nombre: "OBRAS DE EDUCACIÓN",
   }];
 
-  dependencias = [{
-    nombre: "Dependencia 1"
-  }];
-
   prioridadesMinisteriales = [{
     _id: "",
     nombre: "A+"
@@ -73,14 +77,7 @@ export class ActividadesComponent implements OnInit {
     nombre: "Sin priorizar"
   }];
 
-  comunasLista;
-
-  areas = [{
-    _id: "111",
-    nombre: "Area 1"
-  }];
-
-  constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService, private comunasService: ComunasService) {
+  constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService, private comunasService: ComunasService, private organigramaService: OrganigramaService) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe((proyecto: Proyecto) =>{
         this.proyecto = proyecto;
@@ -106,11 +103,16 @@ export class ActividadesComponent implements OnInit {
       this.proyectosService.getCompromisosGobierno().subscribe(compromisosGobierno =>{
         this.compromisosGobierno = compromisosGobierno;
       });
+      this.organigramaService.getOrganigrama().subscribe(organigrama =>{
+        this.dependencias = organigrama;
+      });
+      this.comunasService.getComunas().subscribe(comunas =>{
+        this.comunasLista = comunas;
+      });
+      this.proyectosService.getAreas().subscribe(areas =>{
+        this.areas = areas;
+      });
     });
-
-    this.comunasService.getComunas().subscribe(comunas =>{
-      this.comunasLista = comunas;
-    })
   }
 
   ngOnInit() {
@@ -118,6 +120,8 @@ export class ActividadesComponent implements OnInit {
   }
 
   guardarProyecto(){
+    this.proyecto.fechaInicio = moment(this.proyecto.fechaInicio).format("DD/MM/YYYY");
+    this.proyecto.fechaFin = moment(this.proyecto.fechaFin).format("DD/MM/YYYY");
     this.proyectosService.actualizarProyecto(this.proyecto).subscribe(data =>{
       this.editando = false;
     })
@@ -135,5 +139,25 @@ export class ActividadesComponent implements OnInit {
 
   agregarArea(area){
     this.proyecto.jurisdiccionesParticipantes.push(area._id);
+  }
+
+  comunaPorId(idComuna){
+    if(!this.comunasLista) return;
+    for (let i = 0; i < this.comunasLista.length; i++) {
+      const comuna = this.comunasLista[i];
+      if(comuna._id == idComuna){
+        return comuna.nombre;
+      }
+    }
+  }
+
+  contactoPorId(idContacto){
+    if(!this.contactos) return;
+    for (let i = 0; i < this.contactos.length; i++) {
+      const contacto = this.contactos[i];
+      if(contacto._id == idContacto){
+        return contacto;
+      }
+    }
   }
 }

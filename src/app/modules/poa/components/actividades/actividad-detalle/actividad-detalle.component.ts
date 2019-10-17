@@ -48,6 +48,7 @@ export class ActividadDetalleComponent implements OnInit {
   }
 
   guardar(actividadForm: NgForm){
+    //Al guardar setear idObjImpacto
     this.actividadesService.guardarActividad(this.actividad).subscribe((data:any) =>{
       this.editando = false;
     }, error=>{

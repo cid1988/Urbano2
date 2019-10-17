@@ -37,6 +37,6 @@ const poaRoutes: Routes = [
     RouterModule.forChild(poaRoutes)
   ],
   exports: [RouterModule,BsDatepickerModule],
-  entryComponents: [ModalNuevaFechaComponent,ModalCrearEtapaComponent,ModalCrearActividadComponent],
+  entryComponents: [ModalNuevaFechaComponent,ModalCrearEtapaComponent,ModalCrearActividadComponent,ModalCrearProyectoComponent],
 })
 export class PoaModule { }

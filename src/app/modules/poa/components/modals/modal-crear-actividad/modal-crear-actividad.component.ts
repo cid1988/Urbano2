@@ -35,7 +35,7 @@ export class ModalCrearActividadComponent implements OnInit {
   guardarActividad(){
     this.hito.fechaInicio = moment(this.hito.fechaInicio).format("DD/MM/YYYY");
     this.hito.fechaFin = moment(this.hito.fechaFin).format("DD/MM/YYYY");
-    this.actividad.fechas.push(this.hito)
+    this.actividad.fechas.push(this.hito);
     this.actividadesService.crearActividad(this.actividad).subscribe(data =>{
       this.action.emit(true);
       this.bsModalRef.hide();

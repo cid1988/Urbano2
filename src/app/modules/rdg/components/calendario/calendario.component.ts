@@ -20,8 +20,8 @@ export class CalendarioComponent implements OnInit {
   series;
   @Input() calendar;
   altoDePantalla: any;
-  model = {};
-  nuevaReunion = {};
+  model: Reunion;
+  nuevaReunion: Reunion;
   tiposReunion = {};
   cargando = true;
 

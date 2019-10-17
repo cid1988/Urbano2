@@ -87,15 +87,6 @@
               <option *ngFor="let e of etapas" [ngValue]="e._id">{{e.nombre}}</option>
             </select>
           </div>
-          <div class="form-group col-4">
-            <label for="">Obj de impacto</label>
-            <select class="form-control" [disabled]="!editando" required [(ngModel)]="actividad.objImpacto" name="objImpacto" #objImpacto="ngModel" [ngClass]="{'is-invalid': objImpacto.invalid}">
-              <option *ngFor="let o of objetivosImpacto" [ngValue]="o._id">{{o.nombre}}</option>
-            </select>
-            <div *ngIf="objImpacto.invalid" class="invalid-feedback">
-              <div *ngIf="objImpacto.errors?.required">Campo obligatorio</div>
-            </div>
-          </div>
         </div>
       </div>
       <div class="col-2">

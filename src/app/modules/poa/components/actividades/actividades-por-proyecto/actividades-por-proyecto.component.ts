@@ -99,7 +99,8 @@ export class ActividadesPorProyectoComponent implements OnInit {
     const initialState = {actividad: new Actividad({
       idPlan: this.proyecto.idPlan,
       idJurisdiccion: this.proyecto.idJurisdiccion,
-      idProyecto: this.proyecto._id
+      idProyecto: this.proyecto._id,
+      anio: this.proyecto.anio
     })};
     this.bsModalRef = this.modalService.show(ModalCrearActividadComponent, {initialState});
     this.bsModalRef.content.action.subscribe((status) => {

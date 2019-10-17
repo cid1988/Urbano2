@@ -9,14 +9,14 @@
             <button type="button" class="btn btn-outline-light float-right" data-toggle="collapse" [hidden]="isCollapsed" href="#collapseExample" (click)="(!isCollapsed) ? isCollapsed = true : isCollapsed = false"><i class="fa fa-arrow-down"></i></button>
             <button type="button" class="btn btn-outline-light float-right" data-toggle="collapse" [hidden]="!isCollapsed" href="#collapseExample" (click)="(!isCollapsed) ? isCollapsed = true : isCollapsed = false"><i class="fa fa-arrow-up"></i></button>
             <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!isCollapsed" [style.display]="editando ? 'none': 'inherit'" (click)="editando = true"><i class="fa fa-edit"></i> Editar</button>
-            <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="guardarProyecto(proyectoForm)"><i class="fa fa-save"></i> Guardar</button>
+            <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="guardarProyecto()"><i class="fa fa-save"></i> Guardar</button>
             <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false"><i class="fa fa-edit"></i> Cancelar</button>
           </h4>
           <small>{{proyecto.anio}} - {{proyecto.idJurisdiccion}}</small>
         </div>
         <div class="card-body">
           <div class="collapse" id="collapseExample">
-            <form (ngSubmit)="onSubmit(proyectoForm)" #proyectoForm="ngForm" novalidate="">
+            <form (ngSubmit)="guardarProyecto()" #proyectoForm="ngForm" novalidate="">
               <div class="form-row">
                 <div class="col-4">
                   <div class="form-group">
@@ -41,17 +41,24 @@
                 <div class="col-2">
                   <label for="">Plan anterior</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="" [(ngModel)]="proyecto.codPlanAnterior" name="codPlanAnterior" #codPlanAnterior="ngModel" [disabled]="!editando">
-                    <input type="text" class="form-control" placeholder="" [(ngModel)]="proyecto.anioPlanAnterior" name="anioPlanAnterior" #anioPlanAnterior="ngModel" [disabled]="!editando">
+                    <input type="text" class="form-control" placeholder="codigo" [(ngModel)]="proyecto.codPlanAnterior" name="codPlanAnterior" #codPlanAnterior="ngModel" [disabled]="!editando">
+                    <!-- <input type="text" class="form-control" placeholder="Año" [(ngModel)]="proyecto.anioPlanAnterior" name="anioPlanAnterior" #anioPlanAnterior="ngModel" [disabled]="!editando"> -->
+                    <select class="form-control" [(ngModel)]="proyecto.anioPlanAnterior" name="anioPlanAnterior" #anioPlanAnterior="ngModel" [disabled]="!editando">
+                      <option value="2016">2016</option>
+                      <option value="2017">2017</option>
+                      <option value="2018">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020">2020</option>
+                    </select>
                   </div>
                 </div>
                 <div class="col-3">
                   <label for="">&nbsp;</label>
                   <div class="form-row">
                     <button type="button" class="col-3" style="margin-right: 5px" [ngClass]="(proyecto.proyectoInversion) ? 'btn btn-success': 'btn btn-outline-success'" ngDefaultControl [disabled]="!editando" (click)="(proyecto.proyectoInversion) ? proyecto.proyectoInversion = false : proyecto.proyectoInversion = true" [(ngModel)]="proyecto.proyectoInversion" name="proyectoInversion" #proyectoInversion="ngModel">Inversion</button>
-                    <button type="button" class="col-3" style="margin-right: 5px" [ngClass]="(proyecto.cancelado) ? 'btn btn-primary': 'btn btn-outline-primary'" ngDefaultControl [disabled]="!editando" (click)="(proyecto.cancelado) ? proyecto.cancelado = false : proyecto.cancelado = true" [(ngModel)]="proyecto.cancelado" name="cancelado" #cancelado="ngModel">Cancelado</button>
+                    <button type="button" class="col-3" style="margin-right: 5px" [ngClass]="(proyecto.cancelado) ? 'btn btn-secondary': 'btn btn-outline-secondary'" ngDefaultControl [disabled]="!editando" (click)="(proyecto.cancelado) ? proyecto.cancelado = false : proyecto.cancelado = true" [(ngModel)]="proyecto.cancelado" name="cancelado" #cancelado="ngModel">Cancelado</button>
                     <!-- Existen los campos enPresentacion y enPresentacionArea -->
-                    <button type="button" class="col-4" style="margin-right: 5px" [ngClass]="(proyecto.enPresentacion) ? 'btn btn-primary': 'btn btn-outline-primary'" ngDefaultControl [disabled]="!editando" (click)="(proyecto.enPresentacion) ? proyecto.enPresentacion = false : proyecto.enPresentacion = true" [(ngModel)]="proyecto.enPresentacion" name="enPresentacion" #enPresentacion="ngModel">En presentacion</button>
+                    <button type="button" class="col-4" style="margin-right: 5px" data-toggle="tooltip" data-placement="left" title="El proyecto se mostrara en las presentaciones del tablero general" [ngClass]="(proyecto.enPresentacion) ? 'btn btn-primary': 'btn btn-outline-primary'" ngDefaultControl [disabled]="!editando" (click)="(proyecto.enPresentacion) ? proyecto.enPresentacion = false : proyecto.enPresentacion = true" [(ngModel)]="proyecto.enPresentacion" name="enPresentacion" #enPresentacion="ngModel">En presentacion</button>
                   </div>
                 </div>
               </div>
@@ -60,8 +67,8 @@
                 <div class="col-3">
                   <div class="form-group">
                     <label>Dependencia</label>
-                    <select class="form-control" (change)="seleccionDependencia(proyecto.dependencia)" [(ngModel)]="proyecto.dependencia" name="dependencia" #dependencia="ngModel" [disabled]="!editando">
-                      <option *ngFor="let d of dependencias" [ngValue]="d">{{d.nombre}}</option>
+                    <select class="form-control" [(ngModel)]="proyecto.dependencia" name="dependencia" #dependencia="ngModel" [disabled]="!editando">
+                      <option *ngFor="let d of dependencias" [ngValue]="d._id">{{d.nombreCompleto}}</option>
                     </select>
                   </div>
                 </div>
@@ -123,30 +130,15 @@
                         </div>
                         <div class="form-group col-3">
                           <label>Fecha de inicio</label>
-                          <input type="text" class="form-control" placeholder="" [(ngModel)]="proyecto.fechaInicio" name="fechaInicio" #fechaInicio="ngModel" [disabled]="!editando">
+                          <input type="text" class="form-control" [(ngModel)]="proyecto.fechaInicio" name="fechaInicio" #fechaInicio="ngModel" [disabled]="!editando" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': fechaInicio.invalid}">
                         </div>
                         <div class="form-group col-6">
-                          <label for="">Presupuesto oficial</label>
-                          <div class="btn-group" role="group">
-                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="!editando">
-                              {{proyecto.monedaSolicitado}}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"  >
-                              <a class="dropdown-item" [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" (click)="proyecto.monedaSolicitado = '$'">$</a>
-                              <a class="dropdown-item" [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" (click)="proyecto.monedaSolicitado = 'u$s'">u$s</a>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="proyecto.presupuestoSolicitado" name="presupuestoSolicitado" #presupuestoSolicitado="ngModel" [disabled]="!editando">
+                          <label>Presupuesto oficial</label>
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-outline-secondary col-3" [hidden]="proyecto.monedaSolicitado == 'u$s'" [disabled]="!editando" ngDefaultControl [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" (click)="proyecto.monedaSolicitado = 'u$s'">$</button>
+                            <button type="button" class="btn btn-outline-secondary col-3" [hidden]="proyecto.monedaSolicitado == '$'" [disabled]="!editando" ngDefaultControl [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" (click)="proyecto.monedaSolicitado = '$'">u$s</button>
+                            <input type="text" class="form-control" [(ngModel)]="proyecto.presupuestoSolicitado" name="presupuestoSolicitado" #presupuestoSolicitado="ngModel" [disabled]="!editando">
                           </div>
-                          <!-- <div class="input-group">
-                            <div class="input-group-prepend">
-                              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" [disabled]="!editando">{{proyecto.monedaSolicitado}}</button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" (click)="setMoneda('$')">$</a>
-                                <a class="dropdown-item" (click)="setMoneda('u$s')">u$s</a>
-                              </div>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="proyecto.presupuestoSolicitado" name="presupuestoSolicitado" #presupuestoSolicitado="ngModel" [disabled]="!editando">
-                          </div> -->
                         </div>
                       </div>
                       <div class="form-row">
@@ -158,30 +150,15 @@
                         </div>
                         <div class="form-group col-3">
                           <label>Fecha de fin</label>
-                          <input type="text" class="form-control" placeholder="" [(ngModel)]="proyecto.fechaFin" name="fechaFin" #fechaFin="ngModel" [disabled]="!editando">
+                          <input type="text" class="form-control" [(ngModel)]="proyecto.fechaFin" name="fechaFin" #fechaFin="ngModel" [disabled]="!editando" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': fechaFin.invalid}">
                         </div>
                         <div class="form-group col-6">
-                          <label for="">Presupuesto adjudicado</label>
-                          <div class="btn-group" role="group">
-                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="!editando">
-                              {{proyecto.monedaGestion}}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" [(ngModel)]="proyecto.monedaGestion" name="monedaGestion" #monedaGestion="ngModel">
-                              <a class="dropdown-item" href="javascript:void(0)" (click)="proyecto.monedaGestion = '$'">$</a>
-                              <a class="dropdown-item" href="javascript:void(0)" (click)="proyecto.monedaGestion = 'u$s'">u$s</a>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="proyecto.presupuestoGestion" name="presupuestoGestion" #presupuestoGestion="ngModel" [disabled]="!editando">
+                          <label>Presupuesto adjudicado</label>
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-outline-secondary col-3" [disabled]="!editando" [hidden]="proyecto.monedaGestion == 'u$s'" ngDefaultControl [(ngModel)]="proyecto.monedaGestion" name="monedaGestion" #monedaGestion="ngModel" (click)="proyecto.monedaGestion = 'u$s'">$</button>
+                            <button type="button" class="btn btn-outline-secondary col-3" [disabled]="!editando" [hidden]="proyecto.monedaGestion == '$'" ngDefaultControl [(ngModel)]="proyecto.monedaGestion" name="monedaGestion" #monedaGestion="ngModel" (click)="proyecto.monedaGestion = '$'">u$s</button>
+                            <input type="text" class="form-control" [(ngModel)]="proyecto.presupuestoGestion" name="presupuestoGestion" #presupuestoGestion="ngModel" [disabled]="!editando">
                           </div>
-                          <!-- <div class="input-group">
-                            <div class="input-group-prepend">
-                              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [(ngModel)]="proyecto.monedaGestion" name="monedaGestion" #monedaGestion="ngModel" [disabled]="!editando">$</button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">$</a>
-                                <a class="dropdown-item" href="#">u$s</a>
-                              </div>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="proyecto.presupuestoGestion" name="presupuestoGestion" #presupuestoGestion="ngModel" [disabled]="!editando">
-                          </div> -->
                         </div>
                       </div>
                     </div>
@@ -229,7 +206,7 @@
                       </div>
                       <div class="form-group">
                         <span *ngFor="let c of proyecto.comunas">
-                          <span class="badge badge-secondary" style="margin: 3px">{{c}}</span>
+                          <span class="badge badge-secondary" style="margin: 3px">{{comunaPorId(c)}}</span>
                         </span>
                       </div>
                     </div>
@@ -243,7 +220,7 @@
                     <div class="card-body">
                       <div class="form-group">
                         <select class="form-control" (change)="agregarResponsable(responsableSeleccionado)" [(ngModel)]="responsableSeleccionado" name="responsableSeleccionado" [hidden]="!editando">
-                          <option *ngFor="let c of contactos" [ngValue]="c">{{c.nombre}}</option>
+                          <option *ngFor="let c of contactos" [ngValue]="c">{{c.nombre}} {{c.apellidos}}</option>
                         </select>
                       </div>
                       <div class="form-group">

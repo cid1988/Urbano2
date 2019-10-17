@@ -30,7 +30,7 @@ export class Proyecto {
   comunas: string[];
   responsables: string[];
   jurisdiccionesParticipantes: string[];//Areas participantes
-  coords: Object;
+  coordenadas: Object;
   anio: number;
   
   idPlan: mongoose.Schema.Types.ObjectId;
@@ -45,6 +45,11 @@ export class Proyecto {
     this.enPresentacion = proyecto.enPresentacion || false;
     this.anioPlanAnterior = proyecto.anioPlanAnterior || "";
     this.grupo = proyecto.grupo || "";
+    this.anio = proyecto.anio;
+    this.idJurisdiccion = proyecto.idJurisdiccion || "";
+    this.idPlan = proyecto.idPlan || "";
     this.eliminado = proyecto.eliminado || false;
+    this.monedaSolicitado = proyecto.monedaSolicitado || "$";
+    this.monedaGestion = proyecto.monedaGestion || "$";
   }
 }
