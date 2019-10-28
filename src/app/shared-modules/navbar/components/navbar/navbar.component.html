@@ -36,20 +36,7 @@
         </div>
       </li>
       <li class="nav-item dropdown" *ngxPermissionsOnly="['RDG']">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          RDG <span class="sr-only">(current)</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" routerLink="rdg">RDG</a>
-          <a class="dropdown-item" routerLink="calendario">Ver calendario</a>
-          <a class="dropdown-item" href="#">Lista de temarios</a>
-          <a class="dropdown-item" href="#">Lista de compromisos</a>
-          <a class="dropdown-item" href="#">Reportes</a>
-          <a class="dropdown-item" href="#">Mis reuniones</a>
-          <a class="dropdown-item" href="#">Solicitar reunion</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Otra opcion</a>
-        </div>
+        <a class="nav-link" routerLink="calendario">RDG</a>
       </li>
       <li class="nav-item dropdown" *ngxPermissionsOnly="['POA']">
         <a class="nav-link" routerLink="poa">POA</a>
@@ -67,8 +54,8 @@
         </div>
       </li>
       <li class="nav-item dropdown" *ngxPermissionsOnly="['ADMINISTRADOR']">
-          <a class="nav-link" routerLink="organigrama">Organigrama</a>
-        </li>
+        <a class="nav-link" routerLink="organigrama">Organigrama</a>
+      </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="!userLogged" routerLink="login" type="submit">Ingresar</button>
