@@ -13,16 +13,19 @@ export class CalendarioService {
   constructor(private http: HttpClient) { }
   baseUrl = environment.baseUrl
 
-  getReuniones():Observable<Reunion[]>{
-    return this.http.get<Reunion[]>(this.baseUrl + '/rdg/reuniones');
+  getInstanciaReunion():Observable<Reunion[]>{
+    return this.http.get<Reunion[]>(this.baseUrl + '/rdg/instancias');
   };
 
   getTiposReunion():Observable<[]>{
     return this.http.get<[]>(this.baseUrl + '/rdg/tipos');
   };
 
-  getSeriesDeReunion():Observable<{}>{
+  getSeriesReunion():Observable<{}>{
     return this.http.get<{}>(this.baseUrl + '/rdg/series');
+  }
+  getMaestros():Observable<{}>{
+    return this.http.get<{}>(this.baseUrl + '/rdg/maestros');
   }
 
   getMaestroPorReunion(idReunion):Observable<{}>{

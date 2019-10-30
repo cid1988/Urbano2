@@ -1,14 +1,8 @@
 const Reunion = require('../models/rdg/reunion');
-const Maestro = require('../models/rdg/maestro');
 const SerieReunion = require('../models/rdg/serie');
 const TiposReunion = require('../models/rdg/tipo');
 
-var mongoose = require('mongoose');
-mongoose.set('useFindAndModify', false);
-
-const reunionCtrl = {};
-
-reunionCtrl.getReuniones = async (req, res, next) => {
+async function getInstancias (req, res, next) {
     try{
         const reuniones = await Reunion.find({})
         .populate("reunion");
@@ -18,24 +12,35 @@ reunionCtrl.getReuniones = async (req, res, next) => {
     }
 };
 
-reunionCtrl.getMaestroPorReunion = async (req, res, next) => {
-    const { idReunion } = req.params;
-    try{
-        const maestro = await Maestro.findById(idReunion).select("nombre");
-        res.json(maestro);
-    }catch(error){
-        res.json(error);
-    }
-};
-
-reunionCtrl.getSeriesReuniones = async (req, res, next) => {
+async function getSeries(req, res, next) {
     try{
         const series = await SerieReunion.find({
             $and: [
                 {$or: [
                     {apagado: false},
                     {apagado: {$exists: false}}
-                ]},
+                ]},{
+                    nombre:{$ne:'Maestro'}
+                }
+                // {nombre: {$ne: "Maestro"}} Comentado para que puedan verse los maestros en la pantalla de configuracion de maestros
+            ]
+        })
+        .populate('color')//Falta seleccionar el campo color
+        res.json(series);
+    }catch(error){
+        res.json(error);
+    }
+};
+async function getMaestros(req, res, next) {
+    try{
+        const series = await SerieReunion.find({
+            $and: [
+                {$or: [
+                    {apagado: false},
+                    {apagado: {$exists: false}}
+                ]},{
+                    nombre:'Maestro'
+                }
                 // {nombre: {$ne: "Maestro"}} Comentado para que puedan verse los maestros en la pantalla de configuracion de maestros
             ]
         })
@@ -46,7 +51,7 @@ reunionCtrl.getSeriesReuniones = async (req, res, next) => {
     }
 };
 
-reunionCtrl.getTiposReuniones = async (req, res, next) => {
+async function getTipos (req, res, next) {
     try{
         const tiposReunion = await TiposReunion.find();
         res.json(tiposReunion);
@@ -55,7 +60,7 @@ reunionCtrl.getTiposReuniones = async (req, res, next) => {
     }
 };
 
-reunionCtrl.crearReunion = async (req, res, next) => {
+async function crearReunion (req, res, next) {
     const reunion = new Reunion({
         desdeDate: req.body.desdeDate,
         hastaDate: req.body.hastaDate,
@@ -68,7 +73,7 @@ reunionCtrl.crearReunion = async (req, res, next) => {
     res.json({status: 'Reunion creada'});
 };
 
-reunionCtrl.updateReunion = async (req, res, next) => {
+async function updateReunion (req, res, next) {
     const { id } = req.body;
     const reunion = {
         desdeDate: req.body.desdeDate,
@@ -82,4 +87,15 @@ reunionCtrl.updateReunion = async (req, res, next) => {
     res.json({status: 'Reunion actualizada con exito'});
 };
 
-module.exports = reunionCtrl;
+module.exports = {
+    //Series de Reunion
+    getSeries,
+    //Serie de Reunino - Maestros
+    getMaestros,
+    //Instancia de Reunion
+    getInstancias,
+    //Tipo de Reunion
+    getTipos,
+    //Minuta de Reunion
+    //getMinutas
+};

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarioService } from '../../services/calendario.service';
 import { MailHeaderComponent } from '../../components/mail-header/mail-header.component';
+import { Serie } from '../../models/serie';
 
 @Component({
   selector: 'app-maestros',
@@ -9,31 +10,22 @@ import { MailHeaderComponent } from '../../components/mail-header/mail-header.co
 })
 export class MaestrosComponent implements OnInit {
 
-  lista;
-  tipos;
+  
   maestros;
   maestroSeleccionado;
-  seleccionTab;
+  seleccionTab='participantes';
+  datosMaestro=new Serie();
 
   constructor(private calendarioService: CalendarioService) {
-    this.calendarioService.getTiposReunion().subscribe(tiposReunion => {
-      this.tipos = tiposReunion;
+    this.calendarioService.getMaestros().subscribe(maestros => {
+      this.maestros = maestros;
     })
   }
 
   ngOnInit() {
   }
 
-  consulta(){
-    this.calendarioService.getSeriesDeReunion().subscribe((seriesReunion: any[]) =>{
-      for (let i = 0; i < seriesReunion.length; i++) {
-        const serie = seriesReunion[i];
-        
-        if(this.maestroSeleccionado == serie.tipo && serie.nombre == "Maestro"){
-          console.log(this.seleccionTab)
-          this.lista = eval("serie." + this.seleccionTab);
-        }
-      }
-    })
+  consulta(datos){
+    this.datosMaestro=datos
   }
 }

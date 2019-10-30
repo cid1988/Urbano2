@@ -14,7 +14,6 @@ async function getUsers (req,res,next){
 
 async function getUserLogin (req,res,next){
   const { username , password} = req.swagger.params.body.value
-
   try{
     await User.find({username: username}, function(error,user){
       if(passwordHash.verify(password, user[0].password)){
@@ -29,19 +28,29 @@ async function getUserLogin (req,res,next){
 };
 
 async function crearUsuario (req,res,next){
+  req.swagger.params.body.value.password=passwordHash.generate(req.swagger.params.body.value.password)
   const usuario = new User({
-    username: req.body.username,
-    password: req.body.password,
-    jurisdiccion: req.body.jurisdiccion
+    username: req.swagger.params.body.value.username,
+    password: req.swagger.params.body.value.password,
+    jurisdiccion: req.swagger.params.body.value.jurisdiccion
   });
-  await usuario.save();
-  res.json({status: 'Usuario creado'});
+  await User.find({username: usuario.username}).lean().exec(function(err, user) {
+    if(err) res.status(500).json(err)
+    else{
+      if(user[0]){
+        res.status(404).send('El usuario ya existe')
+      }else{
+        usuario.save();
+        res.status(200).json({status: 'Usuario creado'});
+      }
+    }
+  });
 };
 
 async function getUserPermissions (req,res,next){
   const { username } = req.body;
   try{
-    await UserPermissions.find({username: username}, function(error,permisos){
+    await UserPermissions.findOne({username: username}, function(error,permisos){
       res.status(200).json(permisos);
     });
   }catch(error){

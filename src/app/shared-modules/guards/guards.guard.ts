@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UserService } from '../login/services/user/user.service';
+import { UserService } from '../../modules/administrador/services/user/user.service';
+import { AutenticacionService } from '../login/services/autenticacion/autenticacion.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GuardsGuard implements CanActivate, CanActivateChild, CanLoad {
 
-  constructor(private userService:UserService, private router: Router){}
+  constructor(private userService:UserService, private router: Router ,private autenticacion: AutenticacionService){}
 
   isAdmin(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if (!this.userService.isUserLoggedIn) {
+    if (!this.autenticacion.estaLogeado()) {
       console.log('No estás logueado');
       this.router.navigate(['/']);
       return false;
@@ -28,14 +29,11 @@ export class GuardsGuard implements CanActivate, CanActivateChild, CanLoad {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    if (!this.userService.isUserLoggedIn) {
+    if (!this.autenticacion.estaLogeado()) {
       console.log('No estás logueado');
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
       return false;
-    }else{
-      console.log("Bienvenido")
-      return true;
-    }
+    }else return true
   }
   canActivateChild(
     next: ActivatedRouteSnapshot,

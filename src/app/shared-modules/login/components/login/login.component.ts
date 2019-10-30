@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LoginService } from '../../services/login/login.service';
 import { Router } from '@angular/router';
-import { User } from '../../models/user';
-import { UserService } from '../../services/user/user.service';
+import { Login } from '../../models/login';
+import { AutenticacionService } from '../../services/autenticacion/autenticacion.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -11,33 +12,53 @@ import { UserService } from '../../services/user/user.service';
 })
 export class LoginComponent implements OnInit {
 
-  userLogged;
+  error:String ='';
+  submitted:boolean
+  datosLogin: FormGroup;
+  usuarioLogeado=false;
+  @Output() public logeado=new EventEmitter<boolean>();
 
-  constructor(private router: Router, private userService: UserService, private loginService: LoginService) {}
+  constructor(private router: Router,
+    private autenticacion: AutenticacionService,
+    private loginService: LoginService,
+    private fb: FormBuilder) {}
+
+    
 
   ngOnInit() {
-    
+    if(this.autenticacion.estaLogeado()){
+      this.router.navigateByUrl('/home')
+    }else{
+      this.submitted=false
+      this.datosLogin=this.fb.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required]
+      })
+    }
   }
 
-  logIn(username: string, password: string, event: Event) {
-    event.preventDefault(); // Avoid default action for the submit button of the login form
+  get f() { return this.datosLogin.controls; }
 
-    this.loginService.login(username, password).subscribe((res: User) => {
-      if(res){
-        let u: User = {username: res.username, password: "", jurisdiccion: res.jurisdiccion};//No deberia tener la password pero sino tira error
-        this.userService.setUserLoggedIn(u);
-        this.navigate();
-      }else{
-        alert("Usuario incorrecto");
-      }
+  logIn() {
+    this.error=''
+    this.submitted = true;
+    if (this.datosLogin.invalid) {
+      return; 
+    }
+
+    this.loginService.login(this.datosLogin.value).subscribe((login:Login)=> {
+      this.autenticacion.logIn.next({usuario: login.username, logeado:true})
+      this.autenticacion.setUsuarioLogeado(login);
+      this.navigate();
     },
     error => {
-      alert("Error: " + error);
-      console.error(error);
-    });
+      this.error=error.error;
+    }); 
   }
 
   navigate() {
-    this.router.navigateByUrl('/home');
+    this.router.navigateByUrl('/home').then(function(){
+      
+    })
   }
 }

@@ -1,4 +1,4 @@
-export interface Reunion {
+export class Reunion {
   _id: String;
   start: String;
   end: String;

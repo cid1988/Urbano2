@@ -17,13 +17,13 @@ consumes:
 # format of the responses to the client (Accepts)
 produces:
   - application/json
+  
 securityDefinitions:
-   # X-API-Key: abcdef12345
-   APIKeyHeader:
-     type: apiKey
-     in: header
-     name: X-API-Key
-
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+  
   
 paths:
   # //////////////////////////////////////////////////////////////////// Contactos
@@ -61,9 +61,9 @@ paths:
               sexo:
                 type: string
               enorganigrama:
-                type: string
+                type: ['string','null']
               cargo:
-                type: string
+                type: ['string','null']
               area:
                 type: string
               apellidos:
@@ -161,9 +161,9 @@ paths:
               sexo:
                 type: string
               enorganigrama:
-                type: string
+                type: ['string','null']
               cargo:
-                type: string
+                type: ['string','null']
               area:
                 type: string
               apellidos:
@@ -758,6 +758,75 @@ paths:
             type: array
             items:
               $ref: '#/definitions/CompromisoGobierno'
+    post:
+      summary: Crear compromisos de gobierno
+      tags: 
+        - POA - Compromisos Gobierno
+      operationId: createCompromisosGobierno
+      parameters:
+        - in: body
+          name: body
+          description: Datos del compromisos de gobierno a crear.
+          schema:
+            type: object
+            required:
+              - nombre
+            properties:
+              nombre:
+                type: string
+              tipo:
+                type: string
+      responses:
+        200:
+          description: Created
+          
+  /poa/compromisosGobierno/{id}:
+    x-swagger-router-controller: poa
+    get:
+      summary: Trear compromiso por id
+      description: Obtiene un compromisos de gobierno de POA
+      operationId: getCompromisosGobiernoPorID
+      parameters:
+        - name: id
+          in: path
+          description: ID de la etapa
+          type: string
+          required: true
+      tags:
+        - POA - Compromisos Gobierno
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CompromisoGobierno'
+    put:
+      summary: Editar compromisos de gobierno por ID
+      tags: 
+        - POA - Compromisos Gobierno
+      operationId: updateCompromisosGobierno
+      parameters:
+        - name: id
+          in: path
+          description: ID de la etapa
+          type: string
+          required: true
+        - in: body
+          name: body
+          description: Datos del compromisos de gobierno a actualizar
+          schema:
+            type: object
+            required:
+              - nombre
+            properties:
+              nombre:
+                type: string
+              tipo:
+                type: string
+      responses:
+        200:
+          description: Update
   # //////////////////////////////////////////////////////////////////// POA - Etapas
   /poa/etapas:
     x-swagger-router-controller: poa
@@ -1400,6 +1469,29 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Usuario'
+    post:
+      summary: Crear un usuario
+      tags: 
+        - Usuario
+      operationId: crearUsuario
+      parameters:
+        - in: body
+          name: body
+          description: Usuario y pass
+          schema:
+            type: object
+            required:
+              - username
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+              jurisdiccion:
+                type: string
+      responses:
+        200:
+          description: Ok
   # ////////////////////////////////////////////////////////////////////
   /users/permisos:
     x-swagger-router-controller: user
@@ -1422,6 +1514,342 @@ paths:
       responses:
         200:
           description: Ok
+  
+  # //////////////////////////////////////////////////////////////////// RDG - CITAS
+  /rdg/citas:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trae mails de una cita a reunion de RDG
+      operationId: getCitas
+      parameters:
+        - in: query
+          name: idInstancia
+          type: string
+          required: false
+      tags:
+        - RDG - Citas
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Cita'
+    post:
+      summary: Guarda el mail de una nueva cita de reunion de RDG
+      tags: 
+        - RDG - Citas
+      operationId: createCita
+      parameters:
+        - in: body
+          name: body
+          description: Datos de los asistente de un reunion de RDG
+          schema:
+            type: object
+            required:
+              - para
+              - asunto
+              - mensajeHtml
+              - idInstancia
+              - version
+              - fecha
+            properties:
+              para:
+                type: string
+              cc:
+                type: ['string','null']
+              cco:
+                type: ['string','null']
+              usuario:
+                type: ['string','null']
+              asunto:
+                type: string
+              mensajeHtml:
+                type: string
+              idInstancia:
+                type: string
+              version:
+                type: string
+              fecha:
+                type: string
+      responses:
+        200:
+          description: ok
+          
+  /rdg/citas/{id}:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trear una cita de reunion de RDG por ID
+      operationId: getCitaPorId
+      parameters:
+        - name: id 
+          in: path
+          description: ID de la cita
+          type: string
+          required: true 
+      tags:
+        - RDG - Citas
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Cita'
+  # //////////////////////////////////////////////////////////////////// RDG - MInutas
+  /rdg/minutas:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trae minuta de una reunion de RDG
+      operationId: getMinutas
+      parameters:
+        - in: query
+          name: instancia
+          type: string
+          required: false
+      tags:
+        - RDG - Minutas
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Minuta'
+    post:
+      summary: Guarda una nueva minuta de reunion de RDG
+      tags: 
+        - RDG - Minutas
+      operationId: createMinuta
+      parameters:
+        - in: body
+          name: body
+          description: Datos de la minuta de un reunion de RDG
+          schema:
+            type: object
+            required:
+              - instancia
+              - fecha
+            properties:
+              instancia:
+                type: string
+              compromisos:
+                type: array
+                items:
+                  type: object
+              html:
+                type: ['string','null']
+              usuario:
+                type: string
+              fecha:
+                type: string
+              tipoMinuta:
+                type: ['string','null']
+              presentacion:
+                type: ['boolean','null']
+              enviado:
+                type: ['array','null']
+                items:
+                  type: object
+      responses:
+        200:
+          description: ok
+          
+  /rdg/minutas/{id}:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trear una minuta de reunion de RDG por ID
+      operationId: getMinutaPorId
+      parameters:
+        - name: id 
+          in: path
+          description: ID de la minuta
+          type: string
+          required: true 
+      tags:
+        - RDG - Citas
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Minuta'
+  # //////////////////////////////////////////////////////////////////// RDG - Serie de Reuniones
+  /rdg/series:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trae serie de reuniones de RDG
+      operationId: getSeries
+      parameters:
+        - in: query
+          name: tipo
+          type: string
+          required: false
+        - in: query
+          name: jurisdiccion
+          type: string
+          required: false
+      tags:
+        - RDG - Reuniones
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SerieReunion'
+    post:
+      summary: Guarda una nueva serie de reunion de RDG
+      tags: 
+        - RDG - Reuniones
+      operationId: createSerie
+      parameters:
+        - in: body
+          name: body
+          description: Datos de la serie de reunion de RDG
+          schema:
+            type: object
+            required:
+              - nombre
+              - tipo
+              - frecuencia
+            properties:
+              nombre:
+                type: string
+              tipo:
+                type: string
+              frecuencia:
+                type: string
+      responses:
+        200:
+          description: ok
+  # //////////////////////////////////////////////////////////////////// RDG - Serie de Reuniones -Maestro
+  /rdg/maestros:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trae serie de reuniones de RDG
+      operationId: getMaestros
+      parameters:
+        - in: query
+          name: tipo
+          type: string
+          required: false
+      tags:
+        - RDG - Series Maestros
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SerieReunion'
+  /rdg/series/{id}:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trear una minuta de reunion de RDG por ID
+      operationId: getSeriePorId
+      parameters:
+        - name: id 
+          in: path
+          description: ID de la minuta
+          type: string
+          required: true 
+      tags:
+        - RDG - Citas
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Minuta'
+  # //////////////////////////////////////////////////////////////////// RDG - Tipos de Reuniones
+  /rdg/tipos:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trae tipos de reuniones de RDG
+      operationId: getTipos
+      tags:
+        - RDG - Tipos de Reuniones
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TipoReunion'
+    post:
+      summary: Guarda un tipo de reunion de RDG
+      tags: 
+        - RDG - Tipos de Reuniones
+      operationId: createTipo
+      parameters:
+        - in: body
+          name: body
+          description: Datos de la serie de reunion de RDG
+          schema:
+            type: object
+            required:
+              - color
+              - nombre
+            properties:
+              nombre:
+                type: string
+              color:
+                type: string
+              de:
+                type: string
+              orden:
+                type: string
+              permiso:
+                type: string
+              tipo:
+                type: string
+      responses:
+        200:
+          description: ok
+          
+  # //////////////////////////////////////////////////////////////////// RDG - Tipos de Reuniones
+  /rdg/instancias:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trae tipos de reuniones de RDG
+      operationId: getInstancias
+      tags:
+        - RDG - Instancias de Reuniones
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/InstanciaReunion'
+    post:
+      summary: Guarda un tipo de reunion de RDG
+      tags: 
+        - RDG - Tipos de Reuniones
+      operationId: createInstancia
+      parameters:
+        - in: body
+          name: body
+          description: Datos de la serie de reunion de RDG
+          schema:
+            type: object
+            required:
+              - color
+              - nombre
+            properties:
+              nombre:
+                type: string
+              color:
+                type: string
+              de:
+                type: string
+              orden:
+                type: string
+              permiso:
+                type: string
+              tipo:
+                type: string
+      responses:
+        200:
+          description: ok
+
   # ////////////////////////////////////////////////////////////////////
   /swagger:
     x-swagger-pipe: swagger_raw
@@ -1757,6 +2185,192 @@ definitions:
         type: string
       tipo:
         type: string
+  Cita:
+    type: object
+    properties:
+      id:
+        type: string
+      para:
+        type: string
+      cc:
+        type: string
+      cco:
+        type: string
+      usuario:
+        type: string
+      asunto:
+        type: string
+      mensajeHtml:
+        type: string
+      idInstancia:
+        type: string
+      version: 
+        type: string
+      fecha:
+        type: string
+  Minuta:
+    type: object
+    properties:
+      instancia:
+        type: string
+      compromisos:
+        type: array
+        items:
+          type: object
+      html:
+        type: ['string','null']
+      usuario:
+        type: string
+      fecha:
+        type: string
+      tipoMinuta:
+        type: ['string','null']
+      presentacion:
+        type: ['boolean','null']
+      enviado:
+        type: ['array','null']
+        items:
+          type: object
+  SerieReunion:
+    type: object
+    properties:
+      nombre: 
+        type: string
+      tipo:
+        type: string
+      frecuencia:
+        type: string
+      participantes:
+        type: array
+        items:
+          type: object
+      cita:
+        type: array
+        items:
+          type: object
+          properties:
+            para:
+              type: array
+              items:
+                type: object
+            cc:
+              type: array
+              items:
+                type: object
+            cco:
+              type: array
+              items:
+                type: object
+            exclusivos:
+              type: array
+              items:
+                type: object
+      temario:
+        type: array
+        items:
+          type: object
+          properties:
+            para:
+              type: array
+              items:
+                type: object
+            cc:
+              type: array
+              items:
+                type: object
+            cco:
+              type: array
+              items:
+                type: object
+            exclusivos:
+              type: array
+              items:
+                type: object
+      minuta:
+        type: array
+        items:
+          type: object
+          properties:
+            para:
+              type: array
+              items:
+                type: object
+            cc:
+              type: array
+              items:
+                type: object
+            cco:
+              type: array
+              items:
+                type: object
+            exclusivos:
+              type: array
+              items:
+                type: object
+      propuestaTemario:
+        type: array
+        items:
+          type: object
+          properties:
+            para:
+              type: array
+              items:
+                type: object
+            cc:
+              type: array
+              items:
+                type: object
+            cco:
+              type: array
+              items:
+                type: object
+            exclusivos:
+              type: array
+              items:
+                type: object
+      jurisdiccion:
+        type: string
+      asistenteTablero:
+        type: string
+      validaTemario:
+        type: string
+      jurisdicciones:
+        type: array
+        items:
+          type: string
+  TipoReunion:
+    type: object
+    properties:
+      nombre:
+        type: string
+      color:
+        type: string
+      de:
+        type: string
+      orden:
+        type: string
+      permiso:
+        type: string
+      tipo:
+        type: string
+  InstanciaReunion:
+    type: object
+    properties:
+      nombre:
+        type: string
+      color:
+        type: string
+      de:
+        type: string
+      orden:
+        type: string
+      permiso:
+        type: string
+      tipo:
+        type: string
+      
+          
+        
 # To apply Basic auth to the whole API:
 
       

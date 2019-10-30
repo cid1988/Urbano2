@@ -5,6 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Reunion } from '../../models/reunion';
+import { Router} from "@angular/router"
 
 declare var $:any;
 
@@ -20,12 +21,12 @@ export class CalendarioComponent implements OnInit {
   series;
   @Input() calendar;
   altoDePantalla: any;
-  model: Reunion;
-  nuevaReunion: Reunion;
-  tiposReunion = {};
+  model={} as Reunion;
+  nuevaReunion= {} as Reunion;
+  tiposReunion = [];
   cargando = true;
 
-  constructor(private calendarioService: CalendarioService) {
+  constructor(private calendarioService: CalendarioService, private router: Router) {
     this.calculos();
   }
   
@@ -33,26 +34,26 @@ export class CalendarioComponent implements OnInit {
     this.calendarioService.getTiposReunion().subscribe((tiposReunion: any[]) =>{
       this.tiposReunion = tiposReunion;
     })
-    this.calendarioService.getSeriesDeReunion().subscribe((series: any[]) =>{
+    this.calendarioService.getSeriesReunion().subscribe((series: any[]) =>{
       // for (let i = 0; i < series.length; i++) {
       //   let serie = series[i];
       //   serie.color = this.calcularColor(serie.tipo);
       // }
       this.series = series;
     })
-    this.calendarioService.getReuniones().subscribe((reuniones: any[]) =>{
+    this.calendarioService.getInstanciaReunion().subscribe((reuniones: any[]) =>{
       for (let i = 0; i < reuniones.length; i++) {
         let reunion = reuniones[i];
         
-        // reunion.start = reunion.desdeDate;
-        // reunion.end = reunion.hastaDate;
+        reunion.start = reunion.desdeDate;
+        reunion.end = reunion.hastaDate;
         reunion.color = this.calcularColor(reunion.reunion.tipo);
         this.reuniones = reuniones;
       }
       // console.log(reuniones);
       this.llamarCalendario(this.reuniones,this.model,this.nuevaReunion);
     },error =>{
-      alert(error);
+      console.log(error);
     })
   }
 
@@ -249,5 +250,9 @@ export class CalendarioComponent implements OnInit {
   actualizarCalendario(){
     this.calendar.destroy();
     this.calculos();
+  }
+
+  irMaestros(){
+    this.router.navigateByUrl('/calendario/maestros');
   }
 }

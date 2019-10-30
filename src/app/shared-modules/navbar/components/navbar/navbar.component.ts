@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/shared-modules/login/services/user/user.service';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { AutenticacionService } from 'src/app/shared-modules/login/services/autenticacion/autenticacion.service';
 
 @Component({
   selector: 'navbar',
@@ -8,30 +8,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  
+  logeado:boolean;
+  usuario;
 
-  userLogged;
-
-  constructor(private router: Router, private userService: UserService) {
-    this.userLogged = this.userService.getUserLoggedIn();
+  constructor(private router: Router, private autenticacion: AutenticacionService) {
   }
 
   ngOnInit() {
-    if(this.userService.isUserLoggedIn){
-      this.setUserLogged();
-    }else{
-      this.userService.getEmitter().subscribe((customObject) => {
-        this.userLogged = customObject;
-      });
-    }
+    this.autenticacion.logIn.subscribe((data: any)=>{
+      this.logeado=data.logeado;
+      this.usuario=data.usuario;
+    })
+    if(this.autenticacion.estaLogeado()){
+      this.logeado= true;
+      this.usuario = this.autenticacion.getUsuarioLogeado()
+    }else this.logeado= false;
   }
+  
 
-  setUserLogged(){
-    this.userLogged = this.userService.getUserLoggedIn();
-  }
 
   logout(){
-    this.userService.logout();
-    this.setUserLogged();
-    this.router.navigateByUrl('/login');
+    this.autenticacion.logout();
+    this.logeado=false
+    this.usuario = ''
+    this.router.navigateByUrl('/login')
   }
 }

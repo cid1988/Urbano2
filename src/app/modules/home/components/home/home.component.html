@@ -40,6 +40,16 @@
         </footer>
       </blockquote>
     </div>
+    <div class="card p-3" *ngxPermissionsOnly="['ADMINISTRADOR']">
+        <blockquote class="blockquote mb-0 card-body">
+          <h5 class="card-title"><a routerLink="/contactos">Contactos</a></h5>
+          <footer class="blockquote-footer">
+            <small class="text-muted">
+              Administracion de contactos
+            </small>
+          </footer>
+        </blockquote>
+      </div>
     <!-- <div class="card p-3">
       <blockquote class="blockquote mb-0 card-body">
         <h5 class="card-title">Agenda</h5>

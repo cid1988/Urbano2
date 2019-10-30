@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/shared-modules/login/services/user/user.service';
+import { UserService } from 'src/app/modules/administrador/services/user/user.service';
 import { OrganigramaService } from 'src/app/modules/organigrama/services/organigrama.service';
-import { User } from 'src/app/shared-modules/login/models/user';
+import { User } from '../../models/user';
 
 declare var $:any;
 
@@ -12,8 +12,9 @@ declare var $:any;
 })
 export class AdminComponent implements OnInit {
 
+  error:String='';
   users = [];
-  nuevoUsuario: User;
+  nuevoUsuario={} as User
   jurisdicciones =[];
 
   constructor(private userService: UserService, private organigramaService: OrganigramaService) { }
@@ -28,14 +29,22 @@ export class AdminComponent implements OnInit {
   }
 
   crearUsuario(confirmado){
+    this.error=''
     // this.userService.getUserPermissions('pperello').subscribe((permisos:any) =>{
     //   console.log(permisos.permissions);
     // })
     if(confirmado){
       this.userService.crearUsuario(this.nuevoUsuario).subscribe(data =>{
-        console.log(data);
+        $('#crearUsuarioModal').modal('hide');
+        this.nuevoUsuario={} as User
+        this.userService.getUsers().subscribe((users: any[]) =>{
+          this.users = users;
+        });
+      }, error =>{
+        this.error=error.error
       })
     }else{
+
       $('#crearUsuarioModal').modal('show');
     }
   }

@@ -3,12 +3,13 @@ const { Schema } = mongoose;
 
 const reunionSchema = new Schema({
     nombre: { type: String, required: false },
-    reunion: { type: Schema.Types.ObjectId, ref: 'Maestro' },
+    reunion: { type: Schema.Types.ObjectId, ref: 'Serie' },
     desdeDate: { type: Number },
     hastaDate: { type: Number }
 },{
     versionKey: false,
-    strict: false
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
 });
 
 reunionSchema.virtual('title').get(function(){
@@ -23,6 +24,5 @@ reunionSchema.virtual('end').get(function(){
     return this.hastaDate;
 });
 
-reunionSchema.set('toJSON', {getters: true, virtuals: true});
 
 module.exports = mongoose.model('Reunion', reunionSchema, 'rdg.reuniones.instancias');

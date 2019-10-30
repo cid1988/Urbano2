@@ -1,0 +1,13 @@
+<div class="card" style="margin-bottom:15px;">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-4">{{contacto.nombreCompleto}}</div>
+            <div class="col-md-8">{{contacto.organigrama}}</div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div *ngFor='let correo of contacto.correos'>
+            <p>{{correo.nombre}}: {{correo.valor}}</p>
+        </div>
+    </div>
+</div>

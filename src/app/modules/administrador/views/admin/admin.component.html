@@ -3,7 +3,7 @@
     <div class="col-2">
       <div class="list-group">
         <a href="#" class="list-group-item list-group-item-action active">Usuarios</a>
-        <a href="javascript:void(0)" class="list-group-item list-group-item-action" (click)="crearUsuario(false);nuevoUserForm.reset()">Nuevo usuario</a>
+        <a href="javascript:void(0)" class="list-group-item list-group-item-action" (click)="crearUsuario(false);">Nuevo usuario</a>
         <a href="#" class="list-group-item list-group-item-action">Otro</a>
       </div>
     </div>
@@ -21,7 +21,7 @@
           <tr *ngFor="let u of users" (click)="detalleContacto(u)">
             <td>{{u.username}}</td>
             <td>{{u.idContacto?.nombreCompleto}}</td>
-            <td>{{u.jurisdiccion.nombreCompleto}}</td>
+            <td>{{u.jurisdiccion?.nombreCompleto}}</td>
             <td>
               <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                 <div class="btn-group" role="group">
@@ -71,6 +71,10 @@
                 <option *ngFor="let j of jurisdicciones" [value]="j._id">{{j.nombreCompleto}}</option>
               </select>
             </div>
+            <div *ngIf='error!=""' class="alert alert-danger" role="alert" style="text-align: center;">
+                <strong>{{error}}</strong>
+            </div>
+
           </form>
         </div>
         <div class="modal-footer">

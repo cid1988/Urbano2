@@ -1,0 +1,2633 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Urbano 2"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:10010/api"
+    },
+    {
+      "url": "https://localhost:10010/api"
+    }
+  ],
+  "paths": {
+    "/contactos": {
+      "x-swagger-router-controller": "contacto",
+      "get": {
+        "tags": [
+          "Contactos"
+        ],
+        "operationId": "listarContactos",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contacto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contactos"
+        ],
+        "operationId": "crearContacto",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "nombre",
+                  "apellidos"
+                ],
+                "properties": {
+                  "nombre": {
+                    "type": "string"
+                  },
+                  "segundoNombre": {
+                    "type": "string"
+                  },
+                  "sexo": {
+                    "type": "string"
+                  },
+                  "enorganigrama": {
+                    "type": "string"
+                  },
+                  "cargo": {
+                    "type": "string"
+                  },
+                  "area": {
+                    "type": "string"
+                  },
+                  "apellidos": {
+                    "type": "string"
+                  },
+                  "servicios": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "nombre": {
+                          "type": "string"
+                        },
+                        "pin": {
+                          "type": "string"
+                        },
+                        "checked": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "telefono": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "nombre": {
+                          "type": "string"
+                        },
+                        "valor": {
+                          "type": "string"
+                        },
+                        "checked": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "correos": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "nombre": {
+                          "type": "string"
+                        },
+                        "valor": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "direcciones": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "roles": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "nombre": {
+                          "type": "string"
+                        },
+                        "valor": {
+                          "type": "string"
+                        },
+                        "checkedAgenda": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": "Datos del usuario a crear."
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/contactos/{id}": {
+      "x-swagger-router-controller": "contacto",
+      "get": {
+        "tags": [
+          "Contactos"
+        ],
+        "operationId": "listarContactoPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del usuario",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contacto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Contactos"
+        ],
+        "operationId": "editarContacto",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del contacto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "nombre",
+                  "apellidos"
+                ],
+                "properties": {
+                  "nombre": {
+                    "type": "string"
+                  },
+                  "segundoNombre": {
+                    "type": "string"
+                  },
+                  "sexo": {
+                    "type": "string"
+                  },
+                  "enorganigrama": {
+                    "type": "string"
+                  },
+                  "cargo": {
+                    "type": "string"
+                  },
+                  "area": {
+                    "type": "string"
+                  },
+                  "apellidos": {
+                    "type": "string"
+                  },
+                  "servicios": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "nombre": {
+                          "type": "string"
+                        },
+                        "pin": {
+                          "type": "string"
+                        },
+                        "checked": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "telefono": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "nombre": {
+                          "type": "string"
+                        },
+                        "valor": {
+                          "type": "string"
+                        },
+                        "checked": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "correos": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "nombre": {
+                          "type": "string"
+                        },
+                        "valor": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "direcciones": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "roles": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "nombre": {
+                          "type": "string"
+                        },
+                        "valor": {
+                          "type": "string"
+                        },
+                        "checkedAgenda": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": "Actualizar contacto por ID"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contacto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Contactos"
+        ],
+        "operationId": "eliminarContacto",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del contacto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/organigrama": {
+      "x-swagger-router-controller": "organigrama",
+      "get": {
+        "tags": [
+          "Organigrama"
+        ],
+        "operationId": "getOrganigramaCompleto",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Organigrama"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Organigrama"
+        ],
+        "operationId": "crearOrganigrama",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Organigrama"
+              }
+            }
+          },
+          "description": "Datos de la reparticion del organigrama."
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/organigrama/{id}": {
+      "x-swagger-router-controller": "organigrama",
+      "get": {
+        "tags": [
+          "Organigrama"
+        ],
+        "operationId": "listarOrganigramaPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la reparticion",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string"
+                      },
+                      "categoria": {
+                        "type": "string"
+                      },
+                      "nivel": {
+                        "type": "string"
+                      },
+                      "nombreCompleto": {
+                        "type": "string"
+                      },
+                      "nombreCortoJurisdiccion": {
+                        "type": "string"
+                      },
+                      "nombreCortoOrganigrama": {
+                        "type": "string"
+                      },
+                      "sigla": {
+                        "type": "string"
+                      },
+                      "superiorInmediato": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string"
+                          },
+                          "nombreCompleto": {
+                            "type": "string"
+                          },
+                          "sigla": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Organigrama"
+        ],
+        "operationId": "editarOrganigrama",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la reparticion",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "categoria": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "nivel": {
+                    "type": "string"
+                  },
+                  "nombreCompleto": {
+                    "type": "string"
+                  },
+                  "nombreCortoJurisdiccion": {
+                    "type": "string"
+                  },
+                  "nombreCortoOrganigrama": {
+                    "type": "string"
+                  },
+                  "sigla": {
+                    "type": "string"
+                  },
+                  "superiorInmediato": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "datos de la reparticion a acutalizar por ID"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organigrama"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Organigrama"
+        ],
+        "operationId": "eliminarOrganigrama",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del contacto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/organigramaSimple": {
+      "x-swagger-router-controller": "organigrama",
+      "get": {
+        "tags": [
+          "Organigrama"
+        ],
+        "operationId": "getOrganigramaSimple",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Organigrama"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comunas": {
+      "x-swagger-router-controller": "comuna",
+      "get": {
+        "tags": [
+          "Comunas"
+        ],
+        "operationId": "getComunas",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contacto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Comunas"
+        ],
+        "operationId": "createContacto",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "altura": {
+                    "type": "string"
+                  },
+                  "barrios": {
+                    "type": "string"
+                  },
+                  "calle": {
+                    "type": "string"
+                  },
+                  "limites": {
+                    "type": "string"
+                  },
+                  "nombre": {
+                    "type": "string"
+                  },
+                  "numero": {
+                    "type": "integer"
+                  },
+                  "telefono": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Datos de la comuna a crear."
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/comunas/{id}": {
+      "x-swagger-router-controller": "comuna",
+      "get": {
+        "tags": [
+          "Comunas"
+        ],
+        "operationId": "getComunaId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la Comuna",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string"
+                      },
+                      "altura": {
+                        "type": "string"
+                      },
+                      "barrios": {
+                        "type": "string"
+                      },
+                      "calle": {
+                        "type": "string"
+                      },
+                      "limites": {
+                        "type": "string"
+                      },
+                      "nombre": {
+                        "type": "string"
+                      },
+                      "numero": {
+                        "type": "integer"
+                      },
+                      "telefono": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Comunas"
+        ],
+        "operationId": "editComuna",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la Comuna",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "altura": {
+                    "type": "string"
+                  },
+                  "barrios": {
+                    "type": "string"
+                  },
+                  "calle": {
+                    "type": "string"
+                  },
+                  "limites": {
+                    "type": "string"
+                  },
+                  "nombre": {
+                    "type": "string"
+                  },
+                  "numero": {
+                    "type": "integer"
+                  },
+                  "telefono": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "datos de la comuna a acutalizar por ID"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comuna"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Comunas"
+        ],
+        "operationId": "deleteComuna",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del Comuna",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/login": {
+      "x-swagger-router-controller": "login",
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Usuario y pass"
+        },
+        "responses": {
+          "200": {
+            "description": "Logeado"
+          }
+        }
+      }
+    },
+    "/poa/actividades": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trae actividades de POA",
+        "description": "Lista actividades de POA donde se puede filtrar por ID de un plan, ID de jurisdiccion, ID de objecto de impacto o ID de un proyecto",
+        "operationId": "getActividades",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "idPlan",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idJurisdiccion",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idObjImpacto",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idProyecto",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "etapa",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "POA - Actividades"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Actividad"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear Actividad",
+        "tags": [
+          "POA - Actividades"
+        ],
+        "operationId": "createActividad",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/createActividadBody"
+        },
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    },
+    "/poa/actividadEliminar": {
+      "x-swagger-router-controller": "poa",
+      "post": {
+        "summary": "Marcar actividad como eliminada",
+        "tags": [
+          "POA - Actividades"
+        ],
+        "operationId": "deleteActividad",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "ID de la actividad"
+        },
+        "responses": {
+          "200": {
+            "description": "Actividad marcada como eliminada = 'true'"
+          }
+        }
+      }
+    },
+    "/poa/actividades/{id}": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear etapa por ID",
+        "tags": [
+          "POA - Actividades"
+        ],
+        "description": "Lista etapas del Proyecto",
+        "operationId": "getActividadPorID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la etapa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Etapa"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Editar una etapa por ID",
+        "tags": [
+          "POA - Actividades"
+        ],
+        "operationId": "updateActividad",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la etapa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/updateActividadBody"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Etapa"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/poa/areas": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear todas las areas",
+        "description": "Listar areas de POA",
+        "operationId": "getAreas",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "idPlan",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "POA - Areas"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Area"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/poa/compromisosGobierno": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear todos los compromisos",
+        "description": "Listar compromisos de gobierno de POA",
+        "operationId": "getCompromisosGobierno",
+        "tags": [
+          "POA - Compromisos Gobierno"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CompromisoGobierno"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/poa/etapas": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear todas las etapas",
+        "description": "Lista etapas del Proyecto",
+        "operationId": "getEtapas",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "idProyecto",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "POA - Etapas"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Etapa"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear etapa",
+        "tags": [
+          "POA - Etapas"
+        ],
+        "operationId": "createEtapa",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/createActividadBody"
+        },
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    },
+    "/poa/etapas/{id}": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear etapa por ID",
+        "tags": [
+          "POA - Etapas"
+        ],
+        "description": "Lista etapas del Proyecto",
+        "operationId": "getEtapaPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la etapa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Etapa"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Editar una etapa por ID",
+        "tags": [
+          "POA - Etapas"
+        ],
+        "operationId": "updateEtapa",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la etapa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/updateActividadBody"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Etapa"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/poa/etapaEliminar": {
+      "x-swagger-router-controller": "poa",
+      "post": {
+        "summary": "Marcar una etapa como eliminada",
+        "tags": [
+          "POA - Etapas"
+        ],
+        "operationId": "deleteEtapa",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "ID de la etapa a marcar como eliminado"
+        },
+        "responses": {
+          "200": {
+            "description": "OK. Etapa marcada como eliminada = 'true'"
+          }
+        }
+      }
+    },
+    "/poa/grupos": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear todas los grupos",
+        "description": "Esta api se utliza en POA. lista los grupos de proyectos que hay",
+        "tags": [
+          "POA - Grupos"
+        ],
+        "operationId": "getGrupos",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Grupo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear grupo",
+        "tags": [
+          "POA - Grupos"
+        ],
+        "operationId": "createGrupo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "nombre"
+                ],
+                "properties": {
+                  "nombre": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Datos del grupo a crear."
+        },
+        "responses": {
+          "200": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/poa/objsImpacto": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear todas los Objectivos de Impacto",
+        "description": "Lista etapas del Proyecto",
+        "operationId": "getObjImpacto",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "idPlan",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "POA - ObjImpacto"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ObjImpacto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear Objectivo de Impacto",
+        "tags": [
+          "POA - ObjImpacto"
+        ],
+        "operationId": "createObjImpacto",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "nombre"
+                ],
+                "properties": {
+                  "nombre": {
+                    "type": "string"
+                  },
+                  "anio": {
+                    "type": "integer"
+                  },
+                  "responsableDeCarga": {
+                    "type": "string"
+                  },
+                  "eliminado": {
+                    "type": "boolean"
+                  },
+                  "idPlan": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Datos de la etapa de proyecto a crear"
+        },
+        "responses": {
+          "200": {
+            "description": "Objectivo de Impacto Creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjImpacto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/poa/objsImpacto/{id}": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear Objectivo de Impacto por ID",
+        "tags": [
+          "POA - ObjImpacto"
+        ],
+        "operationId": "getObjImpactoPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la ObjImpacto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjImpacto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Editar una etapa por ID",
+        "tags": [
+          "POA - ObjImpacto"
+        ],
+        "operationId": "updateObjImpacto",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la etapa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "nombre"
+                ],
+                "properties": {
+                  "nombre": {
+                    "type": "string"
+                  },
+                  "anio": {
+                    "type": "integer"
+                  },
+                  "responsableDeCarga": {
+                    "type": "string"
+                  },
+                  "eliminado": {
+                    "type": "boolean"
+                  },
+                  "idPlan": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Datos de la etapa de proyecto a actualizar"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjImpacto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/poa/objsImpactoEliminar": {
+      "x-swagger-router-controller": "poa",
+      "post": {
+        "summary": "Marcar una etapa como eliminada",
+        "tags": [
+          "POA - ObjImpacto"
+        ],
+        "operationId": "deleteObjImpacto",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "id"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "ID del ObjImpacto a marcar como eliminado"
+        },
+        "responses": {
+          "200": {
+            "description": "OK. Etapa marcada como eliminada = 'true'"
+          }
+        }
+      }
+    },
+    "/poa/planes": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear todas los planes",
+        "description": "Listar planes de POA",
+        "operationId": "getPlanes",
+        "tags": [
+          "POA - Planes"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Plan"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear Plan",
+        "tags": [
+          "POA - Planes"
+        ],
+        "operationId": "createPlan",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "array": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "anio": {
+                    "type": "integer"
+                  },
+                  "etapa": {
+                    "type": "string"
+                  },
+                  "editable": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Datos para crear el plan"
+        },
+        "responses": {
+          "200": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/poa/proyectos": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear todas los proyectos de Poa",
+        "description": "Listar proyectos de POA",
+        "operationId": "getProyectos",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "idPlan",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idJurisdiccion",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "idObjImpacto",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "proyectoPadre",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "POA - Proyectos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Proyecto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear Plan",
+        "tags": [
+          "POA - Proyectos"
+        ],
+        "operationId": "createProyecto",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nombre": {
+                    "type": "string"
+                  },
+                  "codIdentificacion": {
+                    "type": "string"
+                  },
+                  "descripcion": {
+                    "type": "string"
+                  },
+                  "proyectoPadre": {
+                    "type": "string"
+                  },
+                  "codPlanAnterior": {
+                    "type": "string"
+                  },
+                  "anioPlanAnterior": {
+                    "type": "string"
+                  },
+                  "proyectoInversion": {
+                    "type": "boolean"
+                  },
+                  "cancelado": {
+                    "type": "boolean"
+                  },
+                  "enPresentacion": {
+                    "type": "boolean"
+                  },
+                  "dependencia": {
+                    "type": "string"
+                  },
+                  "contratista": {
+                    "type": "string"
+                  },
+                  "compromisoG": {
+                    "type": "string"
+                  },
+                  "metaCuantificacion": {
+                    "type": "string"
+                  },
+                  "metaProducto": {
+                    "type": "string"
+                  },
+                  "prioridadMinisterial": {
+                    "type": "string"
+                  },
+                  "fechaInicio": {
+                    "type": "string"
+                  },
+                  "monedaSolicitado": {
+                    "type": "string"
+                  },
+                  "presupuestoSolicitado": {
+                    "type": "string"
+                  },
+                  "prioridadJefatura": {
+                    "type": "string"
+                  },
+                  "fechaFin": {
+                    "type": "string"
+                  },
+                  "monedaGestion": {
+                    "type": "string"
+                  },
+                  "presupuestoGestion": {
+                    "type": "string"
+                  },
+                  "proyectoPrioritario": {
+                    "type": "boolean"
+                  },
+                  "orden": {
+                    "type": "integer"
+                  },
+                  "grupo": {
+                    "type": "string"
+                  },
+                  "comunas": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "responsables": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "jurisdiccionesParticipantes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "responsableDeCarga": {
+                    "type": "string"
+                  },
+                  "fechaActualizacion": {
+                    "type": "string"
+                  },
+                  "usuarioActualizacion": {
+                    "type": "string"
+                  },
+                  "idAnterior": {
+                    "type": "string"
+                  },
+                  "idPlan": {
+                    "type": "string"
+                  },
+                  "idJurisdiccion": {
+                    "type": "string"
+                  },
+                  "idObjImpacto": {
+                    "type": "string"
+                  },
+                  "eliminado": {
+                    "type": "boolean"
+                  },
+                  "anio": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Datos para crear el plan"
+        },
+        "responses": {
+          "200": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/poa/proyectos/{id}": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear un proyecto de POA por ID",
+        "description": "Obtener un proyecto de POA",
+        "operationId": "getProyectoPorId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la etapa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "POA - Proyectos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Proyecto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Editar un proyecto por ID",
+        "tags": [
+          "POA - Proyectos"
+        ],
+        "operationId": "updateProyecto",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la etapa",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nombre": {
+                    "type": "string"
+                  },
+                  "codIdentificacion": {
+                    "type": "string"
+                  },
+                  "descripcion": {
+                    "type": "string"
+                  },
+                  "proyectoPadre": {
+                    "type": "string"
+                  },
+                  "codPlanAnterior": {
+                    "type": "string"
+                  },
+                  "anioPlanAnterior": {
+                    "type": "string"
+                  },
+                  "proyectoInversion": {
+                    "type": "boolean"
+                  },
+                  "cancelado": {
+                    "type": "boolean"
+                  },
+                  "enPresentacion": {
+                    "type": "boolean"
+                  },
+                  "dependencia": {
+                    "type": "string"
+                  },
+                  "contratista": {
+                    "type": "string"
+                  },
+                  "compromisoG": {
+                    "type": "string"
+                  },
+                  "metaCuantificacion": {
+                    "type": "string"
+                  },
+                  "metaProducto": {
+                    "type": "string"
+                  },
+                  "prioridadMinisterial": {
+                    "type": "string"
+                  },
+                  "fechaInicio": {
+                    "type": "string"
+                  },
+                  "monedaSolicitado": {
+                    "type": "string"
+                  },
+                  "presupuestoSolicitado": {
+                    "type": "string"
+                  },
+                  "prioridadJefatura": {
+                    "type": "string"
+                  },
+                  "fechaFin": {
+                    "type": "string"
+                  },
+                  "monedaGestion": {
+                    "type": "string"
+                  },
+                  "presupuestoGestion": {
+                    "type": "string"
+                  },
+                  "proyectoPrioritario": {
+                    "type": "boolean"
+                  },
+                  "orden": {
+                    "type": "integer"
+                  },
+                  "grupo": {
+                    "type": "string"
+                  },
+                  "comunas": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "responsables": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "jurisdiccionesParticipantes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "responsableDeCarga": {
+                    "type": "string"
+                  },
+                  "fechaActualizacion": {
+                    "type": "string"
+                  },
+                  "usuarioActualizacion": {
+                    "type": "string"
+                  },
+                  "idAnterior": {
+                    "type": "string"
+                  },
+                  "idPlan": {
+                    "type": "string"
+                  },
+                  "idJurisdiccion": {
+                    "type": "string"
+                  },
+                  "idObjImpacto": {
+                    "type": "string"
+                  },
+                  "eliminado": {
+                    "type": "boolean"
+                  },
+                  "anio": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Datos para actualizar el proyecto"
+        },
+        "responses": {
+          "200": {
+            "description": "Actualizado"
+          }
+        }
+      }
+    },
+    "/poa/prioridadesMinisteriales": {
+      "x-swagger-router-controller": "poa",
+      "get": {
+        "summary": "Trear todas las prioridades ministeriales",
+        "description": "Lista lss prioridades ministeriales de POA",
+        "tags": [
+          "POA - Prioridades Ministeriales"
+        ],
+        "operationId": "getPrioridadesMinisteriales",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PrioridadMinisterial"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crear una prioridad ministerial",
+        "description": "Crear una prioridad ministerial de POA",
+        "tags": [
+          "POA - Prioridades Ministeriales"
+        ],
+        "operationId": "createPrioridadMinisterial",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "nombre"
+                ],
+                "properties": {
+                  "nombre": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Datos de la prioridad ministerial a crear."
+        },
+        "responses": {
+          "200": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/users": {
+      "x-swagger-router-controller": "user",
+      "get": {
+        "summary": "Trae todos los usuario que se crearon",
+        "tags": [
+          "Usuario"
+        ],
+        "operationId": "getUsers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Usuario"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/permisos": {
+      "x-swagger-router-controller": "user",
+      "post": {
+        "summary": "Traer permisos de un usuario logeado",
+        "tags": [
+          "Usuario"
+        ],
+        "operationId": "getUserPermissions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "username"
+                ],
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "description": "Usuario y pass"
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/swagger": {
+      "x-swagger-pipe": "swagger_raw"
+    }
+  },
+  "components": {
+    "requestBodies": {
+      "createActividadBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "nombre"
+              ],
+              "properties": {
+                "nombre": {
+                  "type": "string"
+                },
+                "orden": {
+                  "type": "string"
+                },
+                "idProyecto": {
+                  "type": "string"
+                },
+                "eliminado": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "description": "Datos de la etapa de proyecto a crear"
+      },
+      "updateActividadBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "nombre"
+              ],
+              "properties": {
+                "nombre": {
+                  "type": "string"
+                },
+                "orden": {
+                  "type": "string"
+                },
+                "idProyecto": {
+                  "type": "string"
+                },
+                "eliminado": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "description": "Datos de la etapa de proyecto a actualizar"
+      }
+    },
+    "securitySchemes": {
+      "APIKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    },
+    "schemas": {
+      "Contacto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "segundoNombre": {
+            "type": "string"
+          },
+          "sexo": {
+            "type": "string"
+          },
+          "enorganigrama": {
+            "type": "string"
+          },
+          "cargo": {
+            "type": "string"
+          },
+          "area": {
+            "type": "string"
+          },
+          "apellidos": {
+            "type": "string"
+          },
+          "servicios": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "type": "string"
+                },
+                "pin": {
+                  "type": "string"
+                },
+                "checked": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "telefono": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "type": "string"
+                },
+                "valor": {
+                  "type": "string"
+                },
+                "checked": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "correos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "type": "string"
+                },
+                "valor": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "direcciones": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "type": "string"
+                },
+                "valor": {
+                  "type": "string"
+                },
+                "checkedAgenda": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Organigrama": {
+        "type": "object",
+        "required": [
+          "nombreCompleto",
+          "sigla",
+          "nivel"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "categoria": {
+            "type": "string"
+          },
+          "nivel": {
+            "type": "string"
+          },
+          "nombreCompleto": {
+            "type": "string"
+          },
+          "nombreCortoJurisdiccion": {
+            "type": "string"
+          },
+          "nombreCortoOrganigrama": {
+            "type": "string"
+          },
+          "sigla": {
+            "type": "string"
+          },
+          "superiorInmediato": {
+            "type": "string"
+          }
+        }
+      },
+      "Comuna": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "altura": {
+            "type": "string"
+          },
+          "barrios": {
+            "type": "string"
+          },
+          "calle": {
+            "type": "string"
+          },
+          "limites": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "numero": {
+            "type": "integer"
+          },
+          "telefono": {
+            "type": "string"
+          }
+        }
+      },
+      "Grupo": {
+        "type": "object",
+        "required": [
+          "nombre"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          }
+        }
+      },
+      "PrioridadMinisterial": {
+        "type": "object",
+        "required": [
+          "nombre"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          }
+        }
+      },
+      "Etapa": {
+        "type": "object",
+        "required": [
+          "nombre"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "orden": {
+            "type": "string"
+          },
+          "idProyecto": {
+            "type": "string"
+          },
+          "eliminado": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Actividad": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "idPlan": {
+            "type": "string"
+          },
+          "idJurisdiccion": {
+            "type": "string"
+          },
+          "idObjImpacto": {
+            "type": "string"
+          },
+          "idProyecto": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "codIdentificacion": {
+            "type": "string"
+          },
+          "fechas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "fechaInicio": {
+                  "type": "string"
+                },
+                "fechaFin": {
+                  "type": "string"
+                },
+                "comentario": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "cumplida": {
+            "type": "boolean"
+          },
+          "cancelada": {
+            "type": "boolean"
+          },
+          "verEnDashboard": {
+            "type": "boolean"
+          },
+          "inicioCumplido": {
+            "type": "boolean"
+          },
+          "fechaActualizacion": {
+            "type": "string"
+          },
+          "usuarioActualizacion": {
+            "type": "string"
+          },
+          "etapa": {
+            "type": "string"
+          },
+          "predecesor": {
+            "type": "string"
+          }
+        }
+      },
+      "Area": {
+        "type": "object",
+        "required": [
+          "nombre"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "anio": {
+            "type": "integer"
+          },
+          "idOrganigrama": {
+            "type": "string"
+          },
+          "idPlan": {
+            "type": "string"
+          }
+        }
+      },
+      "Plan": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "etapa": {
+            "type": "string"
+          },
+          "anio": {
+            "type": "integer"
+          },
+          "editable": {
+            "type": "boolean"
+          },
+          "creadoPor": {
+            "type": "string"
+          },
+          "modificadoPor": {
+            "type": "string"
+          },
+          "apagado": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Proyecto": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "codIdentificacion": {
+            "type": "string"
+          },
+          "descripcion": {
+            "type": "string"
+          },
+          "proyectoPadre": {
+            "type": "string"
+          },
+          "codPlanAnterior": {
+            "type": "string"
+          },
+          "anioPlanAnterior": {
+            "type": "string"
+          },
+          "proyectoInversion": {
+            "type": "boolean"
+          },
+          "cancelado": {
+            "type": "boolean"
+          },
+          "enPresentacion": {
+            "type": "boolean"
+          },
+          "dependencia": {
+            "type": "string"
+          },
+          "contratista": {
+            "type": "string"
+          },
+          "compromisoG": {
+            "type": "string"
+          },
+          "metaCuantificacion": {
+            "type": "string"
+          },
+          "metaProducto": {
+            "type": "string"
+          },
+          "prioridadMinisterial": {
+            "type": "string"
+          },
+          "fechaInicio": {
+            "type": "string"
+          },
+          "monedaSolicitado": {
+            "type": "string"
+          },
+          "presupuestoSolicitado": {
+            "type": "string"
+          },
+          "prioridadJefatura": {
+            "type": "string"
+          },
+          "fechaFin": {
+            "type": "string"
+          },
+          "monedaGestion": {
+            "type": "string"
+          },
+          "presupuestoGestion": {
+            "type": "string"
+          },
+          "proyectoPrioritario": {
+            "type": "boolean"
+          },
+          "orden": {
+            "type": "integer"
+          },
+          "grupo": {
+            "type": "string"
+          },
+          "comunas": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "responsables": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "jurisdiccionesParticipantes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "responsableDeCarga": {
+            "type": "string"
+          },
+          "fechaActualizacion": {
+            "type": "string"
+          },
+          "usuarioActualizacion": {
+            "type": "string"
+          },
+          "idAnterior": {
+            "type": "string"
+          },
+          "idPlan": {
+            "type": "string"
+          },
+          "idJurisdiccion": {
+            "type": "string"
+          },
+          "idObjImpacto": {
+            "type": "string"
+          },
+          "eliminado": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Usuario": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        }
+      },
+      "ObjImpacto": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "anio": {
+            "type": "integer"
+          },
+          "responsableDeCarga": {
+            "type": "string"
+          },
+          "eliminado": {
+            "type": "boolean"
+          },
+          "idPlan": {
+            "type": "string"
+          }
+        }
+      },
+      "CompromisoGobierno": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -18,12 +18,13 @@ import { ModalNuevaFechaComponent } from './components/modals/modal-nueva-fecha/
 import { ModalCrearEtapaComponent } from './components/modals/modal-crear-etapa/modal-crear-etapa.component';
 import { ModalCrearProyectoComponent } from './components/modals/modal-crear-proyecto/modal-crear-proyecto.component';
 import { ModalCrearActividadComponent } from './components/modals/modal-crear-actividad/modal-crear-actividad.component';
+import { GuardsGuard } from 'src/app/shared-modules/guards/guards.guard';
 
 const poaRoutes: Routes = [
-  {path:'poa',component:ProyectosComponent},
-  {path:'poa/proyecto/:idProyecto',component:ActividadesComponent},
-  {path:'poa/plan/crear',component:PlanCrearComponent},
-  {path:'poa/proyecto/:idProyecto/actividad/:idActividad',component:ActividadDetalleComponent}
+  {path:'poa',component:ProyectosComponent, canActivate:[GuardsGuard]},
+  {path:'poa/proyecto/:idProyecto',component:ActividadesComponent, canActivate:[GuardsGuard]},
+  {path:'poa/plan/crear',component:PlanCrearComponent, canActivate:[GuardsGuard]},
+  {path:'poa/proyecto/:idProyecto/actividad/:idActividad',component:ActividadDetalleComponent, canActivate:[GuardsGuard]}
 ];
 
 @NgModule({
