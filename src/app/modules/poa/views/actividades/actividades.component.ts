@@ -151,6 +151,26 @@ export class ActividadesComponent implements OnInit {
     }
   }
 
+  responsablePorId(idResponsable){
+    if(!this.contactos) return;
+    for (let i = 0; i < this.contactos.length; i++) {
+      const contacto = this.contactos[i];
+      if(contacto._id == idResponsable){
+        return contacto.nombre;
+      }
+    }
+  }
+
+  areaPorId(idArea){
+    if(!this.areas) return;
+    for (let i = 0; i < this.areas.length; i++) {
+      const area = this.areas[i];
+      if(area._id == idArea){
+        return area.nombre;
+      }
+    }
+  }
+
   contactoPorId(idContacto){
     if(!this.contactos) return;
     for (let i = 0; i < this.contactos.length; i++) {

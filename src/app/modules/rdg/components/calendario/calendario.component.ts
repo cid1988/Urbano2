@@ -6,6 +6,8 @@ import { Calendar } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import { Reunion } from '../../models/reunion';
 import { Router} from "@angular/router"
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalDetalleReunionComponent } from '../modals/modal-detalle-reunion/modal-detalle-reunion.component';
 
 declare var $:any;
 
@@ -25,8 +27,9 @@ export class CalendarioComponent implements OnInit {
   nuevaReunion= {} as Reunion;
   tiposReunion = [];
   cargando = true;
+  bsModalRef: BsModalRef;
 
-  constructor(private calendarioService: CalendarioService, private router: Router) {
+  constructor(private calendarioService: CalendarioService, private router: Router, private modalService: BsModalService) {
     this.calculos();
   }
   
@@ -35,10 +38,6 @@ export class CalendarioComponent implements OnInit {
       this.tiposReunion = tiposReunion;
     })
     this.calendarioService.getSeriesReunion().subscribe((series: any[]) =>{
-      // for (let i = 0; i < series.length; i++) {
-      //   let serie = series[i];
-      //   serie.color = this.calcularColor(serie.tipo);
-      // }
       this.series = series;
     })
     this.calendarioService.getInstanciaReunion().subscribe((reuniones: any[]) =>{
@@ -158,13 +157,17 @@ export class CalendarioComponent implements OnInit {
         $('#modalNuevaReunion').modal({show:true});
       },
       eventClick: (event) => {
-        console.log(event)
         model.titulo = event.event.title
-        
         model.start = event.event.start
         model.end = event.event.end
-        model.color = "red"
-        $('#modalDetalleReunion').modal({show:true});
+        // model.color = "red"
+        
+        const initialState = {model};
+        this.bsModalRef = this.modalService.show(ModalDetalleReunionComponent, {initialState, class: 'modal-lg'});
+        this.bsModalRef.content.action.subscribe((status) => {
+          // if(status) this.getActividades(this.proyecto._id);
+        });
+        
       },
       eventResize: (event) => {
         if(confirm("Esta seguro de modificar la reunion?")){
