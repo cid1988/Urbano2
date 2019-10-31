@@ -6,7 +6,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="form-row" style="margin-bottom: 5px">
+    <div class="form-row">
       <div class="form-group col-2">
         <input type="text" class="form-control" required [(ngModel)]="model.start" name="start" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }">
       </div>
@@ -16,18 +16,32 @@
       <div class="form-group col-2" style="margin-right: 10px; margin-left: 20px;">
         <timepicker required [(ngModel)]="model.desdeHora" name="desdeHora" [showMeridian]="false" [showSpinners]="false"></timepicker>
       </div>
-      <div class="form-group col-2">
+      <div class="form-group col-4">
         <timepicker required [(ngModel)]="model.hastaHora" name="hastaHora" [showMeridian]="false" [min]="model.desdeHora" [showSpinners]="false"></timepicker>
       </div>
-      <!-- <div class="form-group col-2">
-        <input type="text" class="form-control" required [(ngModel)]="model.desdeHora" name="desdeHora">
+      <div class="form-group col-1">
+        <button type="button" class="btn btn-outline-primary float-right">Editar</button>
       </div>
-      <div class="form-group col-2">
-        <input type="text" class="form-control" required [(ngModel)]="model.hastaHora" name="hastaHora">
-      </div> -->
+    </div>
+    <div class="form-row">
+      <div class="form-group col-8">
+        <label>Lugar de reunion</label>
+        <input type="text" class="form-control" [(ngModel)]="model.lugar" name="lugar">
+      </div>
       <div class="form-group col-3">
-        <button type="button" class="btn btn-outline-secondary float-right"><i class="fa fa-comments"></i></button>
-        <button type="button" class="btn btn-outline-secondary float-right">Enviar cita</button>
+        <label>&nbsp;</label>
+        <div class="form-group">
+          <button type="button" class="btn btn-outline-secondary float-right">Enviar cita 
+            <i class="fa fa-check" style="color:lime"></i>
+            <i class="fa fa-check" style="color: lime;"></i>
+          </button>
+        </div>
+      </div>
+      <div class="form-group col-1">
+        <label>&nbsp;</label>
+        <div class="form-group">
+          <button type="button" class="btn btn-outline-secondary float-right"><i class="fa fa-comments"></i></button>
+        </div>
       </div>
     </div>
     <div class="form-row" style="margin-bottom: 5px">
@@ -54,10 +68,10 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="form-row">
       <div class="col-6">
         <div class="card" style="padding: 5px">
-          <label for="">Temario</label>
+          <label for="">Temario <span class="float-right"><i class="fa fa-check" style="color:lime"></i><i class="fa fa-check" style="color: lime;"></i></span></label>
           <div class="card-body">
             <div class="col-12">
               <button type="button" class="btn btn-outline-secondary col-6">Editar</button>
