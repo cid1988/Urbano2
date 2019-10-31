@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CalendarioViewComponent } from './views/calendario/calendario.component';
 import { GroupByPipe } from 'src/app/shared-modules/pipes/groupBy/group-by.pipe';
 import { MaestrosComponent } from './views/maestros/maestros.component';
-import { MailHeaderComponent } from './components/mail-header/mail-header.component';
+import { MailHeaderComponent } from '../../shared-modules/mail/mail-header/mail-header.component';
 import { ContactosModule } from '../contactos/contactos.module';
 import { ModalCrearReunionComponent } from './components/modals/modal-crear-reunion/modal-crear-reunion.component';
 import { ModalDetalleReunionComponent } from './components/modals/modal-detalle-reunion/modal-detalle-reunion.component';
@@ -19,7 +19,8 @@ const rdgRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe, MaestrosComponent, MailHeaderComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent],
+  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe,
+    MaestrosComponent, MailHeaderComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent],
   imports: [
     CommonModule,
     FormsModule,

@@ -1687,7 +1687,7 @@ paths:
           type: string
           required: false
       tags:
-        - RDG - Reuniones
+        - RDG - Series de Reuniones
       responses: 
         200:
           description: OK
@@ -1698,7 +1698,7 @@ paths:
     post:
       summary: Guarda una nueva serie de reunion de RDG
       tags: 
-        - RDG - Reuniones
+        - RDG - Series de Reuniones
       operationId: createSerie
       parameters:
         - in: body
@@ -1720,7 +1720,7 @@ paths:
       responses:
         200:
           description: ok
-  # //////////////////////////////////////////////////////////////////// RDG - Serie de Reuniones -Maestro
+  # //////////////////////////////////////////////////////////////////// RDG - Serie de Reuniones - Maestro
   /rdg/maestros:
     x-swagger-router-controller: rdg
     get:
@@ -1740,19 +1740,111 @@ paths:
             type: array
             items:
               $ref: '#/definitions/SerieReunion'
-  /rdg/series/{id}:
+  /rdg/maestros/{id}:
     x-swagger-router-controller: rdg
-    get:
+    put:
       summary: Trear una minuta de reunion de RDG por ID
-      operationId: getSeriePorId
+      operationId: editMaestro
       parameters:
         - name: id 
           in: path
-          description: ID de la minuta
+          description: ID de la serie Maestro
           type: string
           required: true 
+        - in: body
+          name: body
+          description: Datos para actualizar el proyecto
+          schema:
+            type: object
+            properties:
+              nombre: 
+                type: string
+              tipo:
+                type: string
+              frecuencia:
+                type: string
+              participantes:
+                type: array
+                items:
+                  type: object
+              cita:
+                type: object
+                properties:
+                  para:
+                    type: array
+                    items:
+                      type: object
+                  cc:
+                    type: array
+                    items:
+                      type: object
+                  cco:
+                    type: array
+                    items:
+                      type: object
+                  exclusivos:
+                    type: array
+                    items:
+                      type: object
+              temario:
+                type: object
+                properties:
+                  para:
+                    type: array
+                    items:
+                      type: object
+                  cc:
+                    type: array
+                    items:
+                      type: object
+                  cco:
+                    type: array
+                    items:
+                      type: object
+                  exclusivos:
+                    type: array
+                    items:
+                      type: object
+              minuta:
+                type: object
+                properties:
+                    para:
+                      type: array
+                      items:
+                        type: object
+                    cc:
+                      type: array
+                      items:
+                        type: object
+                    cco:
+                      type: array
+                      items:
+                        type: object
+                    exclusivos:
+                      type: array
+                      items:
+                        type: object
+              propuestaTemario:
+                type: object
+                properties:
+                  para:
+                    type: array
+                    items:
+                      type: object
+                  cc:
+                    type: array
+                    items:
+                      type: object
+                  cco:
+                    type: array
+                    items:
+                      type: object
+                  exclusivos:
+                    type: array
+                    items:
+                      type: object
       tags:
-        - RDG - Citas
+        - RDG - Series Maestros
       responses: 
         200:
           description: OK
@@ -1804,26 +1896,26 @@ paths:
         200:
           description: ok
           
-  # //////////////////////////////////////////////////////////////////// RDG - Tipos de Reuniones
-  /rdg/instancias:
+  # //////////////////////////////////////////////////////////////////// RDG - Reuniones
+  /rdg/reuniones:
     x-swagger-router-controller: rdg
     get:
       summary: Trae tipos de reuniones de RDG
-      operationId: getInstancias
+      operationId: getReuniones
       tags:
-        - RDG - Instancias de Reuniones
+        - RDG - Reuniones
       responses: 
         200:
           description: OK
           schema:
             type: array
             items:
-              $ref: '#/definitions/InstanciaReunion'
+              $ref: '#/definitions/Reunion'
     post:
       summary: Guarda un tipo de reunion de RDG
       tags: 
-        - RDG - Tipos de Reuniones
-      operationId: createInstancia
+        - RDG - Reuniones
+      operationId: createReunion
       parameters:
         - in: body
           name: body
@@ -1831,20 +1923,97 @@ paths:
           schema:
             type: object
             required:
-              - color
-              - nombre
+              - reunion
+              - usuarioCreacion
+              - fechaCreacion
             properties:
-              nombre:
+              reunion:
                 type: string
-              color:
+              fecha:
                 type: string
-              de:
+              desdeHora:
                 type: string
-              orden:
+              hastaHora:
                 type: string
-              permiso:
+              desdeDate:
+                type: integer
+              hastaDate:
+                type: integer
+              usuarioCreacion:
                 type: string
-              tipo:
+              fechaCreacion:
+                type: string
+      responses:
+        200:
+          description: ok
+  
+  /rdg/reuniones/{id}:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trae Reunion de RDG por ID
+      operationId: getReunionPorId
+      parameters:
+        - name: id 
+          in: path
+          description: ID de la Reunion
+          type: string
+          required: true 
+      tags:
+        - RDG - Reuniones
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Reunion'
+    put:
+      summary: Editar una reunion de RDG por ID
+      operationId: updateReunion
+      tags:
+        - RDG - Reuniones
+      parameters:
+        - name: id 
+          in: path
+          description: ID de la Reunion
+          type: string
+          required: true 
+        - in: body
+          name: body
+          description: Datos de la serie de reunion de RDG
+          schema:
+            type: object
+            required:
+              - reunion
+              - usuarioCreacion
+              - fechaCreacion
+            properties:
+              reunion:
+                type: string
+              fecha:
+                type: string
+              desdeHora:
+                type: string
+              hastaHora:
+                type: string
+              desdeDate:
+                type: integer
+              hastaDate:
+                type: integer
+              usuarioCreacion:
+                type: string
+              fechaCreacion:
+                type: string
+              usuarioModificacion:
+                type: string
+              fechaModificacion:
+                type: string
+              ubicacion:
+                type: object
+                properties:
+                  nombre:
+                    type: string
+              version:
                 type: string
       responses:
         200:
@@ -2353,20 +2522,24 @@ definitions:
         type: string
       tipo:
         type: string
-  InstanciaReunion:
+  Reunion:
     type: object
     properties:
-      nombre:
+      reunion:
         type: string
-      color:
+      fecha:
         type: string
-      de:
+      desdeHora:
         type: string
-      orden:
+      hastaHora:
         type: string
-      permiso:
+      desdeDate:
+        type: integer
+      hastaDate:
+        type: integer
+      usuarioCreacion:
         type: string
-      tipo:
+      fechaCreacion:
         type: string
       
           

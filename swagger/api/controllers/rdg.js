@@ -2,7 +2,9 @@ const Reunion = require('../models/rdg/reunion');
 const SerieReunion = require('../models/rdg/serie');
 const TiposReunion = require('../models/rdg/tipo');
 
-async function getInstancias (req, res, next) {
+//Reuniones
+
+async function getReuniones (req, res, next) {
     try{
         const reuniones = await Reunion.find({})
         .populate("reunion");
@@ -11,6 +13,23 @@ async function getInstancias (req, res, next) {
         res.json(error);
     }
 };
+async function getReunionPorId(req, res, next){
+    const reunion = await Reunion.findById(req.swagger.params.id.value);
+    res.status(200).json(reunion);
+};
+async function createReunion (req, res, next) {
+    const reunion = new Reunion(req.swagger.params.body.value);
+    await reunion.save();
+    res.json({status: 'Reunion creada'});
+};
+
+async function updateReunion (req, res, next) {
+    const reunion = req.swagger.params.body.value;
+    await Reunion.findByIdAndUpdate(req.swagger.params.id.value, {$set: reunion}, {new: false});
+    res.json({status: 'Reunion actualizada con exito'});
+};
+
+//Series
 
 async function getSeries(req, res, next) {
     try{
@@ -31,6 +50,8 @@ async function getSeries(req, res, next) {
         res.json(error);
     }
 };
+
+//Series Maestros
 async function getMaestros(req, res, next) {
     try{
         const series = await SerieReunion.find({
@@ -51,6 +72,15 @@ async function getMaestros(req, res, next) {
     }
 };
 
+async function editMaestro(req,res,next){
+    const serie = req.swagger.params.body.value
+    await SerieReunion.findByIdAndUpdate(req.swagger.params.id.value, 
+        {$set: serie}, {new: true, strict: false}, function(err, data){
+            if(err) res.status(500).json(err)
+            else res.status(200).json(data)
+    });
+}
+//Tipos
 async function getTipos (req, res, next) {
     try{
         const tiposReunion = await TiposReunion.find();
@@ -60,40 +90,16 @@ async function getTipos (req, res, next) {
     }
 };
 
-async function crearReunion (req, res, next) {
-    const reunion = new Reunion({
-        desdeDate: req.body.desdeDate,
-        hastaDate: req.body.hastaDate,
-        reunion: req.body.reunion.toString(),
-        desdeHora: req.body.desdeHora,
-        hastaHora: req.body.hastaHora,
-        fecha: req.body.fecha
-    });
-    await reunion.save();
-    res.json({status: 'Reunion creada'});
-};
 
-async function updateReunion (req, res, next) {
-    const { id } = req.body;
-    const reunion = {
-        desdeDate: req.body.desdeDate,
-        hastaDate: req.body.hastaDate,
-        reunion: req.body.reunion.toString(),
-        desdeHora: req.body.desdeHora,
-        hastaHora: req.body.hastaHora,
-        fecha: req.body.fecha
-    };
-    await Reunion.findByIdAndUpdate(id, {$set: reunion}, {new: false});
-    res.json({status: 'Reunion actualizada con exito'});
-};
+
 
 module.exports = {
     //Series de Reunion
     getSeries,
     //Serie de Reunino - Maestros
-    getMaestros,
-    //Instancia de Reunion
-    getInstancias,
+    getMaestros,editMaestro,
+    //Reunion
+    getReuniones,getReunionPorId,createReunion,updateReunion,
     //Tipo de Reunion
     getTipos,
     //Minuta de Reunion

@@ -2,10 +2,20 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const reunionSchema = new Schema({
-    nombre: { type: String, required: false },
-    reunion: { type: Schema.Types.ObjectId, ref: 'Serie' },
+    reunion: { type: String, ref: 'Serie' },
+    fecha: {type: String},
+    desdeHora: { type: String },
+    hastaHora: { type: String },
     desdeDate: { type: Number },
-    hastaDate: { type: Number }
+    hastaDate: { type: Number },
+    usuarioCreacion: { type: String },
+    fechaCreacion: { type: String },
+    usuarioModificacion: { type: String },
+    fechaModificacion: { type: String },
+    ubicacion: {
+        nombre: { type: String }
+    },
+    version: { type: String }
 },{
     versionKey: false,
     toObject: { virtuals: true },

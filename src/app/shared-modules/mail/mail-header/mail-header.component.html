@@ -1,0 +1,70 @@
+<div class="row" *ngIf="editando">
+  <div class="col-md-8">
+    <div class="form-group row">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="form-group row">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+      </div>
+    </div>
+  </div>
+</div>
+<table class="table table-borderless" *ngIf="lista">
+  <tbody>
+    <tr>
+      <th scope="row">Para</th>
+      <td>
+        <span *ngFor="let c of lista.para;index as i">
+          <etiqueta-correo [idContacto]='c.contactoId'></etiqueta-correo>
+          <span *ngIf="editando" style="margin-right: 10px;" (click)='quitarItem(i,"para")'>
+            <i class="fa fa-remove" style="cursor: pointer;"></i>
+          </span>
+        </span>
+      </td>
+      <td><button type="button" class="btn btn-secondary"><i class="fa fa-copy"></i></button></td>
+    </tr>
+    <tr>
+      <th scope="row">CC</th>
+      <td>
+        <span *ngFor="let c of lista.cc;index as i">
+            <etiqueta-correo [idContacto]='c.contactoId'></etiqueta-correo>
+            <span *ngIf="editando" style="margin-right: 10px;" (click)='quitarItem(i,"cc")'>
+              <i class="fa fa-remove" style="cursor: pointer;"></i>
+            </span>
+        </span>
+      </td>
+      <td><button type="button" class="btn btn-secondary"><i class="fa fa-copy"></i></button></td>
+    </tr>
+    <tr>
+      <th scope="row">CCO</th>
+      <td>
+        <span *ngFor="let c of lista.cco;index as i">
+            <etiqueta-correo [idContacto]='c.contactoId'></etiqueta-correo>
+            <span *ngIf="editando" style="margin-right: 10px;" (click)='quitarItem(i,"cco")'>
+              <i class="fa fa-remove" style="cursor: pointer;"></i>
+            </span>
+        </span>
+      </td>
+      <td><button type="button" class="btn btn-secondary"><i class="fa fa-copy"></i></button></td>
+    </tr>
+    <tr>
+      <th scope="row">Exclusivos</th>
+      <td>
+        <span *ngFor="let c of lista.exclusivos;index as i">
+            <etiqueta-correo [idContacto]='c.contactoId'></etiqueta-correo>
+            <span *ngIf="editando" style="margin-right: 10px;" (click)='quitarItem(i,"exclusivos")'>
+              <i class="fa fa-remove" style="cursor: pointer;"></i>
+            </span>
+        </span>
+      </td>
+      <td><button type="button" class="btn btn-secondary"><i class="fa fa-copy"></i></button></td>
+    </tr>
+  </tbody>
+</table>

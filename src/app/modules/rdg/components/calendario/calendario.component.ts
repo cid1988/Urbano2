@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CalendarioService } from '../../services/calendario.service';
+import { CalendarioService } from '../../services/calendario/calendario.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
@@ -40,7 +40,7 @@ export class CalendarioComponent implements OnInit {
     this.calendarioService.getSeriesReunion().subscribe((series: any[]) =>{
       this.series = series;
     })
-    this.calendarioService.getInstanciaReunion().subscribe((reuniones: any[]) =>{
+    this.calendarioService.getReuniones().subscribe((reuniones: any[]) =>{
       this.reuniones = reuniones;
       this.llamarCalendario(this.reuniones,this.model,this.nuevaReunion);
     },error =>{

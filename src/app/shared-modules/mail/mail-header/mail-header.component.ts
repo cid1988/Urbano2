@@ -7,7 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MailHeaderComponent implements OnInit {
 
-  @Input() lista = {};
+  @Input() editando:Boolean;
+
+  @Input() lista;
 
   constructor() {
     
@@ -15,5 +17,15 @@ export class MailHeaderComponent implements OnInit {
 
   ngOnInit() {
     
+  }
+
+  agregaritem(info){
+
+  }
+  quitarItem(i,tipo){
+    if(tipo=='para') this.lista.para.splice(i,1)
+    if(tipo=='cc') this.lista.cc.splice(i,1)
+    if(tipo=='cco') this.lista.cco.splice(i,1)
+    if(tipo=='exclusivos') this.lista.exclusivos.splice(i,1)
   }
 }

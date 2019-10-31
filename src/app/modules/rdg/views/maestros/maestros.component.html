@@ -1,7 +1,12 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12">
+    <div class="col-8">
       <h3>Maestros</h3>
+    </div>
+    <div class="col-4">
+      <button *ngIf='!editando' class="pull-right btn btn-outline-primary" (click)='editando=true'>Editar</button>
+      <button *ngIf='editando' class="pull-right btn btn-outline-secondary" (click)='editando=false'>Cancelar</button>
+      <button *ngIf='editando' class="pull-right btn btn-outline-success" (click)='guardar()'>Guardar</button>
     </div>
   </div>
   <div class="row">
@@ -37,16 +42,16 @@
           </div>
         </div>
         <div class="tab-pane fade" id="pills-citas" role="tabpanel" aria-labelledby="pills-citas-tab" *ngIf="seleccionTab == 'cita'">
-          <mail-header [lista]="datosMaestro.cita"></mail-header>
+          <mail-header [lista]="datosMaestro.cita" [editando]='editando'></mail-header>
         </div>
         <div class="tab-pane fade" id="pills-temario" role="tabpanel" aria-labelledby="pills-temario-tab" *ngIf="seleccionTab == 'temario'">
-          <mail-header [lista]="datosMaestro.temario"></mail-header>
+          <mail-header [lista]="datosMaestro.temario" [editando]='editando'></mail-header>
         </div>
         <div class="tab-pane fade" id="pills-envioTemario" role="tabpanel" aria-labelledby="pills-envioTemario-tab" *ngIf="seleccionTab == 'propuestaTemario'">
-          <mail-header [lista]="datosMaestro.propuestaTemario"></mail-header>
+          <mail-header [lista]="datosMaestro.propuestaTemario" [editando]='editando'></mail-header>
         </div>
         <div class="tab-pane fade" id="pills-envioCompromiso" role="tabpanel" aria-labelledby="pills-envioCompromiso-tab">
-          <mail-header [lista]="lista"></mail-header>
+          <mail-header [lista]="lista" [editando]='editando'></mail-header>
         </div>
       </div>
     </div>
