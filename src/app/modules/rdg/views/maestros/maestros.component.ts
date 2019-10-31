@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CalendarioService } from '../../services/calendario.service';
-import { MailHeaderComponent } from '../../components/mail-header/mail-header.component';
+import { CalendarioService } from '../../services/calendario/calendario.service';
 import { Serie } from '../../models/serie';
 
 @Component({
@@ -10,7 +9,7 @@ import { Serie } from '../../models/serie';
 })
 export class MaestrosComponent implements OnInit {
 
-  
+  editando=false;
   maestros;
   maestroSeleccionado;
   seleccionTab='participantes';
@@ -27,5 +26,10 @@ export class MaestrosComponent implements OnInit {
 
   consulta(datos){
     this.datosMaestro=datos
+  }
+  guardar(){
+    this.calendarioService.guardarMaestro(this.datosMaestro).subscribe((data)=>{
+      this.editando=false;
+    })
   }
 }
