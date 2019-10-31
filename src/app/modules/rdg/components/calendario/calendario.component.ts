@@ -41,43 +41,12 @@ export class CalendarioComponent implements OnInit {
       this.series = series;
     })
     this.calendarioService.getInstanciaReunion().subscribe((reuniones: any[]) =>{
-      for (let i = 0; i < reuniones.length; i++) {
-        let reunion = reuniones[i];
-        
-        reunion.start = reunion.desdeDate;
-        reunion.end = reunion.hastaDate;
-        reunion.color = this.calcularColor(reunion.reunion.tipo);
-        this.reuniones = reuniones;
-      }
-      // console.log(reuniones);
+      this.reuniones = reuniones;
       this.llamarCalendario(this.reuniones,this.model,this.nuevaReunion);
     },error =>{
       console.log(error);
     })
   }
-
-  calcularColor(reunion){
-    if(!reunion) return "";
-    if(reunion == "coordinacion"){
-      return "rgb(91, 190, 136, 0.5)"
-    }else if(reunion == "previa"){
-      return "rgb(168, 85, 198, 0.5)";
-    }else if(reunion == "seguimientoJefatura"){
-      return "rgb(141, 98, 47, 0.5)";
-    }else if(reunion == "especificasJefatura"){
-      return "rgb(167, 167, 167, 0.5)";
-    }else if(reunion == "seguimiento"){
-      return "rgb(234, 111, 0, 0.5)";
-    }else if(reunion == "especificas"){
-      return "rgb(43, 130, 255, 0.5)";
-    }else if(reunion == "visitaObra"){
-      return "rgb(38, 84, 115, 0.5)";
-    }else if(reunion == "eventual"){
-      return "rgb(173, 172, 58, 0.5)";
-    }else if(reunion == "poa"){
-      return "#265473";
-    }
-  };
 
   llamarCalendario(reuniones,model,nuevaReunion){
     this.calendarEl = document.getElementById('calendar');
