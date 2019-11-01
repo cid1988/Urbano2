@@ -23,8 +23,8 @@ export class CalendarioComponent implements OnInit {
   series;
   @Input() calendar;
   altoDePantalla: any;
-  model={} as Reunion;
-  nuevaReunion= {} as Reunion;
+  reunion = {} as Reunion;
+  nuevaReunion = {} as Reunion;
   tiposReunion = [];
   cargando = true;
   bsModalRef: BsModalRef;
@@ -42,13 +42,13 @@ export class CalendarioComponent implements OnInit {
     })
     this.calendarioService.getReuniones().subscribe((reuniones: any[]) =>{
       this.reuniones = reuniones;
-      this.llamarCalendario(this.reuniones,this.model,this.nuevaReunion);
+      this.llamarCalendario(this.reuniones,this.reunion,this.nuevaReunion);
     },error =>{
       console.log(error);
     })
   }
 
-  llamarCalendario(reuniones,model,nuevaReunion){
+  llamarCalendario(reuniones,reunion,nuevaReunion){
     this.calendarEl = document.getElementById('calendar');
     this.calendar = new Calendar(this.calendarEl, {
       plugins: [ dayGridPlugin,timeGridPlugin,interactionPlugin ],
@@ -126,12 +126,11 @@ export class CalendarioComponent implements OnInit {
         $('#modalNuevaReunion').modal({show:true});
       },
       eventClick: (event) => {
-        model.titulo = event.event.title
-        model.start = event.event.start
-        model.end = event.event.end
-        // model.color = "red"
+        reunion.titulo = event.event.title
+        reunion.start = event.event.start
+        reunion.end = event.event.end
         
-        const initialState = {model};
+        const initialState = {reunion};
         this.bsModalRef = this.modalService.show(ModalDetalleReunionComponent, {initialState, class: 'modal-lg'});
         this.bsModalRef.content.action.subscribe((status) => {
           // if(status) this.getActividades(this.proyecto._id);

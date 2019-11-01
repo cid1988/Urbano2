@@ -10,12 +10,13 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 export class ModalDetalleReunionComponent implements OnInit {
 
   @Output() action = new EventEmitter();
-  model = new Reunion({});
+  reunion = new Reunion({});
+  editando = false;
 
   constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
-    console.log(this.model)
+    console.log(this.reunion)
   }
 
   guardar(){
