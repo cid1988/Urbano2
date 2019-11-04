@@ -6,14 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { CalendarioViewComponent } from './views/calendario/calendario.component';
 import { GroupByPipe } from 'src/app/shared-modules/pipes/groupBy/group-by.pipe';
 import { MaestrosComponent } from './views/maestros/maestros.component';
-import { MailHeaderComponent } from '../../shared-modules/mail/mail-header/mail-header.component';
 import { ContactosModule } from '../contactos/contactos.module';
 import { ModalCrearReunionComponent } from './components/modals/modal-crear-reunion/modal-crear-reunion.component';
 import { ModalDetalleReunionComponent } from './components/modals/modal-detalle-reunion/modal-detalle-reunion.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { CitasComponent } from './views/citas/citas.component';
-import { EditorModule } from '@tinymce/tinymce-angular';
+import { MailModule } from 'src/app/shared-modules/mail/mail.module';
 
 const rdgRoutes: Routes = [
   {path:'rdg/cita/:id',component:CitasComponent},
@@ -22,16 +21,15 @@ const rdgRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe,
-    MaestrosComponent, MailHeaderComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent, CitasComponent],
+  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe, MaestrosComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent, CitasComponent],
   imports: [
-    EditorModule,
     CommonModule,
     FormsModule,
     ContactosModule,
+    MailModule,
     TimepickerModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    RouterModule.forChild(rdgRoutes)
+    RouterModule.forChild(rdgRoutes) 
   ],
   entryComponents: [ModalCrearReunionComponent, ModalDetalleReunionComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

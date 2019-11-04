@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Reunion } from '../../models/reunion';
 import { environment } from '../../../../../environments/environment';
+import { Cita } from '../../models/cita';
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +51,11 @@ export class CalendarioService {
   
   nuevoMaestro(maestro):Observable<{}>{
     return this.http.post<{}>(this.baseUrl + '/maestros', maestro)
+  }
+
+  //Citas
+
+  getCita(id):Observable<Cita>{
+    return this.http.get<Cita>(this.baseUrl + '/citas/'+id);
   }
 }

@@ -1,6 +1,7 @@
 const Reunion = require('../models/rdg/reunion');
 const SerieReunion = require('../models/rdg/serie');
 const TiposReunion = require('../models/rdg/tipo');
+const CitaReunion = require('../models/rdg/cita');
 
 //Reuniones
 
@@ -90,6 +91,33 @@ async function getTipos (req, res, next) {
     }
 };
 
+//Citas
+
+async function getCitas (req, res, next) {
+    try{
+        const citas = await CitaReunion.find({})
+        res.json(citas);
+    }catch(error){
+        res.json(error);
+    }
+};
+async function getCitaPorId(req, res, next){
+    const cita = await CitaReunion.findById(req.swagger.params.id.value);
+    res.status(200).json(cita);
+};
+async function createReunion (req, res, next) {
+    const reunion = new Reunion(req.swagger.params.body.value);
+    await reunion.save();
+    res.json({status: 'Reunion creada'});
+};
+
+async function updateReunion (req, res, next) {
+    const reunion = req.swagger.params.body.value;
+    await Reunion.findByIdAndUpdate(req.swagger.params.id.value, {$set: reunion}, {new: false});
+    res.json({status: 'Reunion actualizada con exito'});
+};
+
+
 
 
 
@@ -104,4 +132,6 @@ module.exports = {
     getTipos,
     //Minuta de Reunion
     //getMinutas
+    //Citas de Reunion
+    getCitas,getCitaPorId
 };

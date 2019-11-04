@@ -2,8 +2,16 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const serieSchema = new Schema({
-  nombre: { type: String, required: false},
-  tipo: { type: String, required: false}
+  para: [ Object ],
+  cc: [ Object ],
+  cco: [ Object ],
+  exclusivos: [ Object ],
+  usuario: { type: String },
+  idInstancia: { type: String },
+  asunto: { type: String },
+  version: { type: String },
+  mensajeHtml: { type: String },
+  fecha: { type: String }
 },{
   versionKey: false,
   toObject: { virtuals: true },

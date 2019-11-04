@@ -229,6 +229,6 @@ export class CalendarioComponent implements OnInit {
   }
 
   irMaestros(){
-    this.router.navigateByUrl('/calendario/maestros');
+    this.router.navigateByUrl('/rdg/maestros');
   }
 }
