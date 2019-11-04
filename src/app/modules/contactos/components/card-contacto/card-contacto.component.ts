@@ -9,23 +9,21 @@ import { Contacto } from '../../models/contacto';
 })
 export class CardContactoComponent implements OnInit {
 
-  contacto=new Contacto() as Object;
+  contacto = new Contacto({});
   @Input() idContacto: string;
   @Input() dataContacto: Contacto;
 
-  constructor(private contactoService: ContactosService) { 
-  }
+  constructor(private contactoService: ContactosService) {}
 
 
   ngOnInit() {
     if(this.idContacto){
-      this.contactoService.getContacto(this.idContacto).subscribe((data:Object)=>{
-        this.contacto=data
+      this.contactoService.getContacto(this.idContacto).subscribe((data: Contacto)=>{
+        this.contacto = data;
       })
     }else{
-      this.contacto=this.dataContacto;
+      this.contacto = this.dataContacto;
     }
-    
   }
 
 }

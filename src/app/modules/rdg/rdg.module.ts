@@ -12,6 +12,7 @@ import { ModalCrearReunionComponent } from './components/modals/modal-crear-reun
 import { ModalDetalleReunionComponent } from './components/modals/modal-detalle-reunion/modal-detalle-reunion.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { Tinymce } from 'tinymce';
 
 const rdgRoutes: Routes = [
   {path:'calendario',component:CalendarioComponent},
@@ -19,12 +20,12 @@ const rdgRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe,
-    MaestrosComponent, MailHeaderComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent],
+  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe, MaestrosComponent, MailHeaderComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent],
   imports: [
     CommonModule,
     FormsModule,
     ContactosModule,
+    Tinymce,
     TimepickerModule.forRoot(),
     BsDatepickerModule.forRoot(),
     RouterModule.forChild(rdgRoutes)
