@@ -23,6 +23,7 @@
     "@fullcalendar/daygrid": "^4.2.0",
     "@fullcalendar/interaction": "^4.2.0",
     "@fullcalendar/timegrid": "^4.2.0",
+    "@tinymce/tinymce-angular": "^3.3.1",
     "angular2-chartjs": "^0.5.1",
     "angular2-fullcalendar": "^1.0.19",
     "ap-angular2-fullcalendar": "^1.6.4",
@@ -45,6 +46,7 @@
     "swagger": "file:swagger",
     "swagger-tools": "^0.10.4",
     "swagger-ui-express": "^4.1.1",
+    "tinymce": "^5.1.1",
     "tslib": "^1.9.0",
     "yamljs": "^0.3.0",
     "zone.js": "~0.9.1"

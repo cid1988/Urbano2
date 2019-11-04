@@ -5,7 +5,14 @@
 export const environment = {
   production: false,
   // baseUrl: 'http://localhost:3000/api'
-  baseUrl: 'http://localhost:10010/api'
+  baseUrl: 'http://localhost:10010/api',
+  tinymceConfig:{
+    menubar:false,
+    statusbar: false,
+    base_url: '/tinymce', // Root for resources
+    suffix: '.min',       // Suffix to use when loading resources
+    language: 'es_MX'
+  }
 };
 
 /*
