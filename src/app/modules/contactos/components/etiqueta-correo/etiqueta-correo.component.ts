@@ -9,16 +9,15 @@ import { Contacto } from '../../models/contacto';
 })
 export class EtiquetaCorreoComponent implements OnInit {
 
-  @Input() idContacto:String;
-  @Input() maestro:Boolean;
-  contacto= new Contacto();
+  @Input() idContacto: String;
+  @Input() maestro: Boolean;
+  contacto = new Contacto({});
 
   constructor(private contactoService: ContactosService) { }
 
   ngOnInit() {
     this.contactoService.getContacto(this.idContacto).subscribe((data:Contacto)=>{
-      this.contacto=data;
+      this.contacto = data;
     })
   }
-
 }
