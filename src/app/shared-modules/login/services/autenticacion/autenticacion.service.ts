@@ -6,8 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { NgxPermissionsService, NgxRolesService } from 'ngx-permissions';
 import { Subject } from 'rxjs';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -58,6 +56,7 @@ export class AutenticacionService {
   getUsuarioLogeado(){
     return localStorage.getItem('usuario')
   }
+
   getToken(){
     return localStorage.getItem('token')
   }

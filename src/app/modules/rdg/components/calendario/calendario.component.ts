@@ -148,6 +148,8 @@ export class CalendarioComponent implements OnInit {
             hastaDate: event.event.end.getTime(),
             desdeHora: (event.event.start.getHours() + ":" + event.event.start.getMinutes()),
             hastaHora: (event.event.end.getHours() + ":" + event.event.end.getMinutes()),
+            fechaCreacion: a.fechaCreacion,
+            usuarioCreacion: a.usuarioCreacion,//Hacer desde el backend
             reunion: a.reunion._id,
             fecha: a.fecha
           }
@@ -161,7 +163,7 @@ export class CalendarioComponent implements OnInit {
       },
       eventDrop: (event) => {
         if(confirm("Esta seguro de modificar la reunion?")){
-          var a = event.oldEvent.extendedProps
+          var a = event.oldEvent.extendedProps;
           var objeto = {
             id: event.event.id,
             titulo: event.event.title,
@@ -170,6 +172,9 @@ export class CalendarioComponent implements OnInit {
             hastaDate: event.event.end.getTime(),
             desdeHora: (event.event.start.getHours() + ":" + event.event.start.getMinutes()),
             hastaHora: (event.event.end.getHours() + ":" + event.event.end.getMinutes()),
+            fechaCreacion: a.fechaCreacion,
+            fechaModificacion: new Date(),
+            usuarioCreacion: a.usuarioCreacion,//Hacerlo desde el backend
             reunion: a.reunion._id,
             fecha: a.fecha
           }

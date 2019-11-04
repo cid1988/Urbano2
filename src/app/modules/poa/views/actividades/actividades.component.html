@@ -130,7 +130,7 @@
                         </div>
                         <div class="form-group col-3">
                           <label>Fecha de inicio</label>
-                          <input type="text" class="form-control" [(ngModel)]="proyecto.fechaInicio" name="fechaInicio" #fechaInicio="ngModel" [disabled]="!editando" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': fechaInicio.invalid}">
+                          <input type="text" class="form-control" [(ngModel)]="proyecto.fechaInicio" name="fechaInicio" #fechaInicio="ngModel" [disabled]="!editando" autocomplete="off" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': fechaInicio.invalid}">
                         </div>
                         <div class="form-group col-6">
                           <label>Presupuesto oficial</label>
@@ -150,7 +150,7 @@
                         </div>
                         <div class="form-group col-3">
                           <label>Fecha de fin</label>
-                          <input type="text" class="form-control" [(ngModel)]="proyecto.fechaFin" name="fechaFin" #fechaFin="ngModel" [disabled]="!editando" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': fechaFin.invalid}">
+                          <input type="text" class="form-control" [(ngModel)]="proyecto.fechaFin" name="fechaFin" #fechaFin="ngModel" [disabled]="!editando" autocomplete="off" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': fechaFin.invalid}">
                         </div>
                         <div class="form-group col-6">
                           <label>Presupuesto adjudicado</label>

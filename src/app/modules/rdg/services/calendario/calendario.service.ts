@@ -30,7 +30,7 @@ export class CalendarioService {
   }
 
   actualizarReunion(reunion):Observable<{}>{
-    return this.http.post<{}>(this.baseUrl + '/actualizarReunion', reunion);
+    return this.http.put<{}>(this.baseUrl + '/reuniones/' + reunion.id, reunion);
   }
 
   //Series de Reuniones
@@ -43,9 +43,11 @@ export class CalendarioService {
   getMaestros():Observable<{}>{
     return this.http.get<{}>(this.baseUrl + '/maestros');
   }
+
   guardarMaestro(maestro):Observable<{}>{
     return this.http.put<{}>(this.baseUrl + '/maestros/'+ maestro._id,maestro);
   }
+  
   nuevoMaestro(maestro):Observable<{}>{
     return this.http.post<{}>(this.baseUrl + '/maestros', maestro)
   }
