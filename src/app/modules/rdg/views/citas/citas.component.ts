@@ -23,7 +23,6 @@ export class CitasComponent implements OnInit {
   color:String;
   correos={ para:[], cc:[], cco:[], exclusivos:[]};
   tiempoReunion:String;
-  infoAsunto: string;
   lugar:String ;
   fecha: string;
   fechaYLugar:String;
@@ -75,7 +74,7 @@ export class CitasComponent implements OnInit {
   armarCita(){
     if(this.serie.tipo == 'visitaObra'){
 			this.cita.asunto = this.serie.nombre + ' - ' + 'Cita para visita a obra';
-		}else this.cita.asunto = this.serie.nombre + ' - ' + 'Cita para Reunión ' + this.infoAsunto;
+		}else this.cita.asunto = this.serie.nombre + ' - ' + 'Cita para Reunión ' + this.serie.color.de;
 		
 		this.cita.version = 'final';
 		
@@ -92,7 +91,7 @@ export class CitasComponent implements OnInit {
   armarModificacion(){
 		if(this.serie.tipo == 'visitaObra'){
 			this.cita.asunto = this.serie.nombre + ' - Modificacion - ' + 'Cita para visita a obra';
-		}else this.cita.asunto = this.serie.nombre + ' - Modificacion - ' + 'Cita para Reunión ' + this.infoAsunto;
+		}else this.cita.asunto = this.serie.nombre + ' - Modificacion - ' + 'Cita para Reunión ' + this.serie.color.de;
 		
 		this.cita.version = 'modificacion';
 		if(this.serie.tipo == 'seguimientoJefatura' || this.serie.tipo == 'especificasJefatura') {
@@ -108,7 +107,7 @@ export class CitasComponent implements OnInit {
   armarRecordatorio(){
 		if(this.serie.tipo == 'visitaObra'){
 			this.cita.asunto = this.serie.nombre + ' - Recordatorio - ' + 'Cita para visita a obra';
-		}else this.cita.asunto = this.serie.nombre + ' - Recordatorio - ' + 'Cita para Reunión ' + this.infoAsunto;
+		}else this.cita.asunto = this.serie.nombre + ' - Recordatorio - ' + 'Cita para Reunión ' + this.serie.color.de;
 		
 		this.cita.version = 'recordatorio';
 
@@ -125,7 +124,7 @@ export class CitasComponent implements OnInit {
   armarCancelacion(){
     if(this.serie.tipo == 'visitaObra'){
 			this.cita.asunto = this.serie.nombre + ' - Cancelación - ' + 'Cita para visita a obra';
-		}else this.cita.asunto = this.serie.nombre + ' - Cancelación - ' + 'Cita para Reunión ' + this.infoAsunto;
+		}else this.cita.asunto = this.serie.nombre + ' - Cancelación - ' + 'Cita para Reunión ' + this.serie.color.de;
 		this.cita.version = 'cancelado';
 		if(this.serie.tipo == 'visitaObra'){
 			this.cita.mensajeHtml = '<div style="font-size: 17px;">' + this.cabeza + 'Les informamos que la visita a '+ this.serie.nombre+ ' que se realizaría el ' + this.fecha +', fue cancelada hasta nuevo aviso. Nos pondremos en contacto cuando reagendemos la misma.<br><br>' + 'Ante cualquier consulta pueden comunicarse telefónicamente o vía mail con nuestras oficinas.<br><br>' + 'Saludos,<br><br>' + 'Atte.<br><br>'  + this.pie  + '</div>';
