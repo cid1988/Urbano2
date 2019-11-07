@@ -1,2 +1,17 @@
-pRUEBA DE EDITOR DE TEXTO
-<editor [init]="config"></editor>
+<div class="container-fluid">
+    <div class="row ">
+        <div class="col-md-3">
+            <h3> {{cita.idInstancia}}</h3><br>
+            <button class="btn btn-success" style="width: 100%;">{{cita.version}} {{cita.fecha}}</button>
+            <button class="btn btn-outline-primary" style="width: 100%;">Cita</button>
+            <button class="btn btn-outline-info" style="width: 100%;">Modificacion</button>
+            <button class="btn btn-outline-info" style="width: 100%;">Recordatorio</button>
+            <button class="btn btn-outline-danger" style="width: 100%;">Cancelacion</button>
+        </div>
+        <div class="col-md-9">
+            <mail-header [lista]='lista'></mail-header>
+            <mail-body [mensajeHtml]='cita.mensajeHtml' [asunto]='asunto'></mail-body>
+        </div>
+    </div>
+</div>
+
