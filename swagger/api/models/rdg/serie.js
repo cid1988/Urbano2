@@ -2,16 +2,42 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const serieSchema = new Schema({
-  para: [ Object ],
-  cc: [ Object ],
-  cco: [ Object ],
-  exclusivos: [ Object ],
-  usuario: { type: String },
-  idInstancia: { type: String },
-  asunto: { type: String },
-  version: { type: String },
-  mensajeHtml: { type: String },
-  fecha: { type: String }
+  cita:{
+      para:[Object],
+      cc:[Object],
+      cco:[Object],
+      exclusivos:[Object],
+  },
+  frecuencia: {type: String},
+  minuta:{
+      para:[Object],
+      cc:[Object],
+      cco:[Object],
+      exclusivos:[Object],
+  },
+  nombre:{ type: String },
+  participantes: [ Object ],
+  propuestaTemario:{
+      para:[Object],
+      cc:[Object],
+      cco:[Object],
+      exclusivos:[Object],
+  },
+  temario:{
+      para:[Object],
+      cc:[Object],
+      cco:[Object],
+      exclusivos:[Object],
+  },
+  tipo: {type: String},
+  apagado: {type: Boolean},
+  asistenciaMinuta: {type: String},
+  asistenteTablero: {type: String},
+  jurisdiccion: {type: String},
+  llamados:[Object],
+  tomaCompromisos: {type: String},
+  validaTemario: {type: String}
+
 },{
   versionKey: false,
   toObject: { virtuals: true },

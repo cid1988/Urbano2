@@ -3,7 +3,8 @@ const { Schema } = mongoose;
 
 const contactoSchema = new Schema({
     nombre: { type: String, required: false},
-    apellidos: { type: String, required: false}
+    apellidos: { type: String, required: false},
+    correos: [Object]
 },{
     versionKey: false,
     toObject: { virtuals: true },
@@ -11,7 +12,7 @@ const contactoSchema = new Schema({
 });
 
 contactoSchema.virtual('nombreCompleto').get(function(){
-    return this.apellidos + " " + this.nombre;
+    return this.apellidos + ", " + this.nombre;
 })
 
 module.exports = mongoose.model('Contacto', contactoSchema, 'contactos');

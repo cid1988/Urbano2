@@ -10,6 +10,7 @@ export class MailHeaderComponent implements OnInit {
   @Input() editando:Boolean;
 
   @Input() lista;
+  @Input() correoString
 
   constructor() {
     

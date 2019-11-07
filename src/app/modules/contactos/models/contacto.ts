@@ -11,7 +11,11 @@ export class Contacto {
     apellidos: string;
     servicios: [];
     telefono: [];
-    correos: [{}];
+    correos: [{
+        valor: String,
+        checked: Boolean,
+        nombre: String
+    }];
     direcciones: [];
     roles: []
 

@@ -1,16 +1,19 @@
 <div class="container-fluid">
     <div class="row ">
         <div class="col-md-3">
-            <h3> {{cita.idInstancia}}</h3><br>
-            <button class="btn btn-success" style="width: 100%;">{{cita.version}} {{cita.fecha}}</button>
-            <button class="btn btn-outline-primary" style="width: 100%;">Cita</button>
-            <button class="btn btn-outline-info" style="width: 100%;">Modificacion</button>
-            <button class="btn btn-outline-info" style="width: 100%;">Recordatorio</button>
-            <button class="btn btn-outline-danger" style="width: 100%;">Cancelacion</button>
+            <h3 >
+                <span [ngStyle]="{'border-left-color': color}" style="border-left: solid 10px; opacity: 1.0"></span>
+                {{serie?.nombre}}  
+            </h3>
+            <button class="btn btn-success pull-right" style="width: 100%;">{{ultimaActualizacion}}</button>
+            <button class="btn btn-outline-primary" style="width: 100%;" (click)='armarCita()'>Cita</button>
+            <button class="btn btn-outline-info" style="width: 100%;" (click)='armarModificacion()'>Modificacion</button>
+            <button class="btn btn-outline-info" style="width: 100%;" (click)='armarRecordatorio()'>Recordatorio</button>
+            <button class="btn btn-outline-danger" style="width: 100%;" (click)='armarCancelacion()'>Cancelacion</button>
         </div>
         <div class="col-md-9">
-            <mail-header [lista]='lista'></mail-header>
-            <mail-body [mensajeHtml]='cita.mensajeHtml' [asunto]='asunto'></mail-body>
+            <mail-header [lista]='correos'></mail-header>
+            <mail-body [mensajeHtml]='cita?.mensajeHtml' [asunto]='cita?.asunto'></mail-body>
         </div>
     </div>
 </div>

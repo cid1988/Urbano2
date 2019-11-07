@@ -4,6 +4,7 @@ import { CardContactoComponent } from './components/card-contacto/card-contacto.
 import { PortadaComponent } from './views/portada/portada.component';
 import { Routes, RouterModule } from '@angular/router';
 import { EtiquetaCorreoComponent } from './components/etiqueta-correo/etiqueta-correo.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 const contactosRoutes: Routes = [
   {
@@ -16,7 +17,8 @@ const contactosRoutes: Routes = [
   declarations: [CardContactoComponent, PortadaComponent,EtiquetaCorreoComponent ],
   imports: [
     CommonModule,
-    RouterModule.forChild(contactosRoutes)
+    RouterModule.forChild(contactosRoutes),
+    TooltipModule.forRoot()
   ],
   exports:[
     CardContactoComponent,

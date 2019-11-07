@@ -1,2 +1,7 @@
-<p><b>Asunto:</b> {{asunto}}</p>
-<editor [init]="config"></editor>
+<div class="form-group row">
+    <label for="colFormLabel" class="col-sm-1 col-form-label"><b>Asunto: </b></label>
+    <div class="col-sm-11">
+        <input type="text" class="form-control" id="colFormLabelSm" [(ngModel)]="asunto">
+    </div>
+</div>
+<editor [init]="config" [(ngModel)]='mensajeHtml'></editor>

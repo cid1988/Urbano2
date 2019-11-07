@@ -14,10 +14,6 @@ export class MailBodyComponent implements OnInit {
   config = environment.tinymceConfig;
 
   constructor() { 
-    
-    if(this.mensajeHtml==''){
-      this.mensajeHtml='Ingrese Texto aqui...'
-    }
   }
 
   ngOnInit() {

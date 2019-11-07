@@ -1,7 +1,13 @@
 const Reunion = require('../models/rdg/reunion');
 const SerieReunion = require('../models/rdg/serie');
+const MaestroReunion = require('../models/rdg/maestro');
 const TiposReunion = require('../models/rdg/tipo');
 const CitaReunion = require('../models/rdg/cita');
+const Contacto = require('../models/contacto/contacto');
+const TemarioReunion = require('../models/rdg/temario');
+const MinutaReunion = require('../models/rdg/minuta');
+
+var ObjectId = require('mongoose').Types.ObjectId;
 
 //Reuniones
 
@@ -20,7 +26,12 @@ async function getReunionPorId(req, res, next){
 };
 async function createReunion (req, res, next) {
     const reunion = new Reunion(req.swagger.params.body.value);
+    const cita = new CitaReunion();
+    const temario = new TemarioReunion();
     await reunion.save();
+    console.log(reunion)
+    console.log(cita)
+    console.log(temario)
     res.json({status: 'Reunion creada'});
 };
 
@@ -55,7 +66,7 @@ async function getSeries(req, res, next) {
 //Series Maestros
 async function getMaestros(req, res, next) {
     try{
-        const series = await SerieReunion.find({
+        const series = await MaestroReunion.find({
             $and: [
                 {$or: [
                     {apagado: false},
@@ -75,7 +86,7 @@ async function getMaestros(req, res, next) {
 
 async function editMaestro(req,res,next){
     const serie = req.swagger.params.body.value
-    await SerieReunion.findByIdAndUpdate(req.swagger.params.id.value, 
+    await MaestroReunion.findByIdAndUpdate(req.swagger.params.id.value, 
         {$set: serie}, {new: true, strict: false}, function(err, data){
             if(err) res.status(500).json(err)
             else res.status(200).json(data)
@@ -95,30 +106,196 @@ async function getTipos (req, res, next) {
 
 async function getCitas (req, res, next) {
     try{
-        const citas = await CitaReunion.find({})
-        res.json(citas);
+        const citas = await CitaReunion.find().populate('datosReunion')
+        res.status(200).json(citas);
     }catch(error){
-        res.json(error);
+        res.status(403).json(error);
     }
 };
 async function getCitaPorId(req, res, next){
-    const cita = await CitaReunion.findById(req.swagger.params.id.value);
-    res.status(200).json(cita);
-};
-async function createReunion (req, res, next) {
-    const reunion = new Reunion(req.swagger.params.body.value);
-    await reunion.save();
-    res.json({status: 'Reunion creada'});
+    try{
+        CitaReunion.findOne({idInstancia:req.swagger.params.id.value}).populate('datosReunion').exec(function(err ,data){
+            if(err){
+                console.log(err)
+                res.status(403).json(err);
+            }else{
+                res.status(200).json(data);
+            }
+        });
+    }catch(error){
+        res.status(403).json(error);
+    }
+    
 };
 
+async function getDatosCitas(req, res, next){
+    try{
+        var dato = req.swagger.params.body.value
+        var query={}
+        const datosCita={
+            idContactos:{
+                para:[],
+                cc:[],
+                cco:[],
+                exclusivos:[],
+            },
+            datosSerie:{},
+            datosReunion:{},
+            correos:{
+                para:'',
+                cc:'',
+                cco:'',
+                exclusivos:''
+            }
+        }
+        query={_id: ObjectId(dato.idInstancia) }
+        console.log(dato.idInstancia)
+        const reunion = await traerReunion(query);
+        datosCita.datosReunion=reunion;
+
+        query={_id: ObjectId(reunion.reunion)}
+        const serie = await traerSerie(query,['tipo','cita','nombre'])
+        datosCita.datosSerie= serie;
+        
+        Array.prototype.push.apply(datosCita.idContactos.para,serie.cita.para); 
+        Array.prototype.push.apply(datosCita.idContactos.cc,serie.cita.cc); 
+        Array.prototype.push.apply(datosCita.idContactos.cco,serie.cita.cco); 
+        Array.prototype.push.apply(datosCita.idContactos.exclusivos,serie.cita.exclusivos); 
+
+        datosCita.correos.para+=await pushinfo(serie.cita.para)
+        datosCita.correos.cc+=await pushinfo(serie.cita.cc)
+        datosCita.correos.cco+= await pushinfo(serie.cita.cco)
+        datosCita.correos.exclusivos+= await pushinfo(serie.cita.exclusivos)
+
+        query={
+            $and: [
+                { tipo: serie.tipo },
+                { nombre:'Maestro' }
+            ]
+        }
+
+        const maestro = await traerMaestro(query,['cita']);
+
+        Array.prototype.push.apply(datosCita.idContactos.para,maestro.cita.para); 
+        Array.prototype.push.apply(datosCita.idContactos.cc,maestro.cita.cc); 
+        Array.prototype.push.apply(datosCita.idContactos.cco,maestro.cita.cco); 
+        Array.prototype.push.apply(datosCita.idContactos.exclusivos,maestro.cita.exclusivos); 
+        datosCita.correos.para+= await pushinfo(maestro.cita.para)
+        datosCita.correos.cc+= await pushinfo(maestro.cita.cc)
+        datosCita.correos.cco+= await pushinfo(maestro.cita.cco)
+        datosCita.correos.exclusivos+= await pushinfo(maestro.cita.exclusivos)
+
+
+        res.status(200).json(datosCita)
+    }catch(error){
+        console.log(error)
+        res.status(403).json(error);
+    }
+    
+
+
+};
+/*
 async function updateReunion (req, res, next) {
     const reunion = req.swagger.params.body.value;
     await Reunion.findByIdAndUpdate(req.swagger.params.id.value, {$set: reunion}, {new: false});
     res.json({status: 'Reunion actualizada con exito'});
+};*/
+
+//Temario
+async function getTemarios (req, res, next) {
+    try{
+        const temarios = await TemarioReunion.find()
+        res.json(temarios);
+    }catch(error){
+        res.json(error);
+    }
+};
+async function getTemarioPorId(req, res, next){
+    try{
+        TemarioReunion.findById(req.swagger.params.id.value).exec(function(err ,data){
+            if(err || data==null){
+                console.log(err)
+                res.status(403).json(err);
+            }else{
+                res.status(200).json(data);
+            }
+        });
+    }catch(error){
+        res.status(403).json(error);
+    }
+    
+};
+async function updateTemario (req, res, next) {
+    const temario = req.swagger.params.body.value;
+    await TemarioReunion.findByIdAndUpdate(req.swagger.params.id.value, {$set: temario}, {new: false});
+    res.json({status: 'Temario actualizada con exito'});
+};
+
+//MInutas
+async function getMinutaPorId(req, res, next){
+    try{
+        MinutaReunion.findById(req.swagger.params.id.value).exec(function(err ,data){
+            if(err || data==null){
+                console.log(err)
+                res.status(403).json(err);
+            }else{
+                res.status(200).json(data);
+            }
+        });
+    }catch(error){
+        res.status(403).json(error);
+    }
+    
+};
+async function updateMinuta (req, res, next) {
+    const minuta = req.swagger.params.body.value;
+    await MinutaReunion.findByIdAndUpdate(req.swagger.params.id.value, {$set: minuta}, {new: false});
+    res.json({status: 'Temario actualizada con exito'});
 };
 
 
 
+//Funciones 
+
+async function traerReunion(query,seleccion){
+    const data = await Reunion.findOne(query).select(seleccion);
+    return data
+}
+async function traerSerie(query,seleccion){
+    const data = await SerieReunion.findOne(query).select(seleccion).populate('color');
+    return data
+}
+async function traerMaestro(query,seleccion){
+    const data = await MaestroReunion.findOne(query).select(seleccion);
+    return data
+}
+async function traerContacto(query,seleccion){
+    const data = await Contacto.findOne(query).select(seleccion);
+    return data
+}
+async function pushinfo(array){
+    var lista=''
+    for (let index = 0; index < array.length; index++) {
+        query={ _id: ObjectId(array[index].contactoId)}
+        var contacto = await traerContacto(query,['correos'])
+        if(contacto && contacto.correos){
+            var correo=''
+            for (let c = 0; c < contacto.correos.length; c++) {
+                if(contacto.correos[c].checked){
+                    correo=contacto.correos[c].valor
+                    break
+                }else{
+                    if(contacto.correos[c].nombre == "Email oficial"){
+                        correo=contacto.correos[c].valor
+                    }
+                }
+            }
+            lista+=correo+',';
+        }
+    }
+    return lista;
+}
 
 
 module.exports = {
@@ -131,7 +308,9 @@ module.exports = {
     //Tipo de Reunion
     getTipos,
     //Minuta de Reunion
-    //getMinutas
+    getMinutaPorId,updateMinuta,
+    //Temario de Reunion
+    getTemarios,getTemarioPorId,updateTemario,
     //Citas de Reunion
-    getCitas,getCitaPorId
+    getCitas,getCitaPorId,getDatosCitas
 };

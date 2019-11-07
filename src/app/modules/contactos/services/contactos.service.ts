@@ -20,5 +20,8 @@ export class ContactosService {
     return this.http.get<[]>(this.baseUrl + '/contactos');
   };
 
+  getContactosSimple():Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/contactosSimple');
+  };
   
 }

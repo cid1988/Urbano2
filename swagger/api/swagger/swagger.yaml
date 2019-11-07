@@ -117,6 +117,20 @@ paths:
       responses:
         200:
           description: OK
+  
+  /contactosSimple:
+    x-swagger-router-controller: contacto
+    get:
+      tags: 
+        - Contactos
+      operationId: listarContactosSimple
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contacto'
   # ////////////////////////////////////////////////////////////////////
   /contactos/{id}:
     x-swagger-router-controller: contacto
@@ -1575,16 +1589,39 @@ paths:
       responses:
         200:
           description: ok
+  /rdg/citas/listarCorreos:
+    x-swagger-router-controller: rdg
+    post:
+      summary: Trear los correos que estan guardados en serie y maestros
+      operationId: getDatosCitas
+      parameters:
+        - in: body
+          name: body
+          description: Datos de los asistente de un reunion de RDG
+          schema:
+            type: object
+            required:
+              - idInstancia
+            properties:
+              idInstancia:
+                type: string
+      tags:
+        - RDG - Citas
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Cita'
           
   /rdg/citas/{id}:
     x-swagger-router-controller: rdg
     get:
-      summary: Trear una cita de reunion de RDG por ID
+      summary: Trear una cita de reunion de RDG por ID de la reunion
       operationId: getCitaPorId
       parameters:
         - name: id 
           in: path
-          description: ID de la cita
+          description: ID de la reunion
           type: string
           required: true 
       tags:
@@ -1594,6 +1631,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Cita'
+            
   # //////////////////////////////////////////////////////////////////// RDG - MInutas
   /rdg/minutas:
     x-swagger-router-controller: rdg
@@ -1665,7 +1703,7 @@ paths:
           type: string
           required: true 
       tags:
-        - RDG - Citas
+        - RDG - Minutas
       responses: 
         200:
           description: OK
@@ -2015,6 +2053,139 @@ paths:
                     type: string
               version:
                 type: string
+      responses:
+        200:
+          description: ok
+  
+   # //////////////////////////////////////////////////////////////////// RDG - Temarios
+  /rdg/temarios:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trae temarios de reuniones de RDG
+      operationId: getTemarios
+      tags:
+        - RDG - Temarios
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Temario'
+  
+  /rdg/temarios/{id}:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trae Temario de una reunion de RDG por ID
+      operationId: getTemarioPorId
+      parameters:
+        - name: id 
+          in: path
+          description: ID de la Reunion
+          type: string
+          required: true 
+      tags:
+        - RDG - Temarios
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Temario'
+    put:
+      summary: Editar una reunion de RDG por ID
+      operationId: updateTemario
+      tags:
+        - RDG - Temarios
+      parameters:
+        - name: id 
+          in: path
+          description: ID de la Reunion
+          type: string
+          required: true 
+        - in: body
+          name: body
+          description: Datos de la serie de reunion de RDG
+          schema:
+            type: object
+            required:
+              - instancia
+              - fecha
+              - usuario
+            properties:
+              instancia:
+                type: string
+              tipoTemario: 
+                type: string
+              html:
+                type: string
+              fecha: 
+                type: string
+              usuario: 
+                type: string
+              comentarios: 
+                type: string
+              fechaComentarios: 
+                type: string
+              propuestaEnviado:
+                type: object
+                properties:
+                  fecha: 
+                    type: string
+                  version: 
+                    type: string
+                  para:
+                    type: array
+                    items:
+                      type: object
+                  cc:
+                    type: array
+                    items:
+                      type: object
+                  cco:
+                    type: array
+                    items:
+                      type: object
+                  exclusivos:
+                    type: array
+                    items:
+                      type: object
+                  asunto: 
+                    type: string
+                  mensajeHtml: 
+                    type: string
+                  usuario: 
+                    type: string
+              enviado:
+                type: object
+                properties:
+                  fecha: 
+                    type: string
+                  version: 
+                    type: string
+                  para:
+                    type: array
+                    items:
+                      type: object
+                  cc:
+                    type: array
+                    items:
+                      type: object
+                  cco:
+                    type: array
+                    items:
+                      type: object
+                  exclusivos:
+                    type: array
+                    items:
+                      type: object
+                  asunto: 
+                    type: string
+                  mensajeHtml: 
+                    type: string
+                  usuario: 
+                    type: string
       responses:
         200:
           description: ok
@@ -2541,6 +2712,81 @@ definitions:
         type: string
       fechaCreacion:
         type: string
+  Temario:
+    type: object
+    properties:
+      instancia:
+        type: string
+      tipoTemario: 
+        type: string
+      html:
+        type: string
+      fecha: 
+        type: string
+      usuario: 
+        type: string
+      comentarios: 
+        type: string
+      fechaComentarios: 
+        type: string
+      propuestaEnviado:
+        type: object
+        properties:
+          fecha: 
+            type: string
+          version: 
+            type: string
+          para:
+            type: array
+            items:
+              type: object
+          cc:
+            type: array
+            items:
+              type: object
+          cco:
+            type: array
+            items:
+              type: object
+          exclusivos:
+            type: array
+            items:
+              type: object
+          asunto: 
+            type: string
+          mensajeHtml: 
+            type: string
+          usuario: 
+            type: string
+      enviado:
+        type: object
+        properties:
+          fecha: 
+            type: string
+          version: 
+            type: string
+          para:
+            type: array
+            items:
+              type: object
+          cc:
+            type: array
+            items:
+              type: object
+          cco:
+            type: array
+            items:
+              type: object
+          exclusivos:
+            type: array
+            items:
+              type: object
+          asunto: 
+            type: string
+          mensajeHtml: 
+            type: string
+          usuario: 
+            type: string
       
           
         

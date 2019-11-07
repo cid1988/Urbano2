@@ -58,4 +58,8 @@ export class CalendarioService {
   getCita(id):Observable<Cita>{
     return this.http.get<Cita>(this.baseUrl + '/citas/'+id);
   }
+  listarMailCita(id):Observable<{}>{
+    const data={idInstancia:id}
+    return this.http.post<{}>(this.baseUrl + '/citas/listarCorreos', data);
+  }
 }

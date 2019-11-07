@@ -7,9 +7,18 @@ async function listarContactoPorId(req, res, next){
 };
 
 async function listarContactos(req, res, next){
-    console.log('OK')
     try{
         Contacto.find({}).sort('apellidos').exec(function(err, contactos) {
+            if(contactos) res.status(200).json(contactos);
+            else console.log(err)
+        });
+    }catch(error){
+        res.status(500).json(error);
+    }
+}
+async function listarContactosSimple(req, res, next){
+    try{
+        Contacto.find({}).select(['nombre','apellidos','correo','area']).sort('apellidos').exec(function(err, contactos) {
             if(contactos) res.status(200).json(contactos);
             else console.log(err)
         });
@@ -39,4 +48,6 @@ async function eliminarContacto(req, res, next){
     await Contacto.findByIdAndRemove(req.swagger.params.id.value);
     res.status(200).json({status: 'Contacto borrado'});
 };
-module.exports = {listarContactos,eliminarContacto, crearContacto, listarContactoPorId, editarContacto}
+module.exports = {
+    listarContactos,eliminarContacto, crearContacto, listarContactoPorId, editarContacto,listarContactosSimple
+}
