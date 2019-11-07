@@ -1,1 +1,45 @@
-<p>modal-crear-reunion works!</p>
+<div class="modal-content">
+  <form (ngSubmit)="formNuevaReunion.form.valid && guardar(formNuevaReunion)" #formNuevaReunion="ngForm">
+    <div class="modal-header" style="padding: 10px;border-left: solid 5px; opacity: 1.0" [ngStyle]="{'border-left-color': 'red'}">
+      <h5 class="modal-title">{{nuevaReunion.titulo}}</h5>
+      <button type="button" class="close" data-dismiss="modal" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group col-sm-4">
+          <label>Fecha inicio</label>
+          <input type="text" class="form-control form-control-sm" [ngModel]="nuevaReunion.fecha" name="fecha" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"/>
+        </div>
+        <div class="form-group col-2" style="margin-right: 10px; margin-left: 20px;">
+          <timepicker required [ngModel]="nuevaReunion.desdeDate" name="desdeDate" #desdeDate="ngModel" [ngClass]="{'is-invalid': reunion.invalid}" [showMeridian]="false" [showSpinners]="false"></timepicker>
+          <div *ngIf="desdeDate.invalid" class="invalid-feedback">
+            <div *ngIf="desdeDate.errors?.required">Campo obligatorio</div>
+          </div>
+        </div>
+        <div class="form-group col-4">
+          <timepicker required [ngModel]="nuevaReunion.hastaDate" name="hastaDate" [showMeridian]="false" [min]="nuevaReunion.desdeDate" [showSpinners]="false"></timepicker>
+        </div>
+        <div class="form-group col-sm-4">
+          <label>Lugar</label>
+          <input type="text" class="form-control form-control-sm" [ngModel]="nuevaReunion.lugar" name="lugar"/>
+        </div>
+        <div class="form-group col-sm-4">
+          <label>Serie</label>
+          <select class="form-control form-control-sm" required [ngModel]="nuevaReunion.reunion" name="reunion" #reunion="ngModel" [ngClass]="{'is-invalid': reunion.invalid}">
+            <option *ngFor="let p of series" [value]="p._id">{{p.nombre}}</option>
+          </select>
+          <div *ngIf="reunion.invalid" class="invalid-feedback">
+            <div *ngIf="reunion.errors?.required">Campo obligatorio</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-sm-2">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </form>
+</div>

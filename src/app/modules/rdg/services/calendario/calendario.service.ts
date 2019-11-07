@@ -26,7 +26,7 @@ export class CalendarioService {
   
 
   guardarNuevaReunion(reunion):Observable<{}>{
-    return this.http.post<{}>(this.baseUrl + '/nuevaReunion', reunion);
+    return this.http.post<{}>(this.baseUrl + '/reuniones', reunion);
   }
 
   actualizarReunion(reunion):Observable<{}>{

@@ -8,6 +8,8 @@ import { Reunion } from '../../models/reunion';
 import { Router} from "@angular/router"
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ModalDetalleReunionComponent } from '../modals/modal-detalle-reunion/modal-detalle-reunion.component';
+import { ModalCrearReunionComponent } from '../modals/modal-crear-reunion/modal-crear-reunion.component';
+import * as moment from 'moment';
 
 declare var $:any;
 
@@ -23,8 +25,8 @@ export class CalendarioComponent implements OnInit {
   series;
   @Input() calendar;
   altoDePantalla: any;
-  reunion = {} as Reunion;
-  nuevaReunion = {} as Reunion;
+  reunion = new Reunion({});
+  nuevaReunion = new Reunion({});
   tiposReunion = [];
   cargando = true;
   bsModalRef: BsModalRef;
@@ -71,7 +73,6 @@ export class CalendarioComponent implements OnInit {
       customButtons: {
         reservaButton: {
           text: 'Reserva',
-          
           click: function() {
             alert('clicked the custom button!');
           }
@@ -115,21 +116,41 @@ export class CalendarioComponent implements OnInit {
         minute: '2-digit',
         meridiem: 'short'
       },
-      dateClick(event) {
+      dateClick: (event) => {
         var dia = new Date(event.date);
-        var milliseconds = dia.getTime(); 
-        var millisecondsEnd = dia.setMinutes(dia.getMinutes() + 30 );
-        nuevaReunion.titulo = (event.date);
-        nuevaReunion.desdeDate = milliseconds;
-        nuevaReunion.hastaDate = millisecondsEnd;
-        nuevaReunion.reunion = "";
-        $('#modalNuevaReunion').modal({show:true});
+
+        nuevaReunion = {
+          fecha: dia,
+          desdeDate: dia,
+          hastaDate: new Date(dia.getTime() + 1800000),
+          desdeHora: dia,
+          hastaHora: dia
+        }
+
+        const initialState = {nuevaReunion};
+        this.bsModalRef = this.modalService.show(ModalCrearReunionComponent, {initialState, class: 'modal-lg'});
+        this.bsModalRef.content.action.subscribe((status) => {
+          if(status) this.actualizarCalendario();
+        });
       },
       eventClick: (event) => {
-        reunion.titulo = event.event.title
-        reunion.start = event.event.start
-        reunion.end = event.event.end
+        reunion = {
+          _id: event.event.extendedProps._id,
+          titulo: event.event.extendedProps.title,
+          fecha: event.event.extendedProps.fecha,
+          reunion: event.event.extendedProps.reunion,
+          desdeDate: new Date(event.event.extendedProps.desdeDate),
+          hastaDate: new Date(event.event.extendedProps.hastaDate),
+          desdeHora: new Date(event.event.extendedProps.desdeDate),
+          hastaHora: new Date(event.event.extendedProps.hastaDate)
+        }
         
+        // reunion.titulo = event.event.title
+        // reunion.start = event.event.start
+        // reunion.end = event.event.end
+        // reunion.desdeDate = event.event.extendedProps.desdeDate
+        // reunion.hastaDate = event.event.extendedProps.hastaDate
+
         const initialState = {reunion};
         this.bsModalRef = this.modalService.show(ModalDetalleReunionComponent, {initialState, class: 'modal-lg'});
         this.bsModalRef.content.action.subscribe((status) => {

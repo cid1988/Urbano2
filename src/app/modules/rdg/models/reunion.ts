@@ -3,16 +3,17 @@ export class Reunion {
   start: String;
   end: String;
   color: String;
-  desdeDate: Number;
-  hastaDate: Number;
-  desdeHora: String;
-  hastaHora: String;
+  desdeDate: number;
+  hastaDate: number;
+  desdeHora: string;
+  hastaHora: string;
   title: String;
   usuarioCreacion: String;
   reunion: Object;
   lugar: String;
   tipo: String;
   titulo: String;
+  fechaCreacion: String;
 
   constructor(reunion){
     {
@@ -28,6 +29,7 @@ export class Reunion {
       this.lugar = reunion.lugar || "";
       this.tipo = reunion.tipo || "";
       this.titulo = reunion.titulo || "";
+      this.fechaCreacion = reunion.fechaCreacion || "";
     }
   }
 }
