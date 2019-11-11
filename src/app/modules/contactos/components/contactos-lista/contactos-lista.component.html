@@ -1,0 +1,7 @@
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let r of arrayContactos">{{contactoPorId(r)}}
+    <span *ngIf="editando" class="float-right" style="margin-right: 10px;" (click)="quitar(r,arrayContactos)">
+      <i class="fa fa-remove" style="cursor: pointer;"></i>
+    </span>
+  </li>
+</ul>

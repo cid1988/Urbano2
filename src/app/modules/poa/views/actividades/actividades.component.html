@@ -220,13 +220,19 @@
                     <div class="card-body">
                       <div class="form-group">
                         <select class="form-control" (change)="agregarResponsable(responsableSeleccionado)" [(ngModel)]="responsableSeleccionado" name="responsableSeleccionado" [hidden]="!editando">
-                          <option *ngFor="let c of contactos" [ngValue]="c">{{c.nombre}} {{c.apellidos}}</option>
+                          <option *ngFor="let c of contactosSimple" [ngValue]="c">{{c.nombre}} {{c.apellidos}}</option>
                         </select>
                       </div>
+                      <contactos-lista [arrayContactos]="proyecto.responsables" [editando]="editando"></contactos-lista>
                       <div class="form-group">
-                        <ul class="list-group">
-                          <li class="list-group-item" *ngFor="let r of proyecto.responsables">{{responsablePorId(r)}}</li>
-                        </ul>
+                        
+                        <!-- <ul class="list-group">
+                          <li class="list-group-item" *ngFor="let r of proyecto.responsables">{{responsablePorId(r)}}
+                            <span *ngIf="editando" style="margin-right: 10px;" (click)="quitar(r,'para')">
+                              <i class="fa fa-remove" style="cursor: pointer;"></i>
+                            </span>
+                          </li>
+                        </ul> -->
                       </div>
                     </div>
                   </div>

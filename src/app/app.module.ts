@@ -14,8 +14,6 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 import { OrganigramaModule } from './modules/organigrama/organigrama.module';
 import { ContactosModule } from './modules/contactos/contactos.module';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -19,6 +19,7 @@ import { ModalCrearEtapaComponent } from './components/modals/modal-crear-etapa/
 import { ModalCrearProyectoComponent } from './components/modals/modal-crear-proyecto/modal-crear-proyecto.component';
 import { ModalCrearActividadComponent } from './components/modals/modal-crear-actividad/modal-crear-actividad.component';
 import { GuardsGuard } from 'src/app/shared-modules/guards/guards.guard';
+import { ContactosModule } from '../contactos/contactos.module';
 
 const poaRoutes: Routes = [
   {path:'poa',component:ProyectosComponent, canActivate:[GuardsGuard]},
@@ -32,6 +33,7 @@ const poaRoutes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    ContactosModule,
     BrowserAnimationsModule,
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),

@@ -6,6 +6,7 @@ import { Proyecto } from '../../models/proyecto';
 import { ComunasService } from 'src/app/shared-modules/login/services/comunas/comunas.service';
 import { OrganigramaService } from 'src/app/modules/organigrama/services/organigrama.service';
 import * as moment from 'moment';
+import { ContactosService } from 'src/app/modules/contactos/services/contactos.service';
 
 @Component({
   selector: 'actividades',
@@ -28,7 +29,7 @@ export class ActividadesComponent implements OnInit {
   responsableSeleccionado = {};
   compromisosGobierno;
   objetivosImpacto;
-  contactos;
+  contactosSimple;
   areas;
   areaSeleccionada;
   dependencias;
@@ -77,7 +78,7 @@ export class ActividadesComponent implements OnInit {
     nombre: "Sin priorizar"
   }];
 
-  constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService, private comunasService: ComunasService, private organigramaService: OrganigramaService) {
+  constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService, private comunasService: ComunasService, private organigramaService: OrganigramaService, private contactosService: ContactosService) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe((proyecto: Proyecto) =>{
         this.proyecto = proyecto;
@@ -151,12 +152,12 @@ export class ActividadesComponent implements OnInit {
     }
   }
 
-  responsablePorId(idResponsable){
-    if(!this.contactos) return;
-    for (let i = 0; i < this.contactos.length; i++) {
-      const contacto = this.contactos[i];
+  responsablePorId(idResponsable){//Esto deberia hacerse de otra forma
+    if(!this.contactosSimple) return;
+    for (let i = 0; i < this.contactosSimple.length; i++) {
+      const contacto = this.contactosSimple[i];
       if(contacto._id == idResponsable){
-        return contacto.nombre;
+        return contacto.apellidos + ", " + contacto.nombre;
       }
     }
   }
@@ -167,16 +168,6 @@ export class ActividadesComponent implements OnInit {
       const area = this.areas[i];
       if(area._id == idArea){
         return area.nombre;
-      }
-    }
-  }
-
-  contactoPorId(idContacto){
-    if(!this.contactos) return;
-    for (let i = 0; i < this.contactos.length; i++) {
-      const contacto = this.contactos[i];
-      if(contacto._id == idContacto){
-        return contacto;
       }
     }
   }
