@@ -3,42 +3,39 @@
   <div class="row">
     <div class="col-12">
       <div class="card" style="margin-bottom: 20px">
-        <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
-          <h4>{{proyecto.nombre}}
-            <button type="button" class="btn btn-outline-light float-right" style="margin-left: 5px" routerLink="../.."><i class="fa fa-arrow-left"></i> Volver</button>
-            <button type="button" class="btn btn-outline-light float-right" data-toggle="collapse" [hidden]="isCollapsed" href="#collapseExample" (click)="(!isCollapsed) ? isCollapsed = true : isCollapsed = false"><i class="fa fa-arrow-down"></i></button>
-            <button type="button" class="btn btn-outline-light float-right" data-toggle="collapse" [hidden]="!isCollapsed" href="#collapseExample" (click)="(!isCollapsed) ? isCollapsed = true : isCollapsed = false"><i class="fa fa-arrow-up"></i></button>
-            <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!isCollapsed" [style.display]="editando ? 'none': 'inherit'" (click)="editando = true"><i class="fa fa-edit"></i> Editar</button>
-            <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="guardarProyecto()"><i class="fa fa-save"></i> Guardar</button>
-            <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false"><i class="fa fa-edit"></i> Cancelar</button>
-          </h4>
-          <small>{{proyecto.anio}} - {{proyecto.idJurisdiccion}}</small>
-        </div>
-        <div class="card-body">
-          <div class="collapse" id="collapseExample">
-            <form (ngSubmit)="guardarProyecto()" #proyectoForm="ngForm" novalidate="">
+        <form (ngSubmit)="proyectoForm.form.valid && guardarProyecto()" #proyectoForm="ngForm">
+          <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
+            <h4>{{proyecto.nombre}}
+              <button type="button" class="btn btn-outline-light float-right" style="margin-left: 5px" routerLink="../.."><i class="fa fa-arrow-left"></i> Volver</button>
+              <button type="button" class="btn btn-outline-light float-right" data-toggle="collapse" [hidden]="isCollapsed" href="#collapseExample" (click)="(!isCollapsed) ? isCollapsed = true : isCollapsed = false"><i class="fa fa-arrow-down"></i></button>
+              <button type="button" class="btn btn-outline-light float-right" data-toggle="collapse" [hidden]="!isCollapsed" href="#collapseExample" (click)="(!isCollapsed) ? isCollapsed = true : isCollapsed = false"><i class="fa fa-arrow-up"></i></button>
+              <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!isCollapsed" [style.display]="editando ? 'none': 'inherit'" (click)="editando = true"><i class="fa fa-edit"></i> Editar</button>
+              <button type="submit" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando"><i class="fa fa-save"></i> Guardar</button>
+              <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false"><i class="fa fa-edit"></i> Cancelar</button>
+            </h4>
+            <small>{{proyecto.anio}} - {{proyecto.idJurisdiccion}}</small>
+          </div>
+          <div class="card-body">
+            <div class="collapse" id="collapseExample">
               <div class="form-row">
-                <div class="col-4">
-                  <div class="form-group">
-                    <label>Nombre</label>
-                    <input type="text" class="form-control" placeholder="" [disabled]="!editando" [(ngModel)]="proyecto.nombre" name="nombre" #nombre="ngModel">
+                <div class="form-group col-4">
+                  <label>Nombre</label>
+                  <input type="text" class="form-control" required [disabled]="!editando" [(ngModel)]="proyecto.nombre" name="nombre" #nombre="ngModel" [ngClass]="{'is-invalid': nombre.invalid}">
+                  <div *ngIf="nombre.invalid" class="invalid-feedback">
+                    <div *ngIf="nombre.errors.required">Campo obligatorio</div>
                   </div>
                 </div>
-                <div class="col-1">
-                  <div class="form-group">
-                    <label>Codigo identif.</label>
-                    <input type="text" class="form-control" placeholder="" [disabled]="!editando" [(ngModel)]="proyecto.codIdentificacion" name="codIdentificacion" #codIdentificacion="ngModel">
-                  </div>
+                <div class="form-group col-1">
+                  <label>Codigo identif.</label>
+                  <input type="text" class="form-control" [disabled]="!editando" [(ngModel)]="proyecto.codIdentificacion" name="codIdentificacion" #codIdentificacion="ngModel">
                 </div>
-                <div class="col-2">
-                  <div class="form-group">
-                    <label>Subproyecto de</label>
-                    <select class="form-control" [(ngModel)]="proyecto.proyectoPadre" name="proyectoPadre" #proyectoPadre="ngModel" [disabled]="!editando">
-                      <option *ngFor="let p of proyectosPadre" [ngValue]="p._id">{{p.nombre}}</option>
-                    </select>
-                  </div>
+                <div class="form-group col-2">
+                  <label>Subproyecto de</label>
+                  <select class="form-control" [(ngModel)]="proyecto.proyectoPadre" name="proyectoPadre" #proyectoPadre="ngModel" [disabled]="!editando">
+                    <option *ngFor="let p of proyectosPadre" [ngValue]="p._id">{{p.nombre}}</option>
+                  </select>
                 </div>
-                <div class="col-2">
+                <div class="form-group col-2">
                   <label for="">Plan anterior</label>
                   <div class="input-group">
                     <input type="text" class="form-control" placeholder="codigo" [(ngModel)]="proyecto.codPlanAnterior" name="codPlanAnterior" #codPlanAnterior="ngModel" [disabled]="!editando">
@@ -52,7 +49,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-3">
+                <div class="form-group col-3">
                   <label for="">&nbsp;</label>
                   <div class="form-row">
                     <button type="button" class="col-3" style="margin-right: 5px" [ngClass]="(proyecto.proyectoInversion) ? 'btn btn-success': 'btn btn-outline-success'" ngDefaultControl [disabled]="!editando" (click)="(proyecto.proyectoInversion) ? proyecto.proyectoInversion = false : proyecto.proyectoInversion = true" [(ngModel)]="proyecto.proyectoInversion" name="proyectoInversion" #proyectoInversion="ngModel">Inversion</button>
@@ -62,55 +59,47 @@
                   </div>
                 </div>
               </div>
-              
+                
               <div class="form-row">
-                <div class="col-3">
-                  <div class="form-group">
-                    <label>Dependencia</label>
-                    <select class="form-control" [(ngModel)]="proyecto.dependencia" name="dependencia" #dependencia="ngModel" [disabled]="!editando">
-                      <option *ngFor="let d of dependencias" [ngValue]="d._id">{{d.nombreCompleto}}</option>
-                    </select>
-                  </div>
+                <div class="form-group col-4">
+                  <label>Dependencia</label>
+                  <select class="form-control" [(ngModel)]="proyecto.dependencia" name="dependencia" #dependencia="ngModel" [disabled]="!editando">
+                    <option *ngFor="let d of dependencias" [ngValue]="d._id">{{d.nombreCompleto}}</option>
+                  </select>
                 </div>
-                <div class="col-2">
-                  <div class="form-group">
-                    <label>Contratista</label>
-                    <input type="text" class="form-control" placeholder="" [disabled]="!editando" [(ngModel)]="proyecto.contratista" name="contratista" #contratista="ngModel">
-                  </div>
+                <div class="form-group col-2">
+                  <label>Contratista</label>
+                  <input type="text" class="form-control" placeholder="" [disabled]="!editando" [(ngModel)]="proyecto.contratista" name="contratista" #contratista="ngModel">
                 </div>
-                <div class="col-3">
-                  <div class="form-group">
-                    <label>Compromiso</label>
-                    <select class="form-control" [(ngModel)]="proyecto.compromisoG" name="compromisoG" #compromisoG="ngModel" [disabled]="!editando">
-                      <option *ngFor="let c of compromisosGobierno" [ngValue]="c._id">{{c.nombre}}</option>
-                    </select>
-                  </div>
+                <div class="form-group col-3">
+                  <label>Compromiso</label>
+                  <select class="form-control" [(ngModel)]="proyecto.compromisoG" name="compromisoG" #compromisoG="ngModel" [disabled]="!editando">
+                    <option *ngFor="let c of compromisosGobierno" [ngValue]="c._id">{{c.nombre}}</option>
+                  </select>
                 </div>
-                <div class="col-3">
-                  <div class="form-group">
-                    <label>Objetivo de impacto</label>
-                    <select class="form-control" [(ngModel)]="proyecto.idObjImpacto" name="idObjImpacto" #idObjImpacto="ngModel" [disabled]="!editando">
-                      <option *ngFor="let o of objetivosImpacto" [ngValue]="o._id">{{o.nombre}}</option>
-                    </select>
-                  </div>
+                <div class="form-group col-3">
+                  <label>Objetivo de impacto</label>
+                  <select class="form-control" [(ngModel)]="proyecto.idObjImpacto" name="idObjImpacto" #idObjImpacto="ngModel" [disabled]="!editando">
+                    <option *ngFor="let o of objetivosImpacto" [ngValue]="o._id">{{o.nombre}}</option>
+                  </select>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-2">
                   <label>Meta cuantificacion</label>
-                  <input type="text" class="form-control" placeholder="" [disabled]="!editando" [(ngModel)]="proyecto.metaCuantificacion" name="metaCuantificacion" #metaCuantificacion="ngModel">
+                  <input type="text" class="form-control" [disabled]="!editando" [(ngModel)]="proyecto.metaCuantificacion" name="metaCuantificacion" #metaCuantificacion="ngModel">
                 </div>
                 <div class="form-group col-10">
                   <label>Meta producto</label>
-                  <textarea type="text" class="form-control" [disabled]="!editando" placeholder="" [(ngModel)]="proyecto.metaProducto" name="metaProducto" #metaProducto="ngModel"></textarea>
+                  <textarea type="text" class="form-control" [disabled]="!editando" [(ngModel)]="proyecto.metaProducto" name="metaProducto" #metaProducto="ngModel"></textarea>
                 </div>
               </div>
               
               <div class="form-row">
                 <div class="form-group col-12">
                   <label>Descripcion</label>
-                  <textarea type="text" class="form-control" [disabled]="!editando" placeholder="" [(ngModel)]="proyecto.descripcion" name="descripcion" #descripcion="ngModel"></textarea>
+                  <textarea type="text" class="form-control" rows="5" [disabled]="!editando" [(ngModel)]="proyecto.descripcion" name="descripcion" #descripcion="ngModel"></textarea>
                 </div>
               </div>
 
@@ -224,16 +213,6 @@
                         </select>
                       </div>
                       <contactos-lista [arrayContactos]="proyecto.responsables" [editando]="editando"></contactos-lista>
-                      <div class="form-group">
-                        
-                        <!-- <ul class="list-group">
-                          <li class="list-group-item" *ngFor="let r of proyecto.responsables">{{responsablePorId(r)}}
-                            <span *ngIf="editando" style="margin-right: 10px;" (click)="quitar(r,'para')">
-                              <i class="fa fa-remove" style="cursor: pointer;"></i>
-                            </span>
-                          </li>
-                        </ul> -->
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -257,9 +236,9 @@
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>

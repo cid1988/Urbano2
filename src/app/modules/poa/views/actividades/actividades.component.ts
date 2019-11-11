@@ -113,6 +113,9 @@ export class ActividadesComponent implements OnInit {
       this.proyectosService.getAreas().subscribe(areas =>{
         this.areas = areas;
       });
+      this.contactosService.getContactosSimple().subscribe(contactosSimple =>{
+        this.contactosSimple = contactosSimple;
+      });
     });
   }
 
