@@ -5,9 +5,6 @@ import { Cita } from "../../models/cita"
 import * as moment from 'moment'
 import { ContactosService } from 'src/app/modules/contactos/services/contactos.service';
 import { Contacto } from 'src/app/modules/contactos/models/contacto';
-import { Subscriber } from 'rxjs';
-
-
 
 @Component({
   selector: 'app-citas',
@@ -165,5 +162,16 @@ export class CitasComponent implements OnInit {
         return this.contactos[index].nombreCompleto
       }
     }
+  }
+
+  getHora(dato){
+    if(dato){
+      return moment(dato).format("HH:mm")
+    } else return ''
+  }
+  getFecha(dato){
+    if(dato){
+      return moment(dato).locale('es').format('DD/MM/YYYY')
+    } else return ''
   }
 }

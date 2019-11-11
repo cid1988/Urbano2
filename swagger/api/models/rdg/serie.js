@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const serieSchema = new Schema({
+  _id: { type: Schema.ObjectId, auto: true },
   cita:{
       para:[Object],
       cc:[Object],

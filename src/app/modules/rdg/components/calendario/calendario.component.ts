@@ -134,9 +134,11 @@ export class CalendarioComponent implements OnInit {
         });
       },
       eventClick: (event) => {
+        console.log(event)
         reunion = {
+
           _id: event.event.extendedProps._id,
-          titulo: event.event.extendedProps.title,
+          _serie: event.event.extendedProps._serie,
           fecha: event.event.extendedProps.fecha,
           reunion: event.event.extendedProps.reunion,
           desdeDate: new Date(event.event.extendedProps.desdeDate),

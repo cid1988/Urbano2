@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Reunion } from '../../models/reunion';
 import { environment } from '../../../../../environments/environment';
 import { Cita } from '../../models/cita';
+import { Minuta } from '../../models/minuta';
 
 @Injectable({
   providedIn: 'root'
@@ -55,11 +56,16 @@ export class CalendarioService {
 
   //Citas
 
-  getCita(id):Observable<Cita>{
+  getCita(id):Observable<{}>{
     return this.http.get<Cita>(this.baseUrl + '/citas/'+id);
   }
   listarMailCita(id):Observable<{}>{
     const data={idInstancia:id}
     return this.http.post<{}>(this.baseUrl + '/citas/listarCorreos', data);
+  }
+  //Minutas
+
+  getMinutaPorIdReunion(id):Observable<{}>{
+    return this.http.get<Minuta>(this.baseUrl + '/minutaPorReunion/'+ id);
   }
 }
