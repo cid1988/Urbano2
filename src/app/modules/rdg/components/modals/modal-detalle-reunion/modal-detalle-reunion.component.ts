@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
 import { CalendarioService } from '../../../services/calendario/calendario.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-modal-detalle-reunion',
@@ -14,7 +15,7 @@ export class ModalDetalleReunionComponent implements OnInit {
   reunion;
   editando = false;
 
-  constructor(private calendarioService: CalendarioService, public bsModalRef: BsModalRef) { }
+  constructor(private calendarioService: CalendarioService, public bsModalRef: BsModalRef, public router:Router) { }
 
   ngOnInit() {
     
@@ -37,5 +38,13 @@ export class ModalDetalleReunionComponent implements OnInit {
     },error=>{
       console.log(error)
     });
+  }
+  irCita(){
+    this.bsModalRef.hide();
+    this.router.navigateByUrl('/rdg/cita/'+this.reunion._id);
+  }
+  irMinuta(){
+    this.bsModalRef.hide();
+    this.router.navigateByUrl('/rdg/minuta/'+this.reunion._id);
   }
 }

@@ -2,8 +2,14 @@
 const Contacto = require('../models/contacto/contacto');
 
 async function listarContactoPorId(req, res, next){
-    const contacto = await Contacto.findById(req.swagger.params.id.value);
-    res.status(200).json(contacto);
+    try{
+        Contacto.findById(req.swagger.params.id.value).exec(function(err, data){
+            if(err) res.status(403).json(err)
+            else  res.status(200).json(data);
+        });
+    }catch(error){
+        res.status(403).json(error);
+    }
 };
 
 async function listarContactos(req, res, next){

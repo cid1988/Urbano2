@@ -5,6 +5,9 @@
                 <span [ngStyle]="{'border-left-color': color}" style="border-left: solid 10px; opacity: 1.0"></span>
                 {{serie?.nombre}}  
             </h3>
+            <h4> {{getFecha(reunion?.desdeDate)}}
+                <span class="pull-right">{{getHora(reunion?.desdeDate)}} a {{getHora(reunion?.hastaDate)}} </span>
+            </h4>
             <button class="btn btn-success pull-right" style="width: 100%;">{{ultimaActualizacion}}</button>
             <button class="btn btn-outline-primary" style="width: 100%;" (click)='armarCita()'>Cita</button>
             <button class="btn btn-outline-info" style="width: 100%;" (click)='armarModificacion()'>Modificacion</button>

@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const reunionSchema = new Schema({
-    reunion: { type: String, ref: 'Serie' },
+    _id: { type: Schema.ObjectId, auto: true },
+    reunion: { type: String },
     fecha: {type: String},
     desdeHora: { type: String },
     hastaHora: { type: String },
@@ -22,8 +23,20 @@ const reunionSchema = new Schema({
     toJSON: { virtuals: true }
 });
 
+reunionSchema.virtual('_serie', {
+  ref: 'Serie', // The model to use
+  localField: 'reunion', // Find people where `localField`
+  foreignField: '_id', // is equal to `foreignField`
+  // If `justOne` is true, 'members' will be a single doc as opposed to
+  // an array. `justOne` is false by default.
+  justOne: true
+});
+
 reunionSchema.virtual('title').get(function(){
-    return this.reunion.nombre;
+    if(this._serie){
+      return this._serie.nombre;
+    }else return '';
+    
 });
 
 reunionSchema.virtual('start').get(function(){
@@ -35,8 +48,8 @@ reunionSchema.virtual('end').get(function(){
 });
 
 reunionSchema.virtual('color').get(function(){
-    if(!this.reunion.tipo) return "";
-    var data = calcularColor(this.reunion.tipo);
+    if(!this._serie) return "";
+    var data = calcularColor(this._serie.tipo);
     return data;
 });
 

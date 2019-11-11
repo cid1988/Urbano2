@@ -13,20 +13,25 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { CitasComponent } from './views/citas/citas.component';
 import { MailModule } from 'src/app/shared-modules/mail/mail.module';
+import { MinutasComponent } from './views/minutas/minutas.component';
+import { CompromisosComponent } from './components/compromisos/compromisos.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 const rdgRoutes: Routes = [
   {path:'rdg/cita/:id',component:CitasComponent},
+  {path:'rdg/minuta/:id',component:MinutasComponent},
   {path:'rdg/calendario',component:CalendarioComponent}, 
   {path:'rdg/maestros',component:MaestrosComponent}
 ];
 
 @NgModule({
-  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe, MaestrosComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent, CitasComponent],
+  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe, MaestrosComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent, CitasComponent, MinutasComponent, CompromisosComponent],
   imports: [
     CommonModule,
     FormsModule,
     ContactosModule,
     MailModule,
+    EditorModule,
     TimepickerModule.forRoot(),
     BsDatepickerModule.forRoot(),
     RouterModule.forChild(rdgRoutes) 

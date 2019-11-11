@@ -14,7 +14,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 async function getReuniones (req, res, next) {
     try{
         const reuniones = await Reunion.find({})
-        .populate("reunion");
+        .populate("_serie");
         res.json(reuniones);
     }catch(error){
         res.json(error);
@@ -116,7 +116,6 @@ async function getCitaPorId(req, res, next){
     try{
         CitaReunion.findOne({idInstancia:req.swagger.params.id.value}).populate('datosReunion').exec(function(err ,data){
             if(err){
-                console.log(err)
                 res.status(403).json(err);
             }else{
                 res.status(200).json(data);
@@ -149,14 +148,11 @@ async function getDatosCitas(req, res, next){
             }
         }
         query={_id: ObjectId(dato.idInstancia) }
-        console.log(dato.idInstancia)
         const reunion = await traerReunion(query);
         datosCita.datosReunion=reunion;
-
         query={_id: ObjectId(reunion.reunion)}
         const serie = await traerSerie(query,['tipo','cita','nombre'])
         datosCita.datosSerie= serie;
-        
         Array.prototype.push.apply(datosCita.idContactos.para,serie.cita.para); 
         Array.prototype.push.apply(datosCita.idContactos.cc,serie.cita.cc); 
         Array.prototype.push.apply(datosCita.idContactos.cco,serie.cita.cco); 
@@ -175,7 +171,6 @@ async function getDatosCitas(req, res, next){
         }
 
         const maestro = await traerMaestro(query,['cita']);
-
         Array.prototype.push.apply(datosCita.idContactos.para,maestro.cita.para); 
         Array.prototype.push.apply(datosCita.idContactos.cc,maestro.cita.cc); 
         Array.prototype.push.apply(datosCita.idContactos.cco,maestro.cita.cco); 
@@ -184,11 +179,8 @@ async function getDatosCitas(req, res, next){
         datosCita.correos.cc+= await pushinfo(maestro.cita.cc)
         datosCita.correos.cco+= await pushinfo(maestro.cita.cco)
         datosCita.correos.exclusivos+= await pushinfo(maestro.cita.exclusivos)
-
-
         res.status(200).json(datosCita)
     }catch(error){
-        console.log(error)
         res.status(403).json(error);
     }
     
@@ -215,7 +207,6 @@ async function getTemarioPorId(req, res, next){
     try{
         TemarioReunion.findById(req.swagger.params.id.value).exec(function(err ,data){
             if(err || data==null){
-                console.log(err)
                 res.status(403).json(err);
             }else{
                 res.status(200).json(data);
@@ -237,10 +228,25 @@ async function getMinutaPorId(req, res, next){
     try{
         MinutaReunion.findById(req.swagger.params.id.value).exec(function(err ,data){
             if(err || data==null){
-                console.log(err)
                 res.status(403).json(err);
             }else{
                 res.status(200).json(data);
+            }
+        });
+    }catch(error){
+        res.status(403).json(error);
+    }
+    
+};
+async function getMinutaPorReunion(req, res, next){
+    try{
+        MinutaReunion.findOne({instancia:req.swagger.params.id.value}).exec(function(err ,data){
+            if(err ){
+                res.status(403).json(err);
+                console.log(err)
+            }else{
+                res.status(200).json(data);
+                console.log(data)
             }
         });
     }catch(error){
@@ -254,12 +260,36 @@ async function updateMinuta (req, res, next) {
     res.json({status: 'Temario actualizada con exito'});
 };
 
+//Compromisos
+async function getCompromisosPorSerie(req, res, next){
+    try{
+        const minutaConCompromisos=[]
+        MinutaReunion.find({ $where: "this.compromisos.length > 1" }).select(['compromisos','instancia'])
+        .populate('_datosReunion').exec(function(err ,data){
+            if(err){
+                res.status(403).json(err);
+            }else{
+                for (let index = 0; index < data.length; index++) {
+                    if(data[index]._datosReunion.reunion == req.swagger.params.id.value){
+                        minutaConCompromisos.push(data[index])
+                    }
+                }
+                res.status(200).json(minutaConCompromisos);
+            }
+        });
+    }catch(error){
+        console.log(error)
+        res.status(403).json(error);
+    }
+    
+};
+
 
 
 //Funciones 
 
 async function traerReunion(query,seleccion){
-    const data = await Reunion.findOne(query).select(seleccion);
+    const data = await Reunion.findOne(query).select(seleccion).populate('_serie');
     return data
 }
 async function traerSerie(query,seleccion){
@@ -271,8 +301,10 @@ async function traerMaestro(query,seleccion){
     return data
 }
 async function traerContacto(query,seleccion){
-    const data = await Contacto.findOne(query).select(seleccion);
-    return data
+    await Contacto.findOne(query).select(seleccion).exec(function(err,data){
+        if(err) return ''
+        else return data;
+    });
 }
 async function pushinfo(array){
     var lista=''
@@ -308,9 +340,11 @@ module.exports = {
     //Tipo de Reunion
     getTipos,
     //Minuta de Reunion
-    getMinutaPorId,updateMinuta,
+    getMinutaPorId,updateMinuta,getMinutaPorReunion,
     //Temario de Reunion
     getTemarios,getTemarioPorId,updateTemario,
     //Citas de Reunion
-    getCitas,getCitaPorId,getDatosCitas
+    getCitas,getCitaPorId,getDatosCitas,
+    //Compromisos
+    getCompromisosPorSerie
 };

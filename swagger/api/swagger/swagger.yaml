@@ -1631,27 +1631,30 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/Cita'
-            
-  # //////////////////////////////////////////////////////////////////// RDG - MInutas
-  /rdg/minutas:
+  # //////////////////////////////////////////////////////////////////// RDG - Compromisos
+  /rdg/comoromisoPorSerie/{id}:
     x-swagger-router-controller: rdg
     get:
-      summary: Trae minuta de una reunion de RDG
-      operationId: getMinutas
+      summary: Trae los compromisos correspondiente a una serie de reunion
+      operationId: getCompromisosPorSerie
       parameters:
-        - in: query
-          name: instancia
+        - in: path
+          name: id
           type: string
-          required: false
+          required: true
       tags:
-        - RDG - Minutas
+        - RDG - Compromisos
       responses: 
         200:
           description: OK
           schema:
             type: array
             items:
-              $ref: '#/definitions/Minuta'
+              $ref: '#/definitions/Cita'
+            
+  # //////////////////////////////////////////////////////////////////// RDG - MInutas
+  /rdg/minutas:
+    x-swagger-router-controller: rdg
     post:
       summary: Guarda una nueva minuta de reunion de RDG
       tags: 
@@ -1700,6 +1703,25 @@ paths:
         - name: id 
           in: path
           description: ID de la minuta
+          type: string
+          required: true 
+      tags:
+        - RDG - Minutas
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Minuta'
+            
+  /rdg/minutaPorReunion/{id}:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trear una minuta de reunion de RDG por ID
+      operationId: getMinutaPorReunion
+      parameters:
+        - name: id 
+          in: path
+          description: ID de la Reunion
           type: string
           required: true 
       tags:

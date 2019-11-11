@@ -3,7 +3,7 @@ export class Cita {
     cc: String;
     cco: String;
     exclusivos: String;
-    usuario: Number;
+    usuario: String;
     asunto: String;
     mensajeHtml: String;
     idInstancia: String;
