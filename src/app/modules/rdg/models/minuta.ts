@@ -14,8 +14,10 @@ export class Minuta {
         asunto:String;
         mensajeHtml:String;
     }
+    _id: String;
   
     constructor(minuta){
+        this._id = minuta._id || "";
         this.instancia = minuta.instancia || "";
         this.compromisos = minuta.compromisos || [];
         this.html = minuta.html || "";

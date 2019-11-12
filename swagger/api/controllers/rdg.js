@@ -21,7 +21,7 @@ async function getReuniones (req, res, next) {
     }
 };
 async function getReunionPorId(req, res, next){
-    const reunion = await Reunion.findById(req.swagger.params.id.value);
+    const reunion = await Reunion.findById(req.swagger.params.id.value).populate("_serie");;
     res.status(200).json(reunion);
 };
 async function createReunion (req, res, next) {
@@ -259,6 +259,11 @@ async function updateMinuta (req, res, next) {
     await MinutaReunion.findByIdAndUpdate(req.swagger.params.id.value, {$set: minuta}, {new: false});
     res.json({status: 'Temario actualizada con exito'});
 };
+async function createMinuta (req, res, next) {
+    const minuta = new MinutaReunion(req.swagger.params.body.value);
+    await minuta.save();
+    res.json({status: 'Temario actualizada con exito'});
+};
 
 //Compromisos
 async function getCompromisosPorSerie(req, res, next){
@@ -269,6 +274,7 @@ async function getCompromisosPorSerie(req, res, next){
             if(err){
                 res.status(403).json(err);
             }else{
+                console.log(data.length)
                 for (let index = 0; index < data.length; index++) {
                     if(data[index]._datosReunion.reunion == req.swagger.params.id.value){
                         minutaConCompromisos.push(data[index])
@@ -340,7 +346,7 @@ module.exports = {
     //Tipo de Reunion
     getTipos,
     //Minuta de Reunion
-    getMinutaPorId,updateMinuta,getMinutaPorReunion,
+    getMinutaPorId,getMinutaPorReunion,updateMinuta,createMinuta,
     //Temario de Reunion
     getTemarios,getTemarioPorId,updateTemario,
     //Citas de Reunion
