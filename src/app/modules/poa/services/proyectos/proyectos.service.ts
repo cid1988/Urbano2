@@ -60,4 +60,12 @@ export class ProyectosService {
   getCompromisosGobierno():Observable<[]>{
     return this.http.get<[]>(this.baseUrl + '/poa/compromisosGobierno');
   }
+
+  getPoaGrupos():Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/poa/grupos');
+  }
+  
+  getPrioridadesMinisteriales():Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/poa/prioridadesMinisteriales');
+  }
 }

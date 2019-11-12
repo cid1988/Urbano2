@@ -9,4 +9,4 @@ const prioridadMinisterialSchema = new Schema({
     toJSON: { virtuals: true },
 });
 
-module.exports = mongoose.model('PrioridadMinisterial', prioridadMinisterialSchema, 'poa.prioridadMinisterial');
+module.exports = mongoose.model('PrioridadMinisterial', prioridadMinisterialSchema, 'poa.prioridadesMinisteriales');

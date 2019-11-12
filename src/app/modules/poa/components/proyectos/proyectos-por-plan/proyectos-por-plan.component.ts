@@ -21,6 +21,7 @@ export class ProyectosPorPlanComponent implements OnInit {
   @Input() searchFilter = "";
   nuevoProyecto = <Proyecto>{};
   proyectosPadre = [];
+  filtroProyecto = "";
   bsModalRef: BsModalRef;
 
   constructor(private proyectosService: ProyectosService, private modalService: BsModalService) {}
@@ -32,6 +33,7 @@ export class ProyectosPorPlanComponent implements OnInit {
   getProyectos(plan,area){
     this.proyectos = [];this.proyectosPadre = [];
     this.proyectosService.proyectosPorPlan(plan._id,area._id).subscribe((proyectos: any[]) =>{
+      if(!proyectos) return;
       for (let p = 0; p < proyectos.length; p++) {
         let proyecto = proyectos[p];
         // Armar los proyectos hijos del proyecto
@@ -48,22 +50,6 @@ export class ProyectosPorPlanComponent implements OnInit {
     })
   }
 
-  // crearProyecto(confirmado, nuevoProyecto){
-  //   if(confirmado){
-  //     nuevoProyecto.idPlan = this.plan._id;
-  //     nuevoProyecto.anio = this.plan.anio;
-  //     nuevoProyecto.idJurisdiccion = this.area._id;
-
-  //     this.proyectosService.crearProyecto(nuevoProyecto).subscribe(data =>{
-  //       this.getProyectos(this.plan,this.area);
-  //       this.nuevoProyecto = {} as Proyecto;
-  //       $('#modalCrearProyecto').modal('hide');
-  //     })
-  //   }else{
-  //     $('#modalCrearProyecto').modal('show');
-  //   }
-  // }
-
   crearProyecto() {
     const initialState = {proyecto: new Proyecto({
       idPlan: this.plan._id,
@@ -74,5 +60,9 @@ export class ProyectosPorPlanComponent implements OnInit {
     this.bsModalRef.content.action.subscribe((status) => {
       if(status) this.getProyectos(this.plan,this.area);
     });
+  }
+  
+  filtroProyectos(searchFilter){
+    this.searchFilter = searchFilter;
   }
 }

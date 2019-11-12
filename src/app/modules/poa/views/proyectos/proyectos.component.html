@@ -10,9 +10,6 @@
         <option *ngFor="let a of areas" [ngValue]="a">{{a.nombre}}</option>
       </select>
     </div>
-    <div class="col-md-2">
-      <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchFilter" (ngModelChange)="filtroProyectos($event)">
-    </div>
     <div class="col-2">
       <a type="btn" class="btn btn-outline-primary" routerLink="/poa/plan/crear">Crear plan</a><!--El boton deberia mostrarse solo si no existe un plan creado en el ano vigente -->
       <button routerLink=".." class="btn btn-outline-primary float-right"><i class="fa fa-arrow-left"></i> Volver</button>

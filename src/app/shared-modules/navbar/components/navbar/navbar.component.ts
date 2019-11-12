@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
     })
     if(this.autenticacion.estaLogeado()){
       this.logeado= true;
-      this.usuario = this.autenticacion.getUsuarioLogeado()
+      this.usuario = this.autenticacion.getUsuarioLogeado();
     }else this.logeado= false;
   }
   

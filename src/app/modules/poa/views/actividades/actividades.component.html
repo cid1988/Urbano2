@@ -114,7 +114,7 @@
                         <div class="form-group col-3">
                           <label>Prioridad ministerial</label>
                           <select class="form-control" [(ngModel)]="proyecto.prioridadMinisterial" name="prioridadMinisterial" #prioridadMinisterial="ngModel" [disabled]="!editando">
-                            <option *ngFor="let p of prioridadesMinisteriales" [ngValue]="p._id">{{p.nombre}}</option>
+                            <option *ngFor="let p of prioridadesMinisteriales" [ngValue]="p.nombre">{{p.nombre}}</option>
                           </select>
                         </div>
                         <div class="form-group col-3">
@@ -134,7 +134,7 @@
                         <div class="form-group col-3">
                           <label>Prioridad jefatura</label>
                           <select class="form-control" [(ngModel)]="proyecto.prioridadJefatura" name="prioridadJefatura" #prioridadJefatura="ngModel" [disabled]="!editando">
-                            <option *ngFor="let p of prioridadesMinisteriales" [ngValue]="p._id">{{p.nombre}}</option>
+                            <option *ngFor="let p of prioridadesMinisteriales" [ngValue]="p.nombre">{{p.nombre}}</option>
                           </select>
                         </div>
                         <div class="form-group col-3">
@@ -172,7 +172,7 @@
                         <div class="form-group col-6">
                           <label>Grupo</label>
                           <select class="form-control" [(ngModel)]="proyecto.grupo" name="grupo" #grupo="ngModel" [disabled]="!editando">
-                            <option *ngFor="let g of grupos" [ngValue]="g._id">{{g.nombre}}</option>
+                            <option *ngFor="let g of grupos" [ngValue]="g.nombre">{{g.nombre}}</option>
                           </select>
                         </div>
                       </div>

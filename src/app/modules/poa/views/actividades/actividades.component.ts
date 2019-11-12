@@ -20,7 +20,6 @@ export class ActividadesComponent implements OnInit {
   proyecto = new Proyecto({});
   proyectos: Proyecto[];
   editando = false;
-  // proyectoForm = {};
   proyectosPadre = [];
   area;
   etapa;
@@ -33,51 +32,9 @@ export class ActividadesComponent implements OnInit {
   areas;
   areaSeleccionada;
   dependencias;
+  grupos;
+  prioridadesMinisteriales;
   
-  //Pasar a una coleccion
-  grupos = [{
-    _id: "",
-    nombre: "OBRAS HIDRÁULICAS",
-  },{
-    _id: "",
-    nombre: "OBRAS DE INFRAESTRUCTURA URBANA",
-  },{
-    _id: "",
-    nombre: "OBRAS DE REGENERACION URBANA",
-  },{
-    _id: "",
-    nombre: "GRANDES OBRAS",
-  },{
-    _id: "",
-    nombre: "OBRAS DE SUBTE",
-  },{
-    _id: "",
-    nombre: "OBRAS DE CULTURA",
-  },{
-    _id: "",
-    nombre: "OBRAS DE EDUCACIÓN",
-  }];
-
-  prioridadesMinisteriales = [{
-    _id: "",
-    nombre: "A+"
-  },{
-    _id: "",
-    nombre: "A"
-  },{
-    _id: "",
-    nombre: "B"
-  },{
-    _id: "",
-    nombre: "C"
-  },{
-    _id: "",
-    nombre: "No prioritario"
-  },{
-    _id: "",
-    nombre: "Sin priorizar"
-  }];
-
   constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService, private comunasService: ComunasService, private organigramaService: OrganigramaService, private contactosService: ContactosService) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe((proyecto: Proyecto) =>{
@@ -115,6 +72,12 @@ export class ActividadesComponent implements OnInit {
       });
       this.contactosService.getContactosSimple().subscribe(contactosSimple =>{
         this.contactosSimple = contactosSimple;
+      });
+      this.proyectosService.getPoaGrupos().subscribe(poaGrupos =>{
+        this.grupos = poaGrupos;
+      });
+      this.proyectosService.getPrioridadesMinisteriales().subscribe(prioridadesMinisteriales =>{
+        this.prioridadesMinisteriales = prioridadesMinisteriales;
       });
     });
   }
