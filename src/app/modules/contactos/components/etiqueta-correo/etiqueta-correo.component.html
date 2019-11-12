@@ -1,6 +1,6 @@
-<span class="badge badge-pill badge-warning" tooltip="{{correo}}" *ngIf='correo' placement="auto">
+<span class="badge badge-pill badge-warning" tooltip="{{correo}}" *ngIf='correo' placement="auto" style="cursor: pointer;">
     {{contacto?.nombreCompleto}} 
 </span>
-<span class="badge badge-pill badge-danger" tooltip="No tiene correo asignado" *ngIf='!correo' placement="auto">
+<span class="badge badge-pill badge-danger" tooltip="No tiene correo asignado" *ngIf='!correo' placement="auto" style="cursor: pointer;">
     {{contacto?.nombreCompleto}} 
 </span>

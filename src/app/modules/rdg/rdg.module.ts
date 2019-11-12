@@ -16,6 +16,7 @@ import { MailModule } from 'src/app/shared-modules/mail/mail.module';
 import { MinutasComponent } from './views/minutas/minutas.component';
 import { CompromisosComponent } from './components/compromisos/compromisos.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { ModalCompromisoComponent } from './components/modals/modal-compromiso/modal-compromiso.component';
 
 const rdgRoutes: Routes = [
   {path:'rdg/cita/:id',component:CitasComponent},
@@ -25,7 +26,7 @@ const rdgRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe, MaestrosComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent, CitasComponent, MinutasComponent, CompromisosComponent],
+  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe, MaestrosComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent, CitasComponent, MinutasComponent, CompromisosComponent, ModalCompromisoComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -36,7 +37,7 @@ const rdgRoutes: Routes = [
     BsDatepickerModule.forRoot(),
     RouterModule.forChild(rdgRoutes) 
   ],
-  entryComponents: [ModalCrearReunionComponent, ModalDetalleReunionComponent],
+  entryComponents: [ModalCrearReunionComponent, ModalDetalleReunionComponent, ModalCompromisoComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   exports: [RouterModule]
 })

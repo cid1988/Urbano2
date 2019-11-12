@@ -1632,7 +1632,7 @@ paths:
           schema:
             $ref: '#/definitions/Cita'
   # //////////////////////////////////////////////////////////////////// RDG - Compromisos
-  /rdg/comoromisoPorSerie/{id}:
+  /rdg/compromisosPorSerie/{id}:
     x-swagger-router-controller: rdg
     get:
       summary: Trae los compromisos correspondiente a una serie de reunion
@@ -1687,9 +1687,7 @@ paths:
               presentacion:
                 type: ['boolean','null']
               enviado:
-                type: ['array','null']
-                items:
-                  type: object
+                type: object
       responses:
         200:
           description: ok
@@ -1705,6 +1703,49 @@ paths:
           description: ID de la minuta
           type: string
           required: true 
+      tags:
+        - RDG - Minutas
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Minuta'
+    put:
+      summary: Edita una minuta de reunion de RDG por ID
+      operationId: updateMinuta
+      parameters:
+        - name: id 
+          in: path
+          description: ID de la Minuta
+          type: string
+          required: true 
+        - in: body
+          name: body
+          description: Datos para actualizar el proyecto
+          schema:
+            type: object
+            required:
+              - instancia
+              - fecha
+            properties:
+              instancia:
+                type: string
+              compromisos:
+                type: array
+                items:
+                  type: object
+              html:
+                type: ['string','null']
+              usuario:
+                type: string
+              fecha:
+                type: string
+              tipoMinuta:
+                type: ['string','null']
+              presentacion:
+                type: ['boolean','null']
+              enviado:
+                type: object
       tags:
         - RDG - Minutas
       responses: 

@@ -19,6 +19,9 @@ export class CalendarioService {
   getReuniones():Observable<Reunion[]>{
     return this.http.get<Reunion[]>(this.baseUrl + '/reuniones');
   };
+  getReunionPorID(id):Observable<Reunion>{
+    return this.http.get<Reunion>(this.baseUrl + '/reuniones/' + id);
+  };
   
   //Tipos de Reuniones
 
@@ -67,5 +70,17 @@ export class CalendarioService {
 
   getMinutaPorIdReunion(id):Observable<{}>{
     return this.http.get<Minuta>(this.baseUrl + '/minutaPorReunion/'+ id);
+  }
+  guardarMinuta(minuta):Observable<Minuta>{
+    return this.http.put<Minuta>(this.baseUrl + '/minutas/'+ minuta._id, minuta);
+  }
+  nuevaMinuta(minuta):Observable<Minuta>{
+    return this.http.post<Minuta>(this.baseUrl + '/minutas',minuta);
+  }
+
+  //Compromisos
+
+  getCompromisosPendientes(id):Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/compromisosPorSerie/' + id )
   }
 }

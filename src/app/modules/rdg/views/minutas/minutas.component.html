@@ -1,32 +1,72 @@
 <div class="container-fluid">
+    <h3>
+        <span style="border-left: solid 10px; opacity: 1.0" [ngStyle]="{'border-left-color': datosReunion?.color}">
+            {{datosReunion?._serie?.nombre}} - {{datosReunion?.fecha}} ({{getHora(datosReunion?.desdeDate)}} a {{getHora(datosReunion?.hastaDate)}})
+        </span>
+        <span class="pull-right">
+            <span class="badge badge-pill badge-success" *ngIf='guardado'> <h5>Guardado con exito</h5> </span>
+            <button class="btn btn-outline-secondary" [routerLink]="['/rdg/calendario']">
+                <i class="fa fa-long-arrow-left" aria-hidden="true"></i> Volver
+            </button>
+            <button class="btn btn-outline-primary">
+                <i class="fa fa-envelope" aria-hidden="true"></i> Enviar
+            </button>
+            <button class="btn btn-outline-success" (click)='guardar()'>
+                <i class="fa fa-check" aria-hidden="true"></i> Guardar
+            </button>
+        </span>
+    </h3>  
+    <hr>
     <div class="row">
-        <div class="col-md-6" *ngIf='!compromisoAnteriores'>
-            <h3>Minuta de Reunion</h3>
-            <button class="btn btn-outline-info" style="width: 100%;">Minuta nunca enviada</button>
+        <div class="col-md-6">
+            <h5>Minuta de Reunion</h5>
+            <button class="btn btn-outline-info btn-sm" style="width: 100%;">Minuta nunca enviada</button>
             <editor [init]='config' [(ngModel)]='minuta.html'></editor>
         </div>
-        <div class="col-md-6">
-            <h3>Compromisos de Reunion
+        <div class="col-md-6" *ngIf='!verPendientes'>
+            <h5>Compromisos de Reunion 
+                <span class="badge badge-pill badge-danger" *ngIf='cantidadPendientes>0'>Pendientes: {{cantidadPendientes}}</span>
+                <span class="badge badge-pill badge-success" *ngIf='cantidadPendientes==0'>Pendientes: {{cantidadPendientes}}</span>
                 <span class="pull-right">
-                    <button class="btn btn-outline-secondary" *ngIf='!compromisoAnteriores' (click)='compromisoAnteriores=true'>Ver Todos</button>
-                    <button class="btn btn-outline-secondary" *ngIf='compromisoAnteriores' (click)='compromisoAnteriores=false'>Listo</button>
+                    <button class="btn btn-outline-secondary btn-sm" *ngIf='!compromisoAnteriores' (click)='nuevoCompromiso()'><i class="fa fa-plus"></i> Nuevo</button>
+                    <button class="btn btn-outline-secondary btn-sm" *ngIf='!compromisoAnteriores && compromisosPendientes.length>0' (click)='verPendientes=true'>Ver Pendientes</button>
                 </span>
-            </h3>
-            <button class="btn btn-outline-info" style="width: 100%;">Compromisos nunca enviado</button>
-            <div class="row">
+            </h5>
+            <button class="btn btn-outline-info btn-sm" style="width: 100%;">Compromisos nunca enviado</button>
+            <div class="row" style="overflow: auto;height: 79vh;">
                 <div class="col-md-12" *ngFor='let compromiso of minuta.compromisos'>
                     <app-compromisos [compromiso]='compromiso'></app-compromisos>
                 </div>
             </div>
         </div>
-        <div class="col-md-6" *ngIf='compromisoAnteriores'>
-            <h3>Compromisos Anteriores
-            </h3>
-            <button class="btn btn-outline-info" style="width: 100%;">Compromisos correspondientes a la Serie X</button>
+        <div class="col-md-6" *ngIf='verPendientes'>
+            <h5>Compromisos Pendientes
+                <span class="badge badge-pill badge-danger" *ngIf='cantidadPendientes>0'>Pendientes: {{cantidadPendientes}}</span>
+                <span class="badge badge-pill badge-success" *ngIf='cantidadPendientes==0'>Sin compromisos Pendientes</span>
+                   
+                <span class="pull-right">
+                    <button class="btn btn-outline-secondary btn-sm" *ngIf='!compromisoAnteriores' (click)='verPendientes=false'>Ver Actuales</button>
+                </span>
+            </h5>
             <div class="row">
-                <div class="col-md-12" *ngFor='let compromiso of minuta.compromisos'>
-                    <app-compromisos [compromiso]='compromiso'></app-compromisos>
+                <div class="col-md-8">
+                    <input type="email" class="form-control" placeholder="Ingrese texto..." style="width: 100%;">
                 </div>
+                <div class="col-md-4">
+                    <select class="form-control" style="width: 100%;">
+                        <option value="">Todos los estados</option>
+                        <option value="sinFecha">Sin Fecha</option>
+                        <option value="vencido">Vencido</option>
+                        <option value="vigente">Vigente</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="overflow: auto;height: 79vh;">
+                <span *ngFor='let minuta of compromisosPendientes'>
+                    <div class="col-md-12" *ngFor='let compromiso of minuta.compromisos'>
+                        <app-compromisos [compromiso]='compromiso' [idMinuta]='minuta._id' [pendiente]='true'></app-compromisos>
+                    </div>
+                </span>
             </div>
         </div>
     </div>
