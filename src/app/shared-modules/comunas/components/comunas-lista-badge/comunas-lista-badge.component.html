@@ -1,0 +1,7 @@
+<div class="form-group">
+  <span *ngFor="let c of array" class="badge badge-secondary" style="margin: 3px">{{comunaPorId(c)}}
+    <span *ngIf="editando">
+      &nbsp;&nbsp;&nbsp;<i class="fa fa-remove" (click)="quitar(c,array)" style="cursor: pointer"></i>
+    </span>
+  </span>
+</div>

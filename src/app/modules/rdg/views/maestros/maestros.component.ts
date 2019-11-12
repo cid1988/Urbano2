@@ -14,7 +14,8 @@ export class MaestrosComponent implements OnInit {
   maestroSeleccionado;
   seleccionTab='participantes';
   datosMaestro=new Serie();
-
+  lista;
+  
   constructor(private calendarioService: CalendarioService) {
     this.calendarioService.getMaestros().subscribe(maestros => {
       this.maestros = maestros;

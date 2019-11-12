@@ -193,18 +193,14 @@
                           <option *ngFor="let c of comunasLista" [ngValue]="c">{{c.nombre}}</option>
                         </select>
                       </div>
-                      <div class="form-group">
-                        <span *ngFor="let c of proyecto.comunas">
-                          <span class="badge badge-secondary" style="margin: 3px">{{comunaPorId(c)}}</span>
-                        </span>
-                      </div>
+                      <comunas-lista-badge [array]="proyecto.comunas" [editando]="editando"></comunas-lista-badge>
                     </div>
                   </div>
                 </div>
                 <div class="form-group col-4">
                   <div class="card">
                     <div class="card-header" style="color: white; background-color:cadetblue; opacity: 0.5">
-                      <label for="">Responsables</label>
+                      <label>Responsables</label>
                     </div>
                     <div class="card-body">
                       <div class="form-group">

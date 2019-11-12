@@ -3,7 +3,7 @@ import { ActividadesPorProyectoComponent } from '../../components/actividades/ac
 import { ActivatedRoute } from '@angular/router';
 import { ProyectosService } from '../../services/proyectos/proyectos.service';
 import { Proyecto } from '../../models/proyecto';
-import { ComunasService } from 'src/app/shared-modules/login/services/comunas/comunas.service';
+import { ComunasService } from 'src/app/shared-modules/comunas/services/comunas/comunas.service';
 import { OrganigramaService } from 'src/app/modules/organigrama/services/organigrama.service';
 import * as moment from 'moment';
 import { ContactosService } from 'src/app/modules/contactos/services/contactos.service';

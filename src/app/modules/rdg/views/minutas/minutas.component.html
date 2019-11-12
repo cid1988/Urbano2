@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6" *ngIf='!compromisoAnteriores'>
+        <div class="col-md-6" *ngIf='!compromisosAnteriores'>
             <h3>Minuta de Reunion</h3>
             <button class="btn btn-outline-info" style="width: 100%;">Minuta nunca enviada</button>
             <editor [init]='config' [(ngModel)]='minuta.html'></editor>
@@ -8,8 +8,8 @@
         <div class="col-md-6">
             <h3>Compromisos de Reunion
                 <span class="pull-right">
-                    <button class="btn btn-outline-secondary" *ngIf='!compromisoAnteriores' (click)='compromisoAnteriores=true'>Ver Todos</button>
-                    <button class="btn btn-outline-secondary" *ngIf='compromisoAnteriores' (click)='compromisoAnteriores=false'>Listo</button>
+                    <button class="btn btn-outline-secondary" *ngIf='!compromisosAnteriores' (click)='compromisosAnteriores=true'>Ver Todos</button>
+                    <button class="btn btn-outline-secondary" *ngIf='compromisosAnteriores' (click)='compromisosAnteriores=false'>Listo</button>
                 </span>
             </h3>
             <button class="btn btn-outline-info" style="width: 100%;">Compromisos nunca enviado</button>
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6" *ngIf='compromisoAnteriores'>
+        <div class="col-md-6" *ngIf='compromisosAnteriores'>
             <h3>Compromisos Anteriores
             </h3>
             <button class="btn btn-outline-info" style="width: 100%;">Compromisos correspondientes a la Serie X</button>
