@@ -23,8 +23,9 @@ export class ActividadDetalleComponent implements OnInit {
   fecha = new FechaActividad({});
   predecesores: Actividad[];
   objetivosImpacto = [];
-
+  areas;
   bsModalRef: BsModalRef;
+  nombreProyecto;
 
   constructor(private activatedRoute:ActivatedRoute, private proyectosService: ProyectosService, private actividadesService:ActividadesService, private modalService: BsModalService) {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -40,6 +41,12 @@ export class ActividadDetalleComponent implements OnInit {
       this.proyectosService.getObjetivosImpacto().subscribe(objsImpacto =>{
         this.objetivosImpacto = objsImpacto;
       });
+      this.proyectosService.getAreas().subscribe(areas =>{
+        this.areas = areas;
+      });
+      this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
+        this.nombreProyecto = proyecto.nombre;
+      });
     });
   }
 
@@ -47,7 +54,7 @@ export class ActividadDetalleComponent implements OnInit {
     
   }
 
-  guardar(actividadForm: NgForm){
+  guardar(){
     //Al guardar setear idObjImpacto
     this.actividadesService.guardarActividad(this.actividad).subscribe((data:any) =>{
       this.editando = false;
@@ -78,5 +85,15 @@ export class ActividadDetalleComponent implements OnInit {
     this.bsModalRef.content.action.subscribe((fecha) => {
       this.actividad.fechas.push(fecha.value);
     });
+  }
+
+  areaPorId(idArea){
+    if(!this.areas) return;
+    for (let i = 0; i < this.areas.length; i++) {
+      const area = this.areas[i];
+      if(area._id == idArea){
+        return area.nombre;
+      }
+    }
   }
 }

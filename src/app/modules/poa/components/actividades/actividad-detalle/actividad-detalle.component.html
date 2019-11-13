@@ -8,55 +8,9 @@
         <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false">Cancelar</button>
         <button type="button" class="btn btn-outline-danger float-right" style="margin-right: 5px" (click)="eliminarActividad()" [hidden]="!editando">Eliminar</button>
       </div>
-      <small>{{actividad.anio}} - {{actividad.idJurisdiccion}} - {{actividad.idProyecto}}</small>
+      <small>{{actividad.anio}} - {{areaPorId(actividad.idJurisdiccion)}} - {{nombreProyecto}}</small>
     </div>
   </div>
-
-  <!-- {{filtro.plan.anio}} - {{filtro.area.nombre}} - {{filtro.proyecto.nombre}}
-  <div class="row" style="margin-bottom: 20px">
-    <div class="col-12">
-      <button type="button" class="btn btn-outline-primary float-right" style="margin-left: 5px" routerLink="../../../.." [hidden]="editando"><i class="fa fa-arrow-left"></i> Volver</button>
-      <button type="button" class="btn btn-outline-primary float-right" [hidden]="editando" (click)="editando = true">Editar</button>
-      <button type="button" class="btn btn-outline-primary float-right" [disabled]="!actividadForm.valid" [hidden]="!editando" (click)="guardar(actividadForm)">Guardar</button>
-      <button type="button" class="btn btn-outline-primary float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false">Cancelar</button>
-      <button type="button" class="btn btn-outline-danger float-right" style="margin-right: 5px" (click)="eliminarActividad()" [hidden]="!editando">Eliminar</button>
-    </div>
-  </div> -->
-
-  <!-- <form #actividadForm="ngForm" id="ngForm" (ngSubmit)="prueba(actividadForm.value)">
-    <div class="form-group col-3">
-      <label>Nombre</label>
-      <input type="text" class="form-control" required [(ngModel)]="actividad.nombre" name="nombre" #nombre="ngModel" [ngClass]="{'is-invalid': nombre.invalid}">
-      <div *ngIf="nombre.invalid" class="invalid-feedback">
-        <div *ngIf="nombre.errors.required">Campo obligatorio</div>
-      </div>
-      {{actividadForm.submitted}}
-    </div>
-    <div class="form-group col-3">
-      <label>Nro orden</label>
-      <input type="text" class="form-control" required [(ngModel)]="actividad.codIdentificacion" name="codIdentificacion" #codIdentificacion="ngModel">
-      <div [hidden]="codIdentificacion.valid">
-        Campo obligatorio
-      </div>
-    </div>
-      <div class="form-group col-3">
-        <label>Campo 1</label>
-        <input type="text" class="form-control" required [(ngModel)]="actividad.campo1" name="campo1" #campo1="ngModel">
-        <div [hidden]="campo1.valid">
-          Campo obligatorio
-        </div>
-      </div>
-      <div class="form-group col-3">
-        <label>Campo 2</label>
-        <input type="text" class="form-control" required [(ngModel)]="actividad.campo2" name="campo2" #campo2="ngModel">
-        <div [hidden]="campo2.valid">
-          Campo obligatorio
-        </div>
-      </div>
-      <button type="submit" class="btn btn-outline-primary">Guardar</button>
-  </form> -->
-
-
 
   <form #actividadForm="ngForm" (ngSubmit)="actividadForm.form.valid && guardar(actividadForm)">
     <div class="form-row" style="margin-bottom: 10px">
@@ -137,54 +91,6 @@
     </div>
   </form>
 </div>
-
-<!-- Se reemplazo por un modal de ngx-bootstrap
-  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalCrearFecha">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <form #fechaForm="ngForm" (ngSubmit)="fechaForm.form.valid && openModal(true,fechaForm)">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Nueva fecha</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-row">
-            <div class="form-group col-4">
-              <label>Fecha inicio</label>
-              <input type="text" class="form-control" required [(ngModel)]="fecha.fechaInicio" name="fechaInicio" #fechaInicio="ngModel" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': fechaInicio.invalid}">
-              <div *ngIf="fechaInicio.invalid" class="invalid-feedback">
-                <div *ngIf="fechaInicio.errors.required">Campo obligatorio</div>
-              </div>
-            </div>
-            <div class="form-group col-4">
-              <label>Fecha fin</label>
-              <input type="text" class="form-control" required [(ngModel)]="fecha.fechaFin" name="fechaFin" #fechaFin="ngModel" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': fechaFin.invalid}">
-              <div *ngIf="fechaFin.invalid" class="invalid-feedback">
-                <div *ngIf="fechaFin.errors.required">Campo obligatorio</div>
-              </div>
-            </div>
-            <div class="form-group col-4">
-              <label>% avance</label>
-              <input type="text" class="form-control" [(ngModel)]="fecha.avance" name="avance" #avance="ngModel">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-12">
-              <label>Comentarios</label>
-              <textarea type="text" class="form-control" [(ngModel)]="fecha.comentario" name="comentario" #comentario="ngModel"></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Guardar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div> -->
 
 <!--Ejemplo de bootstrap con tres columnas y otra col-12 abajo
   <div class="container">
