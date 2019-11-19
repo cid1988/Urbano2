@@ -15,7 +15,7 @@
             <button class="btn btn-outline-danger" style="width: 100%;" (click)='armarCancelacion()'>Cancelacion</button>
         </div>
         <div class="col-md-9">
-            <mail-header [lista]='correos'></mail-header>
+            <mail-header [lista]='correos' [tipoEnvio]='"Cita"'></mail-header>
             <mail-body [mensajeHtml]='cita?.mensajeHtml' [asunto]='cita?.asunto'></mail-body>
         </div>
     </div>

@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div style="padding: 10px;border-left: solid 10px; opacity: 1.0"  [ngStyle]="{'border-left-color': reunion.color}">
+        <h3 >
+            {{reunion.title}} - {{reunion.fechaReunion()}} - {{reunion.horarioReunion()}}
+            <span class="pull-right">
+                <button class="btn btn-outline-secondary btn-sm" [routerLink]='["/rdg/calendario"]'>
+                    <i class="fa fa-arrow-left"></i> Volver</button>
+                <button class="btn btn-outline-secondary btn-sm" (click)='editando=true' *ngIf='!editando'>
+                    <i class="fa fa-edit"></i> Editar</button>
+                <button class="btn btn-outline-success btn-sm" (click)='guardar()' *ngIf='editando'>
+                    <i class="fa fa-save"></i> Guardar</button>
+            </span>
+        </h3> 
+    </div> 
+    <hr>
+    <div class="col-md-12">
+        <button class="btn btn-outline-secondary btn-sm" style="width: 30%;">{{enviado}}</button>
+        <button class="btn btn-outline-secondary btn-sm" style="width: 30%;" [ngClass]='temario.comentarios==""? "btn-outline-secondary" : "btn-outline-danger"'>
+            <span *ngIf='temario.comentarios!=""'> Comentario FM</span>
+            <span *ngIf='temario.comentarios==""'> Sin Comentarios FM</span>
+        </button>
+        <button class="btn btn-outline-primary btn-sm" style="width: 20%;">
+            <i class="fa fa-envelope"></i> Enviar Propuesta</button>
+        <button class="btn btn-outline-primary btn-sm" style="width: 20%;">
+            <i class="fa fa-envelope"></i> Enviar Temario</button>
+    </div>
+    <div class="col-md-12">
+        <editor [init]='config' [(ngModel)]='temario.html' [disabled]='!editando'></editor>
+    </div>
+</div>

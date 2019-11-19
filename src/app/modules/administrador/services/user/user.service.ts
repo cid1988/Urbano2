@@ -16,6 +16,10 @@ export class UserService {
   getUsers():Observable<[]>{
     return this.http.get<[]>(this.baseUrl + '/users');
   }
+  
+  getJurisdiccionPOA(){
+    return localStorage.getItem('jurisdiccionPOA')
+  }
 
   crearUsuario(usuario):Observable<{}>{
     // var a = CryptoJS.HmacSHA1(usuario.password, 'BAGestion%1234'); 

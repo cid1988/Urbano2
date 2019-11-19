@@ -112,9 +112,17 @@ async function getCitas (req, res, next) {
         res.status(403).json(error);
     }
 };
+async function getCitasPorReunion (req, res, next) {
+    try{
+        const citas = await CitaReunion.find({idInstancia:req.swagger.params.id.value}).populate('datosReunion')
+        res.status(200).json(citas);
+    }catch(error){
+        res.status(403).json(error);
+    }
+};
 async function getCitaPorId(req, res, next){
     try{
-        CitaReunion.findOne({idInstancia:req.swagger.params.id.value}).populate('datosReunion').exec(function(err ,data){
+        CitaReunion.findById(req.swagger.params.id.value).populate('datosReunion').exec(function(err ,data){
             if(err){
                 res.status(403).json(err);
             }else{
@@ -127,32 +135,28 @@ async function getCitaPorId(req, res, next){
     
 };
 
-async function getDatosCitas(req, res, next){
+async function getArmarCita(req, res, next){
     try{
-        var dato = req.swagger.params.body.value
-        var query={}
         const datosCita={
             idContactos:{
                 para:[],
                 cc:[],
                 cco:[],
-                exclusivos:[],
+                exclusivos:[]
             },
-            datosSerie:{},
-            datosReunion:{},
             correos:{
                 para:'',
                 cc:'',
                 cco:'',
                 exclusivos:''
-            }
+            },
+            serie:{},
         }
-        query={_id: ObjectId(dato.idInstancia) }
-        const reunion = await traerReunion(query);
-        datosCita.datosReunion=reunion;
-        query={_id: ObjectId(reunion.reunion)}
+        let query={};
+        query={_id: ObjectId(req.swagger.params.id.value)}
         const serie = await traerSerie(query,['tipo','cita','nombre'])
-        datosCita.datosSerie= serie;
+        console.log(serie)
+        datosCita.serie= serie;
         Array.prototype.push.apply(datosCita.idContactos.para,serie.cita.para); 
         Array.prototype.push.apply(datosCita.idContactos.cc,serie.cita.cc); 
         Array.prototype.push.apply(datosCita.idContactos.cco,serie.cita.cco); 
@@ -181,12 +185,20 @@ async function getDatosCitas(req, res, next){
         datosCita.correos.exclusivos+= await pushinfo(maestro.cita.exclusivos)
         res.status(200).json(datosCita)
     }catch(error){
+        console.log(error)
         res.status(403).json(error);
     }
     
 
 
 };
+
+async function createCita (req, res, next) {
+    const cita = new CitaReunion(req.swagger.params.body.value);
+    await cita.save();
+    res.json({status: 'Cita creada'});
+};
+
 /*
 async function updateReunion (req, res, next) {
     const reunion = req.swagger.params.body.value;
@@ -203,6 +215,7 @@ async function getTemarios (req, res, next) {
         res.json(error);
     }
 };
+
 async function getTemarioPorId(req, res, next){
     try{
         TemarioReunion.findById(req.swagger.params.id.value).exec(function(err ,data){
@@ -217,6 +230,29 @@ async function getTemarioPorId(req, res, next){
     }
     
 };
+
+async function getTemarioPorReunion(req, res, next){
+    try{
+        TemarioReunion.findOne({instancia:req.swagger.params.id.value})
+        .populate({
+            path : '_datosReunion',
+            populate : {
+              path : '_serie'
+            }
+          }).exec(function(err ,data){
+            if(err){
+                res.status(403).json(err);
+            }else{
+                if(data==null){
+                    res.status(200).json({});
+                }else res.status(200).json(data);
+            }
+        });
+    }catch(error){
+        res.status(403).json(error);
+    }
+};
+
 async function updateTemario (req, res, next) {
     const temario = req.swagger.params.body.value;
     await TemarioReunion.findByIdAndUpdate(req.swagger.params.id.value, {$set: temario}, {new: false});
@@ -348,9 +384,9 @@ module.exports = {
     //Minuta de Reunion
     getMinutaPorId,getMinutaPorReunion,updateMinuta,createMinuta,
     //Temario de Reunion
-    getTemarios,getTemarioPorId,updateTemario,
+    getTemarios,getTemarioPorId,getTemarioPorReunion,   updateTemario,
     //Citas de Reunion
-    getCitas,getCitaPorId,getDatosCitas,
+    getCitas,getCitaPorId,getArmarCita,getCitasPorReunion,createCita,
     //Compromisos
     getCompromisosPorSerie
 };

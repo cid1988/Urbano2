@@ -9,28 +9,56 @@ import { Contacto } from '../../models/contacto';
 })
 export class EtiquetaCorreoComponent implements OnInit {
 
-  @Input() idContacto: String;
+  @Input() listaContactos: String;
   @Input() maestro: Boolean;
-  contacto = new Contacto({});
-  correo:String
+  @Input() editando: Boolean=false;
+  contactos:Contacto[]=[];
 
   constructor(private contactoService: ContactosService) { }
 
   ngOnInit() {
-    this.contactoService.getContacto(this.idContacto).subscribe((data:Contacto)=>{
-      this.contacto = data;
-      if(this.contacto && this.contacto.correos){
-        for (let index = 0; index < this.contacto.correos.length; index++) {
-          if(this.contacto.correos[index].checked){
-            this.correo = this.contacto.correos[index].valor;
-            break;
-          }else{
-            if(this.contacto.correos[index].nombre == "Email oficial"){
-              this.correo = this.contacto.correos[index].valor;
+    this.contactoService.getContactosSimple().subscribe((data:Contacto[])=>{
+      this.contactos = data;
+    })
+  }
+
+  nombreCompleto(id){
+    for (let index = 0; index < this.contactos.length; index++) {
+      if(this.contactos[index]._id == id){
+        return this.contactos[index].nombreCompleto;
+      }
+    }
+  }
+  correo(id){
+    for (let index = 0; index < this.contactos.length; index++) {
+      if(this.contactos[index]._id == id){
+        var correo:String = 'No tiene correo asignado';
+        if(this.tieneCorreo(id)){
+          for (let c = 0; c < this.contactos[index].correos.length; index++) {
+            if(this.contactos[index].correos[c].checked){
+                correo = this.contactos[index].correos[c].valor;
+                break;
+            }else{
+                if(this.contactos[index].correos[c].nombre == "Email oficial"){
+                    correo = this.contactos[index].correos[c].valor;
+                }
             }
           }
-        }
+          return correo;
+        }else return correo;
       }
-    })
+    }
+  }
+  tieneCorreo(id){
+    for (let index = 0; index < this.contactos.length; index++) {
+      if(this.contactos[index]._id == id){
+        if(this.contactos[index].correos && this.contactos[index].correos.length>0){
+            return true;
+        }else return false;
+      }
+    }
+  }
+  quitar(elemento, lista){
+    lista.splice(lista.indexOf(elemento), 1);
   }
 }

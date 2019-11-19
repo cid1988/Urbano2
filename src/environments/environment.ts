@@ -16,7 +16,8 @@ export const environment = {
     min_height: 350,
     autoresize_on_init: true,
     max_height: 600,
-    toolbar: 'undo redo | bold italic | bullist numlist outdent indent | forecolor backcolor'
+    toolbar: 'undo redo | bold italic | fontselect fontsizeselect | bullist numlist outdent indent | forecolor backcolor | ',
+    readonly:1
   }
 };
 

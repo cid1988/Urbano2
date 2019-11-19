@@ -5,6 +5,7 @@ import { Reunion } from '../../models/reunion';
 import { environment } from '../../../../../environments/environment';
 import { Cita } from '../../models/cita';
 import { Minuta } from '../../models/minuta';
+import { Temario } from '../../models/temario';
 
 @Injectable({
   providedIn: 'root'
@@ -62,9 +63,8 @@ export class CalendarioService {
   getCita(id):Observable<{}>{
     return this.http.get<Cita>(this.baseUrl + '/citas/'+id);
   }
-  listarMailCita(id):Observable<{}>{
-    const data={idInstancia:id}
-    return this.http.post<{}>(this.baseUrl + '/citas/listarCorreos', data);
+  armarCitaPorSerie(id):Observable<{}>{
+    return this.http.get<{}>(this.baseUrl + '/citas/armarPorSerie/'+ id);
   }
   //Minutas
 
@@ -82,5 +82,11 @@ export class CalendarioService {
 
   getCompromisosPendientes(id):Observable<[]>{
     return this.http.get<[]>(this.baseUrl + '/compromisosPorSerie/' + id )
+  }
+
+  //Temario
+
+  getTemarioPorReunion(id):Observable<Temario>{
+    return this.http.get<Temario>(this.baseUrl + '/temarioPorReunion/'+ id)
   }
 }

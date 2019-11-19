@@ -1,6 +1,9 @@
-<span class="badge badge-pill badge-warning" tooltip="{{correo}}" *ngIf='correo' placement="auto" style="cursor: pointer;">
-    {{contacto?.nombreCompleto}} 
+<span *ngFor='let contacto of listaContactos;'>
+    <span class="badge badge-pill badge-warning" tooltip="{{correo(contacto.contactoId)}}" placement="auto" style="cursor: pointer;" [ngClass]='tieneCorreo(contacto.contactoId)?"badge-warning":"badge-danger"'>
+        {{nombreCompleto(contacto.contactoId)}} 
+        <span *ngIf="editando">
+            &nbsp;&nbsp;&nbsp;<i class="fa fa-remove" (click)="quitar(contacto,listaContactos)" style="cursor: pointer"></i>
+        </span>
+    </span>
 </span>
-<span class="badge badge-pill badge-danger" tooltip="No tiene correo asignado" *ngIf='!correo' placement="auto" style="cursor: pointer;">
-    {{contacto?.nombreCompleto}} 
-</span>
+

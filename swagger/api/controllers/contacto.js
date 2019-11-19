@@ -24,7 +24,7 @@ async function listarContactos(req, res, next){
 }
 async function listarContactosSimple(req, res, next){
     try{
-        Contacto.find({}).select(['nombre','apellidos','correo','area']).sort('apellidos').exec(function(err, contactos) {
+        Contacto.find({}).select(['nombre','apellidos','correos','area']).sort('apellidos').exec(function(err, contactos) {
             if(contactos) res.status(200).json(contactos);
             else console.log(err)
         });

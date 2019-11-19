@@ -17,16 +17,18 @@ import { MinutasComponent } from './views/minutas/minutas.component';
 import { CompromisosComponent } from './components/compromisos/compromisos.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ModalCompromisoComponent } from './components/modals/modal-compromiso/modal-compromiso.component';
+import { TemarioComponent } from './views/temario/temario.component';
 
 const rdgRoutes: Routes = [
   {path:'rdg/cita/:id',component:CitasComponent},
+  {path:'rdg/temario/:id',component:TemarioComponent},
   {path:'rdg/minuta/:id',component:MinutasComponent},
   {path:'rdg/calendario',component:CalendarioComponent}, 
   {path:'rdg/maestros',component:MaestrosComponent}
 ];
 
 @NgModule({
-  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe, MaestrosComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent, CitasComponent, MinutasComponent, CompromisosComponent, ModalCompromisoComponent],
+  declarations: [CalendarioComponent, CalendarioViewComponent, GroupByPipe, MaestrosComponent, ModalCrearReunionComponent, ModalDetalleReunionComponent, CitasComponent, MinutasComponent, CompromisosComponent, ModalCompromisoComponent, TemarioComponent],
   imports: [
     CommonModule,
     FormsModule,

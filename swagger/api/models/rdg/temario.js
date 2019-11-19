@@ -37,6 +37,13 @@ const temarioSchema = new Schema({
   toJSON: { virtuals: true }
 });
 
-
+temarioSchema.virtual('_datosReunion', {
+    ref: 'Reunion', // The model to use
+    localField: 'instancia', // Find people where `localField`
+    foreignField: '_id', // is equal to `foreignField`
+    // If `justOne` is true, 'members' will be a single doc as opposed to
+    // an array. `justOne` is false by default.
+    justOne: true
+});
 
 module.exports = mongoose.model('Temario', temarioSchema, 'rdg.temarios');

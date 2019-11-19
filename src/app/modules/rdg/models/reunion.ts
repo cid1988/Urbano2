@@ -1,3 +1,5 @@
+import * as moment from 'moment'
+
 export class Reunion {
   _id: String;
   start: String;
@@ -14,6 +16,9 @@ export class Reunion {
   tipo: String;
   titulo: String;
   fechaCreacion: String;
+  ubicacion: {
+    nombre:String;
+  };
 
   constructor(reunion){
     {
@@ -31,5 +36,12 @@ export class Reunion {
       this.titulo = reunion.titulo || "";
       this.fechaCreacion = reunion.fechaCreacion || "";
     }
+  }
+
+  fechaReunion(){
+    return moment(this.desdeDate).locale('es').format('DD/MM/YYYY')
+  }
+  horarioReunion(){
+    return moment(this.desdeDate).locale('es').format('HH:mm') + ' a ' + moment(this.hastaDate).locale('es').format('HH:mm')
   }
 }

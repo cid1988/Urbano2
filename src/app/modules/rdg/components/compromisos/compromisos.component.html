@@ -21,9 +21,7 @@
             </div>
         <div class="col-md-12">
             <p class="card-text"> <b>Responsable:</b> 
-                <span *ngFor='let responsable of compromiso.responsables; let i = index;'>
-                    <etiqueta-correo [idContacto]='responsable'></etiqueta-correo>
-                </span>
+                <etiqueta-correo [listaContactos]='compromiso.responsable'></etiqueta-correo>
             </p>
         </div>
     </div>

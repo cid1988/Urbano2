@@ -1,5 +1,5 @@
 export class Contacto {
-    id: string;
+    _id: string;
     nombre: string;
     segundoNombre: string;
     nombreCompleto: string;
@@ -21,6 +21,7 @@ export class Contacto {
 
     constructor(contacto){
         {
+            this._id = contacto._id;
             this.nombre = contacto.nombre;
             this.segundoNombre = contacto.segundoNombre;
             this.nombreCompleto = contacto.nombreCompleto;

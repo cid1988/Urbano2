@@ -51,6 +51,7 @@ export class AutenticacionService {
     this.usuarioLogeado = usuario;
     localStorage.setItem('usuario', usuario.username);
     localStorage.setItem('token', usuario.token);
+    localStorage.setItem('jurisdiccionPOA', usuario.jurisdiccionPOA);
   }
 
   getUsuarioLogeado(){

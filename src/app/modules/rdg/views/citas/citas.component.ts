@@ -5,6 +5,7 @@ import { Cita } from "../../models/cita"
 import * as moment from 'moment'
 import { ContactosService } from 'src/app/modules/contactos/services/contactos.service';
 import { Contacto } from 'src/app/modules/contactos/models/contacto';
+import { Reunion } from '../../models/reunion';
 
 @Component({
   selector: 'app-citas',
@@ -12,10 +13,10 @@ import { Contacto } from 'src/app/modules/contactos/models/contacto';
   styleUrls: ['./citas.component.css']
 })
 export class CitasComponent implements OnInit {
-
+  
   ultimaActualizacion:String='Nunca enviado';
   contactos:Contacto[];
-  reunion:any; serie:any;
+  reunion:Reunion; serie:any;
   cita;
   color:String;
   correos={ para:[], cc:[], cco:[], exclusivos:[]};
@@ -33,26 +34,25 @@ export class CitasComponent implements OnInit {
     const id = this.actRoute.snapshot.paramMap.get('id');
     this.contactoService.getContactosSimple().subscribe((contactos:Contacto[])=>{
       this.contactos=contactos;
-    })
-    this.calendarioService.listarMailCita(id).subscribe((info:any)=>{
-      this.correos=info.idContactos;
-      this.reunion=info.datosReunion;
-      this.serie=info.datosSerie;
-      this.datosAdicionales();
-      this.calendarioService.getCita(id).subscribe((data:any)=>{
-        if(data){
-          this.cita=new Cita(data)
-          this.ultimaActualizacion=this.cita.version + ' '+ moment(new Date(this.cita.fecha.toString())).locale('es').format('dddd DD [de] MMMM [a las] HH:mm [hs]')
-        }else{
-          this.cita=new Cita({})
-          this.armarCita()
-        }
-      },error =>{
-        console.log(error);
-      })
-    },error =>{
-      console.log(error);
-    })
+      this.calendarioService.getReunionPorID(id).subscribe((reunion:Reunion)=>{
+        this.reunion=new Reunion(reunion);
+        this.calendarioService.armarCitaPorSerie(this.reunion.reunion).subscribe((info:any)=>{
+          this.correos=info.idContactos
+          this.serie=info.serie
+          this.color= info.serie.color.color
+          this.datosAdicionales()
+          this.calendarioService.getMinutaPorIdReunion(id).subscribe((cita:Cita)=>{
+            if(cita!=null){
+              this.cita=new Cita(cita);
+              if(this.cita.asunto=='') this.armarCita();
+            }else{
+              this.cita=new Cita({});
+              this.armarCita();
+            } 
+          })
+        })
+      })  
+    }) 
   }
 
   ngOnInit() {
@@ -158,7 +158,7 @@ export class CitasComponent implements OnInit {
 
   buscarContacto(id){
     for (let index = 0; index < this.contactos.length; index++) {
-      if(this.contactos[index].id == id){
+      if(this.contactos[index]._id == id){
         return this.contactos[index].nombreCompleto
       }
     }

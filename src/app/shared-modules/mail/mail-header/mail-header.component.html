@@ -1,66 +1,52 @@
-<div class="row" *ngIf="editando">
-  <div class="col-md-8">
-    <div class="form-group row">
-      <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-      <div class="col-sm-10">
-        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="form-group row">
-      <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-      <div class="col-sm-10">
-        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-      </div>
-    </div>
-  </div>
+<h3>
+  Enviar {{tipoEnvio}} <span *ngIf='individual'>- Individual</span>
+  <span class="pull-right">
+      <button class="btn btn-outline-secondary btn-sm" *ngIf='!individual' (click)='individual=true'>
+          <i class="fa fa-user" aria-hidden="true" ></i> Envio individual
+      </button>
+      <button class="btn btn-outline-secondary btn-sm" *ngIf='individual' (click)='individual=false'>
+          <i class="fa fa-users" aria-hidden="true" ></i> Envio General
+      </button>
+      <button class="btn btn-outline-primary btn-sm"> 
+          <i class="fa fa-envelope"></i> Enviar
+      </button>
+  </span>
+</h3>
+<div *ngIf='!individual'>
+  <table class="table table-borderless" *ngIf="lista">
+    <tbody>
+      <tr>
+        <th scope="row">Para</th>
+        <td>
+          <etiqueta-correo [listaContactos]='lista.para'></etiqueta-correo>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">CC</th>
+        <td>
+          <etiqueta-correo [listaContactos]='lista.cc'></etiqueta-correo>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">CCO</th>
+        <td>
+          <etiqueta-correo [listaContactos]='lista.cco'></etiqueta-correo>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">Exclusivos</th>
+        <td>
+          <etiqueta-correo [listaContactos]='lista.exclusivos'></etiqueta-correo>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-<table class="table table-borderless" *ngIf="lista">
-  <tbody>
-    <tr>
-      <th scope="row">Para</th>
-      <td>
-        <span *ngFor="let c of lista.para;index as i">
-          <etiqueta-correo [idContacto]='c.contactoId'></etiqueta-correo>
-          <span *ngIf="editando" style="margin-right: 10px;" (click)='quitarItem(i,"para")'>
-            <i class="fa fa-remove" style="cursor: pointer;"></i>
-          </span>
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">CC</th>
-      <td>
-        <span *ngFor="let c of lista.cc;index as i">
-            <etiqueta-correo [idContacto]='c.contactoId'></etiqueta-correo>
-            <span *ngIf="editando" style="margin-right: 10px;" (click)='quitarItem(i,"cc")'>
-              <i class="fa fa-remove" style="cursor: pointer;"></i>
-            </span>
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">CCO</th>
-      <td>
-        <span *ngFor="let c of lista.cco;index as i">
-            <etiqueta-correo [idContacto]='c.contactoId'></etiqueta-correo>
-            <span *ngIf="editando" style="margin-right: 10px;" (click)='quitarItem(i,"cco")'>
-              <i class="fa fa-remove" style="cursor: pointer;"></i>
-            </span>
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">Exclusivos</th>
-      <td>
-        <span *ngFor="let c of lista.exclusivos;index as i">
-            <etiqueta-correo [idContacto]='c.contactoId'></etiqueta-correo>
-            <span *ngIf="editando" style="margin-right: 10px;" (click)='quitarItem(i,"exclusivos")'>
-              <i class="fa fa-remove" style="cursor: pointer;"></i>
-            </span>
-        </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="form-group row" *ngIf='individual'>
+    <label class="col-sm-2 col-form-label"><b>Para: </b></label>
+    <div class="col-sm-10">
+      <select>
+        
+      </select>
+    </div>
+</div>

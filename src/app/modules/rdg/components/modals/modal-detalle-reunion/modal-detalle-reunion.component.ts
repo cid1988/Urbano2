@@ -47,4 +47,8 @@ export class ModalDetalleReunionComponent implements OnInit {
     this.bsModalRef.hide();
     this.router.navigateByUrl('/rdg/minuta/'+this.reunion._id);
   }
+  irTemario(){
+    this.bsModalRef.hide();
+    this.router.navigateByUrl('/rdg/temario/'+this.reunion._id);
+  }
 }

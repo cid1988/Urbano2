@@ -1589,22 +1589,17 @@ paths:
       responses:
         200:
           description: ok
-  /rdg/citas/listarCorreos:
+  /rdg/citas/armarPorSerie/{id}:
     x-swagger-router-controller: rdg
-    post:
-      summary: Trear los correos que estan guardados en serie y maestros
-      operationId: getDatosCitas
+    get:
+      summary: Trear los datos para armar una cita de RDG
+      operationId: getArmarCita
       parameters:
-        - in: body
-          name: body
-          description: Datos de los asistente de un reunion de RDG
-          schema:
-            type: object
-            required:
-              - idInstancia
-            properties:
-              idInstancia:
-                type: string
+        - name: id 
+          in: path
+          description: ID de la Serie
+          type: string
+          required: true 
       tags:
         - RDG - Citas
       responses: 
@@ -1616,8 +1611,26 @@ paths:
   /rdg/citas/{id}:
     x-swagger-router-controller: rdg
     get:
-      summary: Trear una cita de reunion de RDG por ID de la reunion
+      summary: Trear una cita de reunion de RDG por ID de una cita
       operationId: getCitaPorId
+      parameters:
+        - name: id 
+          in: path
+          description: ID de la cita
+          type: string
+          required: true 
+      tags:
+        - RDG - Citas
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Cita'
+  /rdg/citasPorReunion/{id}:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trear una cita de reunion de RDG por ID de la reunion
+      operationId: getCitasPorReunion
       parameters:
         - name: id 
           in: path
@@ -2252,6 +2265,25 @@ paths:
       responses:
         200:
           description: ok
+  
+  /rdg/temarioPorReunion/{id}:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Trear una minuta de reunion de RDG por ID
+      operationId: getTemarioPorReunion
+      parameters:
+        - name: id 
+          in: path
+          description: ID de la Reunion
+          type: string
+          required: true 
+      tags:
+        - RDG - Temarios
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Temario'
 
   # ////////////////////////////////////////////////////////////////////
   /swagger:
