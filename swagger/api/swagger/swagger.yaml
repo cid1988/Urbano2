@@ -593,6 +593,10 @@ paths:
             type: object
             required:
               - nombre
+              - idJurisdiccion
+              - idPlan
+              - idProyecto
+              - idObjImpacto
             properties:
               nombre:
                 type: string
@@ -693,6 +697,10 @@ paths:
             type: object
             required:
               - nombre
+              - idJurisdiccion
+              - idPlan
+              - idProyecto
+              - idObjImpacto
             properties:
               nombre:
                 type: string
