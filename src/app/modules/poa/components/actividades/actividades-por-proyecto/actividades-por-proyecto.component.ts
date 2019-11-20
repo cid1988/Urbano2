@@ -28,7 +28,7 @@ export class ActividadesPorProyectoComponent implements OnInit {
 
   constructor(private actividadesService: ActividadesService, private proyectosService: ProyectosService, private activatedRoute:ActivatedRoute, private modalService: BsModalService) {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
+      this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe((proyecto:Proyecto) =>{
         this.proyecto = proyecto;
       });
       this.getActividades(params.get("idProyecto"));

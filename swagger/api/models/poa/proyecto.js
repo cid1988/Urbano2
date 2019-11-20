@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-
 const proyectoSchema = new Schema({
     nombre: { type: String, required: false},
     codIdentificacion: { type: String, required: false},
@@ -45,5 +44,41 @@ const proyectoSchema = new Schema({
     toObject: { virtuals: true },
     toJSON: { virtuals: true }
 });
+
+proyectoSchema.virtual('hijos', {//Cambiar el nombre por proyectosHijos
+    ref: 'Proyecto',
+    localField: '_id',
+    foreignField: 'proyectoPadre',
+    justOne: false
+});
+
+proyectoSchema.virtual('actividades', {//Cambiar el nombre por proyectosHijos
+    ref: 'Actividad',
+    localField: '_id',
+    foreignField: 'idProyecto',
+    justOne: false
+});
+
+proyectoSchema.virtual('color').get(function(){
+    let color = 'white';
+    if(this.actividades && this.actividades.length){
+        for (let index = 0; index < this.actividades.length; index++) {
+            if(this.actividades[index].color == 'red'){
+                return this.actividades[index].color;
+            }
+            if(this.actividades[index].color == 'blue'){
+                color = 'blue';
+            }
+            if(this.actividades[index].color == 'green'){
+                if(color !== 'blue'){
+                    return 'green';
+                }else{
+                    color = 'blue';
+                }
+            }
+        }
+        return color;
+    } return null
+})
 
 module.exports = mongoose.model('Proyecto', proyectoSchema, 'poa.proyectos');

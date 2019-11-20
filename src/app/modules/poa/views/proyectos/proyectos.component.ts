@@ -5,8 +5,6 @@ import { PlanesService } from '../../services/planes/planes.service';
 import { Plan } from '../../models/plan';
 import { UserService } from 'src/app/modules/administrador/services/user/user.service';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { AutenticacionService } from 'src/app/shared-modules/login/services/autenticacion/autenticacion.service';
-import { OrganigramaService } from 'src/app/modules/organigrama/services/organigrama.service';
 
 @Component({
   selector: 'app-proyectos',
@@ -22,7 +20,7 @@ export class ProyectosComponent implements OnInit {
   usuarioLogueado = "";
   @ViewChild(ProyectosPorPlanComponent, {static: true}) proyectosPorPlan: ProyectosPorPlanComponent;
   
-  constructor(private proyectosService: ProyectosService, private planesService: PlanesService, private userService: UserService, private authentication: AutenticacionService, private organigramaService: OrganigramaService, private permissionsService: NgxPermissionsService) {
+  constructor(private proyectosService: ProyectosService, private planesService: PlanesService, private userService: UserService, private permissionsService: NgxPermissionsService) {
     this.planesService.getPlanes().subscribe(planes =>{
       this.planes = planes;
       this.plan = planes.slice(-1)[0];
@@ -44,6 +42,7 @@ export class ProyectosComponent implements OnInit {
         
         if(area.idOrganigrama == userAreaPoa){
           this.area = area;
+          
           if(this.permissionsService.getPermission("poa.verJurisdiccion")){//Si el user pertenece a un area ve solo esa area
             this.areas = [area];
           }else if(this.permissionsService.getPermission("poa.administrador")){//Si el user es admin ve todas las areas

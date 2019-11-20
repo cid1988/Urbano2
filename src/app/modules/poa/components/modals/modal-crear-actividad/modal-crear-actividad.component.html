@@ -27,12 +27,12 @@
         </div>
         <div class="form-group col-6">
           <label>Obj impacto</label>
-          <select type="text" class="form-control" required [(ngModel)]="actividad.objImpacto" name="objImpacto" #objImpacto="ngModel" [ngClass]="{'is-invalid': userForm.submitted && objImpacto.invalid}">
+          <select type="text" class="form-control" required [(ngModel)]="actividad.idObjImpacto" name="idObjImpacto" #idObjImpacto="ngModel" [ngClass]="{'is-invalid': userForm.submitted && idObjImpacto.invalid}">
             <option [ngValue]=""></option>
             <option *ngFor="let o of objetivosImpacto" [ngValue]="o._id">{{o.nombre}}</option>
           </select>
-          <div *ngIf="objImpacto.invalid && userForm.submitted" class="invalid-feedback">
-            <div *ngIf="objImpacto.errors.required">Campo obligatorio</div>
+          <div *ngIf="idObjImpacto.invalid && userForm.submitted" class="invalid-feedback">
+            <div *ngIf="idObjImpacto.errors.required">Campo obligatorio</div>
           </div>
         </div>
         <div class="col-6">
@@ -44,14 +44,14 @@
         <h4 class="col-12" style="margin-bottom: 10px">Hito</h4>
         <div class="form-group col-3">
           <label for="">Fecha inicio</label>
-          <input type="text" class="form-control" required [(ngModel)]="hito.fechaInicio" name="fechaInicio" #fechaInicio="ngModel" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': userForm.submitted && fechaInicio.invalid}">
+          <input type="text" class="form-control" required [(ngModel)]="hito.fechaInicio" name="fechaInicio" #fechaInicio="ngModel" autocomplete="off" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': userForm.submitted && fechaInicio.invalid}">
           <div *ngIf="fechaInicio.invalid" class="invalid-feedback">
             <div *ngIf="fechaInicio.errors.required">Nombre obligatorio</div>
           </div>
         </div>
         <div class="form-group col-3">
           <label for="">Fecha fin</label>
-          <input type="text" class="form-control" required [(ngModel)]="hito.fechaFin" name="fechaFin" #fechaFin="ngModel" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': userForm.submitted && fechaFin.invalid}">
+          <input type="text" class="form-control" required [(ngModel)]="hito.fechaFin" name="fechaFin" #fechaFin="ngModel" [minDate]="hito.fechaInicio" autocomplete="off" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" [ngClass]="{'is-invalid': userForm.submitted && fechaFin.invalid}">
           <div *ngIf="fechaFin.invalid && userForm.submitted" class="invalid-feedback">
             <div *ngIf="fechaFin.errors.required">Nombre obligatorio</div>
           </div>

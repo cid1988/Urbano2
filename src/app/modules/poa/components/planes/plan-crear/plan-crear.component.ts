@@ -57,7 +57,6 @@ export class PlanCrearComponent implements OnInit {
   guardarPlan(){
     this.nuevoPlan.array = this.areasResponsables;
     this.proyectosService.crearPlan(this.nuevoPlan).subscribe(data =>{
-      console.log(data)
       // if(!this.areasResponsables.length) return;
       // let objeto = {
       //   idPlan: data.idPlan,

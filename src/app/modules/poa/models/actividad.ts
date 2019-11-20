@@ -33,6 +33,9 @@ export class Actividad {
       this.coordenadas = actividad.coordenadas || {lat: Number, lng: Number};
       this.verEnDashboard = actividad.verEnDashboard || false;
       this.idProyecto = actividad.idProyecto || "";
+      this.idPlan = actividad.idPlan || "";
+      this.idJurisdiccion = actividad.idJurisdiccion || "";
+      this.idObjImpacto = actividad.idObjImpacto || "";
     }
   }
 }

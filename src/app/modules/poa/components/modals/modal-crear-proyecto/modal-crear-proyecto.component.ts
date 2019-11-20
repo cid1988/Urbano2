@@ -20,7 +20,6 @@ export class ModalCrearProyectoComponent implements OnInit {
   }
 
   guardarProyecto(){
-    console.log(this.proyecto)
     this.proyectosService.crearProyecto(this.proyecto).subscribe(data =>{
       this.action.emit(true);
       this.bsModalRef.hide();

@@ -26,6 +26,7 @@ export class ActividadDetalleComponent implements OnInit {
   areas;
   bsModalRef: BsModalRef;
   nombreProyecto;
+  nombreJurisdiccion;
 
   constructor(private activatedRoute:ActivatedRoute, private proyectosService: ProyectosService, private actividadesService:ActividadesService, private modalService: BsModalService) {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -43,6 +44,7 @@ export class ActividadDetalleComponent implements OnInit {
       });
       this.proyectosService.getAreas().subscribe(areas =>{
         this.areas = areas;
+        this.nombreJurisdiccion = this.areaPorId(this.actividad.idJurisdiccion);
       });
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
         this.nombreProyecto = proyecto.nombre;
