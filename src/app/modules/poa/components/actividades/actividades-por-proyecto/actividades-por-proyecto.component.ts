@@ -9,6 +9,7 @@ import { ModalCrearEtapaComponent } from '../../modals/modal-crear-etapa/modal-c
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Etapa } from '../../../models/etapa';
 import { ModalCrearActividadComponent } from '../../modals/modal-crear-actividad/modal-crear-actividad.component';
+import { ModalEditarEtapaComponent } from '../../modals/modal-editar-etapa/modal-editar-etapa.component';
 declare var $:any;
 
 @Component({
@@ -20,9 +21,8 @@ export class ActividadesPorProyectoComponent implements OnInit {
 
   actividades: any[];
   etapas: Etapa[];
-  actividadesSelect = [];
+  // actividadesSelect = [];
   @Input() proyecto = new Proyecto({});
-  editEtapa = {actividades: [], idProyecto: ""};
   nuevoHito = new FechaActividad({});
   bsModalRef: BsModalRef;
 
@@ -42,7 +42,7 @@ export class ActividadesPorProyectoComponent implements OnInit {
   getActividades(idProyecto){
     //Crear las etapas
     if(!idProyecto.length) return;//No deberia usarse esto para controlar el error del objeto que llega desde el server.
-    this.proyectosService.etapasPorProyecto(idProyecto).subscribe((etapas: any[]) =>{
+    this.proyectosService.etapasPorProyecto(idProyecto).subscribe((etapas: Etapa[]) =>{
       this.etapas = etapas;
     },error => {
       console.log(error);
@@ -51,25 +51,11 @@ export class ActividadesPorProyectoComponent implements OnInit {
     //Traer las actividades del proyecto que no pertenecen a una etapa
     this.actividadesService.actividadesPorProyecto(idProyecto).subscribe(actividades =>{
       this.actividades = actividades;
-      this.actividadesSelect = this.actividadesSelect.concat(actividades);
+      // this.actividadesSelect = this.actividadesSelect.concat(actividades);//Se usaba para seleccionar las actividades cuando no eran un array definido
     },error =>{
       alert(error);
     })
   }
-
-  //Al crear la etapa, en la etapa se va a guardar el campo idProyecto y en las actividades agregadas se va a asociar el id en el campo
-  //etapa.
-  // crearEtapa(etapa){
-  //   if(etapa){
-  //     this.actividadesService.crearEtapa(etapa).subscribe(data =>{
-  //       this.getActividades(this.proyecto._id);
-  //       $('#modalCrearEtapa').modal('hide');
-  //     });
-  //   }else{
-  //     this.nuevaEtapa = {actividades:[],idProyecto: this.proyecto._id};
-  //     $('#modalCrearEtapa').modal('show');
-  //   }
-  // }
   
   //Al crear la etapa, en la etapa se va a guardar el campo idProyecto y en las actividades agregadas se va a asociar el id en el campo etapa.
   crearEtapa(){
@@ -80,19 +66,12 @@ export class ActividadesPorProyectoComponent implements OnInit {
     });
   }
 
-  editarEtapa(etapa,guardar){
-    if(guardar){
-      alert("Guardando cambios");
-      this.actividadesService.editarEtapa(this.editEtapa).subscribe(data =>{
-        this.getActividades(this.proyecto._id);
-        this.editEtapa = {actividades: [],idProyecto: this.proyecto._id};
-        $('#modalEditarEtapa').modal('hide');
-      });
-      $('#modalEditarEtapa').modal('hide');
-    }else{
-      this.editEtapa = etapa;
-      $('#modalEditarEtapa').modal('show');
-    }
+  editarEtapa(etapa){
+    const initialState = {etapa: etapa};
+    this.bsModalRef = this.modalService.show(ModalEditarEtapaComponent, {initialState});
+    this.bsModalRef.content.action.subscribe((status) => {
+      if(status) this.getActividades(this.proyecto._id);
+    });
   }
 
   crearActividad(){
@@ -107,28 +86,4 @@ export class ActividadesPorProyectoComponent implements OnInit {
       if(status) this.getActividades(this.proyecto._id);
     });
   }
-
-  // crearActividad(actividad, guardar, userForm: NgForm){
-  //   if(guardar){
-  //     userForm.value.idPlan = this.proyecto.idPlan;
-  //     userForm.value.idJurisdiccion = this.proyecto.idJurisdiccion;
-  //     userForm.value.idProyecto = this.proyecto._id;
-  //     this.nuevoHito.fechaInicio = moment(this.nuevoHito.fechaInicio).format("DD/MM/YYYY");
-  //     this.nuevoHito.fechaFin = moment(this.nuevoHito.fechaFin).format("DD/MM/YYYY");
-  //     if(!userForm.value.fechas) userForm.value.fechas = [];
-  //     userForm.value.fechas.push(this.nuevoHito);
-  //     console.log(userForm.value)
-  //     this.actividadesService.crearActividad(userForm.value).subscribe(data =>{
-  //       this.getActividades(this.proyecto._id);
-  //       $('#modalCrearHito').modal('hide');
-  //       userForm.resetForm({})
-  //     },error =>{
-  //       alert("Error")
-  //     });
-  //   }else{
-  //     if(!actividad.fechas) actividad.fechas = [];
-  //     this.nuevaActividad = actividad;
-  //     $('#modalCrearHito').modal('show');
-  //   }
-  // }
 }

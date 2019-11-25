@@ -5,14 +5,12 @@ export class Etapa {
   nombre: string;
   orden: string;
   idProyecto: string;
-  actividades: [];
 
   constructor(etapa) {
     {
       this.nombre = etapa.nombre || "";
       this.orden = etapa.orden || "";
       this.idProyecto = etapa.idProyecto || "";
-      this.actividades = etapa.actividades || [];
     }
   }
 }

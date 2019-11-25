@@ -21,6 +21,7 @@ import { ModalCrearActividadComponent } from './components/modals/modal-crear-ac
 import { GuardsGuard } from 'src/app/shared-modules/guards/guards.guard';
 import { ContactosModule } from '../contactos/contactos.module';
 import { ComunasModule } from 'src/app/shared-modules/comunas/comunas.module';
+import { ModalEditarEtapaComponent } from './components/modals/modal-editar-etapa/modal-editar-etapa.component';
 
 const poaRoutes: Routes = [
   {path:'poa',component:ProyectosComponent, canActivate:[GuardsGuard]},
@@ -30,7 +31,7 @@ const poaRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [OrderByPipe, FilterPipe, ReversePipe, PlanCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, ActividadDetalleComponent, ModalNuevaFechaComponent, ModalCrearEtapaComponent, ModalCrearProyectoComponent, ModalCrearActividadComponent],
+  declarations: [OrderByPipe, FilterPipe, ReversePipe, PlanCrearComponent, ProyectosPorPlanComponent, ActividadesPorProyectoComponent, ProyectosComponent, ActividadesComponent, ActividadDetalleComponent, ModalNuevaFechaComponent, ModalCrearEtapaComponent, ModalCrearProyectoComponent, ModalCrearActividadComponent, ModalEditarEtapaComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -42,6 +43,6 @@ const poaRoutes: Routes = [
     RouterModule.forChild(poaRoutes)
   ],
   exports: [RouterModule,BsDatepickerModule],
-  entryComponents: [ModalNuevaFechaComponent,ModalCrearEtapaComponent,ModalCrearActividadComponent,ModalCrearProyectoComponent],
+  entryComponents: [ModalNuevaFechaComponent,ModalCrearEtapaComponent,ModalCrearActividadComponent,ModalCrearProyectoComponent,ModalEditarEtapaComponent],
 })
 export class PoaModule { }
