@@ -249,13 +249,11 @@ async function deleteEtapa(req, res, next){
 async function updateEtapa (req, res, next){
     try{
         var data = req.swagger.params.body.value;
-        Etapa.findByIdAndUpdate(req.swagger.params.id.value, {$set: data}, {new: true, strict:false})
+        Etapa.findByIdAndUpdate(req.swagger.params.id.value, {$set: data}, {new: true})
         .then(data => {
-            console.log('GUARDADO')
             res.status(200).json(data)
         })
         .catch(err => {
-            console.log('Error')
             res.status(500).json(err)
         })
     } catch(error){
