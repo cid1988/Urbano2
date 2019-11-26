@@ -17,7 +17,8 @@ export class AdminComponent implements OnInit {
   nuevoUsuario={} as User
   jurisdicciones =[];
 
-  constructor(private userService: UserService, private organigramaService: OrganigramaService) { }
+  constructor(private userService: UserService, private organigramaService: OrganigramaService) { 
+  }
 
   ngOnInit() {
     this.userService.getUsers().subscribe((users: any[]) =>{

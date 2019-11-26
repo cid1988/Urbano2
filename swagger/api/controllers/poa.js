@@ -7,7 +7,7 @@ const Proyecto = require('../models/poa/proyecto');
 const Grupo = require('../models/poa/grupo');
 const PrioridadMinisterial = require('../models/poa/prioridadMinisterial');
 const CompromisoGobierno = require('../models/poa/compromisoGobierno');
-
+var moment = require('moment')
 var ObjectId = require('mongoose').Types.ObjectId;
 
 //Actividades ----------------------------------------------------------------
@@ -43,7 +43,9 @@ async function getActividades (req, res, next){
 async function getActividadPorID (req, res, next){
     try{
         const actividad = await Actividad.findById(req.swagger.params.id.value)
-        res.status(200).json(actividad);
+        if(actividad.eliminado || actividad.eliminado==true){
+            res.status(404).json({status:'Actividad Eliminada'});
+        }else  res.status(200).json(actividad);
     }catch(error){
         res.status(500).json(error);
     }
@@ -57,16 +59,18 @@ function createActividad(req, res, next){
         dato.idObjImpacto= ObjectId(dato.idObjImpacto)
         dato.idJurisdiccion= ObjectId(dato.idJurisdiccion)
         dato.idProyecto= ObjectId(dato.idProyecto)
+        dato.fechaActualizacion=new Date();
+        dato.responsableDeCarga=req.token.username;
+        dato.usuarioActualizacion=req.token.username;
         const actividad = new Actividad(dato);
         actividad.save().then(data=>{
-            console.log(data)
+            updatefechaInicioFinEtapa(data)
             res.status(200).json(data)
         }).catch(err => {
-            console.log('-------------------ENTRO error-------------------')
             res.status(500).json(err)
         })
     } catch(err){
-        res.status(500).json(err.message);
+        res.status(403).json(err);
     }
     
 };
@@ -74,34 +78,41 @@ function createActividad(req, res, next){
 async function updateActividad (req, res, next){
     try{
         const data= req.swagger.params.body.value;
-        console.log(data.idPlan)
         data.idPlan= ObjectId(data.idPlan)
         data.idObjImpacto= ObjectId(data.idObjImpacto)
         data.idJurisdiccion= ObjectId(data.idJurisdiccion)
         data.idProyecto= ObjectId(data.idProyecto)
+        dato.fechaActualizacion=new Date();
+        dato.usuarioActualizacion=req.token.username;
         Actividad.findByIdAndUpdate(req.swagger.params.id.value, 
-        {$set: data}, {new: true, strict: false},function(err, data){
+        {$set: data}, {new: true},function(err, data){
             if(err) res.status(500).json(err)
-            else res.status(200).json(data)
+            else{
+                updatefechaInicioFinEtapa(data)
+                res.status(200).json(data)
+            } 
         })
     } catch(error){
         res.status(500).json(error);
     }
 };
 
-async function deleteActividad(req, res, next){
+/*async function deleteActividad(req, res, next){
     try{
         Actividad.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             {  eliminado: true },
             { new: true ,strict: false} , function(err,data){
                 if(err) res.status(500).json(err.message)
-                else res.status(200).json(data)
+                else {
+                    updatefechaInicioFinEtapa(data)
+                    res.status(200).json(data)
+                }
             }); // Make this update into an upsert
     } catch(error){
         res.status(500).json(error);
     }
-};
+};*/
 
 //Areas
 async function getAreas (req, res, next){
@@ -167,10 +178,8 @@ async function getCompromisosGobiernoPorID (req, res, next){
 async function createCompromisosGobierno(req, res, next){
     const compromiso = new CompromisoGobierno(req.swagger.params.body.value);
     compromiso.save().then(data=>{
-        console.log(data)
         res.status(200).json(data)
     }).catch(err => {
-        console.log('-------------------ENTRO error-------------------')
         res.status(500).json(err)
     })
 };
@@ -200,7 +209,15 @@ async function getEtapas(req, res, next){
     idProyecto? query.idProyecto = idProyecto : '';
     try{
         const etapas = await Etapa.find(query)
-        .populate('actividades')
+        .populate({ 
+            path: 'actividades', 
+            match : {
+                $or:[
+                    {eliminado: {$exists:false}},
+                    {eliminado: false}
+                ]
+            }
+        })
         res.status(200).json(etapas);
     }catch(error){
         res.status(500).json(error);
@@ -209,7 +226,16 @@ async function getEtapas(req, res, next){
 
 async function getEtapaPorId(req, res, next){
     try{
-        const etapa = await Etapa.findById(req.swagger.params.id.value).populate('actividades',['fechas']);
+        const etapa = await Etapa.findById(req.swagger.params.id.value)
+        .populate({ 
+            path: 'actividades', 
+            match : {
+                $or:[
+                    {eliminado: {$exists:false}},
+                    {eliminado: false}
+                ]
+            }
+        });
         res.status(200).json(etapa);
     }catch(error){
         res.status(500).json(error);
@@ -220,10 +246,8 @@ async function createEtapa(req, res, next){
     try{
         const etapa = new Etapa(req.swagger.params.body.value);
         etapa.save().then(data=>{
-            console.log(data)
             res.status(200).json(data)
         }).catch(err => {
-            console.log('ENTRO error')
             res.status(500).json(err)
         })
     }catch(error){
@@ -237,12 +261,12 @@ async function deleteEtapa(req, res, next){
         await Etapa.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
             {  eliminado: true },
-            { new: true, strict: false}, function(err,data){
+            { new: true}, function(err,data){
                 if(err) res.status(500).json(err.message)
                 else res.status(200).json(data)
             }); // Make this update into an upsert
     } catch(error){
-        res.json(error);
+        res.status(403).json(error);
     }
 };
 
@@ -278,10 +302,8 @@ async function createGrupo(req, res, next){
     try{
         const grupo = new Grupo(req.swagger.params.body.value);
         grupos.save().then(data=>{
-            console.log(data)
             res.status(200).json(data)})
         .catch(err => {
-            console.log('ENTRO error')
             res.status(500).json(err)
         })
     }catch(error){
@@ -325,10 +347,8 @@ async function createObjImpacto(req, res, next){
         const objImpacto = new ObjImpacto(req.swagger.params.body.value);
         objImpacto.idPlan= ObjectId(objImpacto.idPlan)
         objImpacto.save().then(data=>{
-            console.log(data)
             res.status(200).json(data)})
         .catch(err => {
-            console.log('ENTRO error')
             res.status(500).json(err)
         })
     }catch(error){
@@ -356,14 +376,11 @@ async function updateObjImpacto (req, res, next){
     try{
         const objImpacto = req.swagger.params.body.value
         objImpacto.idPlan = ObjectId(objImpacto.idPlan)
-
-        ObjImpacto.findByIdAndUpdate(req.swagger.params.id.value, {$set: objImpacto}, {new: true, strict: false}).exec()
+        ObjImpacto.findByIdAndUpdate(req.swagger.params.id.value, {$set: objImpacto}, {new: true}).exec()
         .then(data => {
-            console.log('GUARDADO')
             return res.status(200).json(data)
         })
         .catch(err => {
-            console.log('Error')
             return res.status(500).json(err)
         })
     } catch(error){
@@ -409,8 +426,8 @@ async function createPlan (req, res, next){
 async function getPrioridadesMinisteriales(req, res, next){
     try{
         PrioridadMinisterial.find({}).sort('nombre').exec(function(err, prioridades) {
-            if(prioridades)res.json(prioridades);
-            else console.log(err)
+            if(prioridades) res.status(200).json(prioridades);
+            else res.status(403).json(err);
         });
     }catch(error){
         res.json(error);
@@ -486,11 +503,9 @@ async function updateProyecto (req, res, next){
 
         Proyecto.findByIdAndUpdate(req.swagger.params.id.value, {$set: proyecto}, {new: true, strict: false})
         .then(data => {
-            console.log('GUARDADO')
             res.status(200).json(data)
         })
         .catch(err => {
-            console.log('Error')
             res.status(500).json(err)
         })
     }catch(error){
@@ -505,13 +520,9 @@ async function createProyecto (req, res, next){
         proyecto.idPlan= ObjectId(proyecto.idPlan)
         proyecto.idObjImpacto= ObjectId(proyecto.idObjImpacto)
         proyecto.idJurisdiccion= ObjectId(proyecto.idJurisdiccion)
-        
-        console.log('ENTRO')
         proyecto.save().then(data=>{
-            console.log(data)
             res.status(200).json(data)})
         .catch(err => {
-            console.log('ENTRO error')
             res.status(500).json(err)
         })
     }catch(error){
@@ -520,7 +531,6 @@ async function createProyecto (req, res, next){
 };
 
 async function deleteProyecto (req, res, next){
-    console.log(req.swagger.params.body.value.id)
     try{
         Proyecto.findOneAndUpdate( 
             { _id: ObjectId(req.swagger.params.body.value.id)},  
@@ -534,6 +544,53 @@ async function deleteProyecto (req, res, next){
     }
 };
 
+
+async function updatefechaInicioFinEtapa(actividad){
+    if(actividad.etapa){
+        var fechaInicio='';
+        var fechaFin='';
+        var etapa = await Etapa.findById({ _id: ObjectId(actividad.etapa)}).populate({ 
+            path: 'actividades', 
+            match : {
+                $or:[
+                    {eliminado: {$exists:false}},
+                    {eliminado: false}
+                ]
+            }
+        })
+        for (let index = 0; index < etapa.actividades.length; index++) {
+            if(etapa.actividades[index].fechas){
+                var fecha = etapa.actividades[index].fechas.pop()
+                if(fecha.fechaInicio){
+                    if(fechaInicio==''){
+                        fechaInicio=moment(fecha.fechaInicio,'DD/MM/YYYY').format('YYYY/MM/DD');
+                    } 
+                    else{
+                        fecha.fechaInicio=moment(fecha.fechaInicio,'DD/MM/YYYY').format('YYYY/MM/DD');
+                        if(moment(fecha.fechaInicio).isBefore(fechaInicio)){
+                            fechaInicio = fecha.fechaInicio;
+                        }
+                    }
+                }
+                if(fecha.fechaFin){
+                    if(fechaFin==''){
+                        fechaFin=moment(fecha.fechaFin,'DD/MM/YYYY').format('YYYY/MM/DD')
+                    } 
+                    else{
+                        fecha.fechaFin=moment(fecha.fechaFin,'DD/MM/YYYY').format('YYYY/MM/DD')
+                        if(moment(fecha.fechaFin).isAfter(fechaFin)){
+                            fechaFin = fecha.fechaFin;
+                        }
+                    }
+                }
+            }
+        }
+        etapa.fechaInicio=moment(fechaInicio).format('DD/MM/YYYY')
+        etapa.fechaFin=moment(fechaFin).format('DD/MM/YYYY')
+        etapa = new Etapa(etapa);
+        etapa.save();
+    }
+}
 module.exports = {
     //Actividades
     getActividades,getActividadPorID,createActividad,updateActividad,deleteActividad,

@@ -4,24 +4,30 @@ const { Schema } = mongoose;
 const moment = require('moment');
 
 const actividadSchema = new Schema({
-    nombre: { type: String, required: false},
-    fechas: { type: Array},
-    inicioCumplido: { type: Boolean},
-    cumplida: { type: Boolean},
-    cancelada: { type: Boolean},
-    codIdentificacion: { type: String },
-    etapa: { type: String },
-    predecesor: { type: String },
+    _id: { type: Schema.ObjectId, auto: true },
     anio: {type: Number},
-    eliminado: {type: Boolean},
-    responsableDeCarga: {type: String},
-    fechaActualizacion: {type: String},
+    fechas: [{
+        fechaInicio: { type: String, required: false},
+        fechaFin: { type: String, required: false},
+        comentarios: { type: String, required: false},
+        avance: { type: String, required: false},
+    }],
+    responsableDeCarga: {type: String}, //Usuario que creo la actividad
     usuarioActualizacion: {type: String},
-    
+    etapa: { type: String },
     idPlan : { type: Schema.Types.ObjectId },
     idJurisdiccion: { type: Schema.Types.ObjectId },
     idObjImpacto: { type: Schema.Types.ObjectId },
     idProyecto: { type: Schema.Types.ObjectId },
+    inicioCumplido: { type: Boolean},
+    cumplida: { type: Boolean},
+    cancelada: { type: Boolean},
+    verEnDashboard: { type: Boolean},
+    predecesor: { type: String },
+    codIdentificacion: { type: String },
+    eliminado: {type: Boolean},
+    fechaActualizacion: {type: String},
+    nombre: { type: String, required: false},    
 },{
     versionKey: false,
     toObject: { virtuals: true },

@@ -20,15 +20,13 @@ var config = {
     Bearer: function(req, security, token, next) {
       console.log(token)
       if (token && token.indexOf("Bearer ") == 0) {
- 
         var tokenString = token.split(' ')[1];
- 
+        console.log('jwt Verificacion')
         jwt.verify(tokenString , sharedSecret, function (err, authData) {
           if(err) {
             next(err)
           } else { 
-            console.log('OKEY')
-            req.token =  authData
+            req.token =  authData.token
             next()
           }
         });
@@ -42,11 +40,14 @@ var config = {
 
 SwaggerExpress.create(config, function(err, swaggerExpress) {
   if (err) { throw err; }
-
-  // install middleware
+  app.use(function (req, res, next) {
+    if(req.file){
+      req.files = req.file  
+    }
+    next();
+  });
   swaggerExpress.register(app);
   var port = process.env.PORT || 10010;
-
 
   mongoose.connect(URI,{useNewUrlParser: true,useUnifiedTopology: true ,useFindAndModify: false })
     .then(db =>{

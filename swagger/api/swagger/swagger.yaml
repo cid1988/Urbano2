@@ -26,6 +26,24 @@ securityDefinitions:
   
   
 paths:
+# //////////////////////////////////////////////////////////////////// Contactos
+  /subirArchivo:
+    x-swagger-router-controller: archivo
+    post:
+      tags: 
+        - Archivos
+      operationId: upload
+      summary: Uploads a file.
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: file
+          type: file
+          description: The file to upload.
+      responses:
+        200:
+          description: OK
   # //////////////////////////////////////////////////////////////////// Contactos
   /contactos:
     x-swagger-router-controller: contacto
@@ -547,7 +565,7 @@ paths:
   /poa/actividades:
     x-swagger-router-controller: poa
     get:
-      summary: Trae actividades de POA
+      summary: Trae actividades de POA que no estan marcadas como eliminado
       description: Lista actividades de POA donde se puede filtrar por ID de un plan, ID de jurisdiccion, ID de objecto de impacto o ID de un proyecto
       operationId: getActividades
       parameters:
@@ -581,6 +599,8 @@ paths:
             items:
               $ref: '#/definitions/Actividad'
     post:
+      security:
+        - Bearer: []
       summary: Crear Actividad
       tags: 
         - POA - Actividades
@@ -616,12 +636,15 @@ paths:
                 type: array
                 items:
                   type: object
-              responsableDeCarga:
-                type: string
-              fechaActualizacion:
-                type: string
-              usuarioActualizacion:
-                type: string
+                  properties:
+                    fechaInicio:
+                      type: string
+                    fechaFin:
+                      type: string
+                    comentario:
+                      type: string
+                    avance:
+                      type: string
               codIdentificacion:
                 type: ['string','null']
               predecesor:
@@ -678,8 +701,12 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/Etapa'
+            $ref: '#/definitions/Actividad'
+        404:
+          description: La actividad esta eliminada o no se encontro
     put:
+      security:
+        - Bearer: []
       summary: Editar una etapa por ID
       tags: 
         - POA - Actividades
@@ -721,10 +748,6 @@ paths:
                 items:
                   type: object
               responsableDeCarga:
-                type: string
-              fechaActualizacion:
-                type: string
-              usuarioActualizacion:
                 type: string
               codIdentificacion:
                 type: ['string','null']
@@ -2156,6 +2179,97 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Temario'
+    post:
+      summary: Crear una temario de RDG
+      operationId: createTemario
+      tags:
+        - RDG - Temarios
+      parameters:
+        - in: body
+          name: body
+          description: Datos de la serie de reunion de RDG
+          schema:
+            type: object
+            required:
+              - instancia
+              - fecha
+              - usuario
+            properties:
+              instancia:
+                type: string
+              tipoTemario: 
+                type: string
+              html:
+                type: string
+              fecha: 
+                type: string
+              usuario: 
+                type: string
+              comentarios: 
+                type: string
+              fechaComentarios: 
+                type: string
+              propuestaEnviado:
+                type: object
+                properties:
+                  fecha: 
+                    type: string
+                  version: 
+                    type: string
+                  para:
+                    type: array
+                    items:
+                      type: object
+                  cc:
+                    type: array
+                    items:
+                      type: object
+                  cco:
+                    type: array
+                    items:
+                      type: object
+                  exclusivos:
+                    type: array
+                    items:
+                      type: object
+                  asunto: 
+                    type: string
+                  mensajeHtml: 
+                    type: string
+                  usuario: 
+                    type: string
+              enviado:
+                type: object
+                properties:
+                  fecha: 
+                    type: string
+                  version: 
+                    type: string
+                  para:
+                    type: array
+                    items:
+                      type: object
+                  cc:
+                    type: array
+                    items:
+                      type: object
+                  cco:
+                    type: array
+                    items:
+                      type: object
+                  exclusivos:
+                    type: array
+                    items:
+                      type: object
+                  asunto: 
+                    type: string
+                  mensajeHtml: 
+                    type: string
+                  usuario: 
+                    type: string
+      responses:
+        200:
+          description: ok
   
   /rdg/temarios/{id}:
     x-swagger-router-controller: rdg
@@ -2466,7 +2580,11 @@ definitions:
               type: string
             comentario:
               type: string
+            avance:
+              type: string
       cumplida:
+        type: boolean
+      eliminado:
         type: boolean
       cancelada:
         type: boolean
@@ -2478,9 +2596,13 @@ definitions:
         type: string
       usuarioActualizacion:
         type: string
+      responsableDeCarga:
+        type: string
       etapa:
         type: string
       predecesor:
+        type: string
+      anio:
         type: string
   Area:
     type: object

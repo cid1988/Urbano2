@@ -253,6 +253,12 @@ async function getTemarioPorReunion(req, res, next){
     }
 };
 
+async function createTemario (req, res, next) {
+    const temario = new TemarioReunion(req.swagger.params.body.value);
+    await temario.save();
+    res.status(200).json(temario);
+};
+
 async function updateTemario (req, res, next) {
     const temario = req.swagger.params.body.value;
     await TemarioReunion.findByIdAndUpdate(req.swagger.params.id.value, {$set: temario}, {new: false});
@@ -384,7 +390,7 @@ module.exports = {
     //Minuta de Reunion
     getMinutaPorId,getMinutaPorReunion,updateMinuta,createMinuta,
     //Temario de Reunion
-    getTemarios,getTemarioPorId,getTemarioPorReunion,   updateTemario,
+    getTemarios,getTemarioPorId,getTemarioPorReunion,createTemario,updateTemario,
     //Citas de Reunion
     getCitas,getCitaPorId,getArmarCita,getCitasPorReunion,createCita,
     //Compromisos

@@ -12,11 +12,11 @@ export const environment = {
     base_url: '/tinymce', // Root for resources
     suffix: '.min',       // Suffix to use when loading resources
     language: 'es_MX',
-    plugins: 'lists advlist autoresize',
+    plugins: 'lists advlist autoresize print preview',
     min_height: 350,
     autoresize_on_init: true,
     max_height: 600,
-    toolbar: 'undo redo | bold italic | fontselect fontsizeselect | bullist numlist outdent indent | forecolor backcolor | ',
+    toolbar: 'undo redo | bold italic underline | fontselect fontsizeselect | bullist numlist outdent indent | forecolor backcolor | preview print',
     readonly:1
   }
 };

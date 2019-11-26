@@ -1,15 +1,18 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
 const { Schema } = mongoose;
 
 const etapaSchema = new Schema({
+    _id: { type: Schema.ObjectId, auto: true },
     nombre: { type: String, required: false},
     orden: { type: String, required: false},
+    fechaInicio: { type: String, required: false},
+    fechaFin: { type: String, required: false},
     idProyecto: { type: String, required: false}
 },{
     versionKey: false,
     toObject: { virtuals: true },
     toJSON: { virtuals: true },
+    strict: true
 });
 
 etapaSchema.virtual('actividades', {
@@ -40,7 +43,7 @@ etapaSchema.virtual('color').get(function(){
     
 })
 
-etapaSchema.virtual('fechas').get(function(){
+/*etapaSchema.virtual('fechas').get(function(){
     var fechas={fechaInicio:'',fechaFin:''};
     if(this.actividades && this.actividades.length){
         for (let index = 0; index < this.actividades.length; index++) {
@@ -73,7 +76,7 @@ function obtenerFecha(fecha1,fecha2,tipo){
         }
     }
 }
-
+*/
 
 
 module.exports = mongoose.model('Etapa', etapaSchema, 'poa.etapas');

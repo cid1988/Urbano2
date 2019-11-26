@@ -1,10 +1,10 @@
 <h3>
   Enviar {{tipoEnvio}} <span *ngIf='individual'>- Individual</span>
   <span class="pull-right">
-      <button class="btn btn-outline-secondary btn-sm" *ngIf='!individual' (click)='individual=true'>
+      <button class="btn btn-outline-secondary btn-sm" *ngIf='!individual && envioIndividual' (click)='individual=true'>
           <i class="fa fa-user" aria-hidden="true" ></i> Envio individual
       </button>
-      <button class="btn btn-outline-secondary btn-sm" *ngIf='individual' (click)='individual=false'>
+      <button class="btn btn-outline-secondary btn-sm" *ngIf='individual && envioIndividual' (click)='individual=false'>
           <i class="fa fa-users" aria-hidden="true" ></i> Envio General
       </button>
       <button class="btn btn-outline-primary btn-sm"> 

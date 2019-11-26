@@ -89,4 +89,10 @@ export class CalendarioService {
   getTemarioPorReunion(id):Observable<Temario>{
     return this.http.get<Temario>(this.baseUrl + '/temarioPorReunion/'+ id)
   }
+  guardarTemario(temario):Observable<{}>{
+    return this.http.put<{}>(this.baseUrl + '/temarios/'+ temario._id , temario)
+  }
+  guardarNuevoTemario(temario):Observable<{}>{
+    return this.http.post<{}>(this.baseUrl + '/temarios', temario)
+  }
 }

@@ -1,4 +1,5 @@
 export class Temario {
+    _id:String;
     instancia: String;
     tipoTemario: String;
     html:String;
@@ -30,6 +31,7 @@ export class Temario {
     };
 
     constructor(data){
+        this._id=data._id || '';
         this.instancia=data.instancia || '';
         this.tipoTemario= data.tipoTemario || '';
         this.html=data.html || '';
@@ -37,8 +39,12 @@ export class Temario {
         this.usuario=data.usuario || '';
         this.comentarios=data.comentarios || '';
         this.fechaComentarios=data.comentarios || '';
-        this.propuestaEnviado=data.propuestaEnviado || '';
-        this.propuestaEnviado=data.propuestaEnviado || {};
+        this.propuestaEnviado=data.propuestaEnviado || {
+            version:''
+        };
+        this.enviado=data.enviado ||  {
+            version:''
+        };
     }
     
 }

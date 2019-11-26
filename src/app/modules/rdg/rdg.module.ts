@@ -18,6 +18,7 @@ import { CompromisosComponent } from './components/compromisos/compromisos.compo
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ModalCompromisoComponent } from './components/modals/modal-compromiso/modal-compromiso.component';
 import { TemarioComponent } from './views/temario/temario.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 const rdgRoutes: Routes = [
   {path:'rdg/cita/:id',component:CitasComponent},
@@ -37,6 +38,7 @@ const rdgRoutes: Routes = [
     EditorModule,
     TimepickerModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    TooltipModule.forRoot(),
     RouterModule.forChild(rdgRoutes) 
   ],
   entryComponents: [ModalCrearReunionComponent, ModalDetalleReunionComponent, ModalCompromisoComponent],

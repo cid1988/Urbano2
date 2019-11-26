@@ -1,30 +1,43 @@
 <div class="container-fluid">
-    <div style="padding: 10px;border-left: solid 10px; opacity: 1.0"  [ngStyle]="{'border-left-color': reunion.color}">
-        <h3 >
-            {{reunion.title}} - {{reunion.fechaReunion()}} - {{reunion.horarioReunion()}}
+    <div style="border-left: solid 10px; opacity: 1.0"  [ngStyle]="{'border-left-color': reunion.color}">
+        <h3>
+            {{reunion.title}} - {{reunion.fechaReunion()}} - {{reunion.horarioReunion()}} 
             <span class="pull-right">
                 <button class="btn btn-outline-secondary btn-sm" [routerLink]='["/rdg/calendario"]'>
                     <i class="fa fa-arrow-left"></i> Volver</button>
-                <button class="btn btn-outline-secondary btn-sm" (click)='editando=true' *ngIf='!editando'>
-                    <i class="fa fa-edit"></i> Editar</button>
-                <button class="btn btn-outline-success btn-sm" (click)='guardar()' *ngIf='editando'>
-                    <i class="fa fa-save"></i> Guardar</button>
+                <button class="btn btn-outline-danger btn-sm" *ngIf="envio || envioPropuesta" (click)='envio=false;envioPropuesta=false;'>
+                    <i class="fa fa-envelope"></i> Cancelar Envio</button>
+                <button class="btn btn-outline-secondary btn-sm" *ngIf="!envio && !envioPropuesta">
+                    <i class="fa fa-print"></i> Vista Previa</button>
             </span>
         </h3> 
     </div> 
     <hr>
-    <div class="col-md-12">
-        <button class="btn btn-outline-secondary btn-sm" style="width: 30%;">{{enviado}}</button>
-        <button class="btn btn-outline-secondary btn-sm" style="width: 30%;" [ngClass]='temario.comentarios==""? "btn-outline-secondary" : "btn-outline-danger"'>
-            <span *ngIf='temario.comentarios!=""'> Comentario FM</span>
-            <span *ngIf='temario.comentarios==""'> Sin Comentarios FM</span>
-        </button>
-        <button class="btn btn-outline-primary btn-sm" style="width: 20%;">
-            <i class="fa fa-envelope"></i> Enviar Propuesta</button>
-        <button class="btn btn-outline-primary btn-sm" style="width: 20%;">
-            <i class="fa fa-envelope"></i> Enviar Temario</button>
+    <div class="row" *ngIf='!envio && !envioPropuesta'>
+        <div class="col-md-12" >
+            <button class="btn btn-outline-secondary btn-sm" style="width: 30%;">{{enviado}}</button>
+            <button class="btn btn-outline-secondary btn-sm tooltip-wide" style="width: 30%;" [ngClass]='temario.comentarios==""? "btn-outline-secondary" : "btn-outline-danger"'  [tooltip]="popTemplate" placement="bottom" >
+                <span *ngIf='temario.comentarios!=""'> Comentario FM</span>
+                <span *ngIf='temario.comentarios==""'> Sin Comentarios FM</span>
+            </button>
+            <button class="btn btn-outline-primary btn-sm" style="width: 20%;" (click)='envioPropuesta=true'>
+                <i class="fa fa-envelope"></i> Enviar Propuesta</button>
+            <button class="btn btn-outline-primary btn-sm" style="width: 20%;" (click)='envio=true'>
+                <i class="fa fa-envelope"></i> Enviar Temario</button>
+        </div>
+        <div class="col-md-12">
+            <editor [init]='config' [(ngModel)]='temario.html' (onKeyUp)="guardar()"></editor>
+        </div>
     </div>
-    <div class="col-md-12">
-        <editor [init]='config' [(ngModel)]='temario.html' [disabled]='!editando'></editor>
+    <div class="row" *ngIf='envio'>
+        <div class="col-sm-12">
+            <mail-header [lista]='temario.enviado' [tipoEnvio]='"Temario"' [envioIndividual]="false"></mail-header>
+            <mail-body [mensajeHtml]='temario.html' [asunto]=''></mail-body>
+        </div>
     </div>
+    <div class="row" *ngIf='envioPropuesta'>
+        <p>Enviar Propuesta Final</p>
+    </div>
+    
 </div>
+<ng-template #popTemplate ><div [innerHtml]="temario.comentarios" ></div></ng-template>

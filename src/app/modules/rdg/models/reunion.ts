@@ -22,6 +22,7 @@ export class Reunion {
 
   constructor(reunion){
     {
+      this._id = reunion._id || "";
       this.start = reunion.start || "";
       this.end = reunion.end || "";
       this.color = reunion.color || "";

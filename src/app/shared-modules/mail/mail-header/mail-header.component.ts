@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class MailHeaderComponent implements OnInit {
   @Input() tipoEnvio:String;
   @Input() editando:Boolean;
+  @Input() envioIndividual:Boolean=true;
   individual:Boolean
   @Input() lista;
 

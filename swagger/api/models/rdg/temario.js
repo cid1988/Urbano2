@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const temarioSchema = new Schema({
+    _id: { type: Schema.ObjectId, auto: true },
     instancia:{type: String},
     tipoTemario: {type: String},
     html:{type: String},
