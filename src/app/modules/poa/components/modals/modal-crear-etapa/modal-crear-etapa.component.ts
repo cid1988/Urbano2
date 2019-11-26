@@ -10,6 +10,7 @@ import { ActividadesService } from '../../../services/actividades/actividades.se
 export class ModalCrearEtapaComponent implements OnInit {
 
   @Input() etapa;
+  @Input() etapasDelProyecto;
   @Output() action = new EventEmitter();
   etapasList = [{
     nombre: "Sin etapa"
@@ -38,5 +39,9 @@ export class ModalCrearEtapaComponent implements OnInit {
     },error=>{
       console.log(error)
     });
+  }
+
+  filtrarLista(){
+    return this.actividadesService.filtrarLista(this.etapasList,this.etapasDelProyecto)
   }
 }

@@ -59,7 +59,7 @@ export class ActividadesPorProyectoComponent implements OnInit {
   
   //Al crear la etapa, en la etapa se va a guardar el campo idProyecto y en las actividades agregadas se va a asociar el id en el campo etapa.
   crearEtapa(){
-    const initialState = {etapa: new Etapa({idProyecto: this.proyecto._id})};
+    const initialState = {etapa: new Etapa({idProyecto: this.proyecto._id}),etapasDelProyecto: this.etapas};
     this.bsModalRef = this.modalService.show(ModalCrearEtapaComponent, {initialState});
     this.bsModalRef.content.action.subscribe((status) => {
       if(status) this.getActividades(this.proyecto._id);

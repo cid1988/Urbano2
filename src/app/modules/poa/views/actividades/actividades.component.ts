@@ -7,6 +7,7 @@ import { ComunasService } from 'src/app/shared-modules/comunas/services/comunas/
 import { OrganigramaService } from 'src/app/modules/organigrama/services/organigrama.service';
 import * as moment from 'moment';
 import { ContactosService } from 'src/app/modules/contactos/services/contactos.service';
+import { ActividadesService } from '../../services/actividades/actividades.service';
 
 @Component({
   selector: 'actividades',
@@ -35,21 +36,21 @@ export class ActividadesComponent implements OnInit {
   grupos;
   prioridadesMinisteriales;
   
-  constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService, private comunasService: ComunasService, private organigramaService: OrganigramaService, private contactosService: ContactosService) {
+  constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService, private comunasService: ComunasService, private organigramaService: OrganigramaService, private contactosService: ContactosService, private actividadesService: ActividadesService) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe((proyecto: Proyecto) =>{
         this.proyecto = proyecto;
         this.proyectosService.proyectosPorPlan(proyecto.idPlan,proyecto.idJurisdiccion).subscribe((proyectos: any[]) =>{
-          for (let p = 0; p < proyectos.length; p++) {
-            let proyecto = proyectos[p];
-            // Armar los proyectos hijos del proyecto
-            if(!proyecto.proyectoPadre){
-              this.proyectosService.getProyectosHijos(proyecto._id,proyecto.idPlan).subscribe((hijos) =>{
-                proyecto.hijos = hijos;
-              });
-              this.proyectosPadre.push(proyecto);
-            }
-          }
+          // for (let p = 0; p < proyectos.length; p++) {
+          //   let proyecto = proyectos[p];
+          //   // Armar los proyectos hijos del proyecto
+          //   if(!proyecto.proyectoPadre){
+          //     this.proyectosService.getProyectosHijos(proyecto._id,proyecto.idPlan).subscribe((hijos) =>{
+          //       proyecto.hijos = hijos;
+          //     });
+          //     this.proyectosPadre.push(proyecto);
+          //   }
+          // }
           this.proyectos = proyectos;
         },error =>{
           alert(error);
@@ -67,8 +68,16 @@ export class ActividadesComponent implements OnInit {
       this.comunasService.getComunas().subscribe(comunas =>{
         this.comunasLista = comunas;
       });
-      this.proyectosService.getAreas().subscribe(areas =>{
-        this.areas = areas;
+      this.proyectosService.getAreas().subscribe((areas: any[]) =>{
+        let areasCorrectas = [];
+        for (let a = 0; a < areas.length; a++) {
+          const area = areas[a];
+          
+          if(area.anio == this.proyecto.anio){
+            areasCorrectas.push(area)
+          }
+        }
+        this.areas = areasCorrectas;//Traer las del ano seleccionado, sino en el listado se repiten por cada ano
       });
       this.contactosService.getContactosSimple().subscribe(contactosSimple =>{
         this.contactosSimple = contactosSimple;
@@ -136,5 +145,14 @@ export class ActividadesComponent implements OnInit {
         return area.nombre;
       }
     }
+  }
+
+  filtrarLista(array,items): any[] {
+    if(!items || !array) return array;
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      array = array.filter(i => i._id !== item);
+    }
+    return array;
   }
 }
