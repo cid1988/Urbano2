@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActividadesService } from '../../../services/actividades/actividades.service';
 import { Actividad } from '../../../models/actividad';
@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { NgForm } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ModalNuevaFechaComponent } from '../../modals/modal-nueva-fecha/modal-nueva-fecha.component';
+import { Location } from '@angular/common';
 declare var $:any;
 
 @Component({
@@ -28,7 +29,7 @@ export class ActividadDetalleComponent implements OnInit {
   nombreProyecto;
   nombreJurisdiccion;
 
-  constructor(private activatedRoute:ActivatedRoute, private proyectosService: ProyectosService, private actividadesService:ActividadesService, private modalService: BsModalService) {
+  constructor(private activatedRoute:ActivatedRoute, private proyectosService: ProyectosService, private actividadesService:ActividadesService, private modalService: BsModalService, private location: Location) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.actividadesService.getActividad(params.get("idActividad")).subscribe((actividad:Actividad) =>{
         this.actividad = actividad;
@@ -57,7 +58,6 @@ export class ActividadDetalleComponent implements OnInit {
   }
 
   guardar(){
-    //Al guardar setear idObjImpacto
     this.actividadesService.guardarActividad(this.actividad).subscribe((data:any) =>{
       this.editando = false;
     }, error=>{
@@ -78,7 +78,12 @@ export class ActividadDetalleComponent implements OnInit {
   }
 
   eliminarActividad(){
-    alert("Eliminar actividad");
+    if(confirm("Esta seguro de eliminar la actividad?")){
+      this.actividad.eliminado = true;
+      this.guardar();//Aca parece que se ejecuta primero el location y luego el guardar,
+      //por lo que toma el false del modelo en el campo eliminado y lo muestra en el listado de actividades
+      this.location.back();
+    }
   }
 
   crearHitoFecha() {

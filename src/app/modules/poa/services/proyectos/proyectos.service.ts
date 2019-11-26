@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Proyecto } from '../../models/proyecto';
 import { environment } from '../../../../../environments/environment';
+import { Etapa } from '../../models/etapa';
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +30,8 @@ export class ProyectosService {
     return this.http.get<Proyecto[]>(this.baseUrl + '/poa/proyectos?idJurisdiccion=' + idArea + '&idPlan=' + idPlan)
   };
 
-  etapasPorProyecto(idProyecto):Observable<[]>{
-    return this.http.get<[]>(this.baseUrl + '/poa/etapas?idProyecto=' + idProyecto);
+  etapasPorProyecto(idProyecto):Observable<Etapa[]>{
+    return this.http.get<Etapa[]>(this.baseUrl + '/poa/etapas?idProyecto=' + idProyecto);
   };
 
   getProyectosHijos(idProyecto,idPlan):Observable<[]>{

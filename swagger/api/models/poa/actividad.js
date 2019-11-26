@@ -9,7 +9,7 @@ const actividadSchema = new Schema({
     fechas: [{
         fechaInicio: { type: String, required: false},
         fechaFin: { type: String, required: false},
-        comentarios: { type: String, required: false},
+        comentario: { type: String, required: false},
         avance: { type: String, required: false},
     }],
     responsableDeCarga: {type: String}, //Usuario que creo la actividad

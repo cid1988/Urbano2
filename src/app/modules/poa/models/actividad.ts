@@ -18,6 +18,7 @@ export class Actividad {
   coordenadas: object;
   idPlan: string;
   idJurisdiccion: string;
+  eliminado: boolean;
 
   constructor(actividad) {
     {
@@ -36,6 +37,7 @@ export class Actividad {
       this.idPlan = actividad.idPlan || "";
       this.idJurisdiccion = actividad.idJurisdiccion || "";
       this.idObjImpacto = actividad.idObjImpacto || "";
+      this.eliminado = actividad.eliminado;
     }
   }
 }

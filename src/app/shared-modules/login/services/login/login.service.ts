@@ -21,6 +21,6 @@ export class LoginService {
     return this.http.post(this.baseUrl + '/login', login,
     {
       headers: new HttpHeaders().set("Authorization","Bearer "+ this.autenticacion.getToken())
-    });     
+    });
   }
 }

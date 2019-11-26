@@ -53,43 +53,42 @@ async function getActividadPorID (req, res, next){
 
 function createActividad(req, res, next){
     try{
-        const dato = req.swagger.params.body.value
-        if(dato.etapa=='') dato.etapa=null
-        dato.idPlan= ObjectId(dato.idPlan)
-        dato.idObjImpacto= ObjectId(dato.idObjImpacto)
-        dato.idJurisdiccion= ObjectId(dato.idJurisdiccion)
-        dato.idProyecto= ObjectId(dato.idProyecto)
-        dato.fechaActualizacion=new Date();
-        dato.responsableDeCarga=req.token.username;
-        dato.usuarioActualizacion=req.token.username;
+        const dato = req.swagger.params.body.value;
+        if(dato.etapa == '') dato.etapa = null;
+        dato.idPlan = ObjectId(dato.idPlan);
+        dato.idObjImpacto = ObjectId(dato.idObjImpacto);
+        dato.idJurisdiccion = ObjectId(dato.idJurisdiccion);
+        dato.idProyecto = ObjectId(dato.idProyecto);
+        dato.fechaActualizacion = new Date();
+        dato.responsableDeCarga = req.token.username;
+        dato.usuarioActualizacion = req.token.username;
         const actividad = new Actividad(dato);
         actividad.save().then(data=>{
-            updatefechaInicioFinEtapa(data)
-            res.status(200).json(data)
+            updatefechaInicioFinEtapa(data);
+            res.status(200).json(data);
         }).catch(err => {
-            res.status(500).json(err)
+            res.status(500).json(err);
         })
     } catch(err){
         res.status(403).json(err);
     }
-    
 };
 
 async function updateActividad (req, res, next){
     try{
-        const data= req.swagger.params.body.value;
-        data.idPlan= ObjectId(data.idPlan)
-        data.idObjImpacto= ObjectId(data.idObjImpacto)
-        data.idJurisdiccion= ObjectId(data.idJurisdiccion)
-        data.idProyecto= ObjectId(data.idProyecto)
-        dato.fechaActualizacion=new Date();
-        dato.usuarioActualizacion=req.token.username;
+        const data = req.swagger.params.body.value;
+        data.idPlan = ObjectId(data.idPlan);
+        data.idObjImpacto = ObjectId(data.idObjImpacto);
+        data.idJurisdiccion = ObjectId(data.idJurisdiccion);
+        data.idProyecto = ObjectId(data.idProyecto);
+        data.fechaActualizacion = new Date();
+        data.usuarioActualizacion = req.token.username;
         Actividad.findByIdAndUpdate(req.swagger.params.id.value, 
         {$set: data}, {new: true},function(err, data){
-            if(err) res.status(500).json(err)
+            if(err) res.status(500).json(err);
             else{
                 updatefechaInicioFinEtapa(data)
-                res.status(200).json(data)
+                res.status(200).json(data);
             } 
         })
     } catch(error){
@@ -593,7 +592,7 @@ async function updatefechaInicioFinEtapa(actividad){
 }
 module.exports = {
     //Actividades
-    getActividades,getActividadPorID,createActividad,updateActividad,deleteActividad,
+    getActividades,getActividadPorID,createActividad,updateActividad,
     //Areas
     getAreas,
     //Compromisos Gobierno

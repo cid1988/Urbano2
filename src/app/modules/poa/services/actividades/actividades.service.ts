@@ -29,14 +29,14 @@ export class ActividadesService {
   crearActividad(actividad):Observable<{}>{
     return this.http.post<{}>(this.baseUrl + '/poa/actividades', actividad,
     {
-      headers: new HttpHeaders().set("Authorization","Bearer "+ this.autenticacion.getToken())
+      headers: new HttpHeaders().set("Authorization","Bearer " + this.autenticacion.getToken())
     });
   }
-
+  
   guardarActividad(actividad):Observable<{}>{
     return this.http.put<{}>(this.baseUrl + '/poa/actividades/' + actividad._id, actividad,
     {
-      headers: new HttpHeaders().set("Authorization","Bearer "+ this.autenticacion.getToken())
+      headers: new HttpHeaders().set("Authorization","Bearer " + this.autenticacion.getToken())
     });
   }
   
