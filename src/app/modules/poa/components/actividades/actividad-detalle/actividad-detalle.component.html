@@ -6,7 +6,7 @@
         <button type="button" class="btn btn-outline-light float-right" [hidden]="editando" (click)="editando = true">Editar</button>
         <button type="submit" class="btn btn-outline-light float-right" [hidden]="!editando" [disabled]="actividadForm.invalid" (click)="actividadForm.ngSubmit.emit()">Guardar</button>
         <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false">Cancelar</button>
-        <button type="button" class="btn btn-outline-danger float-right" style="margin-right: 5px" (click)="eliminarActividad()" [hidden]="!editando">Eliminar</button>
+        <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [ngClass]="(actividad.eliminado) ? 'btn btn-danger': 'btn btn-outline-danger'" (click)="eliminarActividad()" [hidden]="!editando">Eliminar</button>
       </div>
       <small>{{actividad.anio}} - {{nombreJurisdiccion}} - {{nombreProyecto}}</small>
     </div>
@@ -47,7 +47,7 @@
         <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.inicioCumplido) ? 'btn btn-success': 'btn btn-outline-success'" ngDefaultControl [disabled]="!editando" (click)="(actividad.inicioCumplido) ? actividad.inicioCumplido = false : actividad.inicioCumplido = true" [(ngModel)]="actividad.inicioCumplido" name="inicioCumplido" #inicioCumplido="ngModel">Inicio cumplido</button>
         <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.cumplida) ? 'btn btn-primary': 'btn btn-outline-primary'" ngDefaultControl [disabled]="!editando" (click)="(actividad.cumplida) ? actividad.cumplida = false : actividad.cumplida = true" [(ngModel)]="actividad.cumplida" name="cumplida" #cumplida="ngModel">Fin cumplido</button>
         <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.cancelada) ? 'btn btn-secondary': 'btn btn-outline-secondary'" ngDefaultControl [disabled]="!editando" (click)="(actividad.cancelada) ? actividad.cancelada = false : actividad.cancelada = true" [(ngModel)]="actividad.cancelada" name="cancelada" #cancelada="ngModel">Cancelado</button>
-        <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.verEnDashboard) ? 'btn btn-success': 'btn btn-outline-success'" tooltip="Ver en el dashboard del ministro" ngDefaultControl [disabled]="!editando" (click)="(actividad.verEnDashboard) ? actividad.verEnDashboard = false : actividad.verEnDashboard = true" [(ngModel)]="actividad.verEnDashboard" name="verEnDashboard" #verEnDashboard="ngModel">Ver en dashboard</button>
+        <!-- <button type="button" class="col-12" style="margin-bottom: 5px" [ngClass]="(actividad.verEnDashboard) ? 'btn btn-success': 'btn btn-outline-success'" tooltip="Ver en el dashboard del ministro" ngDefaultControl [disabled]="!editando" (click)="(actividad.verEnDashboard) ? actividad.verEnDashboard = false : actividad.verEnDashboard = true" [(ngModel)]="actividad.verEnDashboard" name="verEnDashboard" #verEnDashboard="ngModel">Ver en dashboard</button> -->
       </div>
     </div>
     <div class="form-row">
