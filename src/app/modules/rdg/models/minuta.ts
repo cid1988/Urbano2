@@ -15,7 +15,7 @@ export class Minuta {
         mensajeHtml:String;
     }
     _id: String;
-  
+    
     constructor(minuta){
         this._id = minuta._id || "";
         this.instancia = minuta.instancia || "";

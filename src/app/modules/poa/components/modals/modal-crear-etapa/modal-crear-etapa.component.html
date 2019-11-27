@@ -10,7 +10,7 @@
       <div class="col-6">
         <label>Nombre</label>
         <select type="text" class="form-control" [(ngModel)]="etapa.nombre" name="nombre" #nombre="ngModel">
-          <option *ngFor="let e of filtrarLista(etapasList,e)" [ngValue]="e.nombre">{{e.nombre}}</option>
+          <option *ngFor="let e of filtrarLista()" [ngValue]="e.nombre">{{e.nombre}}</option>
         </select>
       </div>
       <div class="col-6">
