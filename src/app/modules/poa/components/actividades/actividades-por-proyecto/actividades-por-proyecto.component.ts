@@ -25,7 +25,7 @@ export class ActividadesPorProyectoComponent implements OnInit {
   @Input() proyecto = new Proyecto({});
   nuevoHito = new FechaActividad({});
   bsModalRef: BsModalRef;
-
+  
   constructor(private actividadesService: ActividadesService, private proyectosService: ProyectosService, private activatedRoute:ActivatedRoute, private modalService: BsModalService) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe((proyecto:Proyecto) =>{
@@ -85,5 +85,20 @@ export class ActividadesPorProyectoComponent implements OnInit {
     this.bsModalRef.content.action.subscribe((status) => {
       if(status) this.getActividades(this.proyecto._id);
     });
+  }
+
+  data(data){
+    if(data.color == "blue"){
+      return "Actividad cumplida";
+    }
+    if(data.color == "black"){
+      return "Actividad cancelada";
+    }
+    if(data.color == "green"){
+      return "Actividad aun vigente";
+    }
+    if(data.color == "red"){
+      return "Actividad cumplida";
+    }
   }
 }

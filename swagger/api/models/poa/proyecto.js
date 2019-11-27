@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const proyectoSchema = new Schema({
+    _id: { type: Schema.ObjectId, auto: true },
     nombre: { type: String, required: false},
     codIdentificacion: { type: String, required: false},
     descripcion: { type: String, required: false},
@@ -52,7 +53,7 @@ proyectoSchema.virtual('hijos', {//Cambiar el nombre por proyectosHijos
     justOne: false
 });
 
-proyectoSchema.virtual('actividades', {//Cambiar el nombre por proyectosHijos
+proyectoSchema.virtual('actividades', {
     ref: 'Actividad',
     localField: '_id',
     foreignField: 'idProyecto',
@@ -60,25 +61,63 @@ proyectoSchema.virtual('actividades', {//Cambiar el nombre por proyectosHijos
 });
 
 proyectoSchema.virtual('color').get(function(){
-    let color = 'white';
-    if(this.actividades && this.actividades.length){
-        for (let index = 0; index < this.actividades.length; index++) {
-            if(this.actividades[index].color == 'red'){
-                return this.actividades[index].color;
-            }
-            if(this.actividades[index].color == 'blue'){
-                color = 'blue';
-            }
-            if(this.actividades[index].color == 'green'){
-                if(color !== 'blue'){
-                    return 'green';
-                }else{
-                    color = 'blue';
+    if(this.proyectoPadre && this.proyectoPadre.length){//Proyectos hijos
+        if(!this.actividades) return "grey";
+        return calcularColor(this.actividades);
+    }else{//Proyectos padre
+        // console.table(this.actividades)
+    }
+})
+
+function calcularColor(actividades){
+    let color = "";
+    
+    for (let i = 0; i < actividades.length; i++) {
+        const ac = actividades[i].color;
+
+        if(actividades[i].eliminado !== true){//Omitir los eliminados
+            if(ac == "red"){
+                color = "red";
+                break;
+            }else{
+                if(ac == "white"){
+                    if(color !== "orange"){
+                        color = "white";
+                        break;
+                    }
                 }
+                if(ac == "grey"){
+                    color = "grey";
+                }
+                if(ac == "green"){
+                    if(color == "orange" || color == "grey"){
+                        
+                    }else{
+                        color = "green";
+                        break;
+                    }
+                }
+                if(ac == "orange"){
+                    color = "orange";
+                    break;
+                }
+                if(ac == "blue"){
+                    if(color == "green" || color == "orange" || color == "grey"){
+                        
+                    }else{
+                        color = "blue"
+                    }
+                }
+                
             }
         }
-        return color;
-    } return null
-})
+    }
+    return color;
+}
+
+function calcularColoresPadre(data){
+    console.log(data)
+    return "black";
+}
 
 module.exports = mongoose.model('Proyecto', proyectoSchema, 'poa.proyectos');

@@ -25,22 +25,29 @@ etapaSchema.virtual('actividades', {
 });
 
 etapaSchema.virtual('color').get(function(){
-    let color='green'
-    if(this.actividades && this.actividades.length){
-        for (let index = 0; index < this.actividades.length; index++) {
+    if(!this.actividades) return "grey";
 
-            if(this.actividades[index].color == 'red'){
-                color=this.actividades[index].color
-                return color;
-            }
-            if(this.actividades[index].color == 'blue'){
-                color=this.actividades[index].color
-            }else color='green'
-        }
-        return color;
-    } return null
-        
+    if(this.actividades && this.actividades.length){
+        return calcularColor(this.actividades);
+    }else{
+        return "grey";
+    }
     
+
+
+    // let color='green'
+    // if(this.actividades && this.actividades.length){
+    //     for (let index = 0; index < this.actividades.length; index++) {
+    //         if(this.actividades[index].color == 'red'){
+    //             color=this.actividades[index].color
+    //             return color;
+    //         }
+    //         if(this.actividades[index].color == 'blue'){
+    //             color=this.actividades[index].color
+    //         }else color='green'
+    //     }
+    //     return color;
+    // } return null
 })
 
 /*etapaSchema.virtual('fechas').get(function(){
@@ -77,6 +84,52 @@ function obtenerFecha(fecha1,fecha2,tipo){
     }
 }
 */
+
+function calcularColor(actividades){
+    let color = "";
+    
+    for (let i = 0; i < actividades.length; i++) {
+        const ac = actividades[i].color;
+
+        if(actividades[i].eliminado !== true){//Omitir los eliminados
+            if(ac == "red"){
+                color = "red";
+                break;
+            }else{
+                if(ac == "white"){
+                    if(color !== "orange"){
+                        color = "white";
+                        break;
+                    }
+                }
+                if(ac == "grey"){
+                    color = "grey";
+                }
+                if(ac == "green"){
+                    if(color == "orange" || color == "grey"){
+                        
+                    }else{
+                        color = "green";
+                        break;
+                    }
+                }
+                if(ac == "orange"){
+                    color = "orange";
+                    break;
+                }
+                if(ac == "blue"){
+                    if(color == "green" || color == "orange" || color == "grey"){
+                        
+                    }else{
+                        color = "blue"
+                    }
+                }
+                
+            }
+        }
+    }
+    return color;
+}
 
 
 module.exports = mongoose.model('Etapa', etapaSchema, 'poa.etapas');

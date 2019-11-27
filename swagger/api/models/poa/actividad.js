@@ -35,13 +35,19 @@ const actividadSchema = new Schema({
 });
 
 actividadSchema.virtual('color').get(function(){
+    if(this.fechas && !this.fechas.length){
+        return "grey";
+    }
     if(this.fechas.slice(-1)[0] && this.fechas.slice(-1)[0].fechaInicio && this.fechas.slice(-1)[0] && this.fechas.slice(-1)[0].fechaFin){
         var fInicio = moment(this.fechas.slice(-1)[0].fechaInicio, "DD/MM/YYYY").format("YYYYMMDD");
         var fFin = moment(this.fechas.slice(-1)[0].fechaFin, "DD/MM/YYYY").format("YYYYMMDD");
         hoy = moment(new Date(), "DD/MM/YYYY").format("YYYYMMDD");
 
-        if(this.cancelada){//Actividad cancelada
+        if(this.cancelada && this.cancelada == true){//Actividad cancelada
             return "black";
+        }
+        if(fInicio > hoy){
+            return "white";
         }
         if(this.inicioCumplido){//Inicio cumplido
             if(this.cumplida){//Inicio cumplido y final cumplido

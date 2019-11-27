@@ -13,7 +13,7 @@
             <ul class="list-group" *ngIf="p.hijos">
               <li class="list-group-item" *ngFor="let h of p.hijos | orderBy: 'codIdentificacion': false: 'number'">
                 <a [routerLink]="['proyecto/', h._id]"><span [hidden]="!h.codIdentificacion">{{h.codIdentificacion}} -</span> {{h.nombre}}</a>
-                <span class="dot" style="margin-top: 5px; margin-right: 5px float-right" [ngStyle]="{'background-color': h.color}"></span>
+                <span class="dot" [ngStyle]="h.color == 'white' ? {'border': 'grey 2px solid', 'background-color': h.color} : {'background-color': h.color}"></span>
               </li>
             </ul>
           </li>
