@@ -37,7 +37,7 @@ export class Actividad {
       this.idPlan = actividad.idPlan || "";
       this.idJurisdiccion = actividad.idJurisdiccion || "";
       this.idObjImpacto = actividad.idObjImpacto || "";
-      this.eliminado = actividad.eliminado;
+      this.eliminado = actividad.eliminado || false;
     }
   }
 }

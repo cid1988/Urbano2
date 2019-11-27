@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActividadesService } from '../../../services/actividades/actividades.service';
 import { Actividad } from '../../../models/actividad';
@@ -28,6 +28,7 @@ export class ActividadDetalleComponent implements OnInit {
   bsModalRef: BsModalRef;
   nombreProyecto;
   nombreJurisdiccion;
+  actividadGuardada = new EventEmitter();
 
   constructor(private activatedRoute:ActivatedRoute, private proyectosService: ProyectosService, private actividadesService:ActividadesService, private modalService: BsModalService, private location: Location) {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -59,6 +60,7 @@ export class ActividadDetalleComponent implements OnInit {
 
   guardar(){
     this.actividadesService.guardarActividad(this.actividad).subscribe((data:any) =>{
+      this.actividadGuardada.emit(true);
       this.editando = false;
     }, error=>{
       console.log(error);
@@ -80,9 +82,10 @@ export class ActividadDetalleComponent implements OnInit {
   eliminarActividad(){
     if(confirm("Esta seguro de eliminar la actividad?")){
       this.actividad.eliminado = true;
-      this.guardar();//Aca parece que se ejecuta primero el location y luego el guardar,
-      //por lo que toma el false del modelo en el campo eliminado y lo muestra en el listado de actividades
-      this.location.back();
+      this.guardar();
+      this.actividadGuardada.subscribe(data=>{
+        this.location.back();
+      })
     }
   }
 
