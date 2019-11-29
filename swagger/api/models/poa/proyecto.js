@@ -70,7 +70,7 @@ proyectoSchema.virtual('color').get(function(){
             
             for (let i = 0; i < this.hijos.length; i++) {
                 const hijo = this.hijos[i];
-                console.log(hijo.actividades)
+                
                 color = calcularColor(hijo.actividades);
             }
             return color;

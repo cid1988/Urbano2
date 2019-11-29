@@ -41,16 +41,6 @@ export class ActividadesComponent implements OnInit {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe((proyecto: Proyecto) =>{
         this.proyecto = proyecto;
         this.proyectosService.proyectosPorPlan(proyecto.idPlan,proyecto.idJurisdiccion).subscribe((proyectos: any[]) =>{
-          // for (let p = 0; p < proyectos.length; p++) {
-          //   let proyecto = proyectos[p];
-          //   // Armar los proyectos hijos del proyecto
-          //   if(!proyecto.proyectoPadre){
-          //     this.proyectosService.getProyectosHijos(proyecto._id,proyecto.idPlan).subscribe((hijos) =>{
-          //       proyecto.hijos = hijos;
-          //     });
-          //     this.proyectosPadre.push(proyecto);
-          //   }
-          // }
           this.proyectos = proyectos;
         },error =>{
           alert(error);

@@ -14,10 +14,22 @@
       <div class="col-12">
         <ul class="list-group">
           <li class="list-group-item" *ngFor="let e of etapas | orderBy: 'orden': false: 'number'; let $index = index">
-            <a href="javascript:void(0)" (click)="editarEtapa(e)"><b><span [hidden]="!e.codIdentificacion">{{e.codIdentificacion}} - </span>{{e.nombre}}</b></a>
-            <a class="btn btn-outline-dark btn-sm float-right" data-toggle="collapse" href="#coll{{$index}}" *ngIf="e.actividades.length"><i class="fa fa-arrow-down"></i></a>
-            <span class="dot" style="margin-top: 5px; margin-right: 5px" [ngStyle]="{'background-color': e.color}"></span>
-
+            <div class="row">
+              <div class="col-9">
+                <a href="javascript:void(0)" (click)="editarEtapa(e)"><b><span [hidden]="!e.codIdentificacion">{{e.codIdentificacion}} - </span>{{e.nombre}}</b></a>
+              </div>
+              <div class="col-1">
+                {{e.fechaInicio}}
+              </div>
+              <div class="col-1">
+                {{e.fechaFin}}
+              </div>
+              <div class="col-1">
+                <a class="btn btn-outline-dark btn-sm float-right" data-toggle="collapse" href="#coll{{$index}}" *ngIf="e.actividades.length"><i class="fa fa-arrow-down"></i></a>
+                <span class="dot" style="margin-top: 5px; margin-right: 5px" [ngStyle]="{'background-color': e.color}"></span>
+              </div>
+            </div>
+            
             <ul class="list-group collapse" style="margin-top: 12px" *ngIf="e.actividades" id="coll{{$index}}">
               <li class="list-group-item" *ngFor="let a of e.actividades | orderBy: 'codIdentificacion': false: 'string'">
                 <div class="row">
