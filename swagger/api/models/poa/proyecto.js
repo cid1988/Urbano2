@@ -65,7 +65,22 @@ proyectoSchema.virtual('color').get(function(){
         if(!this.actividades) return "grey";
         return calcularColor(this.actividades);
     }else{//Proyectos padre
-        // console.table(this.actividades)
+        if(this.hijos && this.hijos.length){//Proyecto padre con hijos
+            let color = "";
+            
+            for (let i = 0; i < this.hijos.length; i++) {
+                const hijo = this.hijos[i];
+                console.log(hijo.actividades)
+                color = calcularColor(hijo.actividades);
+            }
+            return color;
+        }else{//Proyecto padre sin hijos
+            if(this.actividades && this.actividades.length){
+                return calcularColor(this.actividades);//Defino el color del proyecto padre a partir de todas sus actividades
+            }else{
+                return "white";
+            }
+        }
     }
 })
 
@@ -108,16 +123,10 @@ function calcularColor(actividades){
                         color = "blue"
                     }
                 }
-                
             }
         }
     }
     return color;
-}
-
-function calcularColoresPadre(data){
-    console.log(data)
-    return "black";
 }
 
 module.exports = mongoose.model('Proyecto', proyectoSchema, 'poa.proyectos');

@@ -474,7 +474,17 @@ async function getProyectos (req, res, next){
     //Traer los ids siempre del campo _id del objeto del plan y del area, si lo traigo de un campo guardado no funciona
     try{
         const proyectos = await Proyecto.find(query).select('nombre idPlan idJurisdiccion idObjImpacto hijos proyectoPadre')
-        .populate('actividades')
+        .populate({
+            path: 'actividades',
+            model: Actividad
+        }).populate({
+            path: 'hijos',
+            model: Proyecto,
+            populate: {
+                path: 'actividades',
+                model: Actividad
+            }
+        })
         .sort({codIdentificacion: 1});
         res.json(proyectos);
     }catch(error){

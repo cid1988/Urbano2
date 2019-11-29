@@ -9,7 +9,7 @@
         <ul class="list-group">
           <li class="list-group-item" [hidden]="p.proyectoPadre" *ngFor="let p of proyectos | orderBy: 'codIdentificacion': false: 'number' | filter: searchFilter; let $index = index"><!--[ngStyle]="{'background-color': '#b0ffa6'} [ngStyle]="{'background-color': '#a6d5ff'}"-->
             <a [routerLink]="['proyecto', p._id]"><b><span [hidden]="!p.codIdentificacion">{{p.codIdentificacion}} - </span>{{p.nombre}}</b></a>
-            <span class="dot" [ngStyle]="{'background-color': p.color}"></span>
+            <span class="dot" [ngStyle]="p.color == 'white' ? {'border': 'grey 2px solid', 'background-color': p.color} : {'background-color': p.color}"></span>
             <ul class="list-group" *ngIf="p.hijos">
               <li class="list-group-item" *ngFor="let h of p.hijos | orderBy: 'codIdentificacion': false: 'number'">
                 <a [routerLink]="['proyecto/', h._id]"><span [hidden]="!h.codIdentificacion">{{h.codIdentificacion}} -</span> {{h.nombre}}</a>
