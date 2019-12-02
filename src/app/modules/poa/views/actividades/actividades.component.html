@@ -124,8 +124,7 @@
                         <div class="form-group col-6">
                           <label>Presupuesto oficial</label>
                           <div class="btn-group">
-                            <button type="button" class="btn btn-outline-secondary col-3" [hidden]="proyecto.monedaSolicitado == 'u$s'" [disabled]="!editando" ngDefaultControl [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" (click)="proyecto.monedaSolicitado = 'u$s'">$</button>
-                            <button type="button" class="btn btn-outline-secondary col-3" [hidden]="proyecto.monedaSolicitado == '$'" [disabled]="!editando" ngDefaultControl [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" (click)="proyecto.monedaSolicitado = '$'">u$s</button>
+                            <button type="button" class="btn btn-outline-secondary col-3" [disabled]="!editando" ngDefaultControl [(ngModel)]="proyecto.monedaSolicitado" name="monedaSolicitado" #monedaSolicitado="ngModel" (click)="proyecto.monedaSolicitado == '$' ? proyecto.monedaSolicitado = 'u$s' : proyecto.monedaSolicitado = '$'">{{proyecto.monedaSolicitado}}</button>
                             <input type="text" class="form-control" [(ngModel)]="proyecto.presupuestoSolicitado" name="presupuestoSolicitado" #presupuestoSolicitado="ngModel" [disabled]="!editando">
                           </div>
                         </div>
@@ -144,8 +143,7 @@
                         <div class="form-group col-6">
                           <label>Presupuesto adjudicado</label>
                           <div class="btn-group">
-                            <button type="button" class="btn btn-outline-secondary col-3" [disabled]="!editando" [hidden]="proyecto.monedaGestion == 'u$s'" ngDefaultControl [(ngModel)]="proyecto.monedaGestion" name="monedaGestion" #monedaGestion="ngModel" (click)="proyecto.monedaGestion = 'u$s'">$</button>
-                            <button type="button" class="btn btn-outline-secondary col-3" [disabled]="!editando" [hidden]="proyecto.monedaGestion == '$'" ngDefaultControl [(ngModel)]="proyecto.monedaGestion" name="monedaGestion" #monedaGestion="ngModel" (click)="proyecto.monedaGestion = '$'">u$s</button>
+                            <button type="button" class="btn btn-outline-secondary col-3" [disabled]="!editando" ngDefaultControl [(ngModel)]="proyecto.monedaGestion" name="monedaGestion" #monedaGestion="ngModel" (click)="proyecto.monedaGestion == '$' ? proyecto.monedaGestion = 'u$s' : proyecto.monedaGestion = '$'">{{proyecto.monedaGestion}}</button>
                             <input type="text" class="form-control" [(ngModel)]="proyecto.presupuestoGestion" name="presupuestoGestion" #presupuestoGestion="ngModel" [disabled]="!editando">
                           </div>
                         </div>

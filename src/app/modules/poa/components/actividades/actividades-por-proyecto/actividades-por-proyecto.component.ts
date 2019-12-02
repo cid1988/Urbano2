@@ -67,7 +67,7 @@ export class ActividadesPorProyectoComponent implements OnInit {
   }
 
   editarEtapa(etapa){
-    const initialState = {etapa: etapa};
+    const initialState = {etapa: etapa,etapasDelProyecto: this.etapas};
     this.bsModalRef = this.modalService.show(ModalEditarEtapaComponent, {initialState});
     this.bsModalRef.content.action.subscribe((status) => {
       if(status) this.getActividades(this.proyecto._id);

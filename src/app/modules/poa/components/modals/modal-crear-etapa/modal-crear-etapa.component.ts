@@ -3,7 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ActividadesService } from '../../../services/actividades/actividades.service';
 
 @Component({
-  selector: 'app-modal-crear-etapa',
+  selector: 'modal-crear-etapa',
   templateUrl: './modal-crear-etapa.component.html',
   styleUrls: ['./modal-crear-etapa.component.css']
 })

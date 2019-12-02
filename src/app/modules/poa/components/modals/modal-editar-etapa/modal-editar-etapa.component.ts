@@ -12,6 +12,7 @@ export class ModalEditarEtapaComponent implements OnInit {
 
   @Input() etapa = new Etapa({});
   @Output() action = new EventEmitter();
+  @Input() etapasDelProyecto;
   etapasList = [{
     nombre: "Sin etapa"
   },{
@@ -29,7 +30,7 @@ export class ModalEditarEtapaComponent implements OnInit {
   constructor(private actividadesService: ActividadesService, public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
-    console.log(this.etapa)
+    
   }
 
   guardarEtapa(){
@@ -39,5 +40,11 @@ export class ModalEditarEtapaComponent implements OnInit {
     },error=>{
       console.log(error)
     });
+  }
+
+  filtrarLista(){
+    let array = this.actividadesService.filtrarLista(this.etapasList,this.etapasDelProyecto);
+    array.unshift({nombre: this.etapa.nombre});
+    return array;
   }
 }
