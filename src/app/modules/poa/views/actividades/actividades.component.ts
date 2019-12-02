@@ -40,6 +40,13 @@ export class ActividadesComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe((proyecto: Proyecto) =>{
         this.proyecto = proyecto;
+        //El problema de inicializar los campos de monedaSolicitado y monedaGestion no deberia solucionarse asi
+        if(this.proyecto.monedaSolicitado == undefined){
+          this.proyecto.monedaSolicitado = "$";
+        }
+        if(this.proyecto.monedaGestion == undefined){
+          this.proyecto.monedaGestion = "$";
+        }
         this.proyectosService.proyectosPorPlan(proyecto.idPlan,proyecto.idJurisdiccion).subscribe((proyectos: any[]) =>{
           this.proyectos = proyectos;
         },error =>{
