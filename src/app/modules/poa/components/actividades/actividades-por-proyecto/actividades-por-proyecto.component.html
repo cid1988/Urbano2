@@ -49,8 +49,7 @@
                     {{a.fechas.slice(-1)[0]?.fechaFin}}
                   </div>
                   <div class="col-1">
-                    <!-- <span [ngClass]="{'dotBlue': a.cumplida, 'dotGreen': a.estado == 'vigente', 'dotRed': a.estado == 'vencido', 'dotBlack': a.cancelada}" style="color: 'red'"></span> -->
-                    <span class="dot" [ngStyle]="{'background-color': a.color}"></span>
+                    <span class="dot" [ngStyle]="a.color == 'white' ? {'border': 'grey 2px solid', 'background-color': a.color} : {'background-color': a.color}" title="data(a)"></span>
                   </div>
                 </div>
               </li>
