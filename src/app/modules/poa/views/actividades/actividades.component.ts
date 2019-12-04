@@ -8,6 +8,7 @@ import { OrganigramaService } from 'src/app/modules/organigrama/services/organig
 import * as moment from 'moment';
 import { ContactosService } from 'src/app/modules/contactos/services/contactos.service';
 import { ActividadesService } from '../../services/actividades/actividades.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'actividades',
@@ -19,6 +20,7 @@ export class ActividadesComponent implements OnInit {
   @ViewChild(ActividadesPorProyectoComponent, {static: true}) actividadesPorProyecto: ActividadesPorProyectoComponent;
   isCollapsed: boolean;
   proyecto = new Proyecto({});
+  proyectoCopy = new Proyecto({});
   proyectos: Proyecto[];
   editando = false;
   proyectosPadre = [];
@@ -40,6 +42,7 @@ export class ActividadesComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe((proyecto: Proyecto) =>{
         this.proyecto = proyecto;
+        this.proyectoCopy = proyecto;
         //El problema de inicializar los campos de monedaSolicitado y monedaGestion no deberia solucionarse asi
         if(this.proyecto.monedaSolicitado == undefined){
           this.proyecto.monedaSolicitado = "$";
@@ -151,5 +154,17 @@ export class ActividadesComponent implements OnInit {
       array = array.filter(i => i._id !== item);
     }
     return array;
+  }
+
+  cancelarFormularioProyecto(){
+    this.proyectosService.getProyectoPorId(this.proyecto._id).subscribe((proyecto: Proyecto) =>{
+      this.proyecto = proyecto;
+      if(this.proyecto.monedaSolicitado == undefined){
+        this.proyecto.monedaSolicitado = "$";
+      }
+      if(this.proyecto.monedaGestion == undefined){
+        this.proyecto.monedaGestion = "$";
+      }
+    });
   }
 }

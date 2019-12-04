@@ -51,5 +51,6 @@ export class Proyecto {
     this.eliminado = proyecto.eliminado || false;
     this.monedaSolicitado = proyecto.monedaSolicitado || "$";
     this.monedaGestion = proyecto.monedaGestion || "$";
+    this.comunas = proyecto.comunas || [];
   }
 }

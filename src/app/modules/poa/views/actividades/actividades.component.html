@@ -11,7 +11,7 @@
               <button type="button" class="btn btn-outline-light float-right" data-toggle="collapse" [hidden]="!isCollapsed" href="#collapseExample" (click)="(!isCollapsed) ? isCollapsed = true : isCollapsed = false"><i class="fa fa-arrow-up"></i></button>
               <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!isCollapsed" [style.display]="editando ? 'none': 'inherit'" (click)="editando = true"><i class="fa fa-edit"></i> Editar</button>
               <button type="submit" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando"><i class="fa fa-save"></i> Guardar</button>
-              <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false"><i class="fa fa-edit"></i> Cancelar</button>
+              <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false;cancelarFormularioProyecto()"><i class="fa fa-edit"></i> Cancelar</button>
             </h4>
             <small>{{proyecto.anio}} - {{areaPorId(proyecto.idJurisdiccion)}}</small>
           </div>

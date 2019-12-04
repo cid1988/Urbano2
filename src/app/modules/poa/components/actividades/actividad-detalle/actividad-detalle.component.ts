@@ -106,4 +106,10 @@ export class ActividadDetalleComponent implements OnInit {
       }
     }
   }
+
+  cancelarFormularioActividad(){
+    this.actividadesService.getActividad(this.actividad._id).subscribe((actividad: Actividad) =>{
+      this.actividad = actividad;
+    });
+  }
 }

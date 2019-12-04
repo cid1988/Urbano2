@@ -5,7 +5,7 @@
         <button type="button" class="btn btn-outline-light float-right" style="margin-left: 5px" routerLink="../.." [hidden]="editando"><i class="fa fa-arrow-left"></i> Volver</button>
         <button type="button" class="btn btn-outline-light float-right" [hidden]="editando" (click)="editando = true">Editar</button>
         <button type="submit" class="btn btn-outline-light float-right" [hidden]="!editando" [disabled]="actividadForm.invalid" (click)="actividadForm.ngSubmit.emit()">Guardar</button>
-        <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false">Cancelar</button>
+        <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [hidden]="!editando" (click)="editando = false;cancelarFormularioActividad()">Cancelar</button>
         <button type="button" class="btn btn-outline-light float-right" style="margin-right: 5px" [ngClass]="(actividad.eliminado) ? 'btn btn-danger': 'btn btn-outline-danger'" (click)="eliminarActividad()" [hidden]="!editando">Eliminar</button>
       </div>
       <small>{{actividad.anio}} - {{nombreJurisdiccion}} - {{nombreProyecto}}</small>
