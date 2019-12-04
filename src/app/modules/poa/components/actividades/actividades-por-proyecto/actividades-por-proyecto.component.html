@@ -1,4 +1,10 @@
-<div class="card" style="margin-bottom: 20px" *ngIf="actividades">
+<div class="d-flex justify-content-center" style="min-height: 100vh;display: flex;align-items: center" *ngIf="cargando">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom: 20px" *ngIf="actividades && !cargando">
   <div class="card-body">
     <legend>Hitos/Actividades
       <button type="button" class="btn btn-outline-primary float-right" (click)="crearEtapa()"><i class="fa fa-plus"></i> Crear etapa</button>

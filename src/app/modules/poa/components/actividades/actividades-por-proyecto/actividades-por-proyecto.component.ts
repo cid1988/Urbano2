@@ -25,6 +25,7 @@ export class ActividadesPorProyectoComponent implements OnInit {
   @Input() proyecto = new Proyecto({});
   nuevoHito = new FechaActividad({});
   bsModalRef: BsModalRef;
+  cargando = true;
   
   constructor(private actividadesService: ActividadesService, private proyectosService: ProyectosService, private activatedRoute:ActivatedRoute, private modalService: BsModalService) {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -51,10 +52,11 @@ export class ActividadesPorProyectoComponent implements OnInit {
     //Traer las actividades del proyecto que no pertenecen a una etapa
     this.actividadesService.actividadesPorProyecto(idProyecto).subscribe(actividades =>{
       this.actividades = actividades;
+      this.cargando = false;
       // this.actividadesSelect = this.actividadesSelect.concat(actividades);//Se usaba para seleccionar las actividades cuando no eran un array definido
     },error =>{
       alert(error);
-    })
+    });
   }
   
   //Al crear la etapa, en la etapa se va a guardar el campo idProyecto y en las actividades agregadas se va a asociar el id en el campo etapa.

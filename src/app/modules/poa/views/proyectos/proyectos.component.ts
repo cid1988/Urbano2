@@ -5,6 +5,7 @@ import { PlanesService } from '../../services/planes/planes.service';
 import { Plan } from '../../models/plan';
 import { UserService } from 'src/app/modules/administrador/services/user/user.service';
 import { NgxPermissionsService } from 'ngx-permissions';
+import { Area } from '../../models/area';
 
 @Component({
   selector: 'app-proyectos',
@@ -15,9 +16,10 @@ export class ProyectosComponent implements OnInit {
 
   plan: Plan;//De entrada traer siempre el ultimo
   planes = [];
-  area = {};
+  area = new Area({});
   areas: any = [];
   usuarioLogueado = "";
+  cargando = true;
   @ViewChild(ProyectosPorPlanComponent, {static: true}) proyectosPorPlan: ProyectosPorPlanComponent;
   
   constructor(private proyectosService: ProyectosService, private planesService: PlanesService, private userService: UserService, private permissionsService: NgxPermissionsService) {
@@ -34,9 +36,15 @@ export class ProyectosComponent implements OnInit {
   
   seleccionPlan(plan){
     this.plan = plan;
-    let userAreaPoa = this.userService.getJurisdiccionPOA();
+    let userAreaPoa = "";
+    
+    if(this.userService.getAreaPOA()){
+      userAreaPoa = this.userService.getAreaPOA();
+    }else{
+      userAreaPoa = this.userService.getJurisdiccionPOA();
+    }
 
-    this.proyectosService.getAreasPorPlan(this.plan._id).subscribe((areas: any) =>{//Traer todas las areas del plan
+    this.proyectosService.getAreasPorPlan(this.plan._id).subscribe((areas: Area[]) =>{//Traer todas las areas del plan
       for (let i = 0; i < areas.length; i++) {
         const area = areas[i];
         
@@ -49,6 +57,7 @@ export class ProyectosComponent implements OnInit {
             this.areas = areas;
           }
           this.proyectosPorPlan.getProyectos(this.plan,this.area);
+          this.cargando = false;
         }
       }
     });
@@ -57,5 +66,6 @@ export class ProyectosComponent implements OnInit {
   seleccionArea(area){
     this.area = area;
     this.proyectosPorPlan.getProyectos(this.plan,this.area);
+    this.userService.setAreaPOA(this.area.idOrganigrama)
   }
 }

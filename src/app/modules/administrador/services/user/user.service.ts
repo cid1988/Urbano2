@@ -33,4 +33,11 @@ export class UserService {
     return this.http.post<{}>(this.baseUrl + '/users/permisos/', user);
   }
 
+  setAreaPOA(data){
+    localStorage.setItem('areaPoa',data)
+  }
+
+  getAreaPOA(){
+    return localStorage.getItem('areaPoa')
+  }
 }

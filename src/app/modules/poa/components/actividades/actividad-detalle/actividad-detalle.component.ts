@@ -29,11 +29,17 @@ export class ActividadDetalleComponent implements OnInit {
   nombreProyecto;
   nombreJurisdiccion;
   actividadGuardada = new EventEmitter();
+  cargando = true;
 
   constructor(private activatedRoute:ActivatedRoute, private proyectosService: ProyectosService, private actividadesService:ActividadesService, private modalService: BsModalService, private location: Location) {
+    this.cargando = true;
     this.activatedRoute.paramMap.subscribe(params => {
       this.actividadesService.getActividad(params.get("idActividad")).subscribe((actividad:Actividad) =>{
         this.actividad = actividad;
+        this.proyectosService.getAreas().subscribe(areas =>{
+          this.areas = areas;
+          this.nombreJurisdiccion = this.areaPorId(this.actividad.idJurisdiccion);
+        });
       });
       this.proyectosService.etapasPorProyecto(params.get("idProyecto")).subscribe(etapas =>{
         this.etapas = etapas;
@@ -44,12 +50,9 @@ export class ActividadDetalleComponent implements OnInit {
       this.proyectosService.getObjetivosImpacto().subscribe(objsImpacto =>{
         this.objetivosImpacto = objsImpacto;
       });
-      this.proyectosService.getAreas().subscribe(areas =>{
-        this.areas = areas;
-        this.nombreJurisdiccion = this.areaPorId(this.actividad.idJurisdiccion);
-      });
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe(proyecto =>{
         this.nombreProyecto = proyecto.nombre;
+        this.cargando = false;
       });
     });
   }
@@ -96,7 +99,7 @@ export class ActividadDetalleComponent implements OnInit {
       this.actividad.fechas.push(fecha.value);
     });
   }
-
+  
   areaPorId(idArea){
     if(!this.areas) return;
     for (let i = 0; i < this.areas.length; i++) {
@@ -111,5 +114,5 @@ export class ActividadDetalleComponent implements OnInit {
     this.actividadesService.getActividad(this.actividad._id).subscribe((actividad: Actividad) =>{
       this.actividad = actividad;
     });
-  }
+  }  
 }

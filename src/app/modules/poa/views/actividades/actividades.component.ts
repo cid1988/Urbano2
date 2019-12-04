@@ -8,7 +8,6 @@ import { OrganigramaService } from 'src/app/modules/organigrama/services/organig
 import * as moment from 'moment';
 import { ContactosService } from 'src/app/modules/contactos/services/contactos.service';
 import { ActividadesService } from '../../services/actividades/actividades.service';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'actividades',
@@ -37,7 +36,8 @@ export class ActividadesComponent implements OnInit {
   dependencias;
   grupos;
   prioridadesMinisteriales;
-  
+  nombreArea;
+
   constructor(private activatedRoute: ActivatedRoute, private proyectosService:ProyectosService, private comunasService: ComunasService, private organigramaService: OrganigramaService, private contactosService: ContactosService, private actividadesService: ActividadesService) {
     this.activatedRoute.paramMap.subscribe(params => {
       this.proyectosService.getProyectoPorId(params.get("idProyecto")).subscribe((proyecto: Proyecto) =>{
@@ -55,6 +55,19 @@ export class ActividadesComponent implements OnInit {
         },error =>{
           alert(error);
         })
+
+        this.proyectosService.getAreas().subscribe((areas: any[]) =>{
+          let areasCorrectas = [];
+          for (let a = 0; a < areas.length; a++) {
+            const area = areas[a];
+            
+            if(area.anio == this.proyecto.anio){
+              areasCorrectas.push(area)
+            }
+          }
+          this.areas = areasCorrectas;//Traer las del ano seleccionado, sino en el listado se repiten por cada ano
+          this.nombreArea = this.areaPorId(this.proyecto.idJurisdiccion);
+        });
       });
       this.proyectosService.getObjetivosImpacto().subscribe(objsImpacto =>{
         this.objetivosImpacto = objsImpacto;
@@ -68,17 +81,7 @@ export class ActividadesComponent implements OnInit {
       this.comunasService.getComunas().subscribe(comunas =>{
         this.comunasLista = comunas;
       });
-      this.proyectosService.getAreas().subscribe((areas: any[]) =>{
-        let areasCorrectas = [];
-        for (let a = 0; a < areas.length; a++) {
-          const area = areas[a];
-          
-          if(area.anio == this.proyecto.anio){
-            areasCorrectas.push(area)
-          }
-        }
-        this.areas = areasCorrectas;//Traer las del ano seleccionado, sino en el listado se repiten por cada ano
-      });
+      
       this.contactosService.getContactosSimple().subscribe(contactosSimple =>{
         this.contactosSimple = contactosSimple;
       });
