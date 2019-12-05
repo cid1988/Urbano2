@@ -144,7 +144,8 @@ export class CalendarioComponent implements OnInit {
           desdeDate: new Date(event.event.extendedProps.desdeDate),
           hastaDate: new Date(event.event.extendedProps.hastaDate),
           desdeHora: new Date(event.event.extendedProps.desdeDate),
-          hastaHora: new Date(event.event.extendedProps.hastaDate)
+          hastaHora: new Date(event.event.extendedProps.hastaDate),
+          color: event.event.backgroundColor
         }
         
         // reunion.titulo = event.event.title
@@ -173,7 +174,7 @@ export class CalendarioComponent implements OnInit {
             hastaHora: (event.event.end.getHours() + ":" + event.event.end.getMinutes()),
             fechaCreacion: a.fechaCreacion,
             usuarioCreacion: a.usuarioCreacion,//Hacer desde el backend
-            reunion: a.reunion._id,
+            reunion: a.reunion,
             fecha: a.fecha
           }
           this.actualizarReunion(objeto);
@@ -198,7 +199,7 @@ export class CalendarioComponent implements OnInit {
             fechaCreacion: a.fechaCreacion,
             fechaModificacion: new Date(),
             usuarioCreacion: a.usuarioCreacion,//Hacerlo desde el backend
-            reunion: a.reunion._id,
+            reunion: a.reunion,
             fecha: a.fecha
           }
           this.actualizarReunion(objeto);

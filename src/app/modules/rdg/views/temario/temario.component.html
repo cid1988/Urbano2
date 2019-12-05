@@ -26,7 +26,7 @@
                 <i class="fa fa-envelope"></i> Enviar Temario</button>
         </div>
         <div class="col-md-12">
-            <editor [init]='config' [(ngModel)]='temario.html' (onKeyUp)="guardar()"></editor>
+            <editor [init]='config' [(ngModel)]='temario.html' (onKeyUp)="guardar($event)" (onExecCommand)='print()'></editor>
         </div>
     </div>
     <div class="row" *ngIf='envio'>

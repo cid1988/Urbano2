@@ -1,19 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Reunion } from '../../models/reunion';
 import { environment } from '../../../../../environments/environment';
 import { Cita } from '../../models/cita';
 import { Minuta } from '../../models/minuta';
 import { Temario } from '../../models/temario';
+import { AutenticacionService } from 'src/app/shared-modules/login/services/autenticacion/autenticacion.service';
+import { Compromiso } from '../../models/compromiso';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarioService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient ,private autenticacion:AutenticacionService) { }
   baseUrl = environment.baseUrl + '/rdg';
+  token={
+    headers: new HttpHeaders().set("Authorization","Bearer " + this.autenticacion.getToken())
+  }
 
   //Reuniones
 
@@ -63,8 +68,14 @@ export class CalendarioService {
   getCita(id):Observable<{}>{
     return this.http.get<Cita>(this.baseUrl + '/citas/'+id);
   }
+  getCitasPorReunion(id):Observable<{}>{
+    return this.http.get<Cita>(this.baseUrl + '/citasPorReunion/'+ id);
+  }
   armarCitaPorSerie(id):Observable<{}>{
     return this.http.get<{}>(this.baseUrl + '/citas/armarPorSerie/'+ id);
+  }
+  nuevaCita(cita:Cita):Observable<{}>{
+    return this.http.post<{}>(this.baseUrl + '/citas', cita , this.token);;
   }
   //Minutas
 
@@ -80,8 +91,18 @@ export class CalendarioService {
 
   //Compromisos
 
-  getCompromisosPendientes(id):Observable<[]>{
-    return this.http.get<[]>(this.baseUrl + '/compromisosPorSerie/' + id )
+  getCompromisosPorSerie(data):Observable<[]>{
+    console.log(data)
+    return this.http.get<[]>(this.baseUrl + '/compromisos?idSerie=' + data.reunion )
+  }
+  getCompromisosPorReunion(data):Observable<[]>{
+    return this.http.get<[]>(this.baseUrl + '/compromisos?idReunion=' + data._id )
+  }
+  nuevoCompromiso(compromiso):Observable<Compromiso>{
+    return this.http.post<Compromiso>(this.baseUrl + '/compromisos' , compromiso , this.token)
+  }
+  actualizarCompromiso(compromiso):Observable<Compromiso>{
+    return this.http.put<Compromiso>(this.baseUrl + '/compromisos/' + compromiso._id, compromiso , this.token)
   }
 
   //Temario

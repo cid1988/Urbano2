@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MailService } from '../services/mail.service';
 
 @Component({
   selector: 'mail-header',
@@ -6,17 +7,16 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./mail-header.component.css']
 })
 export class MailHeaderComponent implements OnInit {
-  @Input() tipoEnvio:String;
   @Input() editando:Boolean;
-  @Input() envioIndividual:Boolean=true;
-  individual:Boolean
   @Input() lista;
-
-  constructor() {
+  @Input() individual:Boolean
+  
+  constructor(private mailService: MailService) {
     this.individual=false;
   }
 
   ngOnInit() {
-    
+
   }
+
 }

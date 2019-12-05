@@ -6,6 +6,7 @@ const CitaReunion = require('../models/rdg/cita');
 const Contacto = require('../models/contacto/contacto');
 const TemarioReunion = require('../models/rdg/temario');
 const MinutaReunion = require('../models/rdg/minuta');
+const Compromiso = require('../models/rdg/compromiso');
 
 var ObjectId = require('mongoose').Types.ObjectId;
 
@@ -29,9 +30,6 @@ async function createReunion (req, res, next) {
     const cita = new CitaReunion();
     const temario = new TemarioReunion();
     await reunion.save();
-    console.log(reunion)
-    console.log(cita)
-    console.log(temario)
     res.json({status: 'Reunion creada'});
 };
 
@@ -115,7 +113,11 @@ async function getCitas (req, res, next) {
 async function getCitasPorReunion (req, res, next) {
     try{
         const citas = await CitaReunion.find({idInstancia:req.swagger.params.id.value}).populate('datosReunion')
-        res.status(200).json(citas);
+        if(citas.length>0){
+            res.status(200).json(citas[citas.length-1]);
+        }else {
+            res.status(200).json({});
+        }
     }catch(error){
         res.status(403).json(error);
     }
@@ -155,18 +157,16 @@ async function getArmarCita(req, res, next){
         let query={};
         query={_id: ObjectId(req.swagger.params.id.value)}
         const serie = await traerSerie(query,['tipo','cita','nombre'])
-        console.log(serie)
         datosCita.serie= serie;
         Array.prototype.push.apply(datosCita.idContactos.para,serie.cita.para); 
         Array.prototype.push.apply(datosCita.idContactos.cc,serie.cita.cc); 
         Array.prototype.push.apply(datosCita.idContactos.cco,serie.cita.cco); 
         Array.prototype.push.apply(datosCita.idContactos.exclusivos,serie.cita.exclusivos); 
 
-        datosCita.correos.para+=await pushinfo(serie.cita.para)
-        datosCita.correos.cc+=await pushinfo(serie.cita.cc)
-        datosCita.correos.cco+= await pushinfo(serie.cita.cco)
-        datosCita.correos.exclusivos+= await pushinfo(serie.cita.exclusivos)
-
+        datosCita.correos.para= datosCita.correos.para + await pushinfo(serie.cita.para)
+        datosCita.correos.cc = datosCita.correos.cc + await pushinfo(serie.cita.cc)
+        datosCita.correos.cco = datosCita.correos.cco + await pushinfo(serie.cita.cco)
+        datosCita.correos.exclusivos = datosCita.correos.exclusivos + await pushinfo(serie.cita.exclusivos)
         query={
             $and: [
                 { tipo: serie.tipo },
@@ -185,7 +185,6 @@ async function getArmarCita(req, res, next){
         datosCita.correos.exclusivos+= await pushinfo(maestro.cita.exclusivos)
         res.status(200).json(datosCita)
     }catch(error){
-        console.log(error)
         res.status(403).json(error);
     }
     
@@ -195,6 +194,8 @@ async function getArmarCita(req, res, next){
 
 async function createCita (req, res, next) {
     const cita = new CitaReunion(req.swagger.params.body.value);
+    cita.fecha = new Date();
+    cita.usuario = req.token.username;
     await cita.save();
     res.json({status: 'Cita creada'});
 };
@@ -285,10 +286,8 @@ async function getMinutaPorReunion(req, res, next){
         MinutaReunion.findOne({instancia:req.swagger.params.id.value}).exec(function(err ,data){
             if(err ){
                 res.status(403).json(err);
-                console.log(err)
             }else{
                 res.status(200).json(data);
-                console.log(data)
             }
         });
     }catch(error){
@@ -308,28 +307,49 @@ async function createMinuta (req, res, next) {
 };
 
 //Compromisos
-async function getCompromisosPorSerie(req, res, next){
+async function getCompromisos(req, res, next){
     try{
-        const minutaConCompromisos=[]
-        MinutaReunion.find({ $where: "this.compromisos.length > 1" }).select(['compromisos','instancia'])
-        .populate('_datosReunion').exec(function(err ,data){
+        const idSerie = req.swagger.params.idSerie.value;
+        const idReunion = req.swagger.params.idReunion.value;
+        let query={}
+        idSerie? query.idSerie = idSerie : '';
+        idReunion? query.idReunion = idReunion : '';
+        
+        Compromiso.find(query).exec(function(err ,data){
             if(err){
                 res.status(403).json(err);
             }else{
-                console.log(data.length)
-                for (let index = 0; index < data.length; index++) {
-                    if(data[index]._datosReunion.reunion == req.swagger.params.id.value){
-                        minutaConCompromisos.push(data[index])
-                    }
-                }
-                res.status(200).json(minutaConCompromisos);
+                res.status(200).json(data);
             }
         });
     }catch(error){
-        console.log(error)
         res.status(403).json(error);
     }
     
+};
+async function getCompromisoPorId(req, res, next){
+    try{
+        Compromiso.findById(req.swagger.params.id.value).exec(function(err ,data){
+            if(err){
+                res.status(403).json(err);
+            }else{
+                res.status(200).json(data);
+            }
+        });
+    }catch(error){
+        res.status(403).json(error);
+    }
+    
+};
+async function createCompromiso (req, res, next) {
+    const compromiso = new Compromiso(req.swagger.params.body.value);
+    await compromiso.save();
+    res.json({status: 'Compromiso Creado'});
+};
+async function updateCompromiso  (req, res, next) {
+    const compromiso = req.swagger.params.body.value;
+    await Compromiso.findByIdAndUpdate(req.swagger.params.id.value, {$set: compromiso}, {new: false});
+    res.json({status: 'Compromiso actualizado con exito'});
 };
 
 
@@ -349,10 +369,8 @@ async function traerMaestro(query,seleccion){
     return data
 }
 async function traerContacto(query,seleccion){
-    await Contacto.findOne(query).select(seleccion).exec(function(err,data){
-        if(err) return ''
-        else return data;
-    });
+    var contacto = await Contacto.findOne(query).select(seleccion)
+    return contacto;
 }
 async function pushinfo(array){
     var lista=''
@@ -394,5 +412,5 @@ module.exports = {
     //Citas de Reunion
     getCitas,getCitaPorId,getArmarCita,getCitasPorReunion,createCita,
     //Compromisos
-    getCompromisosPorSerie
+    getCompromisos,getCompromisoPorId,createCompromiso,updateCompromiso
 };

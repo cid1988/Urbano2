@@ -4,15 +4,12 @@
             <i class="fa fa-star" [ngClass]='compromiso.importante?"fa fa-star": "fa fa-star-o" '></i>
             {{compromiso.titulo}} 
             <span class="pull-right">
-                <button class="btn btn-outline-primary btn-sm" *ngIf='!pendiente'><i class="fa fa-edit"></i> Editar</button>
-                <button class="btn btn-outline-primary btn-sm" *ngIf='pendiente'><i class="fa fa-edit"></i> Mover a actual</button>
+                <button class="btn btn-outline-primary btn-sm" (click)='editar()'><i class="fa fa-edit"></i> Editar</button>
+                <button class="btn btn-outline-primary btn-sm" ><i class="fa fa-edit"></i> Mover a actual</button>
             </span>
         </h5>
     </div>
     <div class="card-body">
-        <div class="col-md-12">
-            <p class="card-text"> <b>Tarea:</b> {{compromiso.tarea || '-'}}</p>
-        </div>
         <div class="col-md-12">
             <p class="card-text"> <b>POA:</b> {{compromiso.poa || '-'}}</p>
         </div>
@@ -21,8 +18,13 @@
             </div>
         <div class="col-md-12">
             <p class="card-text"> <b>Responsable:</b> 
-                <etiqueta-correo [listaContactos]='compromiso.responsable'></etiqueta-correo>
+                <contactos-lista [arrayContactos]='compromiso.responsables'></contactos-lista>
             </p>
+        </div>
+        <div class="col-md-12">
+            <label> <b>Tarea :</b> </label>
+            <div [innerHTML]='compromiso.tarea'></div>
         </div>
     </div>
 </div>
+

@@ -6,6 +6,8 @@ import * as moment from 'moment'
 import { ContactosService } from 'src/app/modules/contactos/services/contactos.service';
 import { Contacto } from 'src/app/modules/contactos/models/contacto';
 import { Reunion } from '../../models/reunion';
+import { MailService } from 'src/app/shared-modules/mail/services/mail.service';
+import { Mails } from 'src/app/shared-modules/mail/model/mail';
 
 @Component({
   selector: 'app-citas',
@@ -14,12 +16,14 @@ import { Reunion } from '../../models/reunion';
 })
 export class CitasComponent implements OnInit {
   
-  ultimaActualizacion:String='Nunca enviado';
+  ultimaActualizacion:String='';
+  individual:Boolean=false;
   contactos:Contacto[];
   reunion:Reunion; serie:any;
   cita;
   color:String;
   correos={ para:[], cc:[], cco:[], exclusivos:[]};
+  listaParaEnviar={para:'', cc:'', cco:'', exclusivos:''}
   tiempoReunion:String;
   lugar:String ;
   fecha: string;
@@ -27,28 +31,31 @@ export class CitasComponent implements OnInit {
   cabeza:String='<span style="font-weight: bold; text-decoration: underline;" data-mce-style="font-weight: bold; text-decoration: underline;">Estimad@s</span><br><br>';
   pieCiMoRe:String;
   pie:String='<div style="text-align: left;"><br><br><img style="display: inline-block;" src="https://i.imgur.com/nbnWNfJ.png" width="70"><div style="display: inline-block; text-align: left;  padding-left: 15px;">Dirección General de Seguimiento de Gestión<br>Ministerio de Desarrollo Urbano y Transporte<br>5030-9522 (int. 5125)</div></div>';
- 
+  enviando:Boolean=false;
+  errorEnvio:String='';
 
 
-  constructor( private calendarioService: CalendarioService, private actRoute:ActivatedRoute , private contactoService: ContactosService) {
+  constructor( private calendarioService: CalendarioService, private actRoute:ActivatedRoute , private contactoService: ContactosService, private mailService:MailService) {
     const id = this.actRoute.snapshot.paramMap.get('id');
     this.contactoService.getContactosSimple().subscribe((contactos:Contacto[])=>{
       this.contactos=contactos;
       this.calendarioService.getReunionPorID(id).subscribe((reunion:Reunion)=>{
         this.reunion=new Reunion(reunion);
         this.calendarioService.armarCitaPorSerie(this.reunion.reunion).subscribe((info:any)=>{
+          console.log(info)
           this.correos=info.idContactos
+          this.listaParaEnviar = info.correos;
           this.serie=info.serie
           this.color= info.serie.color.color
           this.datosAdicionales()
-          this.calendarioService.getMinutaPorIdReunion(id).subscribe((cita:Cita)=>{
-            if(cita!=null){
-              this.cita=new Cita(cita);
-              if(this.cita.asunto=='') this.armarCita();
-            }else{
-              this.cita=new Cita({});
+          this.calendarioService.getCitasPorReunion(id).subscribe((cita:Cita)=>{
+            this.cita=new Cita(cita);
+            this.cita.idInstancia=id;
+            if(this.cita.asunto==''){
               this.armarCita();
-            } 
+            }else{
+              this.ultimaActualizacion=this.cita.version;
+            }
           })
         })
       })  
@@ -173,5 +180,25 @@ export class CitasComponent implements OnInit {
     if(dato){
       return moment(dato).locale('es').format('DD/MM/YYYY')
     } else return ''
+  }
+
+  enviar(){
+    this.errorEnvio='';
+    this.enviando=true;
+    this.cita.para = this.listaParaEnviar.para;
+    this.cita.cc = this.listaParaEnviar.cc;
+    this.cita.cco = this.listaParaEnviar.cco;
+    this.cita.exclusivos = this.listaParaEnviar.exclusivos;
+    var infoMail=new Mails(this.cita)
+    this.mailService.envioMail(infoMail).subscribe(data=>{
+      this.enviando=false;
+      this.errorEnvio="Enviado con exito a las" + this.getHora(new Date());
+      this.calendarioService.nuevaCita(this.cita).subscribe(data=>{
+        console.log(data)
+      })
+    }, error=>{
+      this.errorEnvio="Se produjo un error al enviar";
+      console.log(error);
+    })
   }
 }

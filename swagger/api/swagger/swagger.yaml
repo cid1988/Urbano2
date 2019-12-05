@@ -24,9 +24,45 @@ securityDefinitions:
     name: Authorization
     in: header
   
-  
 paths:
-# //////////////////////////////////////////////////////////////////// Contactos
+# //////////////////////////////////////////////////////////////////// Archivos
+  /enviarMail:
+    x-swagger-router-controller: mails
+    post:
+      tags: 
+        - Mails
+      security:
+        - Bearer: []
+      operationId: enviarMail
+      parameters:
+        - in: body
+          name: body
+          description: Informacion del mail.
+          schema:
+            type: object
+            required:
+              - from
+              - to
+              - subject
+              - html
+            properties:
+              from:
+                type: string
+              to:
+                type: string
+              cc:
+                type: string
+              bcc:
+                type: string
+              subject:
+                type: string
+              html:
+                type: string
+      responses:
+        200:
+          description: OK
+# //////////////////////////////////////////////////////////////////// Archivos
+
   /subirArchivo:
     x-swagger-router-controller: archivo
     post:
@@ -1585,6 +1621,8 @@ paths:
       tags: 
         - RDG - Citas
       operationId: createCita
+      security:
+        - Bearer: []
       parameters:
         - in: body
           name: body
@@ -1597,7 +1635,6 @@ paths:
               - mensajeHtml
               - idInstancia
               - version
-              - fecha
             properties:
               para:
                 type: string
@@ -1676,16 +1713,20 @@ paths:
           schema:
             $ref: '#/definitions/Cita'
   # //////////////////////////////////////////////////////////////////// RDG - Compromisos
-  /rdg/compromisosPorSerie/{id}:
+  /rdg/compromisos:
     x-swagger-router-controller: rdg
     get:
-      summary: Trae los compromisos correspondiente a una serie de reunion
-      operationId: getCompromisosPorSerie
+      summary: Trae mails de una cita a reunion de RDG
+      operationId: getCompromisos
       parameters:
-        - in: path
-          name: id
+        - in: query
+          name: idSerie
           type: string
-          required: true
+          required: false
+        - in: query
+          name: idReunion
+          type: string
+          required: false
       tags:
         - RDG - Compromisos
       responses: 
@@ -1694,7 +1735,119 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Cita'
+              $ref: '#/definitions/Compromiso'
+    post:
+      summary: Guarda un compromiso nuevo
+      tags: 
+        - RDG - Compromisos
+      operationId: createCompromiso
+      security:
+        - Bearer: []
+      parameters:
+        - in: body
+          name: body
+          description: Datos del compromiso de un reunion de RDG
+          schema:
+            type: object
+            required:
+              - titulo
+              - poa
+              - tarea
+              - idSerie
+              - idReunion
+            properties:
+              titulo:
+                type: string
+              poa:
+                type: string
+              tarea:
+                type: string
+              idSerie:
+                type: string
+              idReunion:
+                type: string
+              responsable:
+                type: array
+                items:
+                  type: string
+              fecha:
+                type: string
+              importante:
+                type: boolean
+              cumplida:
+                type: boolean
+      responses:
+        200:
+          description: ok 
+          
+  /rdg/compromisos/{id}:
+    x-swagger-router-controller: rdg
+    get:
+      summary: Traer un compromiso de reunion de RDG por ID
+      operationId: getCompromisoPorId
+      parameters:
+        - name: id 
+          in: path
+          description: ID del compromiso
+          type: string
+          required: true 
+      tags:
+        - RDG - Compromisos
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Compromiso'
+    put:
+      summary: Edita un compromiso de reunion de RDG por ID
+      operationId: updateCompromiso
+      parameters:
+        - name: id 
+          in: path
+          description: ID del compromiso
+          type: string
+          required: true 
+        - in: body
+          name: body
+          description: Datos del compromiso de un reunion de RDG
+          schema:
+            type: object
+            required:
+              - titulo
+              - poa
+              - tarea
+              - idSerie
+              - idReunion
+            properties:
+              titulo:
+                type: string
+              poa:
+                type: string
+              tarea:
+                type: string
+              idSerie:
+                type: string
+              idReunion:
+                type: string
+              responsable:
+                type: array
+                items:
+                  type: string
+              fecha:
+                type: string
+              importante:
+                type: boolean
+              cumplida:
+                type: boolean
+              proximaReunion:
+                type: boolean
+      tags:
+        - RDG - Compromisos 
+      responses: 
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Compromiso'
             
   # //////////////////////////////////////////////////////////////////// RDG - MInutas
   /rdg/minutas:
@@ -1716,10 +1869,6 @@ paths:
             properties:
               instancia:
                 type: string
-              compromisos:
-                type: array
-                items:
-                  type: object
               html:
                 type: ['string','null']
               usuario:
@@ -1774,10 +1923,6 @@ paths:
             properties:
               instancia:
                 type: string
-              compromisos:
-                type: array
-                items:
-                  type: object
               html:
                 type: ['string','null']
               usuario:
@@ -2778,10 +2923,6 @@ definitions:
     properties:
       instancia:
         type: string
-      compromisos:
-        type: array
-        items:
-          type: object
       html:
         type: ['string','null']
       usuario:
@@ -3012,6 +3153,24 @@ definitions:
             type: string
           usuario: 
             type: string
+  Compromiso:
+   type: object
+   properties:
+    tarea:
+      type: string
+    responsable:
+      type: array
+      items:
+        type: string
+    fecha: 
+      type: string
+    importante:
+      type: boolean
+    titulo:
+      type: string
+    poa:
+      type: string
+    
       
           
         

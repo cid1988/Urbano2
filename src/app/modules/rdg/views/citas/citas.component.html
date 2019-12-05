@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row ">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <h3 >
                 <span [ngStyle]="{'border-left-color': color}" style="border-left: solid 10px; opacity: 1.0"></span>
                 {{serie?.nombre}}  
@@ -8,14 +8,26 @@
             <h4> {{getFecha(reunion?.desdeDate)}}
                 <span class="pull-right">{{getHora(reunion?.desdeDate)}} a {{getHora(reunion?.hastaDate)}} </span>
             </h4>
-            <button class="btn btn-success pull-right" style="width: 100%;">{{ultimaActualizacion}}</button>
+            <hr>
             <button class="btn btn-outline-primary" style="width: 100%;" (click)='armarCita()'>Cita</button>
             <button class="btn btn-outline-info" style="width: 100%;" (click)='armarModificacion()'>Modificacion</button>
             <button class="btn btn-outline-info" style="width: 100%;" (click)='armarRecordatorio()'>Recordatorio</button>
             <button class="btn btn-outline-danger" style="width: 100%;" (click)='armarCancelacion()'>Cancelacion</button>
+            <hr>
+            <button class="btn btn-outline-secondary" style="width: 100%;" (click)='enviar()'> <i class="fa fa-envelope"></i> {{ !enviando ? "Enviar" : "Enviando"}}</button>
+            <p *ngIf='errorEnvio'> {{errorEnvio}}</p>
+            
+            <hr>
+            <div class="alert alert-primary" role="alert" style="text-align: center;">
+                <span *ngIf='ultimaActualizacion==""'>Nunca enviado</span>
+                <span *ngIf='ultimaActualizacion=="final"'> Cita enviada {{getFecha(cita.fecha)}} a las {{getHora(cita.fecha)}} hs.</span>
+                <span *ngIf='ultimaActualizacion=="recordatorio"'>Recordatorio enviada {{getFecha(cita.fecha)}} a las {{getHora(cita.fecha)}} hs.</span>
+                <span *ngIf='ultimaActualizacion=="modificacion"'>Modificacion enviada {{getFecha(cita.fecha)}} a las {{getHora(cita.fecha)}} hs.</span>
+                <span *ngIf='ultimaActualizacion=="cancelado"'>Cancelacion enviada {{getFecha(cita.fecha)}} a las {{getHora(cita.fecha)}} hs.</span>
+            </div>
         </div>
-        <div class="col-md-9">
-            <mail-header [lista]='correos' [tipoEnvio]='"Cita"'></mail-header>
+        <div class="col-md-8">
+            <mail-header [lista]='correos' [tipoEnvio]='"Cita"' [individual]='individual'></mail-header>
             <mail-body [mensajeHtml]='cita?.mensajeHtml' [asunto]='cita?.asunto'></mail-body>
         </div>
     </div>

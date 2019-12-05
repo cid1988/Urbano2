@@ -1,5 +1,5 @@
 <div class="modal-content">
-    <form (ngSubmit)="detalleCompromisoForm.form.valid && guardar(detalleCompromisoForm)" #detalleCompromisoForm="ngForm">
+    <form #detalleCompromisoForm="ngForm">
         <div class="modal-header">
             <h5 class="modal-title" id="modalDetalleReunion">Compromiso</h5>
         </div>
@@ -7,13 +7,13 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Titulo:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" [(ngModel)]="compromiso.titulo" name="titulo">
+                    <input type="text" class="form-control" required [(ngModel)]="compromiso.titulo" name="titulo">
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Poa:</label>
+                <label class="col-sm-2 col-form-label">POA:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" [(ngModel)]="compromiso.poa" name="poa">
+                    <input type="text" class="form-control" required [(ngModel)]="compromiso.poa" name="poa">
                 </div>
             </div>
             <div class="form-group row">
@@ -22,18 +22,24 @@
                     <input type="text" class="form-control" [(ngModel)]="compromiso.fecha" name="fecha">
                 </div>
                 <div class="form-check form-check-inline col-sm-3">
-                    <input class="form-check-input" type="checkbox">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="compromiso.proximaReunion" name="proximaReunion">
                     <label class="form-check-label" >Proxima Reunion</label> 
                 </div>
                 <div class="form-check form-check-inline col-sm-2">
-                    <input class="form-check-input" type="checkbox">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="compromiso.importante" name="importante">
                     <label class="form-check-label" for="inlineCheckbox1">Importante</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="form-check col-sm-12">
+                    <label class="col-form-label">Tarea:</label>
+                    <editor [init]='config' required [(ngModel)]='compromiso.tarea' name="tarea" style="width: 100%;"></editor>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" (click)="bsModalRef.hide()">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" class="btn btn-primary" (click)="detalleCompromisoForm.form.valid && guardar(detalleCompromisoForm)">Guardar</button>
         </div>
     </form>
 </div>

@@ -15,12 +15,12 @@ import { Compromiso } from '../../models/compromiso';
   styleUrls: ['./minutas.component.css']
 })
 export class MinutasComponent implements OnInit {
-  datosReunion:Object;
+  datosReunion:Reunion;
   minuta=new Minuta({});
   verPendientes:Boolean=false;
   guardado:Boolean=false;
-  compromisosPendientes:Array<Object>=[];
-  cantidadPendientes:Number=0;
+  compromisosPendientes:Array<Compromiso>=[];
+  compromisosReunion:Array<Compromiso>=[];
   config = environment.tinymceConfig;
   bsModalRef: BsModalRef;
 
@@ -37,9 +37,11 @@ export class MinutasComponent implements OnInit {
     })
     this.calendarioService.getReunionPorID(id).subscribe((data:Reunion)=>{
       this.datosReunion=data;
-      this.calendarioService.getCompromisosPendientes(data.reunion).subscribe((compromisos:[])=>{
+      this.calendarioService.getCompromisosPorSerie(data).subscribe((compromisos:Array<Compromiso>)=>{
         this.compromisosPendientes=compromisos;
-        if(compromisos.length) this.cantidadPendientes=compromisos.map( (a:any) => a.compromisos.length).reduce((a,b) => a + b);
+      })
+      this.calendarioService.getCompromisosPorReunion(data).subscribe((compromisos:Array<Compromiso>)=>{
+        this.compromisosReunion=compromisos;
       })
     })
   }
@@ -49,6 +51,9 @@ export class MinutasComponent implements OnInit {
 
   getHora(data){
     return moment(data).format('HH:mm')
+  }
+  getFecha(data){
+    return moment(data).format('DD/MM/YYYY')
   }
   guardar(){
     if(this.minuta._id == ''){
@@ -72,7 +77,14 @@ export class MinutasComponent implements OnInit {
   }
 
   nuevoCompromiso(){
-    this.bsModalRef = this.modalService.show(ModalCompromisoComponent, { initialState:new Compromiso({}), class: 'modal-lg'});
+    let compromiso = new Compromiso({});
+    compromiso.idReunion = this.datosReunion._id;
+    compromiso.idSerie = this.datosReunion.reunion.toString();
+    const initialState = {compromiso}
+    this.bsModalRef = this.modalService.show(ModalCompromisoComponent, {initialState, class: 'modal-lg'});
+    this.bsModalRef.content.action.subscribe((status) => {
+      // if(status) this.getActividades(this.proyecto._id);
+    });
         
   }
 }

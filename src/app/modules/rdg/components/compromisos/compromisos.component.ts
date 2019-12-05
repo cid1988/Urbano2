@@ -1,4 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Compromiso } from '../../models/compromiso';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalCompromisoComponent } from '../modals/modal-compromiso/modal-compromiso.component';
 
 @Component({
   selector: 'app-compromisos',
@@ -7,12 +10,23 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CompromisosComponent implements OnInit {
 
-  @Input() compromiso:any;
-  @Input() idMinuta:any;
+  @Input() compromiso:Compromiso;
+  @Input() idMinuta:String;
   @Input() pendiente:Boolean=false;
-  constructor() { }
+  bsModalRef: BsModalRef;
+  
+  constructor(private modalService: BsModalService) { }
 
-  ngOnInit() {
+  ngOnInit() { 
+  }
+
+  editar(){
+    var compromiso = this.compromiso;
+    const initialState = { compromiso }
+    this.bsModalRef = this.modalService.show(ModalCompromisoComponent, {initialState, class: 'modal-lg'});
+    this.bsModalRef.content.action.subscribe((status) => {
+      // if(status) this.getActividades(this.proyecto._id);
+    });
   }
 
 }
